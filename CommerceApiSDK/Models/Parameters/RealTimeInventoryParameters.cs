@@ -1,0 +1,17 @@
+﻿namespace CommerceApiSDK.Models.Parameters
+{
+    using System;
+    using System.Collections.Generic;
+    using CommerceApiSDK.Attributes;
+
+    public class RealTimeInventoryParameters : BaseQueryParameters
+    {
+        [QueryParameter(QueryOptions.DoNotQuery)]
+        public List<Guid> ProductIds { get; set; }
+
+        public bool IncludeAlternateInventory { get; set; }
+
+        [QueryParameter(QueryListParameterType.CommaSeparated)]
+        public string Expand { get; set; } = null;
+    }
+}

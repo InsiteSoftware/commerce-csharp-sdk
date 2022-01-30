@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <NoWarn>NU1701</NoWarn>
+    <Configurations>Debug;FakeClient;Release</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+    <NoWarn>NU1701; NU1605</NoWarn>
+    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FakeClient|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;FAKECLIENT;NETSTANDARD2_0</DefineConstants>
+    <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+  <ItemGroup>
+    <!--<PackageReference Include="" Version=""/>-->
+    <Folder Include="Models\ContentManagement\Widgets\" />
+    <Folder Include="Models\ContentManagement\Pages\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MvvmCross.Plugin.Messenger" Version="7.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Splat" Version="9.3.11" />
+    <PackageReference Include="akavache.sqlite3" Version="6.10.4" />
+    <PackageReference Include="akavache.core" Version="6.10.4" />
+    <PackageReference Include="akavache" Version="6.10.4" />
+    <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
+    <PackageReference Include="MvvmCross.Plugin.Color" Version="7.1.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Attributes\OrderSortOrderAttribute.cs" />
+    <Compile Remove="Models\ContentManagement\Widgets\FeaturedCategoryWidget.cs" />
+    <Compile Remove="Models\ContentManagement\Widgets\FeaturedProductsWidget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Fake\FakeResponses\cms-shop-v2.json" />
+    <None Remove="Fake\FakeResponses\wishlistlines-1.json" />
+    <None Remove="Fake\FakeResponses\wishlist.json" />
+    <None Remove="Fake\FakeResponses\fakeresponses.json" />
+    <None Remove="Fake\FakeResponses\websites-current.json" />
+    <None Remove="Fake\FakeResponses\cms-shop-v1.json" />
+  </ItemGroup>
+</Project>
