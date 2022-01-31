@@ -32,11 +32,7 @@
     <PackageReference Include="akavache" Version="6.10.4" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
     <PackageReference Include="MvvmCross.Plugin.Color" Version="7.1.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -56,5 +52,6 @@
     <None Remove="Fake\FakeResponses\fakeresponses.json" />
     <None Remove="Fake\FakeResponses\websites-current.json" />
     <None Remove="Fake\FakeResponses\cms-shop-v1.json" />
+    <None Remove="Microsoft.CodeAnalysis.NetAnalyzers" />
   </ItemGroup>
 </Project>
