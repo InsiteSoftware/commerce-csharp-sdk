@@ -10,10 +10,10 @@
     {
         public static async Task InvalidateObjectWithKeysStartingWith<T>(this IBlobCache blobCache, string keyPrefix)
         {
-            var allKeys = await blobCache.GetAllKeys();
-            var keysForInvalidating = new List<string>();
+            IEnumerable<string> allKeys = await blobCache.GetAllKeys();
+            List<string> keysForInvalidating = new List<string>();
 
-            foreach (var key in allKeys)
+            foreach (string key in allKeys)
             {
                 if (key.StartsWith(keyPrefix, StringComparison.Ordinal))
                 {

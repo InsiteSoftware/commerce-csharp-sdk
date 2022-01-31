@@ -14,7 +14,7 @@
             JObject jObject = JObject.Load(reader);
 
             // Create target object basd on JObject
-            Widget target = this.Create(objectType, jObject);
+            Widget target = Create(objectType, jObject);
 
             try
             {
@@ -33,10 +33,10 @@
         protected override Widget Create(Type objectType, JObject jObject)
         {
             Widget result = null;
-            var widgetType = jObject["class"];
+            JToken widgetType = jObject["class"];
             if (widgetType != null)
             {
-                var value = widgetType.Value<string>();
+                string value = widgetType.Value<string>();
 
                 if (value == Enum.GetName(typeof(WidgetType), WidgetType.MobileCarousel))
                 {

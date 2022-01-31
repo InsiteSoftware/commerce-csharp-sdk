@@ -1,6 +1,7 @@
 ﻿namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Results;
@@ -14,14 +15,14 @@
 
         public Account CurrentAccount
         {
-            get => this.currentAccount;
+            get => currentAccount;
             private set
             {
-                this.currentAccount = value;
+                currentAccount = value;
 
-                if (!string.IsNullOrEmpty(this.currentAccount?.Id))
+                if (!string.IsNullOrEmpty(currentAccount?.Id))
                 {
-                    this.TrackingService.SetUserID(this.currentAccount.Id);
+                    TrackingService.SetUserID(currentAccount.Id);
                 }
             }
         }
@@ -35,11 +36,11 @@
         {
             try
             {
-                return await this.GetAsyncNoCache<AccountResult>(AccountUrl);
+                return await GetAsyncNoCache<AccountResult>(AccountUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -48,18 +49,18 @@
         {
             try
             {
-                var account = await this.GetAsyncNoCache<Account>($"{AccountUrl}/current", ServiceBase.DefaultRequestTimeout);
+                Account account = await GetAsyncNoCache<Account>($"{AccountUrl}/current", DefaultRequestTimeout);
 
                 if (account != null)
                 {
-                    this.CurrentAccount = account;
+                    CurrentAccount = account;
                 }
 
                 return account;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -68,13 +69,13 @@
         {
             try
             {
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(account));
-                var result = await this.PatchAsyncNoCache<Account>($"{AccountUrl}/current", stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(account));
+                Account result = await PatchAsyncNoCache<Account>($"{AccountUrl}/current", stringContent);
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

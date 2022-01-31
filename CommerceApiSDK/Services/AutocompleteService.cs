@@ -27,7 +27,7 @@
 
         public async Task<IList<AutocompleteBrand>> GetAutocompleteBrands(string searchQuery)
         {
-            var parameters = new AutocompleteQueryParameters
+            AutocompleteQueryParameters parameters = new AutocompleteQueryParameters()
             {
                 Query = searchQuery,
                 BrandEnabled = true,
@@ -36,7 +36,7 @@
                 ProductEnabled = false,
             };
 
-            var results = await this.GetAutocompleteResults(parameters);
+            AutocompleteResult results = await GetAutocompleteResults(parameters);
             return results?.Brands;
         }
 
@@ -44,8 +44,8 @@
         {
             try
             {
-                var url = AutocompleteService.AutocompleteUrl;
-                var parameters = new List<string>
+                string url = AutocompleteUrl;
+                List<string> parameters = new List<string>()
                 {
                     "query=" + searchQuery,
                     "categoryEnabled=false",
@@ -56,13 +56,13 @@
 
                 url += "?" + string.Join("&", parameters);
 
-                var result = await this.GetAsyncWithCachedResponse<Autocomplete>(url);
+                Autocomplete result = await GetAsyncWithCachedResponse<Autocomplete>(url);
 
                 return result?.Products;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -71,11 +71,11 @@
         {
             try
             {
-                return await this.GetAsyncWithCachedResponse<AutocompleteResult>(AutocompleteUrl + parameters.ToQueryString());
+                return await GetAsyncWithCachedResponse<AutocompleteResult>(AutocompleteUrl + parameters.ToQueryString());
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

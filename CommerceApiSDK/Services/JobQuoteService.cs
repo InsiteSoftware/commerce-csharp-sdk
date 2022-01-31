@@ -1,6 +1,7 @@
 namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -24,11 +25,11 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await this.GetAsyncNoCache<JobQuoteResult>(JobQuoteUrl);
+                return await GetAsyncNoCache<JobQuoteResult>(JobQuoteUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -42,13 +43,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var url = $"{JobQuoteUrl}/{jobQuoteId}";
+                string url = $"{JobQuoteUrl}/{jobQuoteId}";
 
-                return await this.GetAsyncNoCache<JobQuoteDto>(url);
+                return await GetAsyncNoCache<JobQuoteDto>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -62,14 +63,14 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(jobQuoteUpdate));
-                var url = $"{JobQuoteUrl}/{jobQuoteUpdate.JobQuoteId}";
+                StringContent stringContent = await Task.Run(() => SerializeModel(jobQuoteUpdate));
+                string url = $"{JobQuoteUrl}/{jobQuoteUpdate.JobQuoteId}";
 
-                return await this.PatchAsyncNoCache<JobQuoteDto>(url, stringContent);
+                return await PatchAsyncNoCache<JobQuoteDto>(url, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

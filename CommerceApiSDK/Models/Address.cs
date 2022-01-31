@@ -1,7 +1,5 @@
 namespace CommerceApiSDK.Models
 {
-    using Newtonsoft.Json;
-
     public class Address : BaseModel
     {
         /// <summary>Identifier</summary>

@@ -1,6 +1,5 @@
 ﻿namespace CommerceApiSDK.Models.Results
 {
-    using System;
     using System.Collections.Generic;
 
     public class AccountResult : BaseModel

@@ -11,15 +11,12 @@
             return typeof(WidgetType).IsAssignableFrom(objectType);
         }
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             WidgetType result;
-            var enumString = (string)reader.Value;
+            string enumString = (string)reader.Value;
             switch (enumString.ToLower())
             {
                 case "mobile/slideshow":

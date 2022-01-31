@@ -44,11 +44,11 @@
         [JsonProperty("selectedCategoryIds")]
         public string SelectedCategoryIdsString
         {
-            get => this.selectedCategoryIdsString;
+            get => selectedCategoryIdsString;
             set
             {
-                this.selectedCategoryIdsString = value;
-                this.SelectedCategoryIds = this.selectedCategoryIdsString?.Split(',').ToList().Select(s => new Guid(s)).ToList();
+                selectedCategoryIdsString = value;
+                SelectedCategoryIds = selectedCategoryIdsString?.Split(',').ToList().Select(s => new Guid(s)).ToList();
             }
         }
 
@@ -61,14 +61,14 @@
         {
             unchecked
             {
-                var hash = base.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (this.SelectedCategoryIdsString?.GetHashCode() ?? 0);
-                hash = (hash * HashingMultiplier) ^ this.NumberOfProductsToDisplay.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (this.Title?.GetHashCode() ?? 0);
-                hash = (hash * HashingMultiplier) ^ this.CarouselType.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.DisplayPartNumbers.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.DisplayPrice.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.DisplayTopSellersFrom.GetHashCode();
+                int hash = base.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ (SelectedCategoryIdsString?.GetHashCode() ?? 0);
+                hash = (hash * HashingMultiplier) ^ NumberOfProductsToDisplay.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ (Title?.GetHashCode() ?? 0);
+                hash = (hash * HashingMultiplier) ^ CarouselType.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ DisplayPartNumbers.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ DisplayPrice.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ DisplayTopSellersFrom.GetHashCode();
                 return hash;
             }
         }
@@ -76,39 +76,39 @@
         public override bool Equals(object obj)
         {
             // Is null?
-            if (object.ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             // Is the same type?
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
 
-            return this.Equals((ProductCarouselWidget)obj);
+            return Equals((ProductCarouselWidget)obj);
         }
 
         public bool Equals(ProductCarouselWidget obj)
         {
-            var result = base.Equals((Widget)obj);
+            bool result = Equals((Widget)obj);
 
             if (result)
             {
-                result &= this.SelectedCategoryIdsString == obj.SelectedCategoryIdsString;
-                result &= this.NumberOfProductsToDisplay == obj.NumberOfProductsToDisplay;
-                result &= this.Title == obj.Title;
-                result &= this.CarouselType == obj.CarouselType;
-                result &= this.DisplayPartNumbers == obj.DisplayPartNumbers;
-                result &= this.DisplayPrice == obj.DisplayPrice;
-                result &= this.DisplayTopSellersFrom == obj.DisplayTopSellersFrom;
+                result &= SelectedCategoryIdsString == obj.SelectedCategoryIdsString;
+                result &= NumberOfProductsToDisplay == obj.NumberOfProductsToDisplay;
+                result &= Title == obj.Title;
+                result &= CarouselType == obj.CarouselType;
+                result &= DisplayPartNumbers == obj.DisplayPartNumbers;
+                result &= DisplayPrice == obj.DisplayPrice;
+                result &= DisplayTopSellersFrom == obj.DisplayTopSellersFrom;
             }
 
             return result;

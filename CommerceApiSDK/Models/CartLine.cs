@@ -108,7 +108,7 @@
         public Brand Brand { get; set; }
 
         [JsonIgnore]
-        public bool HasLineNotes => !string.IsNullOrWhiteSpace(this.Notes);
+        public bool HasLineNotes => !string.IsNullOrWhiteSpace(Notes);
 
         [JsonIgnore]
         public string Status;

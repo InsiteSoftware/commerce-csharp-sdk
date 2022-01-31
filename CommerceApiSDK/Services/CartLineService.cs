@@ -1,17 +1,13 @@
 namespace CommerceApiSDK.Services
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Services.Interfaces;
-
     using Newtonsoft.Json;
 
     public class CartLineService : ServiceBase, ICartLineService
@@ -24,21 +20,9 @@ namespace CommerceApiSDK.Services
         public event EventHandler OnAddToCartRequestsCountChange;
 
         private bool isAddingToCartSlow = false;
-        public bool IsAddingToCartSlow
-        {
-            get
-            {
-                return this.isAddingToCartSlow;
-            }
-        }
+        public bool IsAddingToCartSlow => isAddingToCartSlow;
 
-        public int AddToCartRequestsCount
-        {
-            get
-            {
-                return this.addToCartRequests.Count;
-            }
-        }
+        public int AddToCartRequestsCount => addToCartRequests.Count;
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -52,24 +36,24 @@ namespace CommerceApiSDK.Services
             CartLine result = null;
             try
             {
-                this.addToCartRequests.Add(cartLine);
-                this.OnAddToCartRequestsCountChange?.Invoke(this, null);
-                this.MarkCurrentlyAddingCartLinesFlagToTrueIfNeeded();
+                addToCartRequests.Add(cartLine);
+                OnAddToCartRequestsCountChange?.Invoke(this, null);
+                MarkCurrentlyAddingCartLinesFlagToTrueIfNeeded();
 
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(cartLine));
-                var cancellationToken = this.cancellationTokenSource.Token;
+                StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
+                CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-                result = await this.PostAsyncNoCache<CartLine>(CartLineUrl, stringContent, null, cancellationToken);
+                result = await PostAsyncNoCache<CartLine>(CartLineUrl, stringContent, null, cancellationToken);
             }
             catch (Exception exception) when (!(exception is OperationCanceledException))
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
             }
             finally
             {
-                this.addToCartRequests.Remove(cartLine);
-                this.OnAddToCartRequestsCountChange?.Invoke(this, null);
-                this.MarkCurrentlyAddingCartLinesFlagTоFalseIfPossible();
+                addToCartRequests.Remove(cartLine);
+                OnAddToCartRequestsCountChange?.Invoke(this, null);
+                MarkCurrentlyAddingCartLinesFlagTоFalseIfPossible();
             }
 
             return result;
@@ -77,27 +61,27 @@ namespace CommerceApiSDK.Services
 
         public void CancelAllAddCartLineTasks()
         {
-            this.cancellationTokenSource?.Cancel();
-            this.cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = new CancellationTokenSource();
         }
 
         private async void MarkCurrentlyAddingCartLinesFlagToTrueIfNeeded()
         {
             await Task.Delay(AddingToCartMillisecondsDelay);
 
-            if (this.addToCartRequests.Count > 0)
+            if (addToCartRequests.Count > 0)
             {
-                this.isAddingToCartSlow = true;
-                this.OnIsAddingToCartSlowChange?.Invoke(this, null);
+                isAddingToCartSlow = true;
+                OnIsAddingToCartSlowChange?.Invoke(this, null);
             }
         }
 
         private void MarkCurrentlyAddingCartLinesFlagTоFalseIfPossible()
         {
-            if (this.addToCartRequests.Count == 0)
+            if (addToCartRequests.Count == 0)
             {
-                this.isAddingToCartSlow = false;
-                this.OnIsAddingToCartSlowChange?.Invoke(this, null);
+                isAddingToCartSlow = false;
+                OnIsAddingToCartSlowChange?.Invoke(this, null);
             }
         }
 
@@ -105,12 +89,12 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(cartLine));
-                return await this.PatchAsyncNoCache<CartLine>($"{CartLineUrl}/{cartLine.Id}", stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
+                return await PatchAsyncNoCache<CartLine>($"{CartLineUrl}/{cartLine.Id}", stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -119,12 +103,12 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var result = await this.DeleteAsync($"{CartLineUrl}/{cartLine.Id}");
+                HttpResponseMessage result = await DeleteAsync($"{CartLineUrl}/{cartLine.Id}");
                 return result.IsSuccessStatusCode;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -133,14 +117,14 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var serializationSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(new { cartLines = cartLineCollection }, serializationSettings));
-                var result = await this.PostAsyncNoCache<CartLineList>(CartLineUrl + "/batch", stringContent);
+                JsonSerializerSettings serializationSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+                StringContent stringContent = await Task.Run(() => SerializeModel(new { cartLines = cartLineCollection }, serializationSettings));
+                CartLineList result = await PostAsyncNoCache<CartLineList>(CartLineUrl + "/batch", stringContent);
                 return result?.CartLines?.ToList();
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

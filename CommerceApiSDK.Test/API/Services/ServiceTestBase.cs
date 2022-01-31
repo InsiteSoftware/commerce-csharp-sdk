@@ -21,20 +21,20 @@
 
         protected virtual void SetUp()
         {
-            this.ClientServiceMock = new Mock<IClientService>();
-            this.NetworkServiceMock = new Mock<INetworkService>();
-            this.TrackingServiceMock = new Mock<ITrackingService>();
-            this.SessionServiceMock = new Mock<ISessionService>();
-            this.LogProviderMock = new Mock<IMvxLogProvider>();
-            this.CacheServiceMock = new Mock<ICacheService>();
+            ClientServiceMock = new Mock<IClientService>();
+            NetworkServiceMock = new Mock<INetworkService>();
+            TrackingServiceMock = new Mock<ITrackingService>();
+            SessionServiceMock = new Mock<ISessionService>();
+            LogProviderMock = new Mock<IMvxLogProvider>();
+            CacheServiceMock = new Mock<ICacheService>();
 
             MvxSingleton.ClearAllSingletons();
-            var iocOptions = new MvxIocOptions
+            MvxIocOptions iocOptions = new()
             {
                 PropertyInjectorOptions = MvxPropertyInjectorOptions.All
             };
-            var IocProvider = MvxIoCProvider.Initialize(iocOptions);
-            Mvx.IoCProvider.RegisterSingleton<IMvxLogProvider>(this.LogProviderMock.Object);
+            _ = MvxIoCProvider.Initialize(iocOptions);
+            Mvx.IoCProvider.RegisterSingleton(LogProviderMock.Object);
         }
     }
 }

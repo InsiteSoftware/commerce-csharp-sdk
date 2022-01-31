@@ -1,8 +1,6 @@
 ﻿namespace CommerceApiSDK.Models.Parameters
 {
     using System;
-    using System.Collections.Generic;
-    using CommerceApiSDK.Attributes;
 
     public class QuoteAllQueryParameters
     {

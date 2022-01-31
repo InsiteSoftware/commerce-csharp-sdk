@@ -23,20 +23,20 @@
                 throw new ArgumentNullException(nameof(area));
             }
 
-            this.EventName = eventName;
-            this.Properties = new Dictionary<string, string>();
-            this.WithProperty(AnalyticsEvent.EventPropertyScreenName, area);
+            EventName = eventName;
+            Properties = new Dictionary<string, string>();
+            WithProperty(EventPropertyScreenName, area);
         }
 
         public AnalyticsEvent WithProperty(string name, string value)
         {
-            this.Properties[name] = value;
+            Properties[name] = value;
             return this;
         }
 
         public AnalyticsEvent WithProperty(string name, bool value)
         {
-            return this.WithProperty(name, value.ToString().ToLowerInvariant());
+            return WithProperty(name, value.ToString().ToLowerInvariant());
         }
     }
 }

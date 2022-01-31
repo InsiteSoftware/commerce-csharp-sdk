@@ -24,11 +24,11 @@
         {
             try
             {
-                return await this.GetAsyncNoCache<BrandAlphabetResult>(BrandAlphabetUrl);
+                return await GetAsyncNoCache<BrandAlphabetResult>(BrandAlphabetUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -37,11 +37,11 @@
         {
             try
             {
-                return await this.GetAsyncNoCache<GetBrandsResult>(BrandUrl + parameters.ToQueryString());
+                return await GetAsyncNoCache<GetBrandsResult>(BrandUrl + parameters.ToQueryString());
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -50,19 +50,19 @@
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (brandParameters != null)
                 {
                     queryString = brandParameters.ToQueryString();
                 }
 
-                var url = $"{BrandUrl}/{brandId}{queryString}";
-                return await this.GetAsyncWithCachedResponse<Brand>(url);
+                string url = $"{BrandUrl}/{brandId}{queryString}";
+                return await GetAsyncWithCachedResponse<Brand>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -71,12 +71,12 @@
         {
             try
             {
-                var url = string.Format(BrandCategoriesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
-                return await this.GetAsyncWithCachedResponse<GetBrandCategoriesResult>(url);
+                string url = string.Format(BrandCategoriesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
+                return await GetAsyncWithCachedResponse<GetBrandCategoriesResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -85,13 +85,13 @@
         {
             try
             {
-                var url = string.Format(BrandSubCategoriesUrlFormat, parameters?.BrandId, parameters?.CategoryId);
-                var result = await this.GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
+                string url = string.Format(BrandSubCategoriesUrlFormat, parameters?.BrandId, parameters?.CategoryId);
+                GetBrandSubCategoriesResult result = await GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -100,12 +100,12 @@
         {
             try
             {
-                var url = string.Format(BrandProductLinesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
-                return await this.GetAsyncWithCachedResponse<GetBrandProductLinesResult>(url);
+                string url = string.Format(BrandProductLinesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
+                return await GetAsyncWithCachedResponse<GetBrandProductLinesResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

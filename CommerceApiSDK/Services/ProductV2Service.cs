@@ -46,26 +46,26 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var queryString = parameters.ToQueryString();
-                var url = $"{ProductsUrl}/{queryString}";
+                string queryString = parameters.ToQueryString();
+                string url = $"{ProductsUrl}/{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                foreach (var product in result.Products)
+                foreach (Product product in result.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -74,16 +74,16 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}{queryString}";
+                string url = $"{ProductsUrl}/{productId}{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
                 if (result == null)
                 {
@@ -92,14 +92,14 @@ namespace CommerceApiSDK.Services
 
                 if (result.Product != null)
                 {
-                    this.FixProduct(result.Product);
+                    FixProduct(result.Product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -108,32 +108,32 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}/alsopurchased{queryString}";
+                string url = $"{ProductsUrl}/{productId}/alsopurchased{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                foreach (var product in result.Products)
+                foreach (Product product in result.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -142,32 +142,32 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}/relatedproducts{queryString}";
+                string url = $"{ProductsUrl}/{productId}/relatedproducts{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                foreach (var product in result.Products)
+                foreach (Product product in result.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -176,32 +176,32 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}/variantchildren{queryString}";
+                string url = $"{ProductsUrl}/{productId}/variantchildren{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                foreach (var product in result.Products)
+                foreach (Product product in result.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -210,16 +210,16 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}/variantchildren/{variantChildId}{queryString}";
+                string url = $"{ProductsUrl}/{productId}/variantchildren/{variantChildId}{queryString}";
 
-                var result = await this.GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
                 if (result == null)
                 {
@@ -228,14 +228,14 @@ namespace CommerceApiSDK.Services
 
                 if (result.Product != null)
                 {
-                    this.FixProduct(result.Product);
+                    FixProduct(result.Product);
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

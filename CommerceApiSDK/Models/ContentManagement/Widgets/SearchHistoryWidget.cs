@@ -13,9 +13,9 @@
         {
             unchecked
             {
-                var hash = base.GetHashCode();
+                int hash = base.GetHashCode();
 
-                hash = (hash * HashingMultiplier) ^ this.ItemsCount.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ ItemsCount.GetHashCode();
                 return hash;
             }
         }
@@ -23,32 +23,32 @@
         public override bool Equals(object obj)
         {
             // Is null?
-            if (object.ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             // Is the same type?
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
 
-            return this.Equals((SearchHistoryWidget)obj);
+            return Equals((SearchHistoryWidget)obj);
         }
 
         public bool Equals(SearchHistoryWidget obj)
         {
-            var result = base.Equals((Widget)obj);
+            bool result = Equals((Widget)obj);
             if (result)
             {
-                result = this.ItemsCount == obj.ItemsCount;
+                result = ItemsCount == obj.ItemsCount;
             }
 
             return result;

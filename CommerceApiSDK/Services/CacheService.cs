@@ -28,46 +28,46 @@
         public static readonly int OfflineCacheMinutes = 3 * 24 * 60;
 
         private Lazy<IBlobCache> onlineCache;
-        public IBlobCache OnlineCache => this.onlineCache.Value;
+        public IBlobCache OnlineCache => onlineCache.Value;
 
         private Lazy<IBlobCache> offlineCache;
-        public IBlobCache OfflineCache => this.offlineCache.Value;
+        public IBlobCache OfflineCache => offlineCache.Value;
 
         private Lazy<IBlobCache> localStorage;
-        public IBlobCache LocalStorage => this.localStorage.Value;
+        public IBlobCache LocalStorage => localStorage.Value;
 
         private readonly IFilesystemProvider filesystemProvider;
 
         public CacheService(IFilesystemProvider filesystemProvider)
         {
             this.filesystemProvider = filesystemProvider;
-            this.offlineCache = new Lazy<IBlobCache>(() => this.NewLocalBlobCache(OfflineCacheDatabaseName));
-            this.onlineCache = new Lazy<IBlobCache>(this.NewInMemoryBlobCache);
-            this.localStorage = new Lazy<IBlobCache>(() => this.NewLocalBlobCache(LocalStorageDatabaseName));
+            offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
+            onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
+            localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
         }
 
         public void Shutdown()
         {
             // If the cache has not been accessed then no need to flush it
-            if (this.offlineCache.IsValueCreated)
+            if (offlineCache.IsValueCreated)
             {
-                this.offlineCache.Value.Dispose();
-                this.offlineCache.Value.Shutdown.Wait();
-                this.offlineCache = new Lazy<IBlobCache>(() => this.NewLocalBlobCache(OfflineCacheDatabaseName));
+                offlineCache.Value.Dispose();
+                offlineCache.Value.Shutdown.Wait();
+                offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
             }
 
-            if (this.localStorage.IsValueCreated)
+            if (localStorage.IsValueCreated)
             {
-                this.localStorage.Value.Dispose();
-                this.localStorage.Value.Shutdown.Wait();
-                this.localStorage = new Lazy<IBlobCache>(() => this.NewLocalBlobCache(LocalStorageDatabaseName));
+                localStorage.Value.Dispose();
+                localStorage.Value.Shutdown.Wait();
+                localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
             }
 
-            if (this.onlineCache.IsValueCreated)
+            if (onlineCache.IsValueCreated)
             {
-                this.onlineCache.Value.Dispose();
-                this.onlineCache.Value.Shutdown.Wait();
-                this.onlineCache = new Lazy<IBlobCache>(this.NewInMemoryBlobCache);
+                onlineCache.Value.Dispose();
+                onlineCache.Value.Shutdown.Wait();
+                onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
             }
         }
 
@@ -75,13 +75,13 @@
         {
             try
             {
-                var keys = await this.LocalStorage.GetAllKeys();
+                IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    await this.LocalStorage.Invalidate(key);
+                    await LocalStorage.Invalidate(key);
                 }
 
-                await this.LocalStorage.InsertObject<T>(key, value);
+                await LocalStorage.InsertObject(key, value);
                 Logger.LogTrace("Persisting succesfully object: {0} for key:{1}", null, value, key);
                 return true;
             }
@@ -96,13 +96,13 @@
         {
             try
             {
-                var keys = await this.LocalStorage.GetAllKeys();
+                IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    await this.LocalStorage.Invalidate(key);
+                    await LocalStorage.Invalidate(key);
                 }
 
-                await this.LocalStorage.Insert(key, value);
+                await LocalStorage.Insert(key, value);
                 Logger.LogTrace("Persisting succesfully object: {0} for key:{1}", null, value, key);
                 return true;
             }
@@ -117,14 +117,14 @@
         {
             try
             {
-                var keys = await this.LocalStorage.GetAllKeys();
+                IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
                     Logger.LogWarn("Offline cache object for {0} not found", key);
                     return null;
                 }
 
-                var data = await this.LocalStorage.GetObject<T>(key);
+                var data = await LocalStorage.GetObject<T>(key);
                 return data;
             }
             catch (Exception ex)
@@ -138,14 +138,14 @@
         {
             try
             {
-                var keys = await this.LocalStorage.GetAllKeys();
+                IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
                     Logger.LogWarn("Offline cache object for {0} not found", key);
                     return null;
                 }
 
-                var offlineObject = await this.LocalStorage.Get(key);
+                byte[] offlineObject = await LocalStorage.Get(key);
                 Logger.LogTrace("Get Persisted object for {0} :{1}", null, key, offlineObject);
                 return offlineObject;
             }
@@ -160,10 +160,10 @@
         {
             try
             {
-                var keys = await this.LocalStorage.GetAllKeys();
+                IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    await this.LocalStorage.Invalidate(key);
+                    await LocalStorage.Invalidate(key);
                 }
             }
             catch (KeyNotFoundException)
@@ -175,16 +175,16 @@
         private IBlobCache NewLocalBlobCache(string databaseName)
         {
             //// This snippet is based on https://github.com/akavache/Akavache/blob/501b397d8c071366c3b6783aae3e98695b3d7442/src/Akavache.Sqlite3/Registrations.cs
-            var cacheFolder = this.filesystemProvider.GetDefaultSecretCacheDirectory();
-            this.filesystemProvider.CreateRecursive(cacheFolder).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
-            var localBlobCache = new SQLitePersistentBlobCache(Path.Combine(this.filesystemProvider.GetDefaultLocalMachineCacheDirectory(), databaseName), BlobCache.TaskpoolScheduler);
+            string cacheFolder = filesystemProvider.GetDefaultSecretCacheDirectory();
+            filesystemProvider.CreateRecursive(cacheFolder).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
+            SQLitePersistentBlobCache localBlobCache = new SQLitePersistentBlobCache(Path.Combine(filesystemProvider.GetDefaultLocalMachineCacheDirectory(), databaseName), BlobCache.TaskpoolScheduler);
             return localBlobCache;
         }
 
         private IBlobCache NewInMemoryBlobCache()
         {
             // This snippet is based on https://github.com/reactiveui/Akavache/blob/28f0c6dc84e6c9da5fc67e70b7b62ec661b825ee/src/Akavache.Core/BlobCache/BlobCache.cs
-            var inMemoryBlobCache = new InMemoryBlobCache(Scheduler.Default);
+            InMemoryBlobCache inMemoryBlobCache = new InMemoryBlobCache(Scheduler.Default);
             return inMemoryBlobCache;
         }
     }

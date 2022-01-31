@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Results;
@@ -25,8 +26,8 @@
         {
             try
             {
-                var url = BillToToUrl;
-                var parameters = new List<string>
+                string url = BillToToUrl;
+                List<string> parameters = new List<string>()
                 {
                     "parameter.page=" + pageNumber,
                     "parameter.pageSize=" + pageSize,
@@ -36,7 +37,7 @@
                     parameters.Add("parameter.filter=" + WebUtility.UrlEncode(searchText));
                 }
 
-                var expandParameters = new List<string>();
+                List<string> expandParameters = new List<string>();
                 if (excludeShowingAll)
                 {
                     expandParameters.Add("excludeshowall");
@@ -48,11 +49,11 @@
                 }
 
                 url += "?" + string.Join("&", parameters);
-                return await this.GetAsyncNoCache<GetBillTosResult>(url);
+                return await GetAsyncNoCache<GetBillTosResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -61,8 +62,8 @@
         {
             try
             {
-                var url = this.ShipToToUrl(billToId);
-                var parameters = new List<string>
+                string url = ShipToToUrl(billToId);
+                List<string> parameters = new List<string>()
                 {
                     "apiParameter.page=" + pageNumber,
                     "apiParameter.pageSize=" + pageSize,
@@ -74,7 +75,7 @@
                     parameters.Add("apiParameter.filter=" + WebUtility.UrlEncode(searchText));
                 }
 
-                var expandParameters = new List<string>();
+                List<string> expandParameters = new List<string>();
                 if (excludeShowingAll)
                 {
                     expandParameters.Add("excludeshowall");
@@ -86,11 +87,11 @@
                 }
 
                 url += "?" + string.Join("&", parameters);
-                return await this.GetAsyncNoCache<GetShipTosResult>(url);
+                return await GetAsyncNoCache<GetShipTosResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -99,16 +100,16 @@
         {
             try
             {
-                var url = this.ShipToToUrl(billToId);
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
+                string url = ShipToToUrl(billToId);
+                StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
 
-                var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);
+                ShipTo result = await PostAsyncNoCache<ShipTo>(url, stringContent);
 
                 return result;
             }
             catch (Exception ex)
             {
-                this.TrackingService.TrackException(ex);
+                TrackingService.TrackException(ex);
                 return null;
             }
         }
@@ -117,12 +118,12 @@
         {
             try
             {
-                var url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
-                return await this.GetAsyncNoCache<ShipTo>(url);
+                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                return await GetAsyncNoCache<ShipTo>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

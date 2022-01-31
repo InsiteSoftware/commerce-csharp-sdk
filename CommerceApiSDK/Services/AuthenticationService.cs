@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
+    using CommerceApiSDK.Models.Results;
     using CommerceApiSDK.Services.Interfaces;
     using CommerceApiSDK.Services.Messages;
     using MvvmCross.Plugin.Messenger;
@@ -26,7 +27,7 @@
             this.clientService = clientService;
             this.sessionService = sessionService;
             this.messenger = messenger;
-            this.refreshTokenNotificationSubscription = this.messenger.Subscribe<RefreshTokenExpiredMessage>(this.RefreshTokenExpiredHandler);
+            refreshTokenNotificationSubscription = this.messenger.Subscribe<RefreshTokenExpiredMessage>(RefreshTokenExpiredHandler);
             this.accountService = accountService;
         }
 
@@ -38,36 +39,36 @@
         /// <returns>Whether or not sign in was successful</returns>
         public virtual async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
         {
-            var result = await this.clientService.Generate(userName, password);
-            var tokenResult = result?.Model;
+            ServiceResponse<TokenResult> result = await clientService.Generate(userName, password);
+            TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            this.clientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
-            this.clientService.StoreSessionState();
+            clientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
+            clientService.StoreSessionState();
 
-            var session = new Session { UserName = userName, Password = password };
-            var sessionCreateResult = await this.sessionService.PostSession(session);
-            var createdSession = sessionCreateResult?.Model;
+            Session session = new Session() { UserName = userName, Password = password };
+            ServiceResponse<Session> sessionCreateResult = await sessionService.PostSession(session);
+            Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
-                this.clientService.SetBasicAuthorizationHeader();
+                clientService.SetBasicAuthorizationHeader();
                 return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
             }
 
-            var sessionPatchResult = await this.sessionService.PatchSession(createdSession);
+            Session sessionPatchResult = await sessionService.PatchSession(createdSession);
 
             if (sessionPatchResult == null)
             {
-                this.clientService.SetBasicAuthorizationHeader();
+                clientService.SetBasicAuthorizationHeader();
                 return (false, ErrorResponse.Empty());
             }
 
-            if (this.refreshTokenNotificationSubscription == null)
+            if (refreshTokenNotificationSubscription == null)
             {
-                this.refreshTokenNotificationSubscription = this.messenger.Subscribe<RefreshTokenExpiredMessage>(this.RefreshTokenExpiredHandler);
+                refreshTokenNotificationSubscription = messenger.Subscribe<RefreshTokenExpiredMessage>(RefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -79,7 +80,7 @@
         /// <param name="isRefreshTokenExpired">Whether or not logout was due to refresh token being expired</param>
         public virtual void Logout(bool isRefreshTokenExpired = false)
         {
-            var logoutTask = Task.Run(async () => await this.LogoutAsync(isRefreshTokenExpired));
+            Task logoutTask = Task.Run(async () => await LogoutAsync(isRefreshTokenExpired));
         }
 
         /// <summary>
@@ -88,22 +89,22 @@
         /// <param name="isRefreshTokenExpired">Whether or not logout was due to refresh token being expired</param>
         public virtual async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (this.refreshTokenNotificationSubscription != null)
+            if (refreshTokenNotificationSubscription != null)
             {
-                this.refreshTokenNotificationSubscription.Dispose();
-                this.refreshTokenNotificationSubscription = null;
+                refreshTokenNotificationSubscription.Dispose();
+                refreshTokenNotificationSubscription = null;
             }
 
-            this.sessionService.ClearCache();
+            sessionService.ClearCache();
 
             Session clonedSession;
-            if (this.sessionService.CurrentSession is Session currentSession)
+            if (sessionService.CurrentSession is Session currentSession)
             {
                 clonedSession = currentSession.Clone() as Session;
             }
             else
             {
-                clonedSession = await this.sessionService.GetCurrentSession();
+                clonedSession = await sessionService.GetCurrentSession();
             }
 
             if (clonedSession != null)
@@ -113,14 +114,14 @@
                 clonedSession.ShipTo = null;
                 clonedSession.Language = null;
                 clonedSession.IsAuthenticated = false;
-                await this.sessionService.PatchSession(clonedSession);
+                await sessionService.PatchSession(clonedSession);
             }
 
-            this.clientService.Reset();
+            clientService.Reset();
 
-            this.clientService.RemoveAccessToken();
+            clientService.RemoveAccessToken();
 
-            this.messenger.Publish(new UserSignedOutMessage(this)
+            messenger.Publish(new UserSignedOutMessage(this)
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -132,11 +133,11 @@
         /// <returns>Boolean value for whether or not user is logged in</returns>
         public virtual async Task<bool> IsAuthenticatedAsync()
         {
-            if (this.clientService.IsExistsAccessToken())
+            if (clientService.IsExistsAccessToken())
             {
-                _ = await this.accountService.GetCurrentAccountAsync();
+                _ = await accountService.GetCurrentAccountAsync();
 
-                return this.clientService.IsExistsAccessToken();
+                return clientService.IsExistsAccessToken();
             }
 
             return false;
@@ -144,7 +145,7 @@
 
         protected virtual void RefreshTokenExpiredHandler(MvxMessage message)
         {
-            this.LogoutAsync(true);
+            LogoutAsync(true);
         }
     }
 }

@@ -12,8 +12,8 @@
                 return null;
             }
 
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
             {
                 bf.Serialize(ms, obj);
                 return ms.ToArray();
@@ -27,9 +27,9 @@
                 return null;
             }
 
-            using (var memStream = new MemoryStream())
+            using (MemoryStream memStream = new MemoryStream())
             {
-                var binForm = new BinaryFormatter();
+                BinaryFormatter binForm = new BinaryFormatter();
                 memStream.Write(byteArray, 0, byteArray.Length);
                 memStream.Seek(0, SeekOrigin.Begin);
                 var obj = (T)binForm.Deserialize(memStream);

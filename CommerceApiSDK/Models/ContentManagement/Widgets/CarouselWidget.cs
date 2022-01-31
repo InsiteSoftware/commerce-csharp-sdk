@@ -1,7 +1,5 @@
 ﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    using System;
-    using System.Linq;
     using System.Collections.Generic;
     using Newtonsoft.Json;
 
@@ -19,8 +17,8 @@
             unchecked
             {
                 var hash = base.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.TimerSpeed.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.AnimationSpeed.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ TimerSpeed.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ AnimationSpeed.GetHashCode();
                 return hash;
             }
         }
@@ -28,43 +26,43 @@
         public override bool Equals(object obj)
         {
             // Is null?
-            if (object.ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             // Is the same type?
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
 
-            return this.Equals((CarouselWidget)obj);
+            return Equals((CarouselWidget)obj);
         }
 
         public bool Equals(CarouselWidget widget)
         {
-            var result = base.Equals((Widget)widget);
+            bool result = Equals((Widget)widget);
 
             if (result)
             {
-                result &= this.TimerSpeed == widget.TimerSpeed
-                    && this.AnimationSpeed == widget.AnimationSpeed
-                    && this.ChildWidgets.Count.Equals(widget.ChildWidgets.Count);
+                result &= TimerSpeed == widget.TimerSpeed
+                    && AnimationSpeed == widget.AnimationSpeed
+                    && ChildWidgets.Count.Equals(widget.ChildWidgets.Count);
             }
 
             // Loop through all child widgets
             if (result)
             {
-                for (int i = 0; i < this.ChildWidgets.Count; i++)
+                for (int i = 0; i < ChildWidgets.Count; i++)
                 {
-                    if (!this.ChildWidgets[i].Equals(widget.ChildWidgets[i]))
+                    if (!ChildWidgets[i].Equals(widget.ChildWidgets[i]))
                     {
                         return false;
                     }

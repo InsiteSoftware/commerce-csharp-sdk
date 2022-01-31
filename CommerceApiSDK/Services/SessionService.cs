@@ -16,7 +16,7 @@
         private const string CurrentSessionUri = "/api/v1/sessions/current";
 
         private Session currentSession;
-        public Session CurrentSession => this.currentSession;
+        public Session CurrentSession => currentSession;
 
         public SessionService(
             IClientService clientService,
@@ -39,8 +39,8 @@
         /// <returns></returns>
         public async Task<HttpResponseMessage> DeleteCurrentSession()
         {
-            this.currentSession = null;
-            return await this.DeleteAsync(CurrentSessionUri);
+            currentSession = null;
+            return await DeleteAsync(CurrentSessionUri);
         }
 
         /// <summary>
@@ -53,20 +53,20 @@
         {
             try
             {
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(session));
-                var result = await this.PostAsyncNoCacheWithErrorMessage<Session>(PostSessionUri, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(session));
+                ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(PostSessionUri, stringContent);
 
                 if (result?.Model != null)
                 {
-                    this.Client.StoreSessionState(result.Model);
-                    this.currentSession = result.Model;
+                    Client.StoreSessionState(result.Model);
+                    currentSession = result.Model;
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -81,21 +81,21 @@
         {
             try
             {
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(session));
-                var result = await this.PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(session));
+                Session result = await PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
 
                 if (result != null)
                 {
                     // If result != null then patch worked, but we have to call GetCurrentSession to get the most up
                     // to date version of the session
-                    var currentSession = await this.GetCurrentSession();
+                    Session currentSession = await GetCurrentSession();
                 }
 
-                return this.currentSession;
+                return currentSession;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -110,14 +110,14 @@
         {
             try
             {
-                var session = new Session() { ResetPassword = true, UserName = userName };
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(session));
+                Session session = new Session() { ResetPassword = true, UserName = userName };
+                StringContent stringContent = await Task.Run(() => SerializeModel(session));
 
-                return await this.PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
+                return await PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -127,7 +127,7 @@
         /// </summary>
         public void ClearCache()
         {
-            this.ClearAllCaches();
+            ClearAllCaches();
         }
 
         /// <summary>
@@ -139,28 +139,28 @@
         {
             try
             {
-                var result = await this.GetAsyncNoCache<Session>($"{CurrentSessionUri}");
+                Session result = await GetAsyncNoCache<Session>($"{CurrentSessionUri}");
 
                 if (result != null)
                 {
-                    if (this.currentSession != null)
+                    if (currentSession != null)
                     {
-                        if (!this.currentSession.Persona.Equals(result.Persona)
-                            || !(this.currentSession.Personas != null && result.Personas != null && Enumerable.SequenceEqual(this.currentSession.Personas, result.Personas)))
+                        if (!currentSession.Persona.Equals(result.Persona)
+                            || !(currentSession.Personas != null && result.Personas != null && Enumerable.SequenceEqual(currentSession.Personas, result.Personas)))
                         {
-                            this.messenger.Publish(new SessionChangedMessage(this));
+                            messenger.Publish(new SessionChangedMessage(this));
                         }
                     }
 
-                    this.Client.StoreSessionState(result);
-                    this.currentSession = result;
+                    Client.StoreSessionState(result);
+                    currentSession = result;
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

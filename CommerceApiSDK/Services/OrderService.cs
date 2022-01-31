@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -24,17 +23,11 @@
         /// <summary>
         /// Gets all available sort order options.
         /// </summary>
-        public List<OrderSortOrder> AvailableSortOrders
-        {
-            get
-            {
-                return Enum
+        public List<OrderSortOrder> AvailableSortOrders => Enum
                     .GetValues(typeof(OrderSortOrder))
                     .Cast<OrderSortOrder>()
                     .Where(o => SortOrderAttribute.GetSortOrderOption(o) != SortOrderOptions.DoNotDisplay)
                     .ToList();
-            }
-        }
 
         /// <summary>
         /// Gets order list for api with selected order.
@@ -63,13 +56,13 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{OrdersUrl}{parameters.ToQueryString()}";
+                string url = $"{OrdersUrl}{parameters.ToQueryString()}";
 
-                return await this.GetAsyncWithCachedResponse<GetOrderCollectionResult>(url);
+                return await GetAsyncWithCachedResponse<GetOrderCollectionResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -78,13 +71,13 @@
         {
             try
             {
-                var url = OrdersUrl + "/" + orderNumber + "?expand=orderlines,shipments";
+                string url = OrdersUrl + "/" + orderNumber + "?expand=orderlines,shipments";
 
-                return await this.GetAsyncWithCachedResponse<Order>(url);
+                return await GetAsyncWithCachedResponse<Order>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -93,14 +86,14 @@
         {
             try
             {
-                var url = OrderStatusMappingsUrl;
+                string url = OrderStatusMappingsUrl;
 
-                var result = await this.GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
+                GetOrderStatusMappingsResult result = await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
                 return result?.OrderStatusMappings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -108,27 +101,15 @@
         private List<string> selectedFilterValueIds;
         List<string> IOrderService.SelectedFilterValueIds
         {
-            get
-            {
-                return this.selectedFilterValueIds ?? new List<string>();
-            }
-            set
-            {
-                this.selectedFilterValueIds = value;
-            }
+            get => selectedFilterValueIds ?? new List<string>();
+            set => selectedFilterValueIds = value;
         }
 
         private int selectedFiltersCount;
         int IOrderService.SelectedFiltersCount
         {
-            get
-            {
-                return this.selectedFiltersCount;
-            }
-            set
-            {
-                this.selectedFiltersCount = value;
-            }
+            get => selectedFiltersCount;
+            set => selectedFiltersCount = value;
         }
     }
 }

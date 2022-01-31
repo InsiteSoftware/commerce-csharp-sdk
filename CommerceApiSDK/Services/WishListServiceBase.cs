@@ -19,9 +19,9 @@
         /// <returns>void</returns>
         protected async Task ClearWishListRelatedCacheAsync(Guid wishListId)
         {
-            var prefix = this.Client.Host + $"/api/v1/wishlists/{wishListId}";
-            await this.ClearOnlineCacheForUrlsStartingWith<WishListLineCollectionModel>(prefix);
-            await this.ClearOnlineCacheForUrlsStartingWith<WishList>(prefix);
+            string prefix = Client.Host + $"/api/v1/wishlists/{wishListId}";
+            await ClearOnlineCacheForUrlsStartingWith<WishListLineCollectionModel>(prefix);
+            await ClearOnlineCacheForUrlsStartingWith<WishList>(prefix);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@
         /// <returns>void</returns>
         protected async Task ClearGetWishListsCacheAsync()
         {
-            await this.ClearOnlineCacheForObjects<WishListCollectionModel>();
+            await ClearOnlineCacheForObjects<WishListCollectionModel>();
         }
     }
 }

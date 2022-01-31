@@ -3,9 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Threading.Tasks;
-
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Results;
     using CommerceApiSDK.Services.Interfaces;
@@ -37,8 +35,8 @@
         {
             try
             {
-                var url = CategoryService.CategoryUrl;
-                var parameters = new List<string>();
+                string url = CategoryUrl;
+                List<string> parameters = new List<string>();
                 if (startCategoryId.HasValue)
                 {
                     parameters.Add("parameter.startCategoryId=" + startCategoryId);
@@ -54,19 +52,19 @@
                     url += "?" + string.Join("&", parameters);
                 }
 
-                var categoryResult = await this.GetAsyncWithCachedResponse<CategoryResult>(url);
+                CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 if (categoryResult == null)
                 {
                     return null;
                 }
 
-                this.lastCategoryResult = categoryResult;
+                lastCategoryResult = categoryResult;
 
                 return categoryResult.Categories?.ToList();
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -80,13 +78,13 @@
         {
             try
             {
-                var url = CategoryUrl + "/" + categoryId;
-                var response = await this.GetAsyncWithCachedResponse<Category>(url);
+                string url = CategoryUrl + "/" + categoryId;
+                Category response = await GetAsyncWithCachedResponse<Category>(url);
                 return response;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -95,37 +93,37 @@
         {
             try
             {
-                var url = CategoryService.CategoryUrl;
+                string url = CategoryUrl;
 
                 if (maxDepth.HasValue)
                 {
                     url += "?maxDepth=" + maxDepth;
                 }
 
-                var allCategories = await this.GetAsyncWithCachedResponse<CategoryResult>(url);
-                var flattedCategories = this.FlattenCategoryTree(allCategories.Categories);
-                var featuredCategories = flattedCategories.Where(c => c.IsFeatured).ToList();
+                CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(url);
+                List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);
+                List<Category> featuredCategories = flattedCategories.Where(c => c.IsFeatured).ToList();
 
                 return featuredCategories;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
 
         public List<Category> FlattenCategoryTree(IList<Category> categoryList)
         {
-            var flattened = new List<Category>();
+            List<Category> flattened = new List<Category>();
 
-            foreach (var category in categoryList)
+            foreach (Category category in categoryList)
             {
                 flattened.Add(category);
 
                 if (category.SubCategories != null)
                 {
-                    flattened.AddRange(this.FlattenCategoryTree(category.SubCategories));
+                    flattened.AddRange(FlattenCategoryTree(category.SubCategories));
                 }
             }
 
@@ -134,8 +132,8 @@
 
         public async Task<bool> HasCategoryCache(Guid categoryId)
         {
-            var url = CategoryUrl + "/" + categoryId;
-            return await this.HasCache(url);
+            string url = CategoryUrl + "/" + categoryId;
+            return await HasCache(url);
         }
     }
 }

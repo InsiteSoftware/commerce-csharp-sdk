@@ -33,35 +33,35 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var website = await this.GetAsyncWithCachedResponse<Website>(WebsitesUrl, ServiceBase.DefaultRequestTimeout);
+                Website website = await GetAsyncWithCachedResponse<Website>(WebsitesUrl, DefaultRequestTimeout);
                 return website;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
 
         public async Task<bool> HasWebsiteCache()
         {
-            return await this.HasCache(WebsitesUrl);
+            return await HasCache(WebsitesUrl);
         }
 
         public async Task<bool> HasWebsiteCrosssellsCache()
         {
-            return await this.HasCache(WebsitesCrosssellsUrl);
+            return await HasCache(WebsitesCrosssellsUrl);
         }
 
         public async Task<WebsiteCrosssells> GetWebsiteCrosssells()
         {
             try
             {
-                return await this.GetAsyncWithCachedResponse<WebsiteCrosssells>(WebsitesCrosssellsUrl);
+                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(WebsitesCrosssellsUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -81,7 +81,7 @@ namespace CommerceApiSDK.Services
                 }
                 else
                 {
-                    var domain = this.Client.Url;
+                    Uri domain = Client.Url;
 
                     if (string.IsNullOrEmpty(domain.AbsolutePath) || string.IsNullOrEmpty(path))
                     {
@@ -92,12 +92,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 // sign
-                var token = await this.Client.GetAccessToken();
-                var billTo = this.sessionService.CurrentSession?.BillTo?.Id;
-                var shipTo = this.sessionService.CurrentSession?.ShipTo?.Id;
-                var languageCode = this.sessionService.CurrentSession?.Language?.LanguageCode;
-                var currencyCode = this.sessionService.CurrentSession?.Currency?.CurrencyCode;
-                var linkChar = result.Contains("?") ? "&" : "?";
+                string token = await Client.GetAccessToken();
+                string billTo = sessionService.CurrentSession?.BillTo?.Id;
+                string shipTo = sessionService.CurrentSession?.ShipTo?.Id;
+                string languageCode = sessionService.CurrentSession?.Language?.LanguageCode;
+                string currencyCode = sessionService.CurrentSession?.Currency?.CurrencyCode;
+                string linkChar = result.Contains("?") ? "&" : "?";
 
                 result = string.IsNullOrEmpty(token) || string.IsNullOrEmpty(billTo) || string.IsNullOrEmpty(shipTo)
                     ? $"{result}{linkChar}SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}"
@@ -114,7 +114,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
         {
-            var url = WebsitesSiteMessagesUrl;
+            string url = WebsitesSiteMessagesUrl;
 
             if (names != null)
             {
@@ -123,25 +123,25 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var siteMessagesResult = await this.GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
+                GetSiteMessageCollectionResult siteMessagesResult = await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
                 return siteMessagesResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
 
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
-            var messageResult = await this.GetSiteMessages(new List<string>
+            GetSiteMessageCollectionResult messageResult = await GetSiteMessages(new List<string>
             {
                 messageName
             });
 
             // ability to set messages to blank, so validate is null only here
-            var siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(this.sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
+            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
             if (siteMessageItem != null)
             {
                 return siteMessageItem.Message.StripHtml();
@@ -162,12 +162,12 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var result = await this.GetAsyncWithCachedResponse<WebsiteCountries>(WebsitesCountries);
+                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(WebsitesCountries);
                 return result?.Countries;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -176,11 +176,11 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return this.GetAsyncWithCachedResponse<LanguageCollectionModel>(WebsitesLanguagesUrl);
+                return GetAsyncWithCachedResponse<LanguageCollectionModel>(WebsitesLanguagesUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

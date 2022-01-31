@@ -2,6 +2,7 @@ namespace CommerceApiSDK.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -24,26 +25,26 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = parameters.ToQueryString();
-                var url = $"{ProductsUrl}/{queryString}";
+                string queryString = parameters.ToQueryString();
+                string url = $"{ProductsUrl}/{queryString}";
 
-                var productsResult = await this.GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult productsResult = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (productsResult == null)
                 {
                     return null;
                 }
 
-                foreach (var product in productsResult.Products)
+                foreach (Product product in productsResult.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return productsResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -52,26 +53,26 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = parameters.ToQueryString();
-                var url = $"{ProductsUrl}/{queryString}";
+                string queryString = parameters.ToQueryString();
+                string url = $"{ProductsUrl}/{queryString}";
 
-                var productsResult = await this.GetAsyncNoCache<GetProductCollectionResult>(url);
+                GetProductCollectionResult productsResult = await GetAsyncNoCache<GetProductCollectionResult>(url);
 
                 if (productsResult == null)
                 {
                     return null;
                 }
 
-                foreach (var product in productsResult.Products)
+                foreach (Product product in productsResult.Products)
                 {
-                    this.FixProduct(product);
+                    FixProduct(product);
                 }
 
                 return productsResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -80,15 +81,15 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = ProductsUrl + parameters.ToQueryString();
+                string url = ProductsUrl + parameters.ToQueryString();
 
-                var result = await this.HasCache(url);
+                bool result = await HasCache(url);
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -97,16 +98,16 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var queryString = string.Empty;
+                string queryString = string.Empty;
 
                 if (parameters != null)
                 {
                     queryString = parameters.ToQueryString();
                 }
 
-                var url = $"{ProductsUrl}/{productId}{queryString}";
+                string url = $"{ProductsUrl}/{productId}{queryString}";
 
-                var productResult = await this.GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
                 if (productResult == null)
                 {
@@ -115,14 +116,14 @@ namespace CommerceApiSDK.Services
 
                 if (productResult.Product != null)
                 {
-                    this.FixProduct(productResult.Product);
+                    FixProduct(productResult.Product);
                 }
 
                 return productResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -131,9 +132,9 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = $"{MainProductUrl}{productPath}";
+                string url = $"{MainProductUrl}{productPath}";
 
-                var productResult = await this.GetAsyncWithCachedResponse<GetCatalogPageResult>(url);
+                GetCatalogPageResult productResult = await GetAsyncWithCachedResponse<GetCatalogPageResult>(url);
 
                 if (productResult == null)
                 {
@@ -144,7 +145,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -153,20 +154,20 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = $"{ProductsUrl}/{productId}/price?qtyOrdered={quantity}&unitOfMeasure={unitOfMeasure}";
+                string url = $"{ProductsUrl}/{productId}/price?qtyOrdered={quantity}&unitOfMeasure={unitOfMeasure}";
 
                 if (configuration != null && configuration.Count != 0)
                 {
                     url += "&configuration=" + string.Join("&configuration=", configuration);
                 }
 
-                var pricingResult = await this.GetAsyncWithCachedResponse<ProductPriceDto>(url);
+                ProductPriceDto pricingResult = await GetAsyncWithCachedResponse<ProductPriceDto>(url);
 
                 return pricingResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -188,10 +189,10 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                if (this.IsOnline)
+                if (IsOnline)
                 {
-                    var stringContent = await Task.Run(() => ServiceBase.SerializeModel(new { productPriceParameters }));
-                    var result = await this.PostAsyncNoCache<GetRealTimePricingResult>(RealTimePricingUrl, stringContent);
+                    StringContent stringContent = await Task.Run(() => SerializeModel(new { productPriceParameters }));
+                    GetRealTimePricingResult result = await PostAsyncNoCache<GetRealTimePricingResult>(RealTimePricingUrl, stringContent);
                     return result;
                 }
                 else
@@ -201,7 +202,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                this.TrackingService.TrackException(e);
+                TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -210,20 +211,20 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                if (this.IsOnline)
+                if (IsOnline)
                 {
-                    var queryString = string.Empty;
+                    string queryString = string.Empty;
 
                     if (parameters != null)
                     {
                         queryString = parameters.ToQueryString();
                     }
 
-                    var url = $"{RealTimeInventoryUrl}/{queryString}";
+                    string url = $"{RealTimeInventoryUrl}/{queryString}";
 
-                    var stringContent = await Task.Run(() => ServiceBase.SerializeModel(new { parameters.ProductIds }));
+                    StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters.ProductIds }));
 
-                    var result = await this.PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
+                    GetRealTimeInventoryResult result = await PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
 
                     return result;
                 }
@@ -234,7 +235,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                this.TrackingService.TrackException(e);
+                TrackingService.TrackException(e);
                 return null;
             }
         }

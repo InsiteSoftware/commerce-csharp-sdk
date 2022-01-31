@@ -93,7 +93,7 @@ namespace CommerceApiSDK.Test.TestHelpers{
             string preFix = "",
             string postFix = "")
         {
-            var wishlistLines = new List<WishListLine>();
+            List<WishListLine> wishlistLines = new();
             int price = end + 1;
             for (int i = start; i < end; i++)
             {
@@ -135,7 +135,7 @@ namespace CommerceApiSDK.Test.TestHelpers{
 
         public static string CreateShortDescription(string prefix, int index, string unique)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             for (int i = 0; i < index; i++)
             {
                 if (i != 0)

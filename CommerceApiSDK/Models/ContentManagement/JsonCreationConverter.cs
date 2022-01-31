@@ -21,10 +21,7 @@
             return typeof(T).IsAssignableFrom(objectType);
         }
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         public override object ReadJson(
             JsonReader reader,
@@ -36,7 +33,7 @@
             JObject jObject = JObject.Load(reader);
 
             // Create target object based on JObject
-            T target = this.Create(objectType, jObject);
+            T target = Create(objectType, jObject);
 
             // Populate the object properties
             serializer.Populate(jObject.CreateReader(), target);

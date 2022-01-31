@@ -151,11 +151,11 @@
         private string backgroundColor;
         public string BackgroundColor
         {
-            get => this.backgroundColor;
+            get => backgroundColor;
             set
             {
-                this.backgroundColor = value;
-                this.BackgroundTextColor = MvxHexParser.ColorFromHexString(value, true);
+                backgroundColor = value;
+                BackgroundTextColor = MvxHexParser.ColorFromHexString(value, true);
             }
         }
 
@@ -168,22 +168,22 @@
         private string headingColor;
         public string HeadingColor
         {
-            get => this.headingColor;
+            get => headingColor;
             set
             {
-                this.headingColor = value;
-                this.PrimaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                headingColor = value;
+                PrimaryTextColor = MvxHexParser.ColorFromHexString(value, true);
             }
         }
 
         private string subheadingColor;
         public string SubheadingColor
         {
-            get => this.subheadingColor;
+            get => subheadingColor;
             set
             {
-                this.subheadingColor = value;
-                this.SecondaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                subheadingColor = value;
+                SecondaryTextColor = MvxHexParser.ColorFromHexString(value, true);
             }
         }
 

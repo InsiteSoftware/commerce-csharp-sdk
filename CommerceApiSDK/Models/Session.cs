@@ -41,7 +41,7 @@
     {
         internal FulfillmentMethodDisplayNameAttribute(string displayName)
         {
-            this.DisplayName = displayName;
+            DisplayName = displayName;
         }
 
         public string DisplayName { get; private set; }
@@ -139,7 +139,7 @@
 
         public object Clone()
         {
-            var serialized = JsonConvert.SerializeObject(this);
+            string serialized = JsonConvert.SerializeObject(this);
             return JsonConvert.DeserializeObject<Session>(serialized);
         }
 
@@ -148,9 +148,9 @@
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.UserRoles))
+                if (!string.IsNullOrEmpty(UserRoles))
                 {
-                    var roles = this.UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] roles = UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                     return roles.Any(x => x.Trim().Equals("Requisitioner", StringComparison.OrdinalIgnoreCase));
                 }
 
@@ -163,9 +163,9 @@
         {
             get
             {
-                if (!string.IsNullOrEmpty(this.UserRoles))
+                if (!string.IsNullOrEmpty(UserRoles))
                 {
-                    var roles = this.UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] roles = UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                     return roles.Any(x => x.Trim().Equals("VMI_Admin", StringComparison.OrdinalIgnoreCase) || x.Trim().Equals("VMI_User", StringComparison.OrdinalIgnoreCase));
                 }
 
@@ -186,10 +186,10 @@
 
         public bool Equals(Persona other)
         {
-            return this.IsDefault.Equals(other.IsDefault)
-                    && (object.ReferenceEquals(this.Id, other.Id) || (!string.IsNullOrEmpty(this.Id) && this.Id.Equals(other.Id)))
-                    && (object.ReferenceEquals(this.Name, other.Name) || (!string.IsNullOrEmpty(this.Name) && this.Name.Equals(other.Name)))
-                    && (object.ReferenceEquals(this.Description, other.Description) || (!string.IsNullOrEmpty(this.Description) && this.Description.Equals(other.Description)));
+            return IsDefault.Equals(other.IsDefault)
+                    && (ReferenceEquals(Id, other.Id) || (!string.IsNullOrEmpty(Id) && Id.Equals(other.Id)))
+                    && (ReferenceEquals(Name, other.Name) || (!string.IsNullOrEmpty(Name) && Name.Equals(other.Name)))
+                    && (ReferenceEquals(Description, other.Description) || (!string.IsNullOrEmpty(Description) && Description.Equals(other.Description)));
         }
     }
 }

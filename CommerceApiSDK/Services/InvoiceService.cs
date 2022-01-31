@@ -1,6 +1,7 @@
 ﻿namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -25,15 +26,15 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{InvoicesUrl}/{parameters.InvoiceNumber}";
+                string url = $"{InvoicesUrl}/{parameters.InvoiceNumber}";
 
                 if (parameters?.Expand != null)
                 {
-                    var queryString = parameters.ToQueryString();
+                    string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
 
-                var result = await this.GetAsyncNoCache<Invoice>(url);
+                Invoice result = await GetAsyncNoCache<Invoice>(url);
                 if (result == null)
                 {
                     throw new Exception("The invoice requested cannot be found.");
@@ -43,7 +44,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -52,12 +53,12 @@
         {
             try
             {
-                var url = parameters == null ? InvoicesUrl : $"{InvoicesUrl}{parameters.ToQueryString()}";
-                return await this.GetAsyncNoCache<GetInvoiceResult>(url);
+                string url = parameters == null ? InvoicesUrl : $"{InvoicesUrl}{parameters.ToQueryString()}";
+                return await GetAsyncNoCache<GetInvoiceResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -66,14 +67,14 @@
         {
             try
             {
-                var url = $"{InvoicesUrl}/shareinvoice";
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(parameters));
+                string url = $"{InvoicesUrl}/shareinvoice";
+                StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
 
-                return await this.PostAsyncNoResult(url, stringContent);
+                return await PostAsyncNoResult(url, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }

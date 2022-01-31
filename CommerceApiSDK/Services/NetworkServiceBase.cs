@@ -12,14 +12,14 @@
 
         public bool IsOnline()
         {
-            if (this.onlineState.HasValue && DateTime.Now - this.lastOnlineCheck < TimeSpan.FromSeconds(2))
+            if (onlineState.HasValue && DateTime.Now - lastOnlineCheck < TimeSpan.FromSeconds(2))
             {
-                return this.onlineState.Value;
+                return onlineState.Value;
             }
 
-            this.onlineState = this.PlatformIsOnline();
-            this.lastOnlineCheck = DateTime.Now;
-            return this.onlineState.Value;
+            onlineState = PlatformIsOnline();
+            lastOnlineCheck = DateTime.Now;
+            return onlineState.Value;
         }
     }
 }

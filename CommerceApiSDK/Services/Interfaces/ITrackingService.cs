@@ -2,10 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
-    /// A service for event tracking and error logging
+    /// A service for event tracking and error logging.
     /// </summary>
     public interface ITrackingService
     {

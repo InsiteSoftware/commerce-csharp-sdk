@@ -1,7 +1,6 @@
 ﻿namespace CommerceApiSDK.Models
 {
     using System.Collections.Generic;
-    using CommerceApiSDK.Models.Results;
     using Newtonsoft.Json;
 
     public class Country : BaseModel

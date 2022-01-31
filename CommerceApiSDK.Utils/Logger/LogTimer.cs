@@ -20,16 +20,16 @@
             if (IsTimerEnabled && Logger.IsLogLevelEnabled(MvxLogLevel.Trace))
             {
                 this.message = message;
-                this.stopwatch = Stopwatch.StartNew();
-                this.isStarted = true;
+                stopwatch = Stopwatch.StartNew();
+                isStarted = true;
             }
         }
 
         public void LogTime(string logMessage)
         {
-            if (this.isStarted)
+            if (isStarted)
             {
-                Logger.LogTrace("{this.message} {0} Time = {1}", logMessage, this.stopwatch.Elapsed.TotalMilliseconds);
+                Logger.LogTrace("{this.message} {0} Time = {1}", logMessage, stopwatch.Elapsed.TotalMilliseconds);
             }
         }
 
@@ -37,11 +37,11 @@
         /// </summary>
         public void Dispose()
         {
-            if (this.isStarted)
+            if (isStarted)
             {
-                this.stopwatch.Stop();
-                this.isStarted = false;
-                Logger.LogTrace("{0}  Time = {1}", this.message, this.stopwatch.Elapsed.TotalMilliseconds);
+                stopwatch.Stop();
+                isStarted = false;
+                Logger.LogTrace("{0}  Time = {1}", message, stopwatch.Elapsed.TotalMilliseconds);
             }
 
             GC.SuppressFinalize(this);

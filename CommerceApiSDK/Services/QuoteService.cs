@@ -1,6 +1,7 @@
 namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -24,13 +25,13 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = $"{QuoteUri}{parameters?.ToQueryString() ?? string.Empty}";
+                string url = $"{QuoteUri}{parameters?.ToQueryString() ?? string.Empty}";
 
-                return await this.GetAsyncNoCache<QuoteResult>(url);
+                return await GetAsyncNoCache<QuoteResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -44,13 +45,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var url = $"{QuoteUri}/{quoteId}";
+                string url = $"{QuoteUri}/{quoteId}";
 
-                return await this.GetAsyncNoCache<QuoteDto>(url);
+                return await GetAsyncNoCache<QuoteDto>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -64,20 +65,20 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(quote));
+                StringContent stringContent = await Task.Run(() => SerializeModel(quote));
                 if (string.IsNullOrEmpty(quote.QuoteNumber))
                 {
-                    return await this.PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
+                    return await PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
                 }
                 else
                 {
-                    var editQuoteUrl = $"{QuoteUri}/{quote.Id}";
-                    return await this.PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
+                    string editQuoteUrl = $"{QuoteUri}/{quote.Id}";
+                    return await PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -91,12 +92,12 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(param));
-                return await this.PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(param));
+                return await PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -110,12 +111,12 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(param));
-                return await this.PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(param));
+                return await PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -129,13 +130,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var url = $"{QuoteUri}/{quoteId}";
-                var deleteResponse = await this.DeleteAsync(url);
+                string url = $"{QuoteUri}/{quoteId}";
+                HttpResponseMessage deleteResponse = await DeleteAsync(url);
                 return deleteResponse != null && deleteResponse.IsSuccessStatusCode;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -149,14 +150,14 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(message));
+                StringContent stringContent = await Task.Run(() => SerializeModel(message));
 
-                var messageQuote = $"{QuoteUri}/{quoteId}";
-                return await this.PostAsyncNoCache<QuoteMessage>(messageQuote, stringContent);
+                string messageQuote = $"{QuoteUri}/{quoteId}";
+                return await PostAsyncNoCache<QuoteMessage>(messageQuote, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -170,13 +171,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(quoteLine));
-                var messageQuote = $"{QuoteUri}/{quoteId}/quotelines/{quoteLine.Id}";
-                return await this.PatchAsyncNoCache<QuoteLine>(messageQuote, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(quoteLine));
+                string messageQuote = $"{QuoteUri}/{quoteId}/quotelines/{quoteLine.Id}";
+                return await PatchAsyncNoCache<QuoteLine>(messageQuote, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -190,27 +191,27 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var quoteRequestParameter = new QuoteRequestedParameter()
+                QuoteRequestedParameter quoteRequestParameter = new QuoteRequestedParameter()
                 {
                     QuoteId = quote.Id,
                     Status = quote.Status,
                     ExpirationDate = quote.ExpirationDate,
                 };
 
-                var stringContent = await Task.Run(() => SerializeModel(quoteRequestParameter));
+                StringContent stringContent = await Task.Run(() => SerializeModel(quoteRequestParameter));
                 if (string.IsNullOrEmpty(quoteRequestParameter.QuoteId))
                 {
-                    return await this.PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
+                    return await PostAsyncNoCache<QuoteDto>(QuoteUri, stringContent);
                 }
                 else
                 {
-                    var editQuoteUrl = $"{QuoteUri}/{quoteRequestParameter.QuoteId}";
-                    return await this.PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
+                    string editQuoteUrl = $"{QuoteUri}/{quoteRequestParameter.QuoteId}";
+                    return await PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -224,13 +225,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(param));
-                var editQuoteUrl = $"{QuoteUri}/{param.QuoteId}";
-                return await this.PatchAsyncNoCacheWithErrorMessage<QuoteDto>(editQuoteUrl, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(param));
+                string editQuoteUrl = $"{QuoteUri}/{param.QuoteId}";
+                return await PatchAsyncNoCacheWithErrorMessage<QuoteDto>(editQuoteUrl, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -244,13 +245,13 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(param));
-                var editUrl = $"{QuoteUri}/{quoteId}/quotelines/{param.Id}";
-                return await this.PatchAsyncNoCache<QuoteDto>(editUrl, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(param));
+                string editUrl = $"{QuoteUri}/{quoteId}/quotelines/{param.Id}";
+                return await PatchAsyncNoCache<QuoteDto>(editUrl, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

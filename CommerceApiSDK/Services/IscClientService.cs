@@ -52,36 +52,36 @@ namespace CommerceApiSDK.Services
 
         public string Host
         {
-            get => this.host;
+            get => host;
             set
             {
-                if (value != this.host)
+                if (value != host)
                 {
-                    this.host = value;
-                    if (!string.IsNullOrEmpty(this.host))
+                    host = value;
+                    if (!string.IsNullOrEmpty(host))
                     {
-                        this.LoadSessionState();
+                        LoadSessionState();
                     }
                 }
             }
         }
 
-        public Uri Url => new Uri($"{this.Protocol}{this.Host}");
+        public Uri Url => new Uri($"{Protocol}{Host}");
 
-        protected CookieCollection Cookies => this.httpClientHandler?.CookieContainer?.GetCookies(this.Url);
+        protected CookieCollection Cookies => httpClientHandler?.CookieContainer?.GetCookies(Url);
 
-        protected string Protocol => this.IsSecure ? "https://" : "http://";
+        protected string Protocol => IsSecure ? "https://" : "http://";
 
         public string SessionStateKey
         {
             get
             {
-                var result = "+cookies:";
-                if (this.Cookies != null)
+                string result = "+cookies:";
+                if (Cookies != null)
                 {
-                    foreach (var storedCookieName in this.StoredCookiesNames)
+                    foreach (string storedCookieName in StoredCookiesNames)
                     {
-                        foreach (Cookie cookie in this.Cookies)
+                        foreach (Cookie cookie in Cookies)
                         {
                             if (cookie.Name.Equals(storedCookieName))
                             {
@@ -104,14 +104,14 @@ namespace CommerceApiSDK.Services
             this.localStorageService = localStorageService;
             this.messenger = messenger;
             this.trackingService = trackingService;
-            this.CreateClient();
+            CreateClient();
         }
 
         public void CreateClient()
         {
             using (new LogTimer("CreateClient"))
             {
-                this.httpClientHandler = new HttpClientHandler
+                httpClientHandler = new HttpClientHandler
                 {
                     AllowAutoRedirect = true,
                     UseCookies = true,
@@ -123,11 +123,11 @@ namespace CommerceApiSDK.Services
                     // Proxy = CFNetwork.GetDefaultProxy()
                 };
 
-                this.client = new HttpClient(new RefreshTokenHandler(this.httpClientHandler, this.RenewAuthenticationTokens, this.NotifyRefreshTokenExpired))
+                client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, NotifyRefreshTokenExpired))
                 {
                     Timeout = Timeout.InfiniteTimeSpan,
                 };
-                this.client.DefaultRequestHeaders.Add("User-Agent", "insitemobileapp");
+                client.DefaultRequestHeaders.Add("User-Agent", "insitemobileapp");
             }
         }
 
@@ -137,10 +137,10 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"GetAsync {path}"))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, this.MakeUrl(path)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
-                    response = await this.SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                     Logger.LogTrace("{0} Response {1}", path, response);
                 }
             }
@@ -150,7 +150,7 @@ namespace CommerceApiSDK.Services
 
         public virtual async Task<HttpResponseMessage> GetAsyncNoHost(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, path))
             {
                 request.SetTimeout(timeout);
             }
@@ -158,7 +158,7 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"GetAsyncNoHost  {path}"))
             {
-                response = await this.client.GetAsync(path, cancellationToken);
+                response = await client.GetAsync(path, cancellationToken);
             }
 
             Logger.LogDebug("GET async no host {0} finished with status: {1} ", path, response.StatusCode);
@@ -173,11 +173,11 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"PostAsync {path}"))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Post, this.MakeUrl(path)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
                 {
                     request.Content = content;
                     request.SetTimeout(timeout);
-                    response = await this.SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
             }
 
@@ -191,10 +191,10 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"DeleteAsync {path}"))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Delete, this.MakeUrl(path)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
-                    response = await this.SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
             }
 
@@ -209,11 +209,11 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"PatchAsync {path}"))
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), this.MakeUrl(path)))
+                using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
                 {
                     request.Content = content;
                     request.SetTimeout(timeout);
-                    response = await this.SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
             }
 
@@ -227,11 +227,11 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
             using (new LogTimer($"PutAsync {path}"))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Put, this.MakeUrl(path)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, MakeUrl(path)))
                 {
                     request.Content = content;
                     request.SetTimeout(timeout);
-                    response = await this.SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
             }
 
@@ -242,15 +242,15 @@ namespace CommerceApiSDK.Services
 
         private async Task<HttpResponseMessage> SendRequestUpToTwiceIfNeededAsync(HttpRequestMessage requestMessage, CancellationToken? cancellationToken = null)
         {
-            var response = cancellationToken.HasValue
-                            ? await this.client.SendAsync(requestMessage, cancellationToken.Value)
-                            : await this.client.SendAsync(requestMessage);
+            HttpResponseMessage response = cancellationToken.HasValue
+                            ? await client.SendAsync(requestMessage, cancellationToken.Value)
+                            : await client.SendAsync(requestMessage);
 
             if (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 // If token is null/empty after Forbidden status, we aren't logged in
                 // so no need to retry
-                var token = this.secureStorageService.Load(this.BearerTokenStorageKey);
+                string token = secureStorageService.Load(BearerTokenStorageKey);
                 if (string.IsNullOrEmpty(token))
                 {
                     return response;
@@ -259,14 +259,14 @@ namespace CommerceApiSDK.Services
                 // token refreshed
                 cancellationToken?.ThrowIfCancellationRequested();
 
-                using (var newRequestMessage = new HttpRequestMessage(requestMessage.Method, requestMessage.RequestUri))
+                using (HttpRequestMessage newRequestMessage = new HttpRequestMessage(requestMessage.Method, requestMessage.RequestUri))
                 {
                     newRequestMessage.SetTimeout(requestMessage.GetTimeout());
                     newRequestMessage.Content = requestMessage.Content;
 
                     response = cancellationToken.HasValue
-                                ? await this.client.SendAsync(newRequestMessage, cancellationToken.Value)
-                                : await this.client.SendAsync(newRequestMessage);
+                                ? await client.SendAsync(newRequestMessage, cancellationToken.Value)
+                                : await client.SendAsync(newRequestMessage);
                 }
             }
 
@@ -275,7 +275,7 @@ namespace CommerceApiSDK.Services
 
         protected string Base64Encode(string plainText)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
         }
 
@@ -291,13 +291,13 @@ namespace CommerceApiSDK.Services
                 path = path.Substring(1);
             }
 
-            if (this.Host.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+            if (Host.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
             {
-                return $"{this.Host}/{path}";
+                return $"{Host}/{path}";
             }
             else
             {
-                return $"{this.Protocol}{this.Host}/{path}";
+                return $"{Protocol}{Host}/{path}";
             }
         }
 
@@ -305,20 +305,20 @@ namespace CommerceApiSDK.Services
         {
             using (new LogTimer("RefreshTokens"))
             {
-                this.client.DefaultRequestHeaders.Authorization = null;
+                client.DefaultRequestHeaders.Authorization = null;
 
-                var refreshToken = this.secureStorageService.Load(this.RefreshTokenStorageKey);
-                var request = new HttpRequestMessage(HttpMethod.Post, $"{this.Protocol}{this.Host}/{TokenUri}");
-                var content = new FormUrlEncodedContent(new[]
+                string refreshToken = secureStorageService.Load(RefreshTokenStorageKey);
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{TokenUri}");
+                FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
                 {
                         new KeyValuePair<string, string>("grant_type", "refresh_token"),
                         new KeyValuePair<string, string>("refresh_token", refreshToken),
-                        new KeyValuePair<string, string>("client_id", this.ClientId),
-                        new KeyValuePair<string, string>("client_secret", this.ClientSecret),
+                        new KeyValuePair<string, string>("client_id", ClientId),
+                        new KeyValuePair<string, string>("client_secret", ClientSecret),
                 });
                 request.Content = content;
                 request.SetTimeout(request.GetTimeout());
-                var response = await this.client.SendAsync(request);
+                HttpResponseMessage response = await client.SendAsync(request);
                 Logger.LogDebug("RefershToken PostAsync {0} finished with status: {1} ", TokenUri, response.StatusCode);
 
                 if (!response.IsSuccessStatusCode)
@@ -326,10 +326,10 @@ namespace CommerceApiSDK.Services
                     return false;
                 }
 
-                var token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(response));
-                this.StoreAccessToken(token);
-                this.SetBearerAuthorizationHeader(token.AccessToken);
-                this.StoreSessionState();
+                TokenResult token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(response));
+                StoreAccessToken(token);
+                SetBearerAuthorizationHeader(token.AccessToken);
+                StoreSessionState();
             }
 
             return true;
@@ -337,31 +337,31 @@ namespace CommerceApiSDK.Services
 
         protected virtual void NotifyRefreshTokenExpired()
         {
-            this.messenger.Publish(new RefreshTokenExpiredMessage(this));
+            messenger.Publish(new RefreshTokenExpiredMessage(this));
         }
 
         public void Reset()
         {
-            this.StoreCookies();
-            this.CreateClient();
+            StoreCookies();
+            CreateClient();
             Logger.LogDebug("The ClientService was reset.");
         }
 
         public void StoreSessionState(Session currentSession = null)
         {
-            this.StoreCookies(currentSession);
+            StoreCookies(currentSession);
             Logger.LogDebug("State was stored.");
         }
 
         private void StoreCookies(Session currentSession = null)
         {
             Logger.LogDebug("Saving cookies");
-            if (this.Cookies != null)
+            if (Cookies != null)
             {
-                var cookieValues = string.Empty;
-                foreach (Cookie cookie in this.Cookies)
+                string cookieValues = string.Empty;
+                foreach (Cookie cookie in Cookies)
                 {
-                    if (this.StoredCookiesNames.Contains(cookie.Name))
+                    if (StoredCookiesNames.Contains(cookie.Name))
                     {
                         if (currentSession != null && cookie.Name.Equals("CurrentShipToId") && currentSession.ShipTo != null)
                         {
@@ -372,45 +372,45 @@ namespace CommerceApiSDK.Services
                     }
                 }
 
-                this.localStorageService.Save(this.CookiesStorageKey, cookieValues);
+                localStorageService.Save(CookiesStorageKey, cookieValues);
             }
         }
 
         public void LoadSessionState()
         {
             Logger.LogDebug("Loading state");
-            var accessToken = this.secureStorageService.Load(this.BearerTokenStorageKey);
+            string accessToken = secureStorageService.Load(BearerTokenStorageKey);
             if (!string.IsNullOrEmpty(accessToken))
             {
-                this.SetBearerAuthorizationHeader(accessToken);
+                SetBearerAuthorizationHeader(accessToken);
             }
 
-            this.LoadCookies();
+            LoadCookies();
             Logger.LogDebug("Loaded state");
         }
 
         public void SetCookie(Cookie cookie)
         {
-            this.httpClientHandler.CookieContainer.Add(this.Url, cookie);
+            httpClientHandler.CookieContainer.Add(Url, cookie);
         }
 
         protected void LoadCookies()
         {
             Logger.LogDebug("Loading Cookies");
-            var cookieValues = this.localStorageService.Load(this.CookiesStorageKey, string.Empty);
+            string cookieValues = localStorageService.Load(CookiesStorageKey, string.Empty);
             if (string.IsNullOrEmpty(cookieValues))
             {
                 return;
             }
 
-            foreach (var cookieValue in cookieValues.Split('|'))
+            foreach (string cookieValue in cookieValues.Split('|'))
             {
                 if (cookieValue.Contains("="))
                 {
-                    var name = cookieValue.Split('=')[0];
-                    var value = cookieValue.Split('=')[1];
+                    string name = cookieValue.Split('=')[0];
+                    string value = cookieValue.Split('=')[1];
 
-                    this.httpClientHandler.CookieContainer.Add(this.Url, new Cookie(name, value));
+                    httpClientHandler.CookieContainer.Add(Url, new Cookie(name, value));
                 }
             }
 
@@ -419,12 +419,12 @@ namespace CommerceApiSDK.Services
 
         public void SetBasicAuthorizationHeader()
         {
-            this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", this.Base64Encode($"{this.ClientId}:{this.ClientSecret}"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Base64Encode($"{ClientId}:{ClientSecret}"));
         }
 
         public void SetBearerAuthorizationHeader(string token)
         {
-            this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         private class RefreshTokenHandler : DelegatingHandler
@@ -445,7 +445,7 @@ namespace CommerceApiSDK.Services
 
             private CancellationTokenSource GetCancellationTokenSource(HttpRequestMessage request, CancellationToken cancellationToken)
             {
-                var timeout = request.GetTimeout();
+                TimeSpan timeout = request.GetTimeout();
                 if (timeout == Timeout.InfiniteTimeSpan)
                 {
                     // No need to create a CTS if there's no timeout
@@ -453,7 +453,7 @@ namespace CommerceApiSDK.Services
                 }
                 else
                 {
-                    var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                    CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                     cts.CancelAfter(timeout);
                     return cts;
                 }
@@ -465,7 +465,7 @@ namespace CommerceApiSDK.Services
                 HttpResponseMessage result = null;
                 using (new LogTimer($"SendAsync {request?.RequestUri}"))
                 {
-                    using (var cts = this.GetCancellationTokenSource(request, cancellationToken))
+                    using (CancellationTokenSource cts = GetCancellationTokenSource(request, cancellationToken))
                     {
                         try
                         {
@@ -492,12 +492,12 @@ namespace CommerceApiSDK.Services
                     {
                         await Task.Run(() =>
                         {
-                            lock (this.refreshingTokenLock)
+                            lock (refreshingTokenLock)
                             {
-                                var success = this.renewAuthenticationTokensCallback().Result;
+                                bool success = renewAuthenticationTokensCallback().Result;
                                 if (!success)
                                 {
-                                    this.refreshTokenExpiredNotificationCallback?.Invoke();
+                                    refreshTokenExpiredNotificationCallback?.Invoke();
                                 }
                             }
                         });
@@ -512,34 +512,34 @@ namespace CommerceApiSDK.Services
 
         public bool IsExistsAccessToken()
         {
-            return !string.IsNullOrEmpty(this.secureStorageService.Load(this.BearerTokenStorageKey));
+            return !string.IsNullOrEmpty(secureStorageService.Load(BearerTokenStorageKey));
         }
 
         public void StoreAccessToken(TokenResult tokens)
         {
-            this.secureStorageService.Save(this.BearerTokenStorageKey, tokens.AccessToken);
-            this.secureStorageService.Save(this.RefreshTokenStorageKey, tokens.RefreshToken);
+            secureStorageService.Save(BearerTokenStorageKey, tokens.AccessToken);
+            secureStorageService.Save(RefreshTokenStorageKey, tokens.RefreshToken);
 
-            var timeSpan = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn).TimeOfDay;
-            this.secureStorageService.Save(this.ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
+            TimeSpan timeSpan = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn).TimeOfDay;
+            secureStorageService.Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
         }
 
         public void RemoveAccessToken()
         {
-            this.secureStorageService.Remove(this.BearerTokenStorageKey);
-            this.secureStorageService.Remove(this.RefreshTokenStorageKey);
-            this.secureStorageService.Remove(this.ExpiresInStorageKey);
+            secureStorageService.Remove(BearerTokenStorageKey);
+            secureStorageService.Remove(RefreshTokenStorageKey);
+            secureStorageService.Remove(ExpiresInStorageKey);
         }
 
         public async Task<string> GetAccessToken()
         {
-            string timestampStr = this.secureStorageService.Load(this.ExpiresInStorageKey);
+            string timestampStr = secureStorageService.Load(ExpiresInStorageKey);
             if (!string.IsNullOrEmpty(timestampStr))
             {
-                var timestamp = double.Parse(timestampStr);
+                double timestamp = double.Parse(timestampStr);
                 if (timestamp < DateTime.UtcNow.TimeOfDay.TotalMilliseconds)
                 {
-                    var result = await this.RenewAuthenticationTokens();
+                    bool result = await RenewAuthenticationTokens();
                     if (!result)
                     {
                         return string.Empty;
@@ -547,32 +547,32 @@ namespace CommerceApiSDK.Services
                 }
             }
 
-            return this.secureStorageService.Load(this.BearerTokenStorageKey);
+            return secureStorageService.Load(BearerTokenStorageKey);
         }
 
         public async Task<ServiceResponse<TokenResult>> Generate(string userName, string password)
         {
             using (new LogTimer("GetToken"))
             {
-                this.SetBasicAuthorizationHeader();
+                SetBasicAuthorizationHeader();
 
-                var requestContent = new FormUrlEncodedContent(new[]
+                FormUrlEncodedContent requestContent = new FormUrlEncodedContent(new[]
                     {
                         new KeyValuePair<string, string>("grant_type", "password"),
                         new KeyValuePair<string, string>("username", userName),
                         new KeyValuePair<string, string>("password", password),
-                        new KeyValuePair<string, string>("scope", $"{this.ApiScopeKey} offline_access"),
+                        new KeyValuePair<string, string>("scope", $"{ApiScopeKey} offline_access"),
                     });
 
-                var result = await this.PostAsync(TokenUri, requestContent);
+                HttpResponseMessage result = await PostAsync(TokenUri, requestContent);
                 if (!result.IsSuccessStatusCode)
                 {
-                    var error = await Task.Run(() => ServiceBase.DeserializeModel<ErrorResponse>(result));
+                    ErrorResponse error = await Task.Run(() => ServiceBase.DeserializeModel<ErrorResponse>(result));
                     return new ServiceResponse<TokenResult> { Error = error };
                 }
 
-                var token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(result));
-                this.StoreAccessToken(token);
+                TokenResult token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(result));
+                StoreAccessToken(token);
                 return new ServiceResponse<TokenResult> { Model = token };
             }
         }

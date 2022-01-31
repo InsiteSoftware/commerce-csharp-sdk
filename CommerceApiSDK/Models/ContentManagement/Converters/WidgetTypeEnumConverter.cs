@@ -9,8 +9,7 @@
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            object result = null;
-
+            object result;
             try
             {
                 result = base.ReadJson(reader, objectType, existingValue, serializer);

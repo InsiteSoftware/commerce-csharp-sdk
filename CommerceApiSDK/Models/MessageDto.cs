@@ -1,7 +1,5 @@
 ﻿namespace CommerceApiSDK.Models
 {
-    using System;
-
     public class MessageDto : BaseModel
     {
         public string CustomerOrderId { get; set; }

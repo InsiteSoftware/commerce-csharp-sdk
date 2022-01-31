@@ -7,6 +7,7 @@
     using CommerceApiSDK.Services.Interfaces;
     using Newtonsoft.Json;
     using Plugin.Geolocator;
+    using Plugin.Geolocator.Abstractions;
 
     public class GooglePlacesService : ServiceBase, IGooglePlacesService
     {
@@ -28,31 +29,31 @@
             {
                 searchQuery = WebUtility.UrlEncode(searchQuery);
 
-                var parameters = new List<string>();
+                List<string> parameters = new List<string>();
                 parameters.Add("input=" + searchQuery);
                 parameters.Add("inputtype=textquery");
                 parameters.Add("fields=formatted_address,geometry");
                 parameters.Add("key=" + GoogleAPIKey);
 
-                var locator = CrossGeolocator.Current;
+                IGeolocator locator = CrossGeolocator.Current;
 
                 try
                 {
-                    var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(30)).ConfigureAwait(false);
+                    Position position = await locator.GetPositionAsync(TimeSpan.FromSeconds(30)).ConfigureAwait(false);
 
                     if (position != null)
                     {
-                        var location = position.Latitude + "," + position.Longitude;
+                        string location = position.Latitude + "," + position.Longitude;
                         parameters.Add("locationbias=circle:100000@" + WebUtility.UrlEncode(location));
                     }
                 }
                 catch (Exception ex)
                 {
-                    this.TrackingService.TrackException(ex);
+                    TrackingService.TrackException(ex);
                 }
 
-                var url = GooglePlacesAPIUrl + "?" + string.Join("&", parameters);
-                var result = await this.GetAsyncStringResultNoCacheNoHost(url).ConfigureAwait(false);
+                string url = GooglePlacesAPIUrl + "?" + string.Join("&", parameters);
+                string result = await GetAsyncStringResultNoCacheNoHost(url).ConfigureAwait(false);
 
                 if (result != null)
                 {
@@ -77,7 +78,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

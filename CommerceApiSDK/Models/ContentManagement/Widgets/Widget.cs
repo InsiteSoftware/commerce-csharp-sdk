@@ -47,9 +47,9 @@
                 const int HashingBase = (int)2166136261;
 
                 int hash = HashingBase;
-                hash = (hash * HashingMultiplier) ^ this.Id.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ this.Type.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.SubType) ? this.SubType.GetHashCode() : 0);
+                hash = (hash * HashingMultiplier) ^ Id.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ Type.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, SubType) ? SubType.GetHashCode() : 0);
                 return hash;
             }
         }
@@ -57,48 +57,48 @@
         public override bool Equals(object obj)
         {
             // Is null?
-            if (object.ReferenceEquals(null, obj))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             // Is the same type?
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
 
-            return this.Equals((Widget)obj);
+            return Equals((Widget)obj);
         }
 
         public bool Equals(Widget widget)
         {
             // Is null?
-            if (object.ReferenceEquals(null, widget))
+            if (ReferenceEquals(null, widget))
             {
                 return false;
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, widget))
+            if (ReferenceEquals(this, widget))
             {
                 return true;
             }
 
-            var result = this.Id == widget.Id
-                && this.Type == widget.Type
-                && object.ReferenceEquals(this.SubType, widget.SubType);
+            bool result = Id == widget.Id
+                && Type == widget.Type
+                && ReferenceEquals(SubType, widget.SubType);
 
             if (result)
             {
-                var areChildWidgetsEqual = (this.ChildWidgets == null && widget.ChildWidgets == null)
-                || (this.ChildWidgets != null && widget.ChildWidgets != null && Enumerable.SequenceEqual(this.ChildWidgets, widget.ChildWidgets));
+                bool areChildWidgetsEqual = (ChildWidgets == null && widget.ChildWidgets == null)
+                || (ChildWidgets != null && widget.ChildWidgets != null && Enumerable.SequenceEqual(ChildWidgets, widget.ChildWidgets));
                 result &= areChildWidgetsEqual;
             }
 

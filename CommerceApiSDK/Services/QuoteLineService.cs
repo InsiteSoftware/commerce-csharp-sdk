@@ -1,6 +1,7 @@
 namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Services.Interfaces;
@@ -27,12 +28,12 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var url = string.Format(QuoteLineUri, quoteId, quoteLineId);
-                return await this.GetAsyncNoCache<QuoteLine>(url);
+                string url = string.Format(QuoteLineUri, quoteId, quoteLineId);
+                return await GetAsyncNoCache<QuoteLine>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -46,14 +47,14 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(quoteLine));
+                StringContent stringContent = await Task.Run(() => SerializeModel(quoteLine));
 
-                var url = string.Format(QuoteLineUri, quoteId, quoteLine.Id);
-                return await this.PatchAsyncNoCache<QuoteLine>(url, stringContent);
+                string url = string.Format(QuoteLineUri, quoteId, quoteLine.Id);
+                return await PatchAsyncNoCache<QuoteLine>(url, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

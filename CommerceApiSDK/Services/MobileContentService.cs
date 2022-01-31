@@ -22,16 +22,16 @@
                 return null;
             }
 
-            var url = string.Format(mobileContentUrlFormat, pageName);
+            string url = string.Format(mobileContentUrlFormat, pageName);
 
             PageContentManagement result;
             if (useCache)
             {
-                result = await this.GetAsyncWithCachedResponse<PageContentManagement>(url, ServiceBase.DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
+                result = await GetAsyncWithCachedResponse<PageContentManagement>(url, DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
             }
             else
             {
-                result = await this.GetAsyncNoCache<PageContentManagement>(url, ServiceBase.DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
+                result = await GetAsyncNoCache<PageContentManagement>(url, DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
             }
 
             return result;
@@ -44,17 +44,17 @@
                 return null;
             }
 
-            var url = string.Format(mobileContentUrlFormat, pageName);
+            string url = string.Format(mobileContentUrlFormat, pageName);
 
             string result;
 
             if (useCache)
             {
-                result = await this.GetAsyncStringResultWithCachedResponse(url, ServiceBase.DefaultRequestTimeout);
+                result = await GetAsyncStringResultWithCachedResponse(url, DefaultRequestTimeout);
             }
             else
             {
-                result = await this.GetAsyncStringResultNoCache(url, ServiceBase.DefaultRequestTimeout);
+                result = await GetAsyncStringResultNoCache(url, DefaultRequestTimeout);
             }
 
             return result;

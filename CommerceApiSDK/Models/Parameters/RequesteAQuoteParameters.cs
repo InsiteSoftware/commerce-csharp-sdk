@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CommerceApiSDK.Models.Parameters
+﻿namespace CommerceApiSDK.Models.Parameters
 {
     public class SalesRepRequesteAQuoteParameters : RequesteAQuoteParameters
     {

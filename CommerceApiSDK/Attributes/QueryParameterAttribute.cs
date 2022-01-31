@@ -24,23 +24,23 @@
 
         public QueryParameterAttribute(QueryOptions queryOption)
         {
-            this.QueryOption = queryOption;
+            QueryOption = queryOption;
         }
 
         public QueryParameterAttribute(QueryListParameterType queryType)
         {
-            this.QueryType = queryType;
+            QueryType = queryType;
         }
 
         public QueryParameterAttribute(QueryListParameterType queryType, QueryOptions queryOption)
         {
-            this.QueryType = queryType;
-            this.QueryOption = queryOption;
+            QueryType = queryType;
+            QueryOption = queryOption;
         }
 
         public static QueryListParameterType? GetQueryListParameterType(PropertyInfo properyInfo)
         {
-            var customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -52,7 +52,7 @@
 
         public static QueryListParameterType? GetQueryListParameterType(object parameter)
         {
-            var customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -64,7 +64,7 @@
 
         public static QueryOptions? GetQueryOption(PropertyInfo properyInfo)
         {
-            var customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -76,7 +76,7 @@
 
         public static QueryOptions? GetQueryOption(object parameter)
         {
-            var customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {

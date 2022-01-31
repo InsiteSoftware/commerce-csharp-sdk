@@ -13,7 +13,7 @@
 
         public ActionConverter()
         {
-            this.аctionTypeEnumConverter = new АctionTypeEnumConverter();
+            аctionTypeEnumConverter = new АctionTypeEnumConverter();
         }
 
         public override object ReadJson(
@@ -25,7 +25,7 @@
             ActionsWidget.Action result;
             if (reader.TokenType == JsonToken.String)
             {
-                var type = (ActionType)this.аctionTypeEnumConverter.ReadJson(reader, typeof(ActionType), existingValue, serializer);
+                ActionType type = (ActionType)аctionTypeEnumConverter.ReadJson(reader, typeof(ActionType), existingValue, serializer);
                 result = new ActionsWidget.Action
                 {
                     Type = type

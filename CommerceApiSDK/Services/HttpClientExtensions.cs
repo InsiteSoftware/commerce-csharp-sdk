@@ -15,12 +15,12 @@
         /// <returns>A response message.</returns>
         public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, HttpContent iContent)
         {
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, requestUri)
+            HttpMethod method = new HttpMethod("PATCH");
+            HttpRequestMessage request = new HttpRequestMessage(method, requestUri)
             {
                 Content = iContent,
             };
-            var response = new HttpResponseMessage();
+            HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {

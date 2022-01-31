@@ -3,6 +3,7 @@ namespace CommerceApiSDK.Models.Parameters
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Web;
     using CommerceApiSDK.Attributes;
 
@@ -18,11 +19,11 @@ namespace CommerceApiSDK.Models.Parameters
 
         public virtual string ToQueryString()
         {
-            var properties = this.GetType().GetProperties().Where(p => p.GetValue(this, null) != null && QueryParameterAttribute.GetQueryOption(p) != QueryOptions.DoNotQuery).ToList();
+            List<PropertyInfo> properties = GetType().GetProperties().Where(p => p.GetValue(this, null) != null && QueryParameterAttribute.GetQueryOption(p) != QueryOptions.DoNotQuery).ToList();
 
             List<string> query = new List<string>();
 
-            foreach (var p in properties)
+            foreach (PropertyInfo p in properties)
             {
                 if (p.GetValue(this) is IList list)
                 {
@@ -32,9 +33,9 @@ namespace CommerceApiSDK.Models.Parameters
 
                         if (queryListParameterType.HasValue && queryListParameterType.Value == QueryListParameterType.CommaSeparated)
                         {
-                            var listItems = new List<string>();
+                            List<string> listItems = new List<string>();
 
-                            foreach (var item in list)
+                            foreach (object item in list)
                             {
                                 listItems.Add(HttpUtility.UrlEncode(item.ToString()));
                             }
@@ -43,7 +44,7 @@ namespace CommerceApiSDK.Models.Parameters
                         }
                         else
                         {
-                            foreach (var item in list)
+                            foreach (object item in list)
                             {
                                 query.Add(p.Name + "=" + HttpUtility.UrlEncode(item.ToString()));
                             }
@@ -52,7 +53,7 @@ namespace CommerceApiSDK.Models.Parameters
                 }
                 else
                 {
-                    var value = p.GetValue(this, null).ToString();
+                    string value = p.GetValue(this, null).ToString();
 
                     var queryOption = QueryParameterAttribute.GetQueryOption(p);
                     switch (queryOption)

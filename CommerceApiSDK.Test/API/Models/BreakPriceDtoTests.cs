@@ -11,7 +11,7 @@
         [TestCase("1.0700", "1.07")]
         public void BreakQtyDisplay_Removes_Insignificant_Decimals(decimal breakQty, string expected)
         {
-            var breakPriceDto = new BreakPriceDto { BreakQty = breakQty };
+            BreakPriceDto breakPriceDto = new BreakPriceDto { BreakQty = breakQty };
             Assert.AreEqual(expected, breakPriceDto.BreakQtyDisplay);
         }
     }

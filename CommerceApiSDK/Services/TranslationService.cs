@@ -14,7 +14,7 @@
 
         public int GetMaxLengthOfTranslationText()
         {
-            return URIMaxLength - (base.Client.Url.AbsoluteUri.Length + TranslationUrl.Length);
+            return URIMaxLength - (Client.Url.AbsoluteUri.Length + TranslationUrl.Length);
         }
 
         public TranslationService(
@@ -34,21 +34,21 @@
         {
             try
             {
-                var url = TranslationUrl;
+                string url = TranslationUrl;
 
                 if (parameters != null)
                 {
-                    var queryString = parameters.ToQueryString();
+                    string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
 
-                var translationResult = await this.GetAsyncNoCache<TranslationResults>(url);
+                TranslationResults translationResult = await GetAsyncNoCache<TranslationResults>(url);
 
                 return translationResult;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

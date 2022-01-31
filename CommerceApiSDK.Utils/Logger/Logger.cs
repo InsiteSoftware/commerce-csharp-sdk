@@ -5,6 +5,7 @@
     using MvvmCross;
     using MvvmCross.Logging;
     using NLog;
+    using NLog.Config;
     using NLog.Targets;
     using NLog.Targets.Wrappers;
 
@@ -34,7 +35,7 @@
         public static string GetLogText()
         {
             string logText = null;
-            var fileTarget = GetLogTarget(DefaultLogName);
+            FileTarget fileTarget = GetLogTarget(DefaultLogName);
             if (fileTarget != null)
             {
                 string logFilePath = Path.GetFullPath(fileTarget.FileName.Render(new LogEventInfo()));
@@ -47,14 +48,13 @@
         private static FileTarget GetLogTarget(string logName)
         {
             FileTarget fileTarget = null;
-            var logTarget = LogManager.Configuration.FindTargetByName(logName);
+            Target logTarget = LogManager.Configuration.FindTargetByName(logName);
             if (logTarget != null)
             {
                 fileTarget = logTarget as FileTarget;
                 if (fileTarget == null)
                 {
-                    var wrapTarget = logTarget as AsyncTargetWrapper;
-                    if (wrapTarget != null)
+                    if (logTarget is AsyncTargetWrapper wrapTarget)
                     {
                         fileTarget = wrapTarget.WrappedTarget as FileTarget;
                     }
@@ -153,7 +153,7 @@
 
         public static void EnableAllLogs(bool enableLogs)
         {
-            foreach (var rule in LogManager.Configuration.LoggingRules)
+            foreach (LoggingRule rule in LogManager.Configuration.LoggingRules)
             {
                 if (enableLogs)
                 {
@@ -167,8 +167,8 @@
 
             IsAllLogsEnabled = enableLogs;
             LogManager.Configuration.Reload();
-            var logText = enableLogs ? "Logging is set Trace" : "Logging is set to Error";
-            Logger.LogWarn(logText);
+            string logText = enableLogs ? "Logging is set Trace" : "Logging is set to Error";
+            LogWarn(logText);
         }
     }
 }

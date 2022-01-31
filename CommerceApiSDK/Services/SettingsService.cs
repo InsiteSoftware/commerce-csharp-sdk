@@ -30,18 +30,18 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<Settings>(SettingsUrl, ServiceBase.DefaultRequestTimeout);
+                Settings settings = await GetAsyncWithCachedResponse<Settings>(SettingsUrl, DefaultRequestTimeout);
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load settings for {this.Client.Host}, but the settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load settings for {Client.Host}, but the settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -50,19 +50,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<ProductSettings>(ProductSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                ProductSettings settings = await GetAsyncWithCachedResponse<ProductSettings>(ProductSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load product settings for {this.Client.Host}, but the product settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load product settings for {Client.Host}, but the product settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -71,19 +71,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<AccountSettings>(AccountSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                AccountSettings settings = await GetAsyncWithCachedResponse<AccountSettings>(AccountSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load account settings for {this.Client.Host}, but the account settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load account settings for {Client.Host}, but the account settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -92,19 +92,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<WebsiteSettings>(WebsiteSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                WebsiteSettings settings = await GetAsyncWithCachedResponse<WebsiteSettings>(WebsiteSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load website settings for {this.Client.Host}, but the website settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load website settings for {Client.Host}, but the website settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -113,19 +113,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<WishListSettings>(WishListSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                WishListSettings settings = await GetAsyncWithCachedResponse<WishListSettings>(WishListSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load wish list settings for {this.Client.Host}, but the wish list settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load wish list settings for {Client.Host}, but the wish list settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -134,19 +134,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<CartSettings>(CartSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                CartSettings settings = await GetAsyncWithCachedResponse<CartSettings>(CartSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load cart settings for {this.Client.Host}, but the cart settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load cart settings for {Client.Host}, but the cart settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -155,19 +155,19 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await this.GetAsyncWithCachedResponse<MobileAppSettings>(MobileAppSettingsUrl, ServiceBase.DefaultRequestTimeout);
+                MobileAppSettings settings = await GetAsyncWithCachedResponse<MobileAppSettings>(MobileAppSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load mobile app settings for {this.Client.Host}, but the mobile app settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load mobile app settings for {Client.Host}, but the mobile app settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -176,11 +176,11 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await this.GetAsyncNoCache<QuoteSetting>(QuoteSettingsUri);
+                return await GetAsyncNoCache<QuoteSetting>(QuoteSettingsUri);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

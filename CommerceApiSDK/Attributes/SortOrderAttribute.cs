@@ -12,20 +12,20 @@ namespace CommerceApiSDK.Services.Attributes
     {
         public SortOrderAttribute(string groupTitle, string title, string value)
         {
-            this.Init(groupTitle, title, value, null);
+            Init(groupTitle, title, value, null);
         }
 
         public SortOrderAttribute(string groupTitle, string title, string value, SortOrderOptions sortOrderOption)
         {
-            this.Init(groupTitle, title, value, sortOrderOption);
+            Init(groupTitle, title, value, sortOrderOption);
         }
 
         private void Init(string groupTitle, string title, string value, SortOrderOptions? sortOrderOption)
         {
-            this.GroupTitle = groupTitle;
-            this.Title = title;
-            this.Value = value;
-            this.SortOrderOption = sortOrderOption;
+            GroupTitle = groupTitle;
+            Title = title;
+            Value = value;
+            SortOrderOption = sortOrderOption;
         }
 
         public string GroupTitle { get; private set; }

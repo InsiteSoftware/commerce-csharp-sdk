@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
+    using CommerceApiSDK.Models.Results;
     using CommerceApiSDK.Services.Interfaces;
     using CommerceApiSDK.Services.Messages;
     using MvvmCross.Plugin.Messenger;
@@ -32,7 +34,7 @@
         {
             this.adminClientService = adminClientService;
             this.messenger = messenger;
-            this.adminRefreshTokenNotificationSubscription = this.messenger.Subscribe<AdminRefreshTokenExpiredMessage>(this.AdminRefreshTokenExpiredHandler);
+            adminRefreshTokenNotificationSubscription = this.messenger.Subscribe<AdminRefreshTokenExpiredMessage>(AdminRefreshTokenExpiredHandler);
         }
 
         /// <summary>
@@ -43,19 +45,19 @@
         /// <returns>Whether or not Login was successful</returns>
         public override async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
         {
-            var result = await this.adminClientService.Generate($"admin_{userName}", password);
-            var tokenResult = result?.Model;
+            ServiceResponse<TokenResult> result = await adminClientService.Generate($"admin_{userName}", password);
+            TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            this.adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
-            this.adminClientService.StoreSessionState();
+            adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
+            adminClientService.StoreSessionState();
 
-            if (this.adminRefreshTokenNotificationSubscription == null)
+            if (adminRefreshTokenNotificationSubscription == null)
             {
-                this.adminRefreshTokenNotificationSubscription = this.messenger.Subscribe<AdminRefreshTokenExpiredMessage>(this.AdminRefreshTokenExpiredHandler);
+                adminRefreshTokenNotificationSubscription = messenger.Subscribe<AdminRefreshTokenExpiredMessage>(AdminRefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -68,18 +70,18 @@
         /// <returns></returns>
         public override async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (this.adminRefreshTokenNotificationSubscription != null)
+            if (adminRefreshTokenNotificationSubscription != null)
             {
-                this.adminRefreshTokenNotificationSubscription.Dispose();
-                this.adminRefreshTokenNotificationSubscription = null;
+                adminRefreshTokenNotificationSubscription.Dispose();
+                adminRefreshTokenNotificationSubscription = null;
             }
 
-            _ = await this.adminClientService.GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
-            this.adminClientService.Reset();
+            _ = await adminClientService.GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
+            adminClientService.Reset();
 
-            this.adminClientService.RemoveAccessToken();
+            adminClientService.RemoveAccessToken();
 
-            this.messenger.Publish(new AdminSignedOutMessage(this)
+            messenger.Publish(new AdminSignedOutMessage(this)
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -91,11 +93,11 @@
         /// <returns>Boolean value for whether or not user is logged in</returns>
         public override async Task<bool> IsAuthenticatedAsync()
         {
-            if (this.adminClientService.IsExistsAccessToken())
+            if (adminClientService.IsExistsAccessToken())
             {
-                await this.adminClientService.GetAsync(AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
+                await adminClientService.GetAsync(AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
 
-                return this.adminClientService.IsExistsAccessToken();
+                return adminClientService.IsExistsAccessToken();
             }
 
             return false;
@@ -108,11 +110,11 @@
         /// <returns>Whether or not request was a success</returns>
         public async Task<bool> ResetPassword(string userName)
         {
-            var serializationSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-            var payload = new Dictionary<string, string> { { "userName", userName } };
-            var stringContent = await Task.Run(() => ServiceBase.SerializeModel(payload, serializationSettings));
+            JsonSerializerSettings serializationSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+            Dictionary<string, string> payload = new Dictionary<string, string> { { "userName", userName } };
+            StringContent stringContent = await Task.Run(() => ServiceBase.SerializeModel(payload, serializationSettings));
 
-            var httpResponseMessage = await this.adminClientService.PostAsync(ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
+            HttpResponseMessage httpResponseMessage = await adminClientService.PostAsync(ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
@@ -126,7 +128,7 @@
 
         private void AdminRefreshTokenExpiredHandler(MvxMessage message)
         {
-            this.Logout(true);
+            Logout(true);
         }
 
         protected override void RefreshTokenExpiredHandler(MvxMessage message)

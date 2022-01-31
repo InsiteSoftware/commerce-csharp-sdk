@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -36,10 +36,10 @@
 
         public async Task<LatLong> GetPlaceFromAddresss(Address address)
         {
-            var fullAddress = $"{address?.Address1} {address?.City} {(address?.State == null ? string.Empty : address?.State.Name)} {address?.PostalCode}";
+            string fullAddress = $"{address?.Address1} {address?.City} {(address?.State == null ? string.Empty : address?.State.Name)} {address?.PostalCode}";
             try
             {
-                var result = await this.googlePlacesService.GetPlace(fullAddress);
+                GooglePlace result = await googlePlacesService.GetPlace(fullAddress);
                 if (result != null)
                 {
                     return new LatLong()
@@ -51,7 +51,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
             }
 
             return null;
@@ -66,12 +66,12 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}{parameters.ToQueryString()}";
-                return await this.GetAsyncNoCache<GetVmiLocationResult>(url);
+                string url = $"{VMILocationsUrl}{parameters.ToQueryString()}";
+                return await GetAsyncNoCache<GetVmiLocationResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -85,15 +85,15 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}";
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}";
 
                 if (parameters?.Expand != null)
                 {
-                    var queryString = parameters.ToQueryString();
+                    string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
 
-                var result = await this.GetAsyncNoCache<VmiLocationModel>(url);
+                VmiLocationModel result = await GetAsyncNoCache<VmiLocationModel>(url);
 
                 if (result == null)
                 {
@@ -104,7 +104,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -118,20 +118,20 @@
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(model));
+                StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
-                    return await this.PostAsyncNoCacheWithErrorMessage<VmiLocationModel>(VMILocationsUrl, stringContent);
+                    return await PostAsyncNoCacheWithErrorMessage<VmiLocationModel>(VMILocationsUrl, stringContent);
                 }
                 else
                 {
-                    var editUrl = $"{VMILocationsUrl}/{model.Id}";
-                    return await this.PatchAsyncNoCacheWithErrorMessage<VmiLocationModel>(editUrl, stringContent);
+                    string editUrl = $"{VMILocationsUrl}/{model.Id}";
+                    return await PatchAsyncNoCacheWithErrorMessage<VmiLocationModel>(editUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -145,12 +145,12 @@
 
             try
             {
-                var deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}";
-                return await this.DeleteAsyncWithErrorMessage<VmiLocationModel>(deleteUrl);
+                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}";
+                return await DeleteAsyncWithErrorMessage<VmiLocationModel>(deleteUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -168,12 +168,12 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
-                return await this.GetAsyncNoCache<GetVmiBinResult>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
+                return await GetAsyncNoCache<GetVmiBinResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -187,9 +187,9 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}";
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}";
 
-                var result = await this.GetAsyncNoCache<VmiBinModel>(url);
+                VmiBinModel result = await GetAsyncNoCache<VmiBinModel>(url);
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
@@ -199,7 +199,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -213,21 +213,21 @@
 
             try
             {
-                var url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins";
-                var stringContent = await Task.Run(() => SerializeModel(model));
+                string url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins";
+                StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
-                    return await this.PostAsyncNoCacheWithErrorMessage<VmiBinModel>(url, stringContent);
+                    return await PostAsyncNoCacheWithErrorMessage<VmiBinModel>(url, stringContent);
                 }
                 else
                 {
-                    var editUrl = $"{url}/{model.Id}";
-                    return await this.PatchAsyncNoCacheWithErrorMessage<VmiBinModel>(editUrl, stringContent);
+                    string editUrl = $"{url}/{model.Id}";
+                    return await PatchAsyncNoCacheWithErrorMessage<VmiBinModel>(editUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -241,12 +241,12 @@
 
             try
             {
-                var deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}";
-                return await this.DeleteAsyncWithErrorMessage<VmiBinModel>(deleteUrl);
+                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}";
+                return await DeleteAsyncWithErrorMessage<VmiBinModel>(deleteUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -264,12 +264,12 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
-                return await this.GetAsyncNoCache<GetVmiCountResult>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
+                return await GetAsyncNoCache<GetVmiCountResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -283,8 +283,8 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
-                var result = await this.GetAsyncNoCache<VmiCountModel>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
+                VmiCountModel result = await GetAsyncNoCache<VmiCountModel>(url);
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
@@ -294,7 +294,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -308,22 +308,22 @@
 
             try
             {
-                var url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/bincounts";
-                var stringContent = await Task.Run(() => SerializeModel(model));
+                string url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/bincounts";
+                StringContent stringContent = await Task.Run(() => SerializeModel(model));
 
                 if (model.Id.Equals(Guid.Empty))
                 {
-                    return await this.PostAsyncNoCacheWithErrorMessage<VmiCountModel>(url, stringContent);
+                    return await PostAsyncNoCacheWithErrorMessage<VmiCountModel>(url, stringContent);
                 }
                 else
                 {
-                    var editUrl = $"{url}/{model.Id}";
-                    return await this.PatchAsyncNoCacheWithErrorMessage<VmiCountModel>(editUrl, stringContent);
+                    string editUrl = $"{url}/{model.Id}";
+                    return await PatchAsyncNoCacheWithErrorMessage<VmiCountModel>(editUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -337,12 +337,12 @@
 
             try
             {
-                var deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/bincounts/{vmiCountId}";
-                return await this.DeleteAsyncWithErrorMessage<VmiCountModel>(deleteUrl);
+                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/bincounts/{vmiCountId}";
+                return await DeleteAsyncWithErrorMessage<VmiCountModel>(deleteUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -360,14 +360,14 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vminotes{parameters.ToQueryString()}";
-                var result = await this.GetAsyncNoCache<GetVmiNoteResult>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vminotes{parameters.ToQueryString()}";
+                GetVmiNoteResult result = await GetAsyncNoCache<GetVmiNoteResult>(url);
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -381,9 +381,9 @@
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/vminotes/{parameters.VmiNoteId}";
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins/{parameters.VmiBinId}/vminotes/{parameters.VmiNoteId}";
 
-                var result = await this.GetAsyncNoCache<VmiNoteModel>(url);
+                VmiNoteModel result = await GetAsyncNoCache<VmiNoteModel>(url);
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
@@ -393,7 +393,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -407,21 +407,21 @@
 
             try
             {
-                var url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/vminotes";
-                var stringContent = await Task.Run(() => SerializeModel(model));
+                string url = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/vminotes";
+                StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
-                    return await this.PostAsyncNoCacheWithErrorMessage<VmiNoteModel>(url, stringContent);
+                    return await PostAsyncNoCacheWithErrorMessage<VmiNoteModel>(url, stringContent);
                 }
                 else
                 {
-                    var editUrl = $"{url}/{model.Id}";
-                    return await this.PatchAsyncNoCacheWithErrorMessage<VmiNoteModel>(editUrl, stringContent);
+                    string editUrl = $"{url}/{model.Id}";
+                    return await PatchAsyncNoCacheWithErrorMessage<VmiNoteModel>(editUrl, stringContent);
                 }
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -435,12 +435,12 @@
 
             try
             {
-                var deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/vminotes/{vmiNoteId}";
-                return await this.DeleteAsyncWithErrorMessage<VmiNoteModel>(deleteUrl);
+                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/vmibins/{vmiBinId}/vminotes/{vmiNoteId}";
+                return await DeleteAsyncWithErrorMessage<VmiNoteModel>(deleteUrl);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -475,22 +475,22 @@
                     throw new ArgumentException($"{nameof(parameters.VmiLocationId)} is null");
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
-                var response = await this.GetAsyncWithCachedResponse<GetVmiBinResult>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
+                GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {
-                    var result = new GetProductCollectionResult
+                    GetProductCollectionResult result = new GetProductCollectionResult()
                     {
                         Pagination = response.Pagination,
                         Products = new List<Product>(),
                     };
 
-                    foreach (var item in response.VmiBins)
+                    foreach (VmiBinModel item in response.VmiBins)
                     {
-                        var productResult = await this.GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
+                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
                         if (productResult?.Product != null)
                         {
-                            this.FixProduct(productResult.Product);
+                            FixProduct(productResult.Product);
                             result.Products.Add(productResult.Product);
                         }
                     }
@@ -502,7 +502,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -521,18 +521,18 @@
                     throw new ArgumentException($"{nameof(parameters.VmiLocationId)} is null");
                 }
 
-                var url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
-                var response = await this.GetAsyncWithCachedResponse<GetVmiBinResult>(url);
+                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/vmibins{parameters.ToQueryString()}";
+                GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {
-                    var result = new List<AutocompleteProduct>();
+                    List<AutocompleteProduct> result = new List<AutocompleteProduct>();
 
-                    foreach (var item in response.VmiBins)
+                    foreach (VmiBinModel item in response.VmiBins)
                     {
-                        var productResult = await this.GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
+                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
                         if (productResult?.Product != null)
                         {
-                            var product = new AutocompleteProduct
+                            AutocompleteProduct product = new AutocompleteProduct()
                             {
                                 Id = productResult.Product.Id.ToString(),
                                 Title = productResult.Product.ShortDescription,
@@ -556,7 +556,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

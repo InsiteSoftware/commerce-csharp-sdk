@@ -71,13 +71,13 @@
             {
                 unchecked
                 {
-                    var hash = base.GetHashCode();
+                    int hash = base.GetHashCode();
 
-                    hash = (hash * HashingMultiplier) ^ this.Type.GetHashCode();
-                    hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.Icon) ? this.Icon.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.Text) ? this.Text.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.Url) ? this.RequiresAuth.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.RequiresAuth) ? this.RequiresAuth.GetHashCode() : 0);
+                    hash = (hash * HashingMultiplier) ^ Type.GetHashCode();
+                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Icon) ? Icon.GetHashCode() : 0);
+                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Text) ? Text.GetHashCode() : 0);
+                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Url) ? RequiresAuth.GetHashCode() : 0);
+                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, RequiresAuth) ? RequiresAuth.GetHashCode() : 0);
                     return hash;
                 }
             }
@@ -91,31 +91,31 @@
                 }
 
                 // Is the same object?
-                if (object.ReferenceEquals(this, obj))
+                if (ReferenceEquals(this, obj))
                 {
                     return true;
                 }
 
                 // Is the same type?
-                if (obj.GetType() != this.GetType())
+                if (obj.GetType() != GetType())
                 {
                     return false;
                 }
 
-                return this.Equals((ActionsWidget.Action)obj);
+                return Equals((Action)obj);
             }
 
-            public bool Equals(ActionsWidget.Action obj)
+            public bool Equals(Action obj)
             {
-                var result = base.Equals(obj);
+                bool result = base.Equals(obj);
 
                 if (result)
                 {
-                    result &= this.Type == obj.Type;
-                    result &= this.Icon == obj.Icon;
-                    result &= this.Text == obj.Text;
-                    result &= this.Url == obj.Url;
-                    result &= this.RequiresAuth == obj.RequiresAuth;
+                    result &= Type == obj.Type;
+                    result &= Icon == obj.Icon;
+                    result &= Text == obj.Text;
+                    result &= Url == obj.Url;
+                    result &= RequiresAuth == obj.RequiresAuth;
                 }
 
                 return result;
@@ -135,10 +135,10 @@
         {
             unchecked
             {
-                var hash = base.GetHashCode();
+                int hash = base.GetHashCode();
 
-                hash = (hash * HashingMultiplier) ^ this.Layout.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, this.Actions) ? this.Actions.GetHashCode() : 0);
+                hash = (hash * HashingMultiplier) ^ Layout.GetHashCode();
+                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Actions) ? Actions.GetHashCode() : 0);
                 return hash;
             }
         }
@@ -152,30 +152,30 @@
             }
 
             // Is the same object?
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
             // Is the same type?
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
 
-            return this.Equals((ActionsWidget)obj);
+            return Equals((ActionsWidget)obj);
         }
 
         public bool Equals(ActionsWidget obj)
         {
-            var result = base.Equals((Widget)obj);
+            bool result = Equals((Widget)obj);
 
             if (result)
             {
-                result &= this.Layout == obj.Layout;
+                result &= Layout == obj.Layout;
 
-                var areActinsEqual = (this.Actions == null && obj.Actions == null) ||
-                    (this.Actions != null && obj.Actions != null && Enumerable.SequenceEqual(this.Actions, obj.Actions));
+                bool areActinsEqual = (Actions == null && obj.Actions == null) ||
+                    (Actions != null && obj.Actions != null && Enumerable.SequenceEqual(Actions, obj.Actions));
                 result &= areActinsEqual;
             }
 

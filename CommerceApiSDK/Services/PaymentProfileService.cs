@@ -1,6 +1,7 @@
 ﻿namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -24,12 +25,12 @@
         {
             try
             {
-                var url = parameters == null ? PaymentProfileUri : $"{PaymentProfileUri}{parameters.ToQueryString()}";
-                return await this.GetAsyncNoCache<AccountPaymentProfileCollection>(url);
+                string url = parameters == null ? PaymentProfileUri : $"{PaymentProfileUri}{parameters.ToQueryString()}";
+                return await GetAsyncNoCache<AccountPaymentProfileCollection>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -43,8 +44,8 @@
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                var url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
-                var result = await this.GetAsyncNoCache<AccountPaymentProfile>(url);
+                string url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
+                AccountPaymentProfile result = await GetAsyncNoCache<AccountPaymentProfile>(url);
                 if (result == null)
                 {
                     throw new Exception("The account payment profile requested cannot be found.");
@@ -54,7 +55,7 @@
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -74,22 +75,22 @@
                 }
 
                 ServiceResponse<AccountPaymentProfile> response;
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(accountPaymentProfile));
+                StringContent stringContent = await Task.Run(() => SerializeModel(accountPaymentProfile));
                 if (accountPaymentProfile.Id.Equals(Guid.Empty.ToString()))
                 {
-                    response = await this.PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(PaymentProfileUri, stringContent);
+                    response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(PaymentProfileUri, stringContent);
                 }
                 else
                 {
-                    var editUrl = $"{PaymentProfileUri}/{accountPaymentProfile.Id}";
-                    response = await this.PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(editUrl, stringContent);
+                    string editUrl = $"{PaymentProfileUri}/{accountPaymentProfile.Id}";
+                    response = await PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(editUrl, stringContent);
                 }
 
                 return response;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -103,13 +104,13 @@
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                var url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
-                var deleteResponse = await this.DeleteAsync(url);
+                string url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
+                HttpResponseMessage deleteResponse = await DeleteAsync(url);
                 return deleteResponse != null && deleteResponse.IsSuccessStatusCode;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -118,12 +119,12 @@
         {
             try
             {
-                var url = parameters?.Expand != null ? $"{CartUri}{parameters.ToQueryString()}" : CartUri;
-                return await this.GetAsyncNoCache<Cart>(url);
+                string url = parameters?.Expand != null ? $"{CartUri}{parameters.ToQueryString()}" : CartUri;
+                return await GetAsyncNoCache<Cart>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

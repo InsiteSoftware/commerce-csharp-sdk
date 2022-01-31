@@ -20,7 +20,7 @@
 #if DEBUG
             Console.WriteLine("Starting Stopwatch {0}", tag);
 
-            var watch = watches[tag] = new Stopwatch();
+            Stopwatch watch = watches[tag] = new Stopwatch();
             watch.Start();
 #endif
         }

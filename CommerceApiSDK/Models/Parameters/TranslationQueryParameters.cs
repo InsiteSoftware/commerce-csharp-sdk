@@ -1,7 +1,5 @@
 ﻿namespace CommerceApiSDK.Models.Parameters
 {
-    using CommerceApiSDK.Attributes;
-
     public class TranslationQueryParameters : BaseQueryParameters
     {
         public string Keyword { get; set; }

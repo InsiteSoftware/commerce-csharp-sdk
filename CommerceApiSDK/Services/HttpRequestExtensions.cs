@@ -26,7 +26,7 @@
 
             if (request.Properties.TryGetValue(
                     timeoutPropertyKey,
-                    out var value)
+                    out object value)
                 && value is TimeSpan timeout)
             {
                 return timeout;

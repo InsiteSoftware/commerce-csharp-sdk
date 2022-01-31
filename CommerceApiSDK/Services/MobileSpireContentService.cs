@@ -28,10 +28,10 @@
                 return null;
             }
 
-            var url = $"{contentUrl}{pageName}";
+            string url = $"{contentUrl}{pageName}";
             Logger.LogTrace("Response content: {0}", url);
 
-            return useCache ? await this.GetAsyncStringResultWithCachedResponse(url) : await this.GetAsyncStringResultNoCache(url);
+            return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
         }
     }
 }

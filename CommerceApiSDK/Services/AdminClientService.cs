@@ -22,10 +22,10 @@
         {
             get
             {
-                var cookies = this.Cookies;
+                CookieCollection cookies = Cookies;
                 if (cookies != null)
                 {
-                    foreach (Cookie cookie in this.Cookies)
+                    foreach (Cookie cookie in Cookies)
                     {
                         if (cookie.Name == "cms_CurrentContentModeSignature")
                         {
@@ -49,7 +49,7 @@
 
         protected override void NotifyRefreshTokenExpired()
         {
-            this.messenger.Publish(new AdminRefreshTokenExpiredMessage(this));
+            messenger.Publish(new AdminRefreshTokenExpiredMessage(this));
         }
     }
 }

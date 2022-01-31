@@ -1,6 +1,7 @@
 namespace CommerceApiSDK.Services
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Services.Interfaces;
@@ -27,12 +28,12 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                var stringContent = await Task.Run(() => SerializeModel(message));
-                return await this.PostAsyncNoCache<MessageDto>(MessageUri, stringContent);
+                StringContent stringContent = await Task.Run(() => SerializeModel(message));
+                return await PostAsyncNoCache<MessageDto>(MessageUri, stringContent);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }

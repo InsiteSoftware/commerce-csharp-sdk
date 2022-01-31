@@ -37,7 +37,7 @@
                 return null;
             }
 
-            var brandCategory = new BrandCategory()
+            BrandCategory brandCategory = new BrandCategory()
             {
                 BrandId = new Guid(brandCategoryResult.BrandId),
                 CategoryId = new Guid(brandCategoryResult.CategoryId),
@@ -48,13 +48,13 @@
                 ProductListPagePath = brandCategoryResult.ProductListPagePath,
                 HtmlContent = brandCategoryResult.HtmlContent,
             };
-            var brandSubCategories = new List<BrandCategory>();
+            List<BrandCategory> brandSubCategories = new List<BrandCategory>();
 
             if (brandCategoryResult.SubCategories != null)
             {
                 foreach (GetBrandSubCategoriesResult subCategory in brandCategoryResult.SubCategories)
                 {
-                    var brandSubCategory = BrandCategory.MapCategoryToBrandCategory(subCategory);
+                    BrandCategory brandSubCategory = MapCategoryToBrandCategory(subCategory);
                     brandSubCategories.Add(brandSubCategory);
                 }
             }

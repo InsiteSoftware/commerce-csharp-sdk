@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using CommerceApiSDK.Models;
     using CommerceApiSDK.Models.Parameters;
@@ -30,21 +31,21 @@
             : base(clientService, networkService, trackingService, cacheService)
         {
             this.messenger = messenger;
-            this.isCartEmpty = true;
-            this.token = this.messenger.Subscribe<UserSignedOutMessage>(this.UserSignedOutHandler);
+            isCartEmpty = true;
+            token = this.messenger.Subscribe<UserSignedOutMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
         private bool isCartEmpty;
         public bool IsCartEmpty
         {
-            get => this.isCartEmpty;
+            get => isCartEmpty;
             set
             {
-                if (this.isCartEmpty != value)
+                if (isCartEmpty != value)
                 {
-                    this.isCartEmpty = value;
-                    this.IsCartEmptyPropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsCartEmpty")); // Raise the event
+                    isCartEmpty = value;
+                    IsCartEmptyPropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsCartEmpty")); // Raise the event
                 }
             }
         }
@@ -53,8 +54,8 @@
         {
             try
             {
-                var parameters = new List<string>();
-                var expandParameters = new List<string>();
+                List<string> parameters = new List<string>();
+                List<string> expandParameters = new List<string>();
 
                 if (getCartlines)
                 {
@@ -91,19 +92,19 @@
                     parameters.Add("expand=" + string.Join(",", expandParameters));
                 }
 
-                var url = CartUri + "?" + string.Join("&", parameters);
-                var result = await this.GetAsyncNoCache<Cart>(url);
+                string url = CartUri + "?" + string.Join("&", parameters);
+                Cart result = await GetAsyncNoCache<Cart>(url);
 
                 if (getCartlines)
                 {
-                    this.IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                    IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -112,18 +113,18 @@
         {
             try
             {
-                var parameters = new List<string>();
+                List<string> parameters = new List<string>();
 
-                var url = CartLinesUri;
-                var result = await this.GetAsyncNoCache<GetCartLinesResult>(url);
+                string url = CartLinesUri;
+                GetCartLinesResult result = await GetAsyncNoCache<GetCartLinesResult>(url);
 
-                this.IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -132,14 +133,14 @@
         {
             try
             {
-                var url = PromotionsUri;
-                var result = await this.GetAsyncNoCache<PromotionCollectionModel>(url);
+                string url = PromotionsUri;
+                PromotionCollectionModel result = await GetAsyncNoCache<PromotionCollectionModel>(url);
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -148,14 +149,14 @@
         {
             try
             {
-                var url = PromotionsUri;
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(promotion));
-                var result = await this.PostAsyncNoCache<Promotion>(url, stringContent);
+                string url = PromotionsUri;
+                StringContent stringContent = await Task.Run(() => SerializeModel(promotion));
+                Promotion result = await PostAsyncNoCache<Promotion>(url, stringContent);
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -164,15 +165,15 @@
         {
             try
             {
-                var url = CartUri;
-                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(cart));
-                var result = await this.PatchAsyncNoCache<Cart>(url, stringContent);
+                string url = CartUri;
+                StringContent stringContent = await Task.Run(() => SerializeModel(cart));
+                Cart result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -181,37 +182,37 @@
         {
             try
             {
-                var clearCartResponse = await this.DeleteAsync(CartUri);
-                var result = clearCartResponse != null && clearCartResponse.IsSuccessStatusCode;
+                HttpResponseMessage clearCartResponse = await DeleteAsync(CartUri);
+                bool result = clearCartResponse != null && clearCartResponse.IsSuccessStatusCode;
 
                 if (result)
                 {
-                    this.IsCartEmpty = true;
+                    IsCartEmpty = true;
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }
 
         private void UserSignedOutHandler(MvxMessage message)
         {
-            this.IsCartEmpty = true;
+            IsCartEmpty = true;
         }
 
         public async Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId)
         {
             try
             {
-                return await this.PostAsyncNoCache<CartLineCollectionDto>("api/v1/carts/current/cartlines/wishlist/" + wishListId, null);
+                return await PostAsyncNoCache<CartLineCollectionDto>("api/v1/carts/current/cartlines/wishlist/" + wishListId, null);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -220,19 +221,19 @@
         {
             try
             {
-                var url = CartsUri;
+                string url = CartsUri;
 
                 if (parameters != null)
                 {
-                    var queryString = parameters.ToQueryString();
+                    string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
 
-                return await this.GetAsyncNoCache<CartCollectionModel>(url);
+                return await GetAsyncNoCache<CartCollectionModel>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -251,15 +252,15 @@
                     throw new ArgumentException($"{nameof(parameters.CartId)} is empty");
                 }
 
-                var url = $"{CartsUri}/{parameters.CartId}";
+                string url = $"{CartsUri}/{parameters.CartId}";
 
                 if (parameters?.Expand != null)
                 {
-                    var queryString = parameters.ToQueryString();
+                    string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
 
-                var result = await this.GetAsyncNoCache<Cart>(url);
+                Cart result = await GetAsyncNoCache<Cart>(url);
                 if (result == null)
                 {
                     throw new Exception("The cart requested cannot be found.");
@@ -267,14 +268,14 @@
 
                 if (parameters?.Expand != null && parameters.Expand.Exists(p => p.Equals("cartlines", StringComparison.OrdinalIgnoreCase)))
                 {
-                    this.IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                    IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
                 }
 
                 return result;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -288,13 +289,13 @@
 
             try
             {
-                var url = $"{CartsUri}/{cartId}";
-                var deleteCartResponse = await this.DeleteAsync(url);
+                string url = $"{CartsUri}/{cartId}";
+                HttpResponseMessage deleteCartResponse = await DeleteAsync(url);
                 return deleteCartResponse != null && deleteCartResponse.IsSuccessStatusCode;
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return false;
             }
         }

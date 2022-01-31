@@ -4,7 +4,7 @@
     {
         public decimal BreakQty { get; set; }
 
-        public string BreakQtyDisplay => this.BreakQty.ToString("0.####");
+        public string BreakQtyDisplay => BreakQty.ToString("0.####");
 
         /// <summary>Gets or sets the break price.</summary>
         public decimal BreakPrice { get; set; }

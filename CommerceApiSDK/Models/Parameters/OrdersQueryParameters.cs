@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using CommerceApiSDK.Attributes;
-    using CommerceApiSDK.Services.Interfaces;
 
     public class OrdersQueryParameters : BaseQueryParameters
     {

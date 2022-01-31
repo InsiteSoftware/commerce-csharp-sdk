@@ -67,17 +67,17 @@
             get
             {
                 int length = 4;
-                if (string.IsNullOrEmpty(this.MaskedCardNumber))
+                if (string.IsNullOrEmpty(MaskedCardNumber))
                 {
                     return string.Empty;
                 }
 
-                if (this.MaskedCardNumber.Length <= length)
+                if (MaskedCardNumber.Length <= length)
                 {
-                    return this.MaskedCardNumber;
+                    return MaskedCardNumber;
                 }
 
-                return this.MaskedCardNumber.Substring(this.MaskedCardNumber.Length - length, length);
+                return MaskedCardNumber.Substring(MaskedCardNumber.Length - length, length);
             }
         }
 
@@ -89,13 +89,13 @@
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(this.ExpirationDate))
+                if (string.IsNullOrWhiteSpace(ExpirationDate))
                 {
                     return 0;
                 }
 
                 string[] separator = { "/" };
-                var expiration = this.ExpirationDate.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+                string[] expiration = ExpirationDate.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 if (int.TryParse(expiration[0], out int result))
                 {
                     return result;
@@ -115,13 +115,13 @@
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(this.ExpirationDate))
+                if (string.IsNullOrWhiteSpace(ExpirationDate))
                 {
                     return 0;
                 }
 
                 string[] separator = { "/" };
-                var expiration = this.ExpirationDate.Split(separator, System.StringSplitOptions.RemoveEmptyEntries);
+                string[] expiration = ExpirationDate.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 if (expiration.Length <= 1)
                 {
                     return 0;
@@ -143,19 +143,19 @@
         {
             get
             {
-                var yearTwoLetter = DateTime.Today.Year % 100;
-                if (this.ExpirationYear < yearTwoLetter)
+                int yearTwoLetter = DateTime.Today.Year % 100;
+                if (ExpirationYear < yearTwoLetter)
                 {
                     return true;
                 }
 
-                if (this.ExpirationYear > yearTwoLetter)
+                if (ExpirationYear > yearTwoLetter)
                 {
                     return false;
                 }
 
                 // Current year
-                if (this.ExpirationMonth < DateTime.Today.Month)
+                if (ExpirationMonth < DateTime.Today.Month)
                 {
                     return true;
                 }

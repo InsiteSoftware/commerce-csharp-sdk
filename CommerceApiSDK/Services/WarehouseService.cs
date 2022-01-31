@@ -19,8 +19,8 @@
         {
             try
             {
-                var url = WarehouseService.WarehousesUrl;
-                var parameters = new List<string>
+                string url = WarehousesUrl;
+                List<string> parameters = new List<string>()
                 {
                     "latitude=" + latitude,
                     "longitude=" + longitude,
@@ -32,11 +32,11 @@
 
                 url += "?" + string.Join("&", parameters);
 
-                return await this.GetAsyncWithCachedResponse<GetWarehouseCollectionResult>(url);
+                return await GetAsyncWithCachedResponse<GetWarehouseCollectionResult>(url);
             }
             catch (Exception exception)
             {
-                this.TrackingService.TrackException(exception);
+                TrackingService.TrackException(exception);
                 return null;
             }
         }
