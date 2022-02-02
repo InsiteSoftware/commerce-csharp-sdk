@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
+using Newtonsoft.Json;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Interfaces;
-    using Newtonsoft.Json;
-
     public class CartLineService : ServiceBase, ICartLineService
     {
         private const string CartLineUrl = "api/v1/carts/current/cartlines";

@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models.Parameters
-{
-    using System;
-    using System.Collections.Generic;
-    using CommerceApiSDK.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using CommerceApiSDK.Attributes;
 
+namespace CommerceApiSDK.Models.Parameters
+{
     public class InvoiceQueryParameters : BaseQueryParameters
     {
         /// <summary>Gets or sets a value indicating whether [show open only].</summary>

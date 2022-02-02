@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Test.Services
-{
-    using CommerceApiSDK.Services.Interfaces;
-    using Moq;
-    using MvvmCross;
-    using MvvmCross.Base;
-    using MvvmCross.IoC;
-    using MvvmCross.Logging;
+﻿using CommerceApiSDK.Services.Interfaces;
+using Moq;
+using MvvmCross;
+using MvvmCross.Base;
+using MvvmCross.IoC;
+using MvvmCross.Logging;
 
+namespace CommerceApiSDK.Test.Services
+{
     /// <summary>
     /// Base class for tests of api services
     /// </summary>
@@ -29,7 +29,7 @@
             CacheServiceMock = new Mock<ICacheService>();
 
             MvxSingleton.ClearAllSingletons();
-            MvxIocOptions iocOptions = new()
+            MvxIocOptions iocOptions = new MvxIocOptions()
             {
                 PropertyInjectorOptions = MvxPropertyInjectorOptions.All
             };

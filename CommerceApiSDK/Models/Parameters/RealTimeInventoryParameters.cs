@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models.Parameters
-{
-    using System;
-    using System.Collections.Generic;
-    using CommerceApiSDK.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using CommerceApiSDK.Attributes;
 
+namespace CommerceApiSDK.Models.Parameters
+{
     public class RealTimeInventoryParameters : BaseQueryParameters
     {
         [QueryParameter(QueryOptions.DoNotQuery)]

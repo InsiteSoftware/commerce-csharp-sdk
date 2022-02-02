@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IAdminAuthenticationService : IAuthenticationService
     {
         Task<bool> ResetPassword(string userName);

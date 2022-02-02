@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Net;
+﻿using System.Net;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IAdminClientService : IClientService
     {
         /// <summary>

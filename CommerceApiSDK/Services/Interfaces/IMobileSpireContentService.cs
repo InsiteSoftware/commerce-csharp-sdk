@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A service which fetches various page content management data.
     /// </summary>

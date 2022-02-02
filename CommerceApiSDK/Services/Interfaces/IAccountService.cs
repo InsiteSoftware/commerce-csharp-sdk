@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
+﻿using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A service which fetches the user account.
     /// </summary>

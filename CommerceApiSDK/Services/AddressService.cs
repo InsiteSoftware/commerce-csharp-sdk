@@ -1,14 +1,14 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class AddressService : ServiceBase, IAddressService
     {
         private const string BillToToUrl = "/api/v1/billtos";

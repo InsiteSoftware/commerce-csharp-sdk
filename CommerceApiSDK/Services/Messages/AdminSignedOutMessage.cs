@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Services.Messages
-{
-    using MvvmCross.Plugin.Messenger;
+﻿using MvvmCross.Plugin.Messenger;
 
+namespace CommerceApiSDK.Services.Messages
+{
     public class AdminSignedOutMessage : MvxMessage
     {
         public bool IsRefreshTokenExpired;

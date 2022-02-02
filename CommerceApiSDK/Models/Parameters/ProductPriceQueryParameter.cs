@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models.Parameters
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CommerceApiSDK.Models.Parameters
+{
     public class ProductPriceQueryParameter
     {
         public Guid ProductId { get; set; }

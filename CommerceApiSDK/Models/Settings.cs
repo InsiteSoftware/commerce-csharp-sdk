@@ -1,7 +1,7 @@
+using System;
+
 namespace CommerceApiSDK.Models
 {
-    using System;
-
     public class Settings : BaseModel
     {
         public SettingsCollection SettingsCollection { get; set; }

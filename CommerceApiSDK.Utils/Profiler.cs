@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Utils
-{
-    using System;
-    using System.Collections.Concurrent;
-    using System.Diagnostics;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 
+namespace CommerceApiSDK.Utils
+{
     public static class Profiler
     {
         static readonly ConcurrentDictionary<string, Stopwatch> watches = new ConcurrentDictionary<string, Stopwatch>();

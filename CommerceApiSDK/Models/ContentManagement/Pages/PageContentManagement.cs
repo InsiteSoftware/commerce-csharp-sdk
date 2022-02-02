@@ -1,13 +1,13 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Pages
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using CommerceApiSDK.Models.ContentManagement.Converters;
-    using CommerceApiSDK.Models.ContentManagement.Widgets;
-    using MvvmCross.Plugin.Color;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.ContentManagement.Widgets;
+using MvvmCross.Plugin.Color;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Pages
+{
     public enum PageType
     {
         Unknown,

@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Extensions
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.Serialization;
-    using System.Text.RegularExpressions;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
+namespace CommerceApiSDK.Extensions
+{
     public static class StringExtensions
     {
         public static string StripHtml(this string inputString)

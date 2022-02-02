@@ -1,11 +1,11 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class QuoteLineService : ServiceBase, IQuoteLineService
     {
         private const string QuoteLineUri = "/api/v1/quotes/{0}/quotelines/{1}";

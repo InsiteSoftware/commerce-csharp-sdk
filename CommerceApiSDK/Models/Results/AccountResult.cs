@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models.Results
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace CommerceApiSDK.Models.Results
+{
     public class AccountResult : BaseModel
     {
         public IList<Account> Accounts { get; set; }

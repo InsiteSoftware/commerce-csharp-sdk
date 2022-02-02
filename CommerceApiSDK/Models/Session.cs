@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public enum FulfillmentMethodType : int
     {
         [Description("Ship")]

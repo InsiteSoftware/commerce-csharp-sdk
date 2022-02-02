@@ -1,13 +1,13 @@
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Attributes;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Attributes;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class WishListService : WishListServiceBase, IWishListService
     {
         public WishListService(

@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Extensions
-{
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
+namespace CommerceApiSDK.Extensions
+{
     public static class DataExtension
     {
         public static byte[] Serialize(this object obj)

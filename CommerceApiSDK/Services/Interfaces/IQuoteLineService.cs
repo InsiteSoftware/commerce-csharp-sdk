@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
+﻿using System.Threading.Tasks;
+using CommerceApiSDK.Models;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IQuoteLineService
     {
         Task<QuoteLine> GetQuoteLine(string quoteId, string quoteLineId);

@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
+namespace CommerceApiSDK.Services
+{
     public static class HttpClientExtensions
     {
         /// <summary>

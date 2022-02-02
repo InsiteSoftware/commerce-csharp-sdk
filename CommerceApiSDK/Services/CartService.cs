@@ -1,17 +1,17 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Services.Messages;
-    using MvvmCross.Plugin.Messenger;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Services.Messages;
+using MvvmCross.Plugin.Messenger;
 
+namespace CommerceApiSDK.Services
+{
     public class CartService : ServiceBase, ICartService
     {
         private const string CartUri = "/api/v1/carts/current";

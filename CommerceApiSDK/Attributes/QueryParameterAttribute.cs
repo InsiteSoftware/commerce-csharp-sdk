@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Attributes
-{
-    using System;
-    using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+namespace CommerceApiSDK.Attributes
+{
     public enum QueryListParameterType
     {
         RepeatingParameter = 0,

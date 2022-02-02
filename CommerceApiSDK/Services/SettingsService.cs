@@ -1,11 +1,10 @@
+using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class SettingsService : ServiceBase, ISettingsService
     {
         private const string SettingsUrl = "/api/v1/settings";

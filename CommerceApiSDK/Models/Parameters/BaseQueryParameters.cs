@@ -1,12 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using CommerceApiSDK.Attributes;
+
 namespace CommerceApiSDK.Models.Parameters
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Web;
-    using CommerceApiSDK.Attributes;
-
     public class BaseQueryParameters
     {
         public virtual int? Page { get; set; }

@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Converters
-{
-    using System;
-    using CommerceApiSDK.Models.ContentManagement.Widgets;
-    using Newtonsoft.Json;
+﻿using System;
+using CommerceApiSDK.Models.ContentManagement.Widgets;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Converters
+{
     public class PageWidgetTypeConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)

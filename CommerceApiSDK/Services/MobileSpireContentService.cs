@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Utils.Logger;
+﻿using System.Threading.Tasks;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Utils.Logger;
 
+namespace CommerceApiSDK.Services
+{
     public class MobileSpireContentService : ServiceBase, IMobileSpireContentService
     {
         private const string contentUrl = "/api/v2/content/pageByType?type=Mobile/";

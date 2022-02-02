@@ -1,9 +1,8 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
+﻿using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+
+namespace CommerceApiSDK.Services.Interfaces
 {
-    using System.Threading.Tasks;
-
-    using CommerceApiSDK.Models;
-
     /// <summary>
     ///     A service which fetches website settings
     /// </summary>

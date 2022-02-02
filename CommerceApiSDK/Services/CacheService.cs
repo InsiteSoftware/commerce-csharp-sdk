@@ -1,17 +1,17 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
-    using System.Threading.Tasks;
-    using Akavache;
-    using Akavache.Sqlite3;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Utils.Logger;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Akavache;
+using Akavache.Sqlite3;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Utils.Logger;
 
+namespace CommerceApiSDK.Services
+{
     public class CacheService : ICacheService
     {
         private const string OfflineCacheDatabaseName = "blobs.db";

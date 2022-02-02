@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A service which manages the user session
     /// </summary>

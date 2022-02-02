@@ -1,12 +1,12 @@
+using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class ProductV2Service : ServiceBase, IProductV2Service
     {
         private const string ProductsUrl = "/api/v2/products";

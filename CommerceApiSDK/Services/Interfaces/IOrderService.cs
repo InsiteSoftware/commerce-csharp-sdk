@@ -1,12 +1,12 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Attributes;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Attributes;
-
     public interface IOrderService
     {
         List<OrderSortOrder> AvailableSortOrders { get; }

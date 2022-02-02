@@ -1,10 +1,10 @@
+using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-
     /// <summary>
     /// A service which manages the account payment profile.
     /// </summary>

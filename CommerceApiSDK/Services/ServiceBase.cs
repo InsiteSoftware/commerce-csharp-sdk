@@ -1,19 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Reactive.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Akavache;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Utils.Logger;
+using Newtonsoft.Json;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Reactive.Linq;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Akavache;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Utils.Logger;
-    using Newtonsoft.Json;
-
     public class ServiceResponse<T>
         where T : class
     {

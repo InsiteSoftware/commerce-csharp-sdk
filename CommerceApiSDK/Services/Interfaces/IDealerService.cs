@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IDealerService
     {
         /// <summary>

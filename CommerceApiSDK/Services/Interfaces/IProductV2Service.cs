@@ -1,10 +1,10 @@
+using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-
     public interface IProductV2Service
     {
         Task<GetProductCollectionResult> GetProducts(ProductsQueryV2Parameters parameters);

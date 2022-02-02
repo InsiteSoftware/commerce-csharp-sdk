@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace CommerceApiSDK.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
-
     public class Order
     {
         /// <summary>Gets or sets the order history identifier.</summary>

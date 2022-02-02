@@ -1,14 +1,14 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Services.Interfaces;
-    using Newtonsoft.Json;
-    using Plugin.Geolocator;
-    using Plugin.Geolocator.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using CommerceApiSDK.Services.Interfaces;
+using Newtonsoft.Json;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 
+namespace CommerceApiSDK.Services
+{
     public class GooglePlacesService : ServiceBase, IGooglePlacesService
     {
         private const string GooglePlacesAPIUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";

@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Test.Extensions
-{
-    using CommerceApiSDK.Extensions;
-    using NUnit.Framework;
+﻿using CommerceApiSDK.Extensions;
+using NUnit.Framework;
 
+namespace CommerceApiSDK.Test.Extensions
+{
     [TestFixture]
     public class StringExtensionTests
     {

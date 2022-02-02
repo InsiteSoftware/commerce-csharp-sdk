@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Test.Models
-{
-    using CommerceApiSDK.Models;
-    using NUnit.Framework;
+﻿using CommerceApiSDK.Models;
+using NUnit.Framework;
 
+namespace CommerceApiSDK.Test.Models
+{
     [TestFixture]
     public class BreakPriceDtoTests
     {

@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Converters
-{
-    using System;
-    using CommerceApiSDK.Models.ContentManagement.Widgets;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+﻿using System;
+using CommerceApiSDK.Models.ContentManagement.Widgets;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
+namespace CommerceApiSDK.Models.ContentManagement.Converters
+{
     public class АctionTypeEnumConverter : StringEnumConverter
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models.Parameters
-{
-    using System;
+﻿using System;
 
+namespace CommerceApiSDK.Models.Parameters
+{
     public class BrandCategoriesQueryParameter : BaseQueryParameters
     {
         public Guid? BrandId { get; set; }

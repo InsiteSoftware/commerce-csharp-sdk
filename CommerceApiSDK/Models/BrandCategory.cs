@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using CommerceApiSDK.Models.Results;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using CommerceApiSDK.Models.Results;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public class BrandCategory : BaseModel
     {
         public Guid BrandId { get; set; }

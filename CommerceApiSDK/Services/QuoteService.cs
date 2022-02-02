@@ -1,13 +1,13 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class QuoteService : ServiceBase, IQuoteService
     {
         private const string QuoteUri = "/api/v1/quotes";

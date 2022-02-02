@@ -1,14 +1,14 @@
-﻿namespace CommerceApiSDK.Utils.Logger
-{
-    using System;
-    using System.IO;
-    using MvvmCross;
-    using MvvmCross.Logging;
-    using NLog;
-    using NLog.Config;
-    using NLog.Targets;
-    using NLog.Targets.Wrappers;
+﻿using System;
+using System.IO;
+using MvvmCross;
+using MvvmCross.Logging;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+using NLog.Targets.Wrappers;
 
+namespace CommerceApiSDK.Utils.Logger
+{
     public class Logger
     {
         private const string DefaultLoggerName = "Default";

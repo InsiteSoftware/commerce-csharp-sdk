@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK
-{
-    using System;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.ContentManagement.Converters;
-    using CommerceApiSDK.Models.ContentManagement.Widgets;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+﻿using System;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.ContentManagement.Widgets;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
+namespace CommerceApiSDK
+{
     public class ActionConverter : JsonCreationConverter<ActionsWidget.Action>
     {
         private АctionTypeEnumConverter аctionTypeEnumConverter;

@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public class BrandProductLine : BaseModel
     {
         public Guid Id { get; set; }

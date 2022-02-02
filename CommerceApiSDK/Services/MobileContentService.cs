@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models.ContentManagement;
-    using CommerceApiSDK.Models.ContentManagement.Pages;
-    using CommerceApiSDK.Services.Interfaces;
-    using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using CommerceApiSDK.Models.ContentManagement;
+using CommerceApiSDK.Models.ContentManagement.Pages;
+using CommerceApiSDK.Services.Interfaces;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Services
+{
     public class MobileContentService : ServiceBase, IMobileContentService
     {
         private const string mobileContentUrlFormat = "/api/v1/mobilecontent/{0}";

@@ -1,15 +1,15 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Attributes;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Attributes;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class OrderService : ServiceBase, IOrderService
     {
         private const string OrdersUrl = "/api/v1/orders";

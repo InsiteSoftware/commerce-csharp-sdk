@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public abstract class NetworkServiceBase : INetworkService
     {
         private DateTime lastOnlineCheck;

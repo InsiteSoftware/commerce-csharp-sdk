@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CommerceApiSDK.Models
+{
     public class SortOption
     {
         /// <summary>Gets or sets the sort string to display in UI.</summary>

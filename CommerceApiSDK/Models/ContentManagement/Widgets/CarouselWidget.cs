@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
-{
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Widgets
+{
     public class CarouselWidget : Widget
     {
         [JsonProperty(ItemConverterType = typeof(WidgetConverter), PropertyName = "childWidgets")]

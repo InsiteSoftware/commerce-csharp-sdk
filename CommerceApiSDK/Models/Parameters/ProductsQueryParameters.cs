@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using CommerceApiSDK.Attributes;
+
 namespace CommerceApiSDK.Models.Parameters
 {
-    using System;
-    using System.Collections.Generic;
-    using CommerceApiSDK.Attributes;
-
     public class BaseProductsQueryParameters : BaseQueryParameters
     {
         public override int? Page { get; set; } = 1;

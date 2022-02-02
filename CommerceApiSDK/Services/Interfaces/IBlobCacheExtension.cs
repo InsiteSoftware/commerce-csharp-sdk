@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Reactive.Linq;
-    using System.Threading.Tasks;
-    using Akavache;
+﻿using System;
+using System.Collections.Generic;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Akavache;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public static class IBlobCacheExtension
     {
         public static async Task InvalidateObjectWithKeysStartingWith<T>(this IBlobCache blobCache, string keyPrefix)

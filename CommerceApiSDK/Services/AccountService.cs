@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class AccountService : ServiceBase, IAccountService
     {
         private const string AccountUrl = "/api/v1/accounts";

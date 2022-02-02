@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public class Country : BaseModel
     {
         /// <summary>Gets or sets the identifier.</summary>

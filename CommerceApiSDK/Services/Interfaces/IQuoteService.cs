@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-
     public interface IQuoteService
     {
         Task<QuoteResult> GetQuotes(QuoteQueryParameters quoteQueryParameters);

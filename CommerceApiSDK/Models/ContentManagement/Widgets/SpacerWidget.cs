@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
-{
-    using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Widgets
+{
     public class SpacerWidget : Widget
     {
         public int Height { get; set; }

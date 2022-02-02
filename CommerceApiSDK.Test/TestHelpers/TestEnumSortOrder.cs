@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Test.TestHelpers
-{
-    using CommerceApiSDK.Services.Attributes;
+﻿using CommerceApiSDK.Services.Attributes;
 
+namespace CommerceApiSDK.Test.TestHelpers
+{
     public enum TestEnumSortOrder
     {
         [SortOrder("Best Match", "Best Match \u2713", "1")]

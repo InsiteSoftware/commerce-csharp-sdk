@@ -1,11 +1,11 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Interfaces;
-
     public class MessageService : ServiceBase, IMessageService
     {
         private const string MessageUri = "/api/v1/messages";

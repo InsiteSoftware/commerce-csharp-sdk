@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
-{
-    using System.Drawing;
-    using CommerceApiSDK.Models.ContentManagement.Converters;
-    using MvvmCross.Plugin.Color;
-    using Newtonsoft.Json;
+﻿using System.Drawing;
+using CommerceApiSDK.Models.ContentManagement.Converters;
+using MvvmCross.Plugin.Color;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Widgets
+{
     public enum TextJustification
     {
         Left,

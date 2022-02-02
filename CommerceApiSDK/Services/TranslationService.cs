@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class TranslationService : ServiceBase, ITranslationService
     {
         private const string TranslationUrl = "/api/v1/translationdictionaries";

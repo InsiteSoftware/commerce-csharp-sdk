@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class WishListServiceBase : ServiceBase
     {
         public WishListServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService) : base(clientService, networkService, trackingService, cacheService)

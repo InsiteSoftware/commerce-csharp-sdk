@@ -1,11 +1,10 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+
+namespace CommerceApiSDK.Services.Interfaces
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    using CommerceApiSDK.Models;
-
     /// <summary>
     /// A Service which manages cart lines
     /// </summary>

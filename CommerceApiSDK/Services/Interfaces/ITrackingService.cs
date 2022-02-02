@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A service for event tracking and error logging.
     /// </summary>

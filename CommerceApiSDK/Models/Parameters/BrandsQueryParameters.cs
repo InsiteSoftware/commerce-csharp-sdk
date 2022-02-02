@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models.Parameters
-{
-    using System.Collections.Generic;
-    using CommerceApiSDK.Attributes;
+﻿using System.Collections.Generic;
+using CommerceApiSDK.Attributes;
 
+namespace CommerceApiSDK.Models.Parameters
+{
     public class BrandsQueryParameters : BaseQueryParameters
     {
         public string StartsWith { get; set; }

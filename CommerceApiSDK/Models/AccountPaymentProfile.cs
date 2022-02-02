@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public class AccountPaymentProfile : BaseModel
     {
         /// <summary>Gets or sets the identifier.</summary>

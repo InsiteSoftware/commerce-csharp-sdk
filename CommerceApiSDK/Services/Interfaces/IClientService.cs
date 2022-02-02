@@ -1,13 +1,13 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A REST client service.
     /// </summary>

@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CommerceApiSDK.Models
+{
     public class OrderLine : BaseModel
     {
         /// <summary>Gets or sets the identifier.</summary>

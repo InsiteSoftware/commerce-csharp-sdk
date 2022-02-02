@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
+namespace CommerceApiSDK.Models
+{
     public abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>

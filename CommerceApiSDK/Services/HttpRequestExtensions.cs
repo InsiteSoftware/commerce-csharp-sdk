@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 
+namespace CommerceApiSDK.Services
+{
     public static class HttpRequestExtensions
     {
         private static string timeoutPropertyKey = "RequestTimeout";

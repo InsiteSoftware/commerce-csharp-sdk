@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Test.Services
-{
-    using System;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services;
-    using NUnit.Framework;
+﻿using System;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services;
+using NUnit.Framework;
 
+namespace CommerceApiSDK.Test.Services
+{
     [TestFixture]
     public class WebsiteServiceTests : ServiceTestBase
     {

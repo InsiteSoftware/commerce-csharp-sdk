@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// Service which retrieves categories from Insite api.
     /// </summary>

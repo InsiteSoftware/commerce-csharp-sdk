@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using CommerceApiSDK.Models.ContentManagement.Converters;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using CommerceApiSDK.Models.ContentManagement.Converters;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Widgets
+{
     public enum ProductCarouselType
     {
         Unknown,

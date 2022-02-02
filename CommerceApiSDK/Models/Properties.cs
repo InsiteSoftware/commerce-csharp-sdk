@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace CommerceApiSDK.Models
+{
     /// <summary>
     /// Dictionary of all custom properties on the object
     /// </summary>

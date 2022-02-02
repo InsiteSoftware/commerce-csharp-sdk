@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class BrandService : ServiceBase, IBrandService
     {
         private const string BrandAlphabetUrl = "/api/v1/brandalphabet";

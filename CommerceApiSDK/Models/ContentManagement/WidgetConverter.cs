@@ -1,11 +1,11 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement
-{
-    using System;
-    using CommerceApiSDK.Models.ContentManagement.Widgets;
-    using CommerceApiSDK.Utils.Logger;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+﻿using System;
+using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Utils.Logger;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
+namespace CommerceApiSDK.Models.ContentManagement
+{
     public class WidgetConverter : JsonCreationConverter<Widget>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

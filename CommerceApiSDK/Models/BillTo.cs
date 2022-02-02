@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     public class BillTo : Address
     {
         /// <summary>URI to ShipTo collection, could also use expand parameter</summary>

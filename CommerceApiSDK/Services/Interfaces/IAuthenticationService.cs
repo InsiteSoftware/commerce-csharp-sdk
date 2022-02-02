@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// High level authentication api
     /// </summary>

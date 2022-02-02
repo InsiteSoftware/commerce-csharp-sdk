@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Attributes;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Attributes;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IWishListService
     {
         Task<WishListCollectionModel> GetWishLists(int pageNumber = 1, int pageSize = 16, WishListSortOrder sortOrder = WishListSortOrder.ModifiedOnDescending, string searchText = null);

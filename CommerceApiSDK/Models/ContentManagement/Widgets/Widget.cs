@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using CommerceApiSDK.Models.ContentManagement.Converters;
-    using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CommerceApiSDK.Models.ContentManagement.Converters;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.ContentManagement.Widgets
+{
     public enum WidgetType
     {
         Unknown,

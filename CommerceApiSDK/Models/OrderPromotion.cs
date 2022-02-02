@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
+﻿using System;
 
+namespace CommerceApiSDK.Models
+{
     public class OrderPromotion
     {
         /// <summary>Gets or sets the identifier.</summary>

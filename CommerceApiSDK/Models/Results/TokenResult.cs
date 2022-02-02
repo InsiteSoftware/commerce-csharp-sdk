@@ -1,7 +1,7 @@
-﻿namespace CommerceApiSDK.Models.Results
-{
-    using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models.Results
+{
     public class TokenResult
     {
         [JsonProperty("access_token")]

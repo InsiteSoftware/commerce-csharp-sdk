@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Utils.Logger
-{
-    using System;
-    using System.Diagnostics;
-    using MvvmCross.Logging;
+﻿using System;
+using System.Diagnostics;
+using MvvmCross.Logging;
 
+namespace CommerceApiSDK.Utils.Logger
+{
     public class LogTimer : IDisposable
     {
         public static bool IsTimerEnabled { get; set; } = true;

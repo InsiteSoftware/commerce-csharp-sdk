@@ -1,11 +1,10 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
-
     public interface IWebsiteService
     {
         Task<Website> GetWebsite();

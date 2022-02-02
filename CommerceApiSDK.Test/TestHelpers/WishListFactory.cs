@@ -1,13 +1,13 @@
-﻿
-namespace CommerceApiSDK.Test.TestHelpers{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
 
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Services.Interfaces;
-
-    class WishListFactory{
+namespace CommerceApiSDK.Test.TestHelpers
+{
+    class WishListFactory
+    {
         public const string Shortdescriptionunique = "ShortDescriptionunique";
 
         public const string ErpNumber = "ERPNumber";
@@ -93,7 +93,7 @@ namespace CommerceApiSDK.Test.TestHelpers{
             string preFix = "",
             string postFix = "")
         {
-            List<WishListLine> wishlistLines = new();
+            List<WishListLine> wishlistLines = new List<WishListLine>();
             int price = end + 1;
             for (int i = start; i < end; i++)
             {
@@ -135,7 +135,7 @@ namespace CommerceApiSDK.Test.TestHelpers{
 
         public static string CreateShortDescription(string prefix, int index, string unique)
         {
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < index; i++)
             {
                 if (i != 0)

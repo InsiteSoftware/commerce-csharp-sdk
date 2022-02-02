@@ -1,8 +1,8 @@
+using System;
+using System.Reflection;
+
 namespace CommerceApiSDK.Services.Attributes
 {
-    using System;
-    using System.Reflection;
-
     public enum SortOrderOptions
     {
         DoNotDisplay,

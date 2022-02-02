@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System.Net;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Services.Messages;
-    using MvvmCross.Plugin.Messenger;
+﻿using System.Net;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Services.Messages;
+using MvvmCross.Plugin.Messenger;
 
+namespace CommerceApiSDK.Services
+{
     public class AdminClientService : IscClientService, IAdminClientService
     {
         protected override string ClientId { get; } = "isc_admin";

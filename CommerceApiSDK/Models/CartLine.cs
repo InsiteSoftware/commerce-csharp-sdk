@@ -1,9 +1,9 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
+namespace CommerceApiSDK.Models
+{
     /// <summary>
     /// Subset of cartline needed to add a new cartline
     /// </summary>

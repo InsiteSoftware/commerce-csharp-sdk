@@ -1,14 +1,14 @@
-﻿namespace CommerceApiSDK.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Services.Attributes;
-    using CommerceApiSDK.Services.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using CommerceApiSDK.Services.Attributes;
+using CommerceApiSDK.Services.Interfaces;
 
+namespace CommerceApiSDK.Services
+{
     public class WishListLineService : WishListServiceBase, IWishListLineService
     {
         public WishListLineService(

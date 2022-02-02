@@ -1,10 +1,10 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
+﻿using System;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     /// <summary>
     /// A service which fetches customer addresses
     /// </summary>

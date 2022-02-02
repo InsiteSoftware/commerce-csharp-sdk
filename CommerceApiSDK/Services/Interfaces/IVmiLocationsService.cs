@@ -1,12 +1,12 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Parameters;
-    using CommerceApiSDK.Models.Results;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public interface IVmiLocationsService
     {
         Task<LatLong> GetPlaceFromAddresss(Address address);

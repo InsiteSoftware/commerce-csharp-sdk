@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Services.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace CommerceApiSDK.Services.Interfaces
+{
     public class AnalyticsEvent
     {
         public static readonly string EventPropertyScreenName = "screen_name";

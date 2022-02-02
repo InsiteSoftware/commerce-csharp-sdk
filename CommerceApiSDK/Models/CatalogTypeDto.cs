@@ -1,8 +1,8 @@
-﻿namespace CommerceApiSDK.Models
-{
-    using System.Collections.Generic;
-    using CommerceApiSDK.Models.Parameters;
+﻿using System.Collections.Generic;
+using CommerceApiSDK.Models.Parameters;
 
+namespace CommerceApiSDK.Models
+{
     public class CatalogTypeDto
     {
         public string Id { get; set; }

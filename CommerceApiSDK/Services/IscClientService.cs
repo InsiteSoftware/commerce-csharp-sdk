@@ -1,21 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
+using CommerceApiSDK.Extensions;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Services.Messages;
+using CommerceApiSDK.Utils.Logger;
+using MvvmCross.Plugin.Messenger;
+
 namespace CommerceApiSDK.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using CommerceApiSDK.Extensions;
-    using CommerceApiSDK.Models;
-    using CommerceApiSDK.Models.Results;
-    using CommerceApiSDK.Services.Interfaces;
-    using CommerceApiSDK.Services.Messages;
-    using CommerceApiSDK.Utils.Logger;
-    using MvvmCross.Plugin.Messenger;
-
     // Uncomment this row in order to be able to inspect web traffic with Charles app.
     // using CoreFoundation;
 

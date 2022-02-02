@@ -1,8 +1,8 @@
+using System.Threading.Tasks;
+using Akavache;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
-    using System.Threading.Tasks;
-    using Akavache;
-
     public interface ICacheService
     {
         /// <summary>
