@@ -38,7 +38,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0.9.7
         with:
           useConfigFile: true
-          configFilePath: ./.github/gitversion.yml 
+          configFilePath: ./.github/workflows/gitversion.yml 
       
       - name: Restore dependencies
         run: nuget restore $SOLUTION
