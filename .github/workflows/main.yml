@@ -66,4 +66,4 @@ jobs:
         
       - name: Push generated package to GitHub registry
         if: startsWith(github.ref, 'refs/heads/main')
-        run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+        run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/commerce-csharp-sdk/index.json
