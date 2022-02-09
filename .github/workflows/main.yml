@@ -55,7 +55,7 @@ jobs:
         run: dotnet build $SOLUTION --configuration $BUILD_CONFIG /p:Version=${{ steps.gitversion.outputs.AssemblySemVer }} /p:AssemblyVersion=${{ steps.gitversion.outputs.AssemblySemVer }} /p:InformationalVersion=${{ steps.gitversion.outputs.InformationalVersion }} --no-restore
 
       - name: Run tests
-        run: dotnet test /p:Configuration=$env:BUILD_CONFIG /p:Version=${{ steps.gitversion.outputs.AssemblySemVer }} --no-restore --no-build --verbosity normal
+        run: dotnet test /p:Configuration=$BUILD_CONFIG /p:Version=${{ steps.gitversion.outputs.AssemblySemVer }} --no-restore --no-build --verbosity normal
         
       - name: Package nuget
         if: startsWith(github.ref, 'refs/heads/release')
