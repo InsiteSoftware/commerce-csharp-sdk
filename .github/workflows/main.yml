@@ -58,8 +58,9 @@ jobs:
         run: dotnet test /p:Configuration=$BUILD_CONFIG /p:Version=${{ steps.gitversion.outputs.AssemblySemVer }} --no-restore --no-build --verbosity normal
         
       - name: Package nuget
-        if: startsWith(github.ref, 'refs/heads/release')
+        if: startsWith(github.ref, 'refs/heads/main')
         run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }}
         
       - name: Push generated package to GitHub registry
+        if: startsWith(github.ref, 'refs/heads/main')
         run: dotnet nuget push ./package/*.nupkg  --source https://nuget.pkg.github.com/commerce-csharp-sdk/index.json  --api-key ${{ github.token }}
