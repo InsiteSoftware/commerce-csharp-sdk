@@ -1,8 +1,9 @@
 name: CI
 
 # Controls when the workflow will run
+
+# Triggers the workflow pull request events but only for the main branch
 on:
-  # Triggers the workflow pull request events but only for the main branch
   pull_request:
     branches: [ main ]
 
