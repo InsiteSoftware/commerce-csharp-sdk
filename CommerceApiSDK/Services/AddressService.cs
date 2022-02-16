@@ -12,6 +12,8 @@ namespace CommerceApiSDK.Services
     public class AddressService : ServiceBase, IAddressService
     {
         private const string BillToToUrl = "/api/v1/billtos";
+        private const string BillToToUrl1 = "/api/v1/billtos";
+
         private string ShipToToUrl(string billToId)
         {
             return $"/api/v1/billtos/{billToId}/shiptos";
