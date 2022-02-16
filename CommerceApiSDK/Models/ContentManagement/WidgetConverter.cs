@@ -1,5 +1,6 @@
 ﻿using System;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Utils.Logger;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -23,7 +24,7 @@ namespace CommerceApiSDK.Models.ContentManagement
             }
             catch (JsonException exception)
             {
-                Logger.LogError($"Incorrect JSON format: {exception}");
+                DefaultLogger.StaticConsole(LogLevel.ERROR, $"Incorrect JSON format: {exception}");
                 return null;
             }
 

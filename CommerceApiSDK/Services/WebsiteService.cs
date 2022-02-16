@@ -105,7 +105,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                Logger.LogTrace($"Can not create uri with path {path} exception: {e.Message}");
+                DefaultLogger.StaticConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
                 return null;
             }
 

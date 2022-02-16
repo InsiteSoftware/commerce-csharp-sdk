@@ -29,7 +29,7 @@ namespace CommerceApiSDK.Services
             }
 
             string url = $"{contentUrl}{pageName}";
-            Logger.LogTrace("Response content: {0}", url);
+            DefaultLogger.StaticConsole(LogLevel.INFO, "Response content: {0}");
 
             return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
         }
