@@ -36,6 +36,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
@@ -53,5 +55,7 @@
     <None Remove="Fake\FakeResponses\websites-current.json" />
     <None Remove="Fake\FakeResponses\cms-shop-v1.json" />
     <None Remove="Microsoft.CodeAnalysis.NetAnalyzers" />
+    <None Remove="Microsoft.Extensions.DependencyInjection" />
+    <None Remove="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 </Project>
