@@ -3,7 +3,7 @@ using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
 {
-    public class OptimizelyAPI
+    public static class OptimizelyAPI
     {
         private static IOptimizelyService _current;
 
