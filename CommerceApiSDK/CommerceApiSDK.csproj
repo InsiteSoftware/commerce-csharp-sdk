@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageId>optmizely.commerce</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Naveen Kumar</Authors>
     <Description>Test</Description>
   </PropertyGroup>
