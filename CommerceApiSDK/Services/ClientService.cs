@@ -22,7 +22,7 @@ namespace CommerceApiSDK.Services
     /// <summary>
     /// A REST client for communication with Insite Commerce API.
     /// </summary>
-    public class IscClientService : IClientService
+    public class ClientService : IClientService
     {
         protected const string TokenUri = "identity/connect/token";
         private const string TokenLogoutUri = "identity/connect/endsession";
@@ -98,7 +98,7 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public IscClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMvxMessenger messenger, ITrackingService trackingService)
+        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMvxMessenger messenger, ITrackingService trackingService)
         {
             this.secureStorageService = secureStorageService;
             this.localStorageService = localStorageService;

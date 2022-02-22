@@ -11,7 +11,7 @@ namespace CommerceApiSDK.Services
             {
                 services.AddSingleton<IAdminClientService, AdminClientService>();
                 services.AddSingleton<ICacheService, CacheService>();
-                services.AddSingleton<IClientService, IscClientService>();
+                services.AddSingleton<IClientService, ClientService>();
                 //Mvx.IoCProvider.RegisterType(() => Locator.Current.GetService<IFilesystemProvider>());
 
 

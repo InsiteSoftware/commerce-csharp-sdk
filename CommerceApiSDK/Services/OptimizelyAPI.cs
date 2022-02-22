@@ -8,7 +8,7 @@ namespace CommerceApiSDK.Services
         private static IOptimizelyService _current;
 
         /// <summary>
-        /// Current method used to initialize the Optimizely service
+        /// Current method used to initialize the Optimizely service in the mobile project
         /// </summary>
         public static IOptimizelyService Current
         {
