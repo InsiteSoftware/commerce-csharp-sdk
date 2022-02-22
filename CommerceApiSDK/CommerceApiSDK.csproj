@@ -17,8 +17,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FakeClient|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;FAKECLIENT;NETSTANDARD2_0</DefineConstants>
-    <AssemblyName></AssemblyName>
-    <SignAssembly></SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup>
