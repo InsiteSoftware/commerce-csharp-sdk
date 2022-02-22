@@ -11,7 +11,6 @@ using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
-using CommerceApiSDK.Utils.Logger;
 using MvvmCross.Plugin.Messenger;
 
 namespace CommerceApiSDK.Services
@@ -43,6 +42,7 @@ namespace CommerceApiSDK.Services
         private readonly ILocalStorageService localStorageService;
         protected readonly IMvxMessenger messenger;
         protected readonly ITrackingService trackingService;
+        private readonly ILoggerService loggerService;
 
         protected virtual string[] StoredCookiesNames { get; } = { "CurrentPickUpWarehouseId", "CurrentFulfillmentMethod", "CurrentBillToId", "CurrentShipToId", "BillToIdShipToId", "CurrentLanguageId", "SetContextLanguageCode", "SetContextPersonaIds" };
 
@@ -98,12 +98,13 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMvxMessenger messenger, ITrackingService trackingService)
+        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMvxMessenger messenger, ITrackingService trackingService, ILoggerService loggerService)
         {
             this.secureStorageService = secureStorageService;
             this.localStorageService = localStorageService;
             this.messenger = messenger;
             this.trackingService = trackingService;
+            this.loggerService = loggerService;
             CreateClient();
         }
 
@@ -122,7 +123,7 @@ namespace CommerceApiSDK.Services
                     // Proxy = CFNetwork.GetDefaultProxy()
                 };
 
-                client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, NotifyRefreshTokenExpired))
+                client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, loggerService, NotifyRefreshTokenExpired))
                 {
                     Timeout = Timeout.InfiniteTimeSpan,
                 };
@@ -132,14 +133,14 @@ namespace CommerceApiSDK.Services
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Sending GetAsync {0}");
+            loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}");
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                    DefaultLogger.StaticConsole(LogLevel.INFO, "{0} Response {1}");
+                    loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}");
                 }
 
             return response;
@@ -156,15 +157,15 @@ namespace CommerceApiSDK.Services
     
             response = await client.GetAsync(path, cancellationToken);
             
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ");
-            DefaultLogger.StaticConsole(LogLevel.INFO, "{0} Response {1}");
+            loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ");
+            loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}");
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            DefaultLogger.StaticConsole(LogLevel.INFO, "Posting Async content for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}");
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
@@ -174,7 +175,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }         
 
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ");
 
             return response;
         }
@@ -189,14 +190,14 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            DefaultLogger.StaticConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}");
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            DefaultLogger.StaticConsole(LogLevel.INFO, "Patching Async content for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}");
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
@@ -206,7 +207,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ");
 
             return response;
         }
@@ -222,7 +223,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ");
 
             return response;
         }
@@ -306,7 +307,7 @@ namespace CommerceApiSDK.Services
                 request.SetTimeout(request.GetTimeout());
                 HttpResponseMessage response = await client.SendAsync(request);
 
-                DefaultLogger.StaticDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ");
+                loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -331,18 +332,18 @@ namespace CommerceApiSDK.Services
             StoreCookies();
             CreateClient();
 
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "The ClientService was reset.");
+            loggerService.LogDebug(LogLevel.DEBUG, "The ClientService was reset.");
         }
 
         public void StoreSessionState(Session currentSession = null)
         {
             StoreCookies(currentSession);
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "State was stored.");
+            loggerService.LogDebug(LogLevel.DEBUG, "State was stored.");
         }
 
         private void StoreCookies(Session currentSession = null)
         {
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Saving cookies");
+            loggerService.LogDebug(LogLevel.DEBUG, "Saving cookies");
             if (Cookies != null)
             {
                 string cookieValues = string.Empty;
@@ -365,7 +366,7 @@ namespace CommerceApiSDK.Services
 
         public void LoadSessionState()
         {
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Loading state");
+            loggerService.LogDebug(LogLevel.DEBUG, "Loading state");
             string accessToken = secureStorageService.Load(BearerTokenStorageKey);
             if (!string.IsNullOrEmpty(accessToken))
             {
@@ -373,7 +374,7 @@ namespace CommerceApiSDK.Services
             }
 
             LoadCookies();
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Loaded state");
+            loggerService.LogDebug(LogLevel.DEBUG, "Loaded state");
         }
 
         public void SetCookie(Cookie cookie)
@@ -383,7 +384,7 @@ namespace CommerceApiSDK.Services
 
         protected void LoadCookies()
         {
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Loading Cookies");
+            loggerService.LogDebug(LogLevel.DEBUG, "Loading Cookies");
             string cookieValues = localStorageService.Load(CookiesStorageKey, string.Empty);
             if (string.IsNullOrEmpty(cookieValues))
             {
@@ -400,7 +401,7 @@ namespace CommerceApiSDK.Services
                     httpClientHandler.CookieContainer.Add(Url, new Cookie(name, value));
                 }
             }
-            DefaultLogger.StaticDebug(LogLevel.DEBUG, "Loaded Cookies");
+            loggerService.LogDebug(LogLevel.DEBUG, "Loaded Cookies");
         }
 
         public void SetBasicAuthorizationHeader()
@@ -419,14 +420,16 @@ namespace CommerceApiSDK.Services
             private readonly object refreshingTokenLock = new object();
 
             private readonly Action refreshTokenExpiredNotificationCallback;
+            private readonly ILoggerService loggerService;
 
             public RefreshTokenHandler(
                 HttpMessageHandler messageHandler,
-                Func<Task<bool>> renewAuthenticationTokensCallback,
+                Func<Task<bool>> renewAuthenticationTokensCallback, ILoggerService loggerService,
                 Action refreshTokenExpiredNotificationCallback) : base(messageHandler)
             {
                 this.renewAuthenticationTokensCallback = renewAuthenticationTokensCallback;
                 this.refreshTokenExpiredNotificationCallback = refreshTokenExpiredNotificationCallback;
+                this.loggerService = loggerService;
             }
 
             private CancellationTokenSource GetCancellationTokenSource(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -447,7 +450,7 @@ namespace CommerceApiSDK.Services
 
             protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
-                DefaultLogger.StaticConsole(LogLevel.INFO, "Sending Async request : {0} {1}");
+                loggerService.LogConsole(LogLevel.INFO, "Sending Async request : {0} {1}");
                 HttpResponseMessage result = null;
                 
                     using (CancellationTokenSource cts = GetCancellationTokenSource(request, cancellationToken))
@@ -455,7 +458,7 @@ namespace CommerceApiSDK.Services
                         try
                         {
                             result = await base.SendAsync(request, cts?.Token ?? cancellationToken);
-                            DefaultLogger.StaticConsole(LogLevel.INFO, "SendAsync Response : {0}");
+                            loggerService.LogConsole(LogLevel.INFO, "SendAsync Response : {0}");
                         }
                         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
                         {

@@ -37,10 +37,12 @@ namespace CommerceApiSDK.Services
         public IBlobCache LocalStorage => localStorage.Value;
 
         private readonly IFilesystemProvider filesystemProvider;
+        private readonly ILoggerService loggerService;
 
-        public CacheService(IFilesystemProvider filesystemProvider)
+        public CacheService(IFilesystemProvider filesystemProvider, ILoggerService loggerService)
         {
             this.filesystemProvider = filesystemProvider;
+            this.loggerService = loggerService;
             offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
             onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
             localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
@@ -82,7 +84,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.InsertObject(key, value);
-                DefaultLogger.StaticConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
+                loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
                 return true;
             }
             catch

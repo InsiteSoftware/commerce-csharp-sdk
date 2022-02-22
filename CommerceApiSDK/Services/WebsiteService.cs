@@ -6,7 +6,6 @@ using CommerceApiSDK.Extensions;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
-using CommerceApiSDK.Utils.Logger;
 
 namespace CommerceApiSDK.Services
 {
@@ -22,11 +21,14 @@ namespace CommerceApiSDK.Services
         private const string WebsitesLanguagesUrl = "/api/v1/websites/current/languages";
 
         private readonly ISessionService sessionService;
+        private readonly ILoggerService loggerService;
 
-        public WebsiteService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ISessionService sessionService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public WebsiteService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ISessionService sessionService, ICacheService cacheService, ILoggerService loggerService
+            )
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
             this.sessionService = sessionService;
+            this.loggerService = loggerService;
         }
 
         public async Task<Website> GetWebsite()
@@ -105,7 +107,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                DefaultLogger.StaticConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
+                loggerService.LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
                 return null;
             }
 

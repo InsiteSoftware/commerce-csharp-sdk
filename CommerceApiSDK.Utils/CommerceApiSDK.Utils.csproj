@@ -20,10 +20,10 @@
   <ItemGroup>
     <PackageReference Include="MvvmCross" Version="7.1.2" />
     <PackageReference Include="NLog" Version="4.6.8" />
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
+    <!--<PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    </PackageReference>-->
   </ItemGroup>
   <ItemGroup>
     <None Remove="NuGet.Build.Packaging" />
