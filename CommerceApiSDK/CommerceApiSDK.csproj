@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageId>optmizely.commerce</PackageId>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <Authors>Naveen Kumar</Authors>
     <Description>Test</Description>
   </PropertyGroup>
@@ -17,6 +17,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FakeClient|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;FAKECLIENT;NETSTANDARD2_0</DefineConstants>
+    <AssemblyName></AssemblyName>
+    <SignAssembly></SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup>
