@@ -56,15 +56,16 @@ namespace CommerceApiSDK.Services
         private readonly INetworkService networkService;
         protected readonly ITrackingService TrackingService;
         protected readonly ICacheService cacheService;
-
+        protected readonly ILoggerService loggerService;
         public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(60.0);
 
-        protected ServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
+        protected ServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
         {
             Client = clientService;
             this.networkService = networkService;
             TrackingService = trackingService;
             this.cacheService = cacheService;
+            this.loggerService = loggerService;
         }
 
         /// <summary>
@@ -90,9 +91,9 @@ namespace CommerceApiSDK.Services
         /// <returns>Populated Object type T</returns>
         protected static T DeserializeModel<T>(string stringValue, JsonConverter[] jsonConverters = null)
         {
-            Logger.LogTrace("Response content: {0}", stringValue);
+            logg.StaticeConsole(LogLevel.INFO, "Response content: {0}");
             var result = JsonConvert.DeserializeObject<T>(stringValue, jsonConverters);
-            Logger.LogTrace("Response content: {0}", result);
+            DefaultLogger.StaticConsole(LogLevel.INFO, "Response content: {0}");
             return result;
         }
 
@@ -164,7 +165,7 @@ namespace CommerceApiSDK.Services
                     if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
                     {
                         var model = DeserializeModel<T>(httpResponseMessage, jsonConverters);
-                        Logger.LogDebug("Insert Cache key:{0}", key);
+                        loggerService.LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}");
                         await cacheService.OfflineCache.InsertObject(key, model, DateTimeOffset.Now.AddMinutes(CacheService.OfflineCacheMinutes));
                         return model;
                     }
@@ -180,7 +181,7 @@ namespace CommerceApiSDK.Services
 
             if (result == null)
             {
-                Logger.LogWarn(" {0} response is null", null, key);
+                loggerService.LogConsole(LogLevel.WARN, " {0} response is null");
                 await cacheService.OnlineCache.Invalidate(key);
                 return null;
             }
@@ -208,7 +209,7 @@ namespace CommerceApiSDK.Services
                     {
                         string receivedString = await httpResponseMessage.Content.ReadAsStringAsync();
                         await cacheService.OfflineCache.InsertObject(key, receivedString, DateTimeOffset.Now.AddMinutes(CacheService.OfflineCacheMinutes));
-                        Logger.LogDebug("Insert Cache key:{0}", key);
+                        loggerService.LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}");
                         return receivedString;
                     }
                 }
@@ -223,7 +224,7 @@ namespace CommerceApiSDK.Services
 
             if (result == null)
             {
-                Logger.LogWarn(" {0} response is null", null, key);
+                loggerService.LogConsole(LogLevel.WARN, " {0} response is null");
                 await cacheService.OnlineCache.Invalidate(key);
                 return null;
             }
@@ -236,12 +237,12 @@ namespace CommerceApiSDK.Services
             try
             {
                 var offlineObject = await cacheService.OfflineCache.GetObject<T>(key);
-                Logger.LogTrace("Get Offline cache object for {0} :{1}", null, key, offlineObject);
+                loggerService.LogConsole(LogLevel.INFO, "Get Offline cache object for {0} :{1}");
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                Logger.LogWarn("Offline cache object for {0} not found", key);
+                loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                 return null;
             }
         }
@@ -269,7 +270,7 @@ namespace CommerceApiSDK.Services
                 try
                 {
                     var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
-                    Logger.LogTrace("GetAsync No Cache Response for {0}:{1}", url, result);
+                    loggerService.LogConsole(LogLevel.INFO, "GetAsync No Cache Response for {0}:{1}");
                     return result;
                 }
                 catch (Exception exception)
@@ -289,11 +290,10 @@ namespace CommerceApiSDK.Services
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 string result = await httpResponseMessage.Content.ReadAsStringAsync();
-                Logger.LogTrace("GetAsync String No Cache response for {0}: {1}", url, result);
+                loggerService.LogConsole(LogLevel.INFO, "GetAsync String No Cache response for {0}: {1}");
                 return result;
             }
-
-            Logger.LogError("Response for {0} is null", url);
+            loggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null");
             return null;
         }
 
@@ -304,11 +304,10 @@ namespace CommerceApiSDK.Services
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 string result = await httpResponseMessage.Content.ReadAsStringAsync();
-                Logger.LogTrace("GetAsync String No Cache No Host response for {0}: {1}", url, result);
+                loggerService.LogConsole(LogLevel.INFO, "GetAsync String No Cache No Host response for {0}: {1}");
                 return result;
             }
-
-            Logger.LogError("Response for {0} is null", url);
+            loggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null");
             return null;
         }
 
@@ -322,8 +321,7 @@ namespace CommerceApiSDK.Services
                 var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
                 return result;
             }
-
-            Logger.LogWarn("PostAsyncNoCache for {0} is null", null, url);
+            loggerService.LogConsole(LogLevel.WARN, "PostAsyncNoCache for {0} is null");
             return null;
         }
 
@@ -376,7 +374,7 @@ namespace CommerceApiSDK.Services
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
-                Logger.LogTrace("Patch No cache host response for {0}:{1}", null, url, result);
+                loggerService.LogConsole(LogLevel.INFO, "Patch No cache host response for {0}:{1}");
 
                 return result;
             }
@@ -408,19 +406,19 @@ namespace CommerceApiSDK.Services
 
         protected async Task ClearOnlineCacheForUrlsStartingWith<T>(string urlPrefix)
         {
-            Logger.LogDebug("Remove online cache for objects from type: {0} with keys starting with: {1}", typeof(T).Name, urlPrefix);
+            loggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0} with keys starting with: {1}");
             await cacheService.OnlineCache.InvalidateObjectWithKeysStartingWith<T>(urlPrefix);
         }
 
         protected async Task ClearOnlineCacheForSpecificUrl<T>(string url)
         {
-            Logger.LogDebug("Remove online cache for object from type: {0} with key:{1}", typeof(T).Name, url);
+            loggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for object from type: {0} with key:{1}");
             await cacheService.OnlineCache.InvalidateObject<T>(url);
         }
 
         protected async Task ClearOnlineCacheForObjects<T>()
         {
-            Logger.LogDebug("Remove online cache for objects from type: {0}", typeof(T).Name);
+            loggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0}");
             await cacheService.OnlineCache.InvalidateAllObjects<T>();
         }
     }

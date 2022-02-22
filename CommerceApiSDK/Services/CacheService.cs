@@ -37,10 +37,12 @@ namespace CommerceApiSDK.Services
         public IBlobCache LocalStorage => localStorage.Value;
 
         private readonly IFilesystemProvider filesystemProvider;
+        private readonly ILoggerService loggerService;
 
-        public CacheService(IFilesystemProvider filesystemProvider)
+        public CacheService(IFilesystemProvider filesystemProvider, ILoggerService loggerService)
         {
             this.filesystemProvider = filesystemProvider;
+            this.loggerService = loggerService;
             offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
             onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
             localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
@@ -82,12 +84,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.InsertObject(key, value);
-                Logger.LogTrace("Persisting succesfully object: {0} for key:{1}", null, value, key);
+                loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
                 return true;
             }
             catch
             {
-                Logger.LogWarn("Error in persisting object for {0} for key{1}: ", null, value, key);
+                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
                 return false;
             }
         }
@@ -103,12 +105,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.Insert(key, value);
-                Logger.LogTrace("Persisting succesfully object: {0} for key:{1}", null, value, key);
+                DefaultLogger.StaticConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
                 return true;
             }
             catch
             {
-                Logger.LogWarn("Error in persisting object for {0} for key{1}: ", null, value, key);
+                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
                 return false;
             }
         }
@@ -120,7 +122,7 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    Logger.LogWarn("Offline cache object for {0} not found", key);
+                    DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                     return null;
                 }
 
@@ -129,7 +131,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                Logger.LogWarn("Error in load persisted data object for key{0}: \nError message {1}", key, ex.Message);
+                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}");
                 return null;
             }
         }
@@ -141,17 +143,17 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    Logger.LogWarn("Offline cache object for {0} not found", key);
+                    DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                     return null;
                 }
 
                 byte[] offlineObject = await LocalStorage.Get(key);
-                Logger.LogTrace("Get Persisted object for {0} :{1}", null, key, offlineObject);
+                DefaultLogger.StaticConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}");
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                Logger.LogWarn("Offline cache object for {0} not found", key);
+                DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                 return null;
             }
         }

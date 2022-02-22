@@ -48,7 +48,7 @@ namespace CommerceApiSDK.Services
                 services.AddSingleton<ITranslationService, TranslationService>();
                 services.AddSingleton<IDealerService, DealerService>();
                 services.AddSingleton<IPaymentProfileService, PaymentProfileService>();
-
+                services.AddSingleton<ILoggerService, DefaultLogger>();
             });
            
         }
