@@ -1,11 +1,12 @@
-﻿using CommerceApiSDK.Services.Interfaces;
+﻿using CommerceApiSDK.Models;
+using CommerceApiSDK.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 namespace CommerceApiSDK.Services
 {
     public class OptimizelyService : IOptimizelyService
     {
-        public void Init(string host, string clientId, string clientSecret)
+        public void Init(string host, string clientId, string clientSecret, bool isCachingEnabled)
         {
             Host.CreateDefaultBuilder().ConfigureServices((_, services) =>
             {
@@ -49,6 +50,8 @@ namespace CommerceApiSDK.Services
                 services.AddSingleton<IDealerService, DealerService>();
                 services.AddSingleton<IPaymentProfileService, PaymentProfileService>();
                 services.AddSingleton<ILoggerService, DefaultLogger>();
+
+                ClientConfig.InitClientConfig(" ", " ", " ", true);
             });
            
         }
