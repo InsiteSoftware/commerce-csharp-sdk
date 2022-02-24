@@ -17,8 +17,8 @@ namespace CommerceApiSDK.Services
             return $"/api/v1/billtos/{billToId}/shiptos";
         }
 
-        public AddressService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public AddressService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

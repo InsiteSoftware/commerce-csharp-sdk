@@ -23,12 +23,14 @@ namespace CommerceApiSDK.Services
             INetworkService networkService,
             ITrackingService trackingService,
             IMvxMessenger messenger,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            ILoggerService loggerService)
             : base(
                   clientService,
                   networkService,
                   trackingService,
-                  cacheService)
+                  cacheService,
+                  loggerService)
         {
             this.messenger = messenger;
         }

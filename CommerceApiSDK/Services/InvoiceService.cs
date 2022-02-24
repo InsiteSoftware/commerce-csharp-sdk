@@ -12,8 +12,8 @@ namespace CommerceApiSDK.Services
     {
         private const string InvoicesUrl = "/api/v1/invoices";
 
-        public InvoiceService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public InvoiceService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

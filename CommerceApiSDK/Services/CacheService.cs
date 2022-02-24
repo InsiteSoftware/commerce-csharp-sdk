@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3;
 using CommerceApiSDK.Services.Interfaces;
-using CommerceApiSDK.Utils.Logger;
 
 namespace CommerceApiSDK.Services
 {
@@ -89,7 +88,7 @@ namespace CommerceApiSDK.Services
             }
             catch
             {
-                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
+                loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
                 return false;
             }
         }
@@ -105,12 +104,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.Insert(key, value);
-                DefaultLogger.StaticConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
+                loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}");
                 return true;
             }
             catch
             {
-                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
+                loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ");
                 return false;
             }
         }
@@ -122,7 +121,7 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
+                    loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                     return null;
                 }
 
@@ -131,7 +130,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                DefaultLogger.StaticConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}");
+                loggerService.LogConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}");
                 return null;
             }
         }
@@ -143,17 +142,17 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
+                    loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                     return null;
                 }
 
                 byte[] offlineObject = await LocalStorage.Get(key);
-                DefaultLogger.StaticConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}");
+                loggerService.LogConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}");
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                DefaultLogger.StaticConsole(LogLevel.WARN, "Offline cache object for {0} not found");
+                loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found");
                 return null;
             }
         }

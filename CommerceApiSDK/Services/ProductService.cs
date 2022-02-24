@@ -16,8 +16,8 @@ namespace CommerceApiSDK.Services
         private const string RealTimePricingUrl = "/api/v1/realtimepricing";
         private const string RealTimeInventoryUrl = "/api/v1/realtimeinventory";
 
-        public ProductService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public ProductService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

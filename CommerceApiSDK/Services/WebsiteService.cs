@@ -23,8 +23,7 @@ namespace CommerceApiSDK.Services
         private readonly ISessionService sessionService;
         private readonly ILoggerService loggerService;
 
-        public WebsiteService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ISessionService sessionService, ICacheService cacheService, ILoggerService loggerService
-            )
+        public WebsiteService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ISessionService sessionService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
             this.sessionService = sessionService;

@@ -26,8 +26,8 @@ namespace CommerceApiSDK.Services
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-        public CartLineService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public CartLineService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

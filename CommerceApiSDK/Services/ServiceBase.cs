@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Akavache;
 using CommerceApiSDK.Services.Interfaces;
-using CommerceApiSDK.Utils.Logger;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Services
@@ -91,9 +90,10 @@ namespace CommerceApiSDK.Services
         /// <returns>Populated Object type T</returns>
         protected static T DeserializeModel<T>(string stringValue, JsonConverter[] jsonConverters = null)
         {
-            logg.StaticeConsole(LogLevel.INFO, "Response content: {0}");
+            //ToDo replace the DefaultLogger in future commits.
+            //DefaultLogger.StaticeConsole(LogLevel.INFO, "Response content: {0}");
             var result = JsonConvert.DeserializeObject<T>(stringValue, jsonConverters);
-            DefaultLogger.StaticConsole(LogLevel.INFO, "Response content: {0}");
+            //DefaultLogger.StaticConsole(LogLevel.INFO, "Response content: {0}");
             return result;
         }
 

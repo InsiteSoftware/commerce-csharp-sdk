@@ -42,8 +42,9 @@ namespace CommerceApiSDK.Services
             ISecureStorageService secureStorageService,
             ILocalStorageService localStorageService,
             IMvxMessenger messenger,
-            ITrackingService trackingService)
-            : base(secureStorageService, localStorageService, messenger, trackingService)
+            ITrackingService trackingService,
+            ILoggerService loggerService)
+            : base(secureStorageService, localStorageService, messenger, trackingService, loggerService)
         {
         }
 
