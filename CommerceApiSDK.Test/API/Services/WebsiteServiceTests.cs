@@ -20,7 +20,8 @@ namespace CommerceApiSDK.Test.Services
                 NetworkServiceMock.Object,
                 TrackingServiceMock.Object,
                 SessionServiceMock.Object,
-                CacheServiceMock.Object);
+                CacheServiceMock.Object,
+                LoggerServiceMock.Object);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace CommerceApiSDK.Test.Services
             string domain = "https://mobileautomation.insitesandbox.com";
             string path = "/Catalog/Power-Tools/Circular-Saws";
 
-            websiteService = new WebsiteService(ClientServiceMock.Object, NetworkServiceMock.Object, TrackingServiceMock.Object, SessionServiceMock.Object, CacheServiceMock.Object);
+            websiteService = new WebsiteService(ClientServiceMock.Object, NetworkServiceMock.Object, TrackingServiceMock.Object, SessionServiceMock.Object, CacheServiceMock.Object, LoggerServiceMock.Object);
 
             ClientServiceMock.Setup(o => o.Url).Returns(new Uri(domain));
             SessionServiceMock.Setup(x => x.CurrentSession).Returns(new Session { });

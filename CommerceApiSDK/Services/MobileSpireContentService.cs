@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using CommerceApiSDK.Services.Interfaces;
-using CommerceApiSDK.Utils.Logger;
 
 namespace CommerceApiSDK.Services
 {
@@ -12,12 +11,14 @@ namespace CommerceApiSDK.Services
             IClientService clientService,
             INetworkService networkService,
             ITrackingService trackingService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            ILoggerService loggerService)
           : base(
                 clientService,
                 networkService,
                 trackingService,
-                cacheService)
+                cacheService,
+                loggerService)
         {
         }
 
@@ -29,7 +30,8 @@ namespace CommerceApiSDK.Services
             }
 
             string url = $"{contentUrl}{pageName}";
-            DefaultLogger.StaticConsole(LogLevel.INFO, "Response content: {0}");
+
+            loggerService.LogConsole(LogLevel.INFO, "Response content: {0}");
 
             return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
         }

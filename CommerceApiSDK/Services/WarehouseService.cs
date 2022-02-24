@@ -10,8 +10,8 @@ namespace CommerceApiSDK.Services
     {
         private const string WarehousesUrl = "/api/v1/warehouses";
 
-        public WarehouseService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-         : base(clientService, networkService, trackingService, cacheService)
+        public WarehouseService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+         : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 
