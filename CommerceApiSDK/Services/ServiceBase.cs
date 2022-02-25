@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Akavache;
+using CommerceApiSDK.Models;
 using CommerceApiSDK.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -56,6 +57,9 @@ namespace CommerceApiSDK.Services
         protected readonly ITrackingService TrackingService;
         protected readonly ICacheService cacheService;
         protected readonly ILoggerService loggerService;
+
+        public bool IsCacheEnabled { get; }
+
         public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(60.0);
 
         protected ServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
@@ -65,6 +69,7 @@ namespace CommerceApiSDK.Services
             TrackingService = trackingService;
             this.cacheService = cacheService;
             this.loggerService = loggerService;
+            IsCacheEnabled= ClientConfig.IsCachingEnabled;
         }
 
         /// <summary>
@@ -170,7 +175,7 @@ namespace CommerceApiSDK.Services
                         return model;
                     }
                 }
-                else
+                else if(IsCacheEnabled)
                 {
                     return await GetOfflineData<T>(key);
                 }
@@ -213,7 +218,7 @@ namespace CommerceApiSDK.Services
                         return receivedString;
                     }
                 }
-                else
+                else if(IsCacheEnabled)
                 {
                     return await GetOfflineData<string>(key);
                 }
@@ -258,7 +263,7 @@ namespace CommerceApiSDK.Services
         {
             string key = Client.Host + url + Client.SessionStateKey;
 
-            if (!IsOnline)
+            if (!IsOnline && IsCacheEnabled)
             {
                 return await GetOfflineData<T>(key);
             }
