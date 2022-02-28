@@ -33,7 +33,7 @@ namespace CommerceApiSDK.Services
                 // services.AddSingleton<IAppConfigurationService, AppConfigurationService>();
                 // services.AddSingleton<ILocatorService, LocatorService>();
 
-                services.AddSingleton<IAddressService, AddressService>();
+                services.AddSingleton<IBillToService, BillToService>();
                 services.AddSingleton<ICartLineService, CartLineService>();
                 services.AddSingleton<ICartService, CartService>();
                 services.AddSingleton<IOrderService, OrderService>();
