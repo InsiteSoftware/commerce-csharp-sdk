@@ -141,18 +141,17 @@ namespace CommerceApiSDK.Services
                 messageName
             });
 
-            // ability to set messages to blank, so validate is null only here
             SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
             if (siteMessageItem != null)
             {
-                return siteMessageItem.Message.StripHtml();
+                return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
             }
             else
             {
                 siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => string.IsNullOrEmpty(x.LanguageCode) && x.Message != null);
                 if (siteMessageItem != null)
                 {
-                    return siteMessageItem.Message.StripHtml();
+                    return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
                 }
             }
 
