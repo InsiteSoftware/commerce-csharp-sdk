@@ -10,8 +10,8 @@ namespace CommerceApiSDK.Services
     {
         private const string mobileContentUrlFormat = "/api/v1/mobilecontent/{0}";
 
-        public MobileContentService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-          : base(clientService, networkService, trackingService, cacheService)
+        public MobileContentService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+          : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

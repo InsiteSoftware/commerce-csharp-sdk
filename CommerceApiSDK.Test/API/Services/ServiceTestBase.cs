@@ -18,6 +18,7 @@ namespace CommerceApiSDK.Test.Services
         protected Mock<ISessionService> SessionServiceMock;
         protected Mock<IMvxLogProvider> LogProviderMock;
         protected Mock<ICacheService> CacheServiceMock;
+        protected Mock<ILoggerService> LoggerServiceMock;
 
         protected virtual void SetUp()
         {
@@ -27,6 +28,7 @@ namespace CommerceApiSDK.Test.Services
             SessionServiceMock = new Mock<ISessionService>();
             LogProviderMock = new Mock<IMvxLogProvider>();
             CacheServiceMock = new Mock<ICacheService>();
+            LoggerServiceMock = new Mock<ILoggerService>();
 
             MvxSingleton.ClearAllSingletons();
             MvxIocOptions iocOptions = new MvxIocOptions()

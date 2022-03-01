@@ -6,6 +6,10 @@
     <Configurations>Debug;FakeClient;Release</Configurations>
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageId>optmizely.commerce</PackageId>
+    <PackageVersion>1.0.3</PackageVersion>
+    <Authors>Naveen Kumar</Authors>
+    <Description>Test</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
@@ -36,9 +40,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Attributes\OrderSortOrderAttribute.cs" />
@@ -53,5 +56,11 @@
     <None Remove="Fake\FakeResponses\websites-current.json" />
     <None Remove="Fake\FakeResponses\cms-shop-v1.json" />
     <None Remove="Microsoft.CodeAnalysis.NetAnalyzers" />
+    <None Remove="Microsoft.Extensions.DependencyInjection" />
+    <None Remove="Microsoft.Extensions.Hosting" />
+    <None Remove="NuGet.Build.Packaging" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
   </ItemGroup>
 </Project>

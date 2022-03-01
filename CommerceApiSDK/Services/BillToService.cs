@@ -9,16 +9,22 @@ using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
 {
-    public class AddressService : ServiceBase, IAddressService
+    public class BillToService : ServiceBase, IBillToService
     {
         private const string BillToToUrl = "/api/v1/billtos";
+
         private string ShipToToUrl(string billToId)
         {
             return $"/api/v1/billtos/{billToId}/shiptos";
         }
 
-        public AddressService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        private string BillToIdUrl(string billToId)
+        {
+            return $"/api/v1/billtos/{billToId}";
+        }
+
+        public BillToService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 
@@ -58,6 +64,57 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<BillToResult> PostBillToAddressesAsync(BillToResult billTo)
+        {
+            try
+            {
+                var url = BillToToUrl;
+                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
+
+                var result = await this.PostAsyncNoCache<BillToResult>(url, stringContent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                TrackingService.TrackException(ex);
+                return null;
+            }
+        }
+
+        public async Task<BillToResult> GetBillToAddress(string billToId)
+        {
+            try
+            {
+                string url = BillToIdUrl(billToId);
+                return await GetAsyncNoCache<BillToResult>(url);
+
+            }
+            catch (Exception e)
+            {
+                TrackingService.TrackException(e);
+                return null;
+            }
+        }
+
+        public async Task<BillToResult> PatchBillToAddress(string billToId, BillToResult billTo)
+        {
+            try
+            {
+                var url = BillToIdUrl(billToId);
+                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
+
+                var result = await this.PatchAsyncNoCache<BillToResult>(url, stringContent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                TrackingService.TrackException(ex);
+                return null;
+            }
+        }
+            
         public async Task<GetShipTosResult> GetShipToAddressesAsync(string billToId, string searchText = null, int pageNumber = 1, int pageSize = 16, bool excludeShowingAll = true)
         {
             try
@@ -124,6 +181,25 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<ShipTo> PatchShipToAddress(string billToId, string shipToId, ShipTo shipTo)
+        {
+            try
+            {
+                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
+
+                var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);
+
+                return result;
+            }
+
+            catch(Exception ex)
+            {
+                TrackingService.TrackException(ex);
                 return null;
             }
         }

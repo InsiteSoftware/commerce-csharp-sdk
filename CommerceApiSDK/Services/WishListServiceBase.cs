@@ -6,7 +6,7 @@ namespace CommerceApiSDK.Services
 {
     public class WishListServiceBase : ServiceBase
     {
-        public WishListServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService) : base(clientService, networkService, trackingService, cacheService)
+        public WishListServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService) : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

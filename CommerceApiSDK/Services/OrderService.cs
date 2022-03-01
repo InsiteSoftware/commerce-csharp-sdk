@@ -15,8 +15,8 @@ namespace CommerceApiSDK.Services
         private const string OrdersUrl = "/api/v1/orders";
         private const string OrderStatusMappingsUrl = "/api/v1/orderstatusmappings";
 
-        public OrderService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public OrderService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 

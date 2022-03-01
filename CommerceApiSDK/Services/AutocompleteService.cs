@@ -16,12 +16,14 @@ namespace CommerceApiSDK.Services
             IClientService clientService,
             INetworkService networkService,
             ITrackingService trackingService,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            ILoggerService loggerService)
             : base(
                   clientService,
                   networkService,
                   trackingService,
-                  cacheService)
+                  cacheService,
+                  loggerService)
         {
         }
 

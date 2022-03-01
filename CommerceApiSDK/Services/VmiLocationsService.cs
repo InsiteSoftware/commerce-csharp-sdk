@@ -22,12 +22,14 @@ namespace CommerceApiSDK.Services
             INetworkService networkService,
             ITrackingService trackingService,
             ICacheService cacheService,
-            IGooglePlacesService googlePlacesService)
+            IGooglePlacesService googlePlacesService,
+            ILoggerService loggerService)
             : base(
                   clientService,
                   networkService,
                   trackingService,
-                  cacheService)
+                  cacheService,
+                  loggerService)
         {
             this.googlePlacesService = googlePlacesService;
         }

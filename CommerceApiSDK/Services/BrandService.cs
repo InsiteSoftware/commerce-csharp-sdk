@@ -15,8 +15,8 @@ namespace CommerceApiSDK.Services
         private const string BrandSubCategoriesUrlFormat = "/api/v1/brands/{0}/categories/{1}";
         private const string BrandProductLinesUrlFormat = "/api/v1/brands/{0}/productlines";
 
-        public BrandService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService)
-            : base(clientService, networkService, trackingService, cacheService)
+        public BrandService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
+            : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 
