@@ -41,7 +41,7 @@
 
     public class AgingBucket
     {
-        public Amount Amount { get; set; }
+        public int Amount { get; set; }
         public string AmountDisplay { get; set; }
         public string Label { get; set; }
     }
@@ -52,8 +52,5 @@
         public string AgingBucketTotal { get; set; }
         public string AgingBucketFuture { get; set; }
     }
-
-    public class Amount
-    {
-    }
+   
 }
