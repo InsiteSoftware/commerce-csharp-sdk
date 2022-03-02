@@ -12,7 +12,6 @@ namespace CommerceApiSDK.Services
     public class ProductService : ServiceBase, IProductService
     {
         private const string ProductsUrl = "/api/v1/products";
-        private const string MainProductUrl = "/api/v1/catalogpages?path=";
         private const string RealTimePricingUrl = "/api/v1/realtimepricing";
         private const string RealTimeInventoryUrl = "/api/v1/realtimeinventory";
 
@@ -117,28 +116,6 @@ namespace CommerceApiSDK.Services
                 if (productResult.Product != null)
                 {
                     FixProduct(productResult.Product);
-                }
-
-                return productResult;
-            }
-            catch (Exception exception)
-            {
-                TrackingService.TrackException(exception);
-                return null;
-            }
-        }
-
-        public async Task<GetCatalogPageResult> GetProductCatalogInformation(string productPath)
-        {
-            try
-            {
-                string url = $"{MainProductUrl}{productPath}";
-
-                GetCatalogPageResult productResult = await GetAsyncWithCachedResponse<GetCatalogPageResult>(url);
-
-                if (productResult == null)
-                {
-                    return null;
                 }
 
                 return productResult;

@@ -29,7 +29,12 @@ namespace CommerceApiSDK.Services
                 services.AddSingleton<IProductService, ProductService>();
                 services.AddSingleton<IWebsiteService, WebsiteService>();
                 services.AddSingleton<IWarehouseService, WarehouseService>();
+                
+                
                 services.AddSingleton<ITokenexconfigService, TokenexconfigService>();
+
+                services.AddSingleton<ICatalogpagesService, CatalogpagesService>();
+
 
                 // services.AddSingleton<IAppConfigurationService, AppConfigurationService>();
                 // services.AddSingleton<ILocatorService, LocatorService>();
