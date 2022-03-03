@@ -31,7 +31,7 @@ namespace CommerceApiSDK.Services
                 services.AddSingleton<IWarehouseService, WarehouseService>();
                 
                 
-                services.AddSingleton<ITokenexconfigService, TokenexconfigService>();
+                services.AddSingleton<ITokenExConfigService, TokenExConfigService>();
 
                 services.AddSingleton<ICatalogpagesService, CatalogpagesService>();
 
