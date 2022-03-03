@@ -14,7 +14,7 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<DashboardPanelsResult> GetDashboardpanelsAsync()
+        public async Task<DashboardPanelsResult> GetDashboardPanelsAsync()
         {
             try
             {
