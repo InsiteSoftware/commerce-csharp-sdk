@@ -56,7 +56,4 @@
     <None Remove="Microsoft.Extensions.Hosting" />
     <None Remove="NuGet.Build.Packaging" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
-  </ItemGroup>
 </Project>
