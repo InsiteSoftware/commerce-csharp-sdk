@@ -5,7 +5,7 @@ using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
-    public interface ITokenexconfigService
+    public interface ITokenExConfigService
     {
         Task<TokenExDto> GetTokenexconfigAsync();
     }
