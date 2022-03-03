@@ -34,6 +34,7 @@ namespace CommerceApiSDK.Services
                 services.AddSingleton<ITokenExConfigService, TokenExConfigService>();
 
                 services.AddSingleton<ICatalogpagesService, CatalogpagesService>();
+                services.AddSingleton<IDashboardPanelsService, DashboardPanelsService>();
 
 
                 // services.AddSingleton<IAppConfigurationService, AppConfigurationService>();
