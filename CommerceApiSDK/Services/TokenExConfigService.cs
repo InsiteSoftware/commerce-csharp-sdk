@@ -19,12 +19,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 TokenExDto tokenexConfig= await GetAsyncNoCache<TokenExDto>(TokenexconfigUrl, DefaultRequestTimeout);
-
-                if (tokenexConfig == null)
-                {
-                    return null;
-                }
-
+                
                 return tokenexConfig;
             }
             catch (Exception exception)
