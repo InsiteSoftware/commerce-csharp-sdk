@@ -84,5 +84,20 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the default warehouse id.</summary>
         public string DefaultWarehouseId { get; set; }
+
+        /// <summary>Gets or sets the AccessToken</summary>
+        public string AccessToken { get; set; }
+    }
+
+    public class Vmi : BaseModel
+    {
+        public List<VmiUser> VmiUsers { get; set; }
+    }
+
+    public class VmiUser : BaseModel
+    {
+        public string UserId { get; set; }
+        public List<string> VmiLocationNames { get; set; }
+        public List<string> VmiRoles { get; set; }
     }
 }
