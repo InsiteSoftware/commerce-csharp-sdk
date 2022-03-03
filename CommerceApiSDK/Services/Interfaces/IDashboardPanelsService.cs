@@ -4,8 +4,8 @@ using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
-    public interface IDashboardpanelsService
+    public interface IDashboardPanelsService
     {
-        Task<DashboardpanelsResult> GetDashboardpanelsAsync();
+        Task<DashboardPanelsResult> GetDashboardPanelsAsync();
     }
 }

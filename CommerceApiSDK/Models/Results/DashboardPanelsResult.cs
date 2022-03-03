@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CommerceApiSDK.Models.Results
 {
-    public class DashboardpanelsResult : BaseModel
+    public class DashboardPanelsResult : BaseModel
     {
         public List<DashboardPanel> dashboardPanels { get; set; }
     }
