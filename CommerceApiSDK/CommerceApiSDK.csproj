@@ -6,10 +6,6 @@
     <Configurations>Debug;FakeClient;Release</Configurations>
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageId>optmizely.commerce</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
-    <Authors>Naveen Kumar</Authors>
-    <Description>Test</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
@@ -59,8 +55,5 @@
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Microsoft.Extensions.Hosting" />
     <None Remove="NuGet.Build.Packaging" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CommerceApiSDK.Utils\CommerceApiSDK.Utils.csproj" />
   </ItemGroup>
 </Project>

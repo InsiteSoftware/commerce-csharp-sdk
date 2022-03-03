@@ -27,5 +27,9 @@
         public double Distance { get; set; }
 
         public string Description { get; set; }
+
+        public bool AllowPickup { get; set; }
+
+        public string PickupShipViaId { get; set; }
     }
 }
