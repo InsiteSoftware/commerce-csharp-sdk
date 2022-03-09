@@ -3,19 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models
 {
-    public enum FulfillmentMethodType : int
-    {
-        [Description("Ship")]
-        [FulfillmentMethodDisplayName("Ship")]
-        Ship,
-        [Description("PickUp")]
-        [FulfillmentMethodDisplayName("Pick Up")]
-        PickUp,
-    }
-
     public static class FulfillmentMethodExtensions
     {
         public static string Description(this FulfillmentMethodType value)

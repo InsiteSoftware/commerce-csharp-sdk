@@ -10,8 +10,6 @@ namespace CommerceApiSDK.Services
 {
     public class InvoiceService : ServiceBase, IInvoiceService
     {
-        private const string InvoicesUrl = "/api/v1/invoices";
-
         public InvoiceService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -26,7 +24,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{InvoicesUrl}/{parameters.InvoiceNumber}";
+                string url = $"{CommerceAPIConstants.InvoicesUrl}/{parameters.InvoiceNumber}";
 
                 if (parameters?.Expand != null)
                 {
@@ -53,7 +51,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = parameters == null ? InvoicesUrl : $"{InvoicesUrl}{parameters.ToQueryString()}";
+                string url = parameters == null ? CommerceAPIConstants.InvoicesUrl : $"{CommerceAPIConstants.InvoicesUrl}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetInvoiceResult>(url);
             }
             catch (Exception exception)
@@ -67,7 +65,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{InvoicesUrl}/shareinvoice";
+                string url = $"{CommerceAPIConstants.InvoicesUrl}/shareinvoice";
                 StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
 
                 return await PostAsyncNoResult(url, stringContent);

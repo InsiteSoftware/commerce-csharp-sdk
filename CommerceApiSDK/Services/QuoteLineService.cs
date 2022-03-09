@@ -8,8 +8,6 @@ namespace CommerceApiSDK.Services
 {
     public class QuoteLineService : ServiceBase, IQuoteLineService
     {
-        private const string QuoteLineUri = "/api/v1/quotes/{0}/quotelines/{1}";
-
         public QuoteLineService(
             IClientService clientService,
             INetworkService networkService,
@@ -29,7 +27,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = string.Format(QuoteLineUri, quoteId, quoteLineId);
+                string url = string.Format(CommerceAPIConstants.QuoteLineUri, quoteId, quoteLineId);
                 return await GetAsyncNoCache<QuoteLine>(url);
             }
             catch (Exception exception)
@@ -50,7 +48,7 @@ namespace CommerceApiSDK.Services
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(quoteLine));
 
-                string url = string.Format(QuoteLineUri, quoteId, quoteLine.Id);
+                string url = string.Format(CommerceAPIConstants.QuoteLineUri, quoteId, quoteLine.Id);
                 return await PatchAsyncNoCache<QuoteLine>(url, stringContent);
             }
             catch (Exception exception)

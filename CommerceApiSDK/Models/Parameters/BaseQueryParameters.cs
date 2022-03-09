@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using CommerceApiSDK.Attributes;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models.Parameters
 {

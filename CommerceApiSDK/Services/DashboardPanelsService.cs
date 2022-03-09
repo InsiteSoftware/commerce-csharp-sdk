@@ -7,8 +7,6 @@ namespace CommerceApiSDK.Services
 {
     public class DashboardPanelsService : ServiceBase, IDashboardPanelsService
     {
-        private const string DashboardPanelUrl = "/api/v1/dashboardpanels";
-
         public DashboardPanelsService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -18,7 +16,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = DashboardPanelUrl;
+                var url = CommerceAPIConstants.DashboardPanelUrl;
                 return await GetAsyncNoCache<DashboardPanelsResult>(url);
             }
             catch(Exception ex)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Attributes;
@@ -12,9 +13,6 @@ namespace CommerceApiSDK.Services
 {
     public class OrderService : ServiceBase, IOrderService
     {
-        private const string OrdersUrl = "/api/v1/orders";
-        private const string OrderStatusMappingsUrl = "/api/v1/orderstatusmappings";
-
         public OrderService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -56,7 +54,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{OrdersUrl}{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.OrdersUrl}{parameters.ToQueryString()}";
 
                 return await GetAsyncWithCachedResponse<GetOrderCollectionResult>(url);
             }
@@ -71,7 +69,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = OrdersUrl + "/" + orderNumber + "?expand=orderlines,shipments";
+                string url = CommerceAPIConstants.OrdersUrl + "/" + orderNumber + "?expand=orderlines,shipments";
 
                 return await GetAsyncWithCachedResponse<Order>(url);
             }
@@ -86,7 +84,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = OrderStatusMappingsUrl;
+                string url = CommerceAPIConstants.OrderStatusMappingsUrl;
 
                 GetOrderStatusMappingsResult result = await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
                 return result?.OrderStatusMappings;

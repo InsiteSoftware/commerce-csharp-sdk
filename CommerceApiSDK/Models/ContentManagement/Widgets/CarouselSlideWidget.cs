@@ -1,17 +1,11 @@
 ﻿using System.Drawing;
 using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.Enums;
 using MvvmCross.Plugin.Color;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public enum TextJustification
-    {
-        Left,
-        Center,
-        Right,
-    }
-
     public class CarouselSlideWidget : Widget
     {
         [JsonProperty("imageUrl")]

@@ -20,6 +20,7 @@
     <Folder Include="Models\ContentManagement\Widgets\" />
     <Folder Include="Models\ContentManagement\Pages\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Models\Enums\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MvvmCross.Plugin.Messenger" Version="7.1.2" />
@@ -55,5 +56,6 @@
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Microsoft.Extensions.Hosting" />
     <None Remove="NuGet.Build.Packaging" />
+    <None Remove="Models\Enum\" />
   </ItemGroup>
 </Project>

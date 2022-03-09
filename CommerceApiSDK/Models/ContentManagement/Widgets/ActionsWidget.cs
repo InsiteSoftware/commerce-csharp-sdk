@@ -2,55 +2,12 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public enum ActionType
-    {
-        Unknown,
-
-        // Custom CMS options
-        Custom,
-
-        // Predefined options
-        Categories,
-        [EnumMember(Value = "Brand")]
-        Brands,
-        Search,
-        QuickOrder,
-        OrderHistory,
-        Lists,
-        SavedOrders,
-        ChangeCustomer,
-        ViewAccountOnWebsite,
-        Settings,
-        SignOut,
-        [EnumMember(Value = "Locations")]
-        LocationFinder,
-
-        // Developer Options
-        ForceCrash,
-        ToggleLogging,
-        Invoices,
-        SavedPayments,
-        Quotes,
-        [EnumMember(Value = "VendorManagedInventory")]
-        VMI,
-
-        // VMI Actions
-        CountInventory,
-        CreateOrder,
-        ChangeLocation,
-    }
-
-    public enum ActionsLayout
-    {
-        List,
-        Grid,
-    }
-
     public class ActionsWidget : Widget
     {
         public class Action

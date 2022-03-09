@@ -7,15 +7,6 @@ namespace CommerceApiSDK.Services
 {
     public class SettingsService : ServiceBase, ISettingsService
     {
-        private const string SettingsUrl = "/api/v1/settings";
-        private const string ProductSettingsUrl = "/api/v1/settings/products";
-        private const string AccountSettingsUrl = "/api/v1/settings/account";
-        private const string WebsiteSettingsUrl = "/api/v1/settings/website";
-        private const string WishListSettingsUrl = "/api/v1/settings/wishlist";
-        private const string CartSettingsUrl = "/api/v1/settings/cart";
-        private const string MobileAppSettingsUrl = "/api/v1/settings/mobileapp";
-        private const string QuoteSettingsUri = "/api/v1/settings/quote";
-
         public SettingsService(
             IClientService clientService,
             INetworkService networkService,
@@ -30,7 +21,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Settings settings = await GetAsyncWithCachedResponse<Settings>(SettingsUrl, DefaultRequestTimeout);
+                Settings settings = await GetAsyncWithCachedResponse<Settings>(CommerceAPIConstants.SettingsUrl, DefaultRequestTimeout);
                 if (settings == null)
                 {
                     throw new NullReferenceException(
@@ -50,7 +41,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                ProductSettings settings = await GetAsyncWithCachedResponse<ProductSettings>(ProductSettingsUrl, DefaultRequestTimeout);
+                ProductSettings settings = await GetAsyncWithCachedResponse<ProductSettings>(CommerceAPIConstants.ProductSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -71,7 +62,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                AccountSettings settings = await GetAsyncWithCachedResponse<AccountSettings>(AccountSettingsUrl, DefaultRequestTimeout);
+                AccountSettings settings = await GetAsyncWithCachedResponse<AccountSettings>(CommerceAPIConstants.AccountSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -92,7 +83,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                WebsiteSettings settings = await GetAsyncWithCachedResponse<WebsiteSettings>(WebsiteSettingsUrl, DefaultRequestTimeout);
+                WebsiteSettings settings = await GetAsyncWithCachedResponse<WebsiteSettings>(CommerceAPIConstants.WebsiteSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -113,7 +104,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                WishListSettings settings = await GetAsyncWithCachedResponse<WishListSettings>(WishListSettingsUrl, DefaultRequestTimeout);
+                WishListSettings settings = await GetAsyncWithCachedResponse<WishListSettings>(CommerceAPIConstants.WishListSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -134,7 +125,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                CartSettings settings = await GetAsyncWithCachedResponse<CartSettings>(CartSettingsUrl, DefaultRequestTimeout);
+                CartSettings settings = await GetAsyncWithCachedResponse<CartSettings>(CommerceAPIConstants.CartSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -155,7 +146,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                MobileAppSettings settings = await GetAsyncWithCachedResponse<MobileAppSettings>(MobileAppSettingsUrl, DefaultRequestTimeout);
+                MobileAppSettings settings = await GetAsyncWithCachedResponse<MobileAppSettings>(CommerceAPIConstants.MobileAppSettingsUrl, DefaultRequestTimeout);
 
                 if (settings == null)
                 {
@@ -176,7 +167,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<QuoteSetting>(QuoteSettingsUri);
+                return await GetAsyncNoCache<QuoteSetting>(CommerceAPIConstants.QuoteSettingsUri);
             }
             catch (Exception exception)
             {

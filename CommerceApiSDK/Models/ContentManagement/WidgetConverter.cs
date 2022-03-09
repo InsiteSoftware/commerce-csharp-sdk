@@ -1,5 +1,6 @@
 ﻿using System;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -38,6 +39,7 @@ namespace CommerceApiSDK.Models.ContentManagement
             if (widgetType != null)
             {
                 string value = widgetType.Value<string>();
+
 
                 if (value == Enum.GetName(typeof(WidgetType), WidgetType.MobileCarousel))
                 {

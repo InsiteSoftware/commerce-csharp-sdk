@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Attributes
 {
-    public enum QueryListParameterType
-    {
-        RepeatingParameter = 0,
-        CommaSeparated = 1,
-    }
-
-    public enum QueryOptions
-    {
-        DoNotEncode,
-        DoNotQuery,
-    }
-
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public sealed class QueryParameterAttribute : Attribute
     {

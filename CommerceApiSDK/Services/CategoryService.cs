@@ -13,11 +13,6 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class CategoryService : ServiceBase, ICategoryService
     {
-        private const string CategoryUrl = "/api/v1/categories";
-        private const string MobileImageProperty = "mobileImage";
-        private const string MobilePrimaryTextProperty = "mobilePrimaryText";
-        private const string MobileSecondaryTextProperty = "mobileSecondaryText";
-
         private CategoryResult lastCategoryResult;
 
         public CategoryService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
@@ -35,7 +30,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CategoryUrl;
+                string url = CommerceAPIConstants.CategoryUrl;
                 List<string> parameters = new List<string>();
                 if (startCategoryId.HasValue)
                 {
@@ -78,7 +73,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CategoryUrl + "/" + categoryId;
+                string url = CommerceAPIConstants.CategoryUrl + "/" + categoryId;
                 Category response = await GetAsyncWithCachedResponse<Category>(url);
                 return response;
             }
@@ -93,7 +88,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CategoryUrl;
+                string url = CommerceAPIConstants.CategoryUrl;
 
                 if (maxDepth.HasValue)
                 {
@@ -132,7 +127,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<bool> HasCategoryCache(Guid categoryId)
         {
-            string url = CategoryUrl + "/" + categoryId;
+            string url = CommerceAPIConstants.CategoryUrl + "/" + categoryId;
             return await HasCache(url);
         }
     }

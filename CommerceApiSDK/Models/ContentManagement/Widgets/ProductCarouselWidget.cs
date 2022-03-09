@@ -3,27 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.Enums;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public enum ProductCarouselType
-    {
-        Unknown,
-        FeaturedCategory,
-        RecentlyViewed,
-        TopSellers,
-        [EnumMember(Value = "crossSells")]
-        WebCrossSells,
-    }
-
-    public enum TopSellersCategoriesSpan
-    {
-        Unknown,
-        AllCategories,
-        SelectCategories,
-    }
-
     public class ProductCarouselWidget : Widget
     {
         [JsonConverter(typeof(ProductCarouselTypeEnumConverter))]

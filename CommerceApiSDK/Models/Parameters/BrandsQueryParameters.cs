@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommerceApiSDK.Attributes;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models.Parameters
 {

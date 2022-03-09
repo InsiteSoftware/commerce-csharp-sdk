@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Akavache;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Interfaces;
 using Newtonsoft.Json;
 

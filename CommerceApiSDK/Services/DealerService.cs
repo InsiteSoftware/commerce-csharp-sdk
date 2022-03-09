@@ -8,8 +8,6 @@ namespace CommerceApiSDK.Services
 {
     public class DealerService : ServiceBase, IDealerService
     {
-        private const string DealersUrl = "/api/v1/dealers";
-
         public DealerService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
          : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -17,7 +15,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<GetDealerCollectionResult> GetDealers(DealerLocationFinderQueryParameters parameters, CancellationToken? cancellationToken = null)
         {
-            string url = $"{DealersUrl}{parameters?.ToQueryString() ?? string.Empty}";
+            string url = $"{CommerceAPIConstants.DealersUrl}{parameters?.ToQueryString() ?? string.Empty}";
 
             return await GetAsyncWithCachedResponse<GetDealerCollectionResult>(url, null, null, cancellationToken);
         }

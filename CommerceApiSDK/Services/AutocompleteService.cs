@@ -10,7 +10,6 @@ namespace CommerceApiSDK.Services
 {
     public class AutocompleteService : ServiceBase, IAutocompleteService
     {
-        private const string AutocompleteUrl = "/api/v1/autocomplete";
 
         public AutocompleteService(
             IClientService clientService,
@@ -46,7 +45,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = AutocompleteUrl;
+                string url = CommerceAPIConstants.AutocompleteUrl;
                 List<string> parameters = new List<string>()
                 {
                     "query=" + searchQuery,
@@ -73,7 +72,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncWithCachedResponse<AutocompleteResult>(AutocompleteUrl + parameters.ToQueryString());
+                return await GetAsyncWithCachedResponse<AutocompleteResult>(CommerceAPIConstants.AutocompleteUrl + parameters.ToQueryString());
             }
             catch (Exception exception)
             {

@@ -17,9 +17,6 @@ namespace CommerceApiSDK.Services
         private readonly IMvxMessenger messenger;
         private MvxSubscriptionToken adminRefreshTokenNotificationSubscription;
 
-        private const string ResetPasswordUri = "/admin/account/ForgotPassword";
-        private const string AdminUserProfileUri = "/api/v1/admin/AdminUserProfiles/Default.Default()";
-
         public AdminAuthenticationService(
             IClientService clientService,
             ISessionService sessionService,
@@ -95,7 +92,7 @@ namespace CommerceApiSDK.Services
         {
             if (adminClientService.IsExistsAccessToken())
             {
-                await adminClientService.GetAsync(AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
+                await adminClientService.GetAsync(CommerceAPIConstants.AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
 
                 return adminClientService.IsExistsAccessToken();
             }
@@ -114,7 +111,7 @@ namespace CommerceApiSDK.Services
             Dictionary<string, string> payload = new Dictionary<string, string> { { "userName", userName } };
             StringContent stringContent = await Task.Run(() => ServiceBase.SerializeModel(payload, serializationSettings));
 
-            HttpResponseMessage httpResponseMessage = await adminClientService.PostAsync(ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
+            HttpResponseMessage httpResponseMessage = await adminClientService.PostAsync(CommerceAPIConstants.ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
