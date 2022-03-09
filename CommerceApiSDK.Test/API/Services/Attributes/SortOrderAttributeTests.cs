@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommerceApiSDK.Services.Attributes;
+using CommerceApiSDK.Test.API.Models.Enums;
 using CommerceApiSDK.Test.TestHelpers;
 using NUnit.Framework;
 
