@@ -18,4 +18,10 @@
     <ProjectReference Include="..\CommerceApiSDK\CommerceApiSDK.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="API\Models\Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="API\Models\Enums\" />
+  </ItemGroup>
 </Project>

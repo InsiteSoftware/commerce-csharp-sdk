@@ -1,6 +1,7 @@
-﻿using CommerceApiSDK.Services.Attributes;
+﻿using System;
+using CommerceApiSDK.Services.Attributes;
 
-namespace CommerceApiSDK.Test.TestHelpers
+namespace CommerceApiSDK.Test.API.Models.Enums
 {
     public enum TestEnumSortOrder
     {
