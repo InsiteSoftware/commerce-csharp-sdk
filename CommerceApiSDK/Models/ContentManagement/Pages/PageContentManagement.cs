@@ -4,7 +4,7 @@ using System.Drawing;
 using CommerceApiSDK.Models.ContentManagement.Converters;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
 using CommerceApiSDK.Models.Enums;
-using MvvmCross.Plugin.Color;
+using CommerceApiSDK.Services;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Pages
@@ -148,7 +148,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Pages
             set
             {
                 backgroundColor = value;
-                BackgroundTextColor = MvxHexParser.ColorFromHexString(value, true);
+                BackgroundTextColor = OptiHexParser.ColorFromHexString(value, true);
             }
         }
 
@@ -165,7 +165,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Pages
             set
             {
                 headingColor = value;
-                PrimaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                PrimaryTextColor = OptiHexParser.ColorFromHexString(value, true);
             }
         }
 
@@ -176,7 +176,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Pages
             set
             {
                 subheadingColor = value;
-                SecondaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                SecondaryTextColor = OptiHexParser.ColorFromHexString(value, true);
             }
         }
 

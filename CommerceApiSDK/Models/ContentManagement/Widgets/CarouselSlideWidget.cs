@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using CommerceApiSDK.Models.ContentManagement.Converters;
 using CommerceApiSDK.Models.Enums;
-using MvvmCross.Plugin.Color;
+using CommerceApiSDK.Services;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Widgets
@@ -28,7 +28,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
             set
             {
                 primaryTextColorHex = value;
-                PrimaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                PrimaryTextColor = OptiHexParser.ColorFromHexString(value, true);
             }
         }
 
@@ -44,7 +44,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
             set
             {
                 secondaryTextColorHex = value;
-                SecondaryTextColor = MvxHexParser.ColorFromHexString(value, true);
+                SecondaryTextColor = OptiHexParser.ColorFromHexString(value, true);
             }
         }
 
