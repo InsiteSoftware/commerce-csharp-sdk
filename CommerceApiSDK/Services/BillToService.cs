@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -11,50 +12,31 @@ namespace CommerceApiSDK.Services
 {
     public class BillToService : ServiceBase, IBillToService
     {
-        private const string BillToToUrl = "/api/v1/billtos";
+        private const string BillTosUrl = "/api/v1/billtos";
 
-        private string ShipToToUrl(string billToId)
-        {
-            return $"/api/v1/billtos/{billToId}/shiptos";
-        }
+        private static string ShipTosUrl(Guid billToId) => $"/api/v1/billtos/{billToId}/shiptos";
 
-        private string BillToIdUrl(string billToId)
-        {
-            return $"/api/v1/billtos/{billToId}";
-        }
+        private static string BillToIdUrl(Guid billToId) => $"/api/v1/billtos/{billToId}";
+
+        private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"/api/v1/billtos/{billToId}/shiptos/{shipToId}";
 
         public BillToService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
         }
 
-        public async Task<GetBillTosResult> GetBillToAddressesAsync(string searchText, int pageNumber = 1, int pageSize = 16, bool excludeShowingAll = true)
+        public async Task<GetBillTosResult> GetBillTosAsync(BillTosQueryParameters parameters = null)
         {
             try
             {
-                string url = BillToToUrl;
-                List<string> parameters = new List<string>()
+                string queryString = string.Empty;
+
+                if (parameters != null)
                 {
-                    "parameter.page=" + pageNumber,
-                    "parameter.pageSize=" + pageSize,
-                };
-                if (!string.IsNullOrWhiteSpace(searchText))
-                {
-                    parameters.Add("parameter.filter=" + WebUtility.UrlEncode(searchText));
+                    queryString = parameters.ToQueryString();
                 }
 
-                List<string> expandParameters = new List<string>();
-                if (excludeShowingAll)
-                {
-                    expandParameters.Add("excludeshowall");
-                }
-
-                if (expandParameters.Count > 0)
-                {
-                    parameters.Add("parameter.expand=" + string.Join(",", expandParameters));
-                }
-
-                url += "?" + string.Join("&", parameters);
+                string url = BillTosUrl + queryString;
                 return await GetAsyncNoCache<GetBillTosResult>(url);
             }
             catch (Exception exception)
@@ -64,14 +46,14 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<BillToResult> PostBillToAddressesAsync(BillToResult billTo)
+        public async Task<BillTo> PostBillTosAsync(BillTo billTo)
         {
             try
             {
-                var url = BillToToUrl;
+                var url = BillTosUrl;
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
-                var result = await this.PostAsyncNoCache<BillToResult>(url, stringContent);
+                var result = await this.PostAsyncNoCache<BillTo>(url, stringContent);
 
                 return result;
             }
@@ -82,12 +64,12 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<BillToResult> GetBillToAddress(string billToId)
+        public async Task<BillTo> GetBillTo(Guid billToId)
         {
             try
             {
                 string url = BillToIdUrl(billToId);
-                return await GetAsyncNoCache<BillToResult>(url);
+                return await GetAsyncNoCache<BillTo>(url);
 
             }
             catch (Exception e)
@@ -97,14 +79,14 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<BillToResult> PatchBillToAddress(string billToId, BillToResult billTo)
+        public async Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo)
         {
             try
             {
                 var url = BillToIdUrl(billToId);
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
-                var result = await this.PatchAsyncNoCache<BillToResult>(url, stringContent);
+                var result = await this.PatchAsyncNoCache<BillTo>(url, stringContent);
 
                 return result;
             }
@@ -115,35 +97,18 @@ namespace CommerceApiSDK.Services
             }
         }
             
-        public async Task<GetShipTosResult> GetShipToAddressesAsync(string billToId, string searchText = null, int pageNumber = 1, int pageSize = 16, bool excludeShowingAll = true)
+        public async Task<GetShipTosResult> GetShipTosAsync(Guid billToId, ShipTosQueryParameters parameters = null)
         {
             try
             {
-                string url = ShipToToUrl(billToId);
-                List<string> parameters = new List<string>()
-                {
-                    "apiParameter.page=" + pageNumber,
-                    "apiParameter.pageSize=" + pageSize,
-                    "apiParameter.billToId=" + billToId,
-                };
+                string queryString = string.Empty;
 
-                if (!string.IsNullOrWhiteSpace(searchText))
+                if (parameters != null)
                 {
-                    parameters.Add("apiParameter.filter=" + WebUtility.UrlEncode(searchText));
+                    queryString = parameters.ToQueryString();
                 }
 
-                List<string> expandParameters = new List<string>();
-                if (excludeShowingAll)
-                {
-                    expandParameters.Add("excludeshowall");
-                }
-
-                if (expandParameters.Count > 0)
-                {
-                    parameters.Add("apiParameter.expand=" + string.Join(",", expandParameters));
-                }
-
-                url += "?" + string.Join("&", parameters);
+                string url = ShipTosUrl(billToId) + queryString;
                 return await GetAsyncNoCache<GetShipTosResult>(url);
             }
             catch (Exception exception)
@@ -153,11 +118,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ShipTo> PostShipToAddressAsync(string billToId, ShipTo shipTo)
+        public async Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo)
         {
             try
             {
-                string url = ShipToToUrl(billToId);
+                string url = ShipTosUrl(billToId);
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
 
                 ShipTo result = await PostAsyncNoCache<ShipTo>(url, stringContent);
@@ -171,11 +136,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ShipTo> GetShipToAddress(Guid billToId, Guid shipToId)
+        public async Task<ShipTo> GetShipTo(Guid billToId, Guid shipToId)
         {
             try
             {
-                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                string url = ShipToIdUrl(billToId, shipToId);
                 return await GetAsyncNoCache<ShipTo>(url);
             }
             catch (Exception exception)
@@ -185,11 +150,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ShipTo> PatchShipToAddress(string billToId, string shipToId, ShipTo shipTo)
+        public async Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo)
         {
             try
             {
-                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                string url = ShipToIdUrl(billToId, shipToId);
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
 
                 var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);

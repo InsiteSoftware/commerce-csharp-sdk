@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
@@ -10,31 +11,20 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface IBillToService
     {
-        Task<GetBillTosResult> GetBillToAddressesAsync(
-            string searchText,
-            int pageNumber = 1,
-            int pageSize = 16,
-            bool excludeShowingAll = true);
+        Task<GetBillTosResult> GetBillTosAsync(BillTosQueryParameters parameters = null);
 
-        Task<BillToResult> PostBillToAddressesAsync(BillToResult billTo);
+        Task<BillTo> PostBillTosAsync(BillTo billTo);
 
-        Task<BillToResult> GetBillToAddress(string billToId);
+        Task<BillTo> GetBillTo(Guid billToId);
 
-        Task<BillToResult> PatchBillToAddress(string billToId, BillToResult billTo);
+        Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo);
 
-        Task<GetShipTosResult> GetShipToAddressesAsync(
-            string billToId,
-            string searchText = null,
-            int pageNumber = 1,
-            int pageSize = 16,
-            bool excludeShowingAll = true);
+        Task<GetShipTosResult> GetShipTosAsync(Guid billToId, ShipTosQueryParameters parameters = null);
 
-        Task<ShipTo> PostShipToAddressAsync(
-            string billToId,
-            ShipTo shipTo);
+        Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo);
 
-        Task<ShipTo> GetShipToAddress(Guid billToId, Guid shipToId);
+        Task<ShipTo> GetShipTo(Guid billToId, Guid shipToId);
 
-        Task<ShipTo> PatchShipToAddress(string billToId, string shipToId, ShipTo shipTo);
+        Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo);
     }
 }
