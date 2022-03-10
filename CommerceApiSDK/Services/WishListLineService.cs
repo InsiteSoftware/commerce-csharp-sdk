@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Attributes;
 using CommerceApiSDK.Services.Interfaces;
 

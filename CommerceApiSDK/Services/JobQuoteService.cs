@@ -10,8 +10,6 @@ namespace CommerceApiSDK.Services
 {
     public class JobQuoteService : ServiceBase, IJobQuoteService
     {
-        private const string JobQuoteUrl = "/api/v1/jobquotes";
-
         public JobQuoteService(
             IClientService clientService,
             INetworkService networkService,
@@ -26,7 +24,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<JobQuoteResult>(JobQuoteUrl);
+                return await GetAsyncNoCache<JobQuoteResult>(CommerceAPIConstants.JobQuoteUrl);
             }
             catch (Exception exception)
             {
@@ -44,7 +42,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{JobQuoteUrl}/{jobQuoteId}";
+                string url = $"{CommerceAPIConstants.JobQuoteUrl}/{jobQuoteId}";
 
                 return await GetAsyncNoCache<JobQuoteDto>(url);
             }
@@ -65,7 +63,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(jobQuoteUpdate));
-                string url = $"{JobQuoteUrl}/{jobQuoteUpdate.JobQuoteId}";
+                string url = $"{CommerceAPIConstants.JobQuoteUrl}/{jobQuoteUpdate.JobQuoteId}";
 
                 return await PatchAsyncNoCache<JobQuoteDto>(url, stringContent);
             }

@@ -8,8 +8,6 @@ namespace CommerceApiSDK.Services
 {
     public class MobileContentService : ServiceBase, IMobileContentService
     {
-        private const string mobileContentUrlFormat = "/api/v1/mobilecontent/{0}";
-
         public MobileContentService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
           : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -22,7 +20,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = string.Format(mobileContentUrlFormat, pageName);
+            string url = string.Format(CommerceAPIConstants.mobileContentUrlFormat, pageName);
 
             PageContentManagement result;
             if (useCache)
@@ -44,7 +42,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = string.Format(mobileContentUrlFormat, pageName);
+            string url = string.Format(CommerceAPIConstants.mobileContentUrlFormat, pageName);
 
             string result;
 

@@ -1,26 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommerceApiSDK.Models.ContentManagement.Converters;
+using CommerceApiSDK.Models.Enums;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public enum WidgetType
-    {
-        Unknown,
-        MobileCarousel,
-        MobileCarouselSlide,
-        MobileLinkList,
-        ProductCarousel,
-        MobileSearchHistory,
-        MobileSpacer,
-        MobileHeader,
-        MobileCurrentLocation,
-        MobileLocationNote,
-        MobileRecentBinNote,
-        MobilePreviousOrders,
-    }
-
     public class Widget
     {
         [JsonProperty("contentKey")]

@@ -11,10 +11,6 @@ namespace CommerceApiSDK.Services
 {
     public class VmiLocationsService : ServiceBase, IVmiLocationsService
     {
-        private const string VMILocationsUrl = "/api/v1/vmilocations";
-        private const string OrdersUrl = "/api/v1/orders";
-        private const string ProductsUrl = "/api/v1/products";
-
         private readonly IGooglePlacesService googlePlacesService;
 
         public VmiLocationsService(
@@ -68,7 +64,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiLocationResult>(url);
             }
             catch (Exception exception)
@@ -87,7 +83,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}";
 
                 if (parameters?.Expand != null)
                 {
@@ -123,11 +119,11 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
-                    return await PostAsyncNoCacheWithErrorMessage<VmiLocationModel>(VMILocationsUrl, stringContent);
+                    return await PostAsyncNoCacheWithErrorMessage<VmiLocationModel>(CommerceAPIConstants.VMILocationsUrl, stringContent);
                 }
                 else
                 {
-                    string editUrl = $"{VMILocationsUrl}/{model.Id}";
+                    string editUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{model.Id}";
                     return await PatchAsyncNoCacheWithErrorMessage<VmiLocationModel>(editUrl, stringContent);
                 }
             }
@@ -147,7 +143,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}";
+                string deleteUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}";
                 return await DeleteAsyncWithErrorMessage<VmiLocationModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -170,7 +166,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiBinResult>(url);
             }
             catch (Exception exception)
@@ -189,7 +185,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}";
 
                 VmiBinModel result = await GetAsyncNoCache<VmiBinModel>(url);
                 if (result == null)
@@ -215,7 +211,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{VMILocationsUrl}/{vmiLocationId}/bins";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
@@ -243,7 +239,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}";
+                string deleteUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}";
                 return await DeleteAsyncWithErrorMessage<VmiBinModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -266,7 +262,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiCountResult>(url);
             }
             catch (Exception exception)
@@ -285,7 +281,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
                 VmiCountModel result = await GetAsyncNoCache<VmiCountModel>(url);
                 if (result == null)
                 {
@@ -310,7 +306,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
 
                 if (model.Id.Equals(Guid.Empty))
@@ -339,7 +335,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts/{vmiCountId}";
+                string deleteUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts/{vmiCountId}";
                 return await DeleteAsyncWithErrorMessage<VmiCountModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -362,7 +358,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/notes{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/notes{parameters.ToQueryString()}";
                 GetVmiNoteResult result = await GetAsyncNoCache<GetVmiNoteResult>(url);
 
                 return result;
@@ -383,7 +379,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/notes/{parameters.VmiNoteId}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/notes/{parameters.VmiNoteId}";
 
                 VmiNoteModel result = await GetAsyncNoCache<VmiNoteModel>(url);
                 if (result == null)
@@ -409,7 +405,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
@@ -437,7 +433,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string deleteUrl = $"{VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes/{vmiNoteId}";
+                string deleteUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes/{vmiNoteId}";
                 return await DeleteAsyncWithErrorMessage<VmiNoteModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -477,7 +473,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(parameters.VmiLocationId)} is null");
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {
@@ -489,7 +485,7 @@ namespace CommerceApiSDK.Services
 
                     foreach (VmiBinModel item in response.VmiBins)
                     {
-                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
+                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}");
                         if (productResult?.Product != null)
                         {
                             FixProduct(productResult.Product);
@@ -523,7 +519,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(parameters.VmiLocationId)} is null");
                 }
 
-                string url = $"{VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {
@@ -531,7 +527,7 @@ namespace CommerceApiSDK.Services
 
                     foreach (VmiBinModel item in response.VmiBins)
                     {
-                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{ProductsUrl}/{item.ProductId}");
+                        GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>($"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}");
                         if (productResult?.Product != null)
                         {
                             AutocompleteProduct product = new AutocompleteProduct()

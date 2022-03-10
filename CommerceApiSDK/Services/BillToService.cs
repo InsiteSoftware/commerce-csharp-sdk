@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -12,13 +12,11 @@ namespace CommerceApiSDK.Services
 {
     public class BillToService : ServiceBase, IBillToService
     {
-        private const string BillTosUrl = "/api/v1/billtos";
+        private static string ShipTosUrl(Guid billToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos";
 
-        private static string ShipTosUrl(Guid billToId) => $"/api/v1/billtos/{billToId}/shiptos";
+        private static string BillToIdUrl(Guid billToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}";
 
-        private static string BillToIdUrl(Guid billToId) => $"/api/v1/billtos/{billToId}";
-
-        private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"/api/v1/billtos/{billToId}/shiptos/{shipToId}";
+        private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
 
         public BillToService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
@@ -36,7 +34,7 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = BillTosUrl + queryString;
+                string url = CommerceAPIConstants.BillToToUrl + queryString;
                 return await GetAsyncNoCache<GetBillTosResult>(url);
             }
             catch (Exception exception)
@@ -50,7 +48,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = BillTosUrl;
+                var url = CommerceAPIConstants.BillToToUrl;
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
                 var result = await this.PostAsyncNoCache<BillTo>(url, stringContent);

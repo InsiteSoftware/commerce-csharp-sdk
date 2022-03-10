@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommerceApiSDK.Extensions;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -14,12 +15,6 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class WebsiteService : ServiceBase, IWebsiteService
     {
-        private const string WebsitesUrl = "/api/v1/websites/current";
-        private const string WebsitesCrosssellsUrl = "/api/v1/websites/current/crosssells";
-        private const string WebsitesSiteMessagesUrl = "/api/v1/websites/current/sitemessages";
-        private const string WebsitesCountries = "/api/v1/websites/current/countries?expand=states";
-        private const string WebsitesLanguagesUrl = "/api/v1/websites/current/languages";
-
         private readonly ISessionService sessionService;
         private readonly ILoggerService loggerService;
 
@@ -34,7 +29,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Website website = await GetAsyncWithCachedResponse<Website>(WebsitesUrl, DefaultRequestTimeout);
+                Website website = await GetAsyncWithCachedResponse<Website>(CommerceAPIConstants.WebsitesUrl, DefaultRequestTimeout);
                 return website;
             }
             catch (Exception exception)
@@ -46,19 +41,19 @@ namespace CommerceApiSDK.Services
 
         public async Task<bool> HasWebsiteCache()
         {
-            return await HasCache(WebsitesUrl);
+            return await HasCache(CommerceAPIConstants.WebsitesUrl);
         }
 
         public async Task<bool> HasWebsiteCrosssellsCache()
         {
-            return await HasCache(WebsitesCrosssellsUrl);
+            return await HasCache(CommerceAPIConstants.WebsitesCrosssellsUrl);
         }
 
         public async Task<WebsiteCrosssells> GetWebsiteCrosssells()
         {
             try
             {
-                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(WebsitesCrosssellsUrl);
+                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(CommerceAPIConstants.WebsitesCrosssellsUrl);
             }
             catch (Exception exception)
             {
@@ -115,7 +110,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
         {
-            string url = WebsitesSiteMessagesUrl;
+            string url = CommerceAPIConstants.WebsitesSiteMessagesUrl;
 
             if (names != null)
             {
@@ -162,7 +157,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(WebsitesCountries);
+                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(CommerceAPIConstants.WebsitesCountries);
                 return result?.Countries;
             }
             catch (Exception exception)
@@ -176,7 +171,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return GetAsyncWithCachedResponse<LanguageCollectionModel>(WebsitesLanguagesUrl);
+                return GetAsyncWithCachedResponse<LanguageCollectionModel>(CommerceAPIConstants.WebsitesLanguagesUrl);
             }
             catch (Exception exception)
             {

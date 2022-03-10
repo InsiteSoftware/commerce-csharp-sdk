@@ -9,12 +9,6 @@ namespace CommerceApiSDK.Services
 {
     public class BrandService : ServiceBase, IBrandService
     {
-        private const string BrandAlphabetUrl = "/api/v1/brandalphabet";
-        private const string BrandUrl = "/api/v1/brands";
-        private const string BrandCategoriesUrlFormat = "/api/v1/brands/{0}/categories";
-        private const string BrandSubCategoriesUrlFormat = "/api/v1/brands/{0}/categories/{1}";
-        private const string BrandProductLinesUrlFormat = "/api/v1/brands/{0}/productlines";
-
         public BrandService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -24,7 +18,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<BrandAlphabetResult>(BrandAlphabetUrl);
+                return await GetAsyncNoCache<BrandAlphabetResult>(CommerceAPIConstants.BrandAlphabetUrl);
             }
             catch (Exception exception)
             {
@@ -37,7 +31,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<GetBrandsResult>(BrandUrl + parameters.ToQueryString());
+                return await GetAsyncNoCache<GetBrandsResult>(CommerceAPIConstants.BrandUrl + parameters.ToQueryString());
             }
             catch (Exception exception)
             {
@@ -57,7 +51,7 @@ namespace CommerceApiSDK.Services
                     queryString = brandParameters.ToQueryString();
                 }
 
-                string url = $"{BrandUrl}/{brandId}{queryString}";
+                string url = $"{CommerceAPIConstants.BrandUrl}/{brandId}{queryString}";
                 return await GetAsyncWithCachedResponse<Brand>(url);
             }
             catch (Exception exception)
@@ -71,7 +65,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = string.Format(BrandCategoriesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
+                string url = string.Format(CommerceAPIConstants.BrandCategoriesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
                 return await GetAsyncWithCachedResponse<GetBrandCategoriesResult>(url);
             }
             catch (Exception exception)
@@ -85,7 +79,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = string.Format(BrandSubCategoriesUrlFormat, parameters?.BrandId, parameters?.CategoryId);
+                string url = string.Format(CommerceAPIConstants.BrandSubCategoriesUrlFormat, parameters?.BrandId, parameters?.CategoryId);
                 GetBrandSubCategoriesResult result = await GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
                 return result;
             }
@@ -100,7 +94,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = string.Format(BrandProductLinesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
+                string url = string.Format(CommerceAPIConstants.BrandProductLinesUrlFormat, parameters.BrandId) + parameters.ToQueryString();
                 return await GetAsyncWithCachedResponse<GetBrandProductLinesResult>(url);
             }
             catch (Exception exception)

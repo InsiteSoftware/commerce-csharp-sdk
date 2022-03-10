@@ -1,13 +1,9 @@
 using System;
 using System.Reflection;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Services.Attributes
 {
-    public enum SortOrderOptions
-    {
-        DoNotDisplay,
-    }
-
     public class SortOrderAttribute : Attribute
     {
         public SortOrderAttribute(string groupTitle, string title, string value)

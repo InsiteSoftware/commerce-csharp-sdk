@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
 {
     public class MobileSpireContentService : ServiceBase, IMobileSpireContentService
     {
-        private const string contentUrl = "/api/v2/content/pageByType?type=Mobile/";
-
         public MobileSpireContentService(
             IClientService clientService,
             INetworkService networkService,
@@ -29,7 +28,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = $"{contentUrl}{pageName}";
+            string url = $"{CommerceAPIConstants.contentUrl}{pageName}";
 
             loggerService.LogConsole(LogLevel.INFO, "Response content: {0}");
 

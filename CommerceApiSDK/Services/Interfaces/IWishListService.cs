@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Attributes;
 using Newtonsoft.Json;
 
@@ -26,18 +27,6 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<bool> AddWishListLinesToWishList(Guid wishListId, WishListAddToCartCollection wishListLines);
 
         Task<bool> LeaveWishList(Guid wishListId);
-    }
-
-    public enum WishListSortOrder
-    {
-        [SortOrder("Date Updated", "Date Updated \u2713", "ModifiedOn DESC")]
-        ModifiedOnDescending,
-
-        [SortOrder("List Name", "List Name \u2193", "Name DESC")]
-        NameDescending,
-
-        [SortOrder("List Name", "List Name \u2191", "Name ASC")]
-        NameAscending,
     }
 
     public class WishListCollectionModel : BaseModel

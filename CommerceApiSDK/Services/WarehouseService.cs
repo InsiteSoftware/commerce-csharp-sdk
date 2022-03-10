@@ -8,8 +8,6 @@ namespace CommerceApiSDK.Services
 {
     public class WarehouseService : ServiceBase, IWarehouseService
     {
-        private const string WarehousesUrl = "/api/v1/warehouses";
-
         public WarehouseService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
          : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -19,7 +17,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = WarehousesUrl;
+                string url = CommerceAPIConstants.WarehousesUrl;
                 List<string> parameters = new List<string>()
                 {
                     "latitude=" + latitude,

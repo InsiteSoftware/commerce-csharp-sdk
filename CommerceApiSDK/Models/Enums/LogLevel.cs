@@ -1,5 +1,5 @@
 ﻿using System;
-namespace CommerceApiSDK.Services
+namespace CommerceApiSDK.Models.Enums
 {
     public enum LogLevel
     {

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommerceApiSDK.Extensions;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
@@ -23,9 +24,6 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class ClientService : IClientService
     {
-        protected const string TokenUri = "identity/connect/token";
-        private const string TokenLogoutUri = "identity/connect/endsession";
-        private const string TokenValidationUri = "identity/connect/accesstokenvalidation?token=";
         protected virtual string ClientId { get; } = "mobile";
         protected virtual string ClientSecret { get; } = "009AC476-B28E-4E33-8BAE-B5F103A142BC";
 
@@ -295,7 +293,7 @@ namespace CommerceApiSDK.Services
                 client.DefaultRequestHeaders.Authorization = null;
 
                 string refreshToken = secureStorageService.Load(RefreshTokenStorageKey);
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{TokenUri}");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}");
                 FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
                 {
                         new KeyValuePair<string, string>("grant_type", "refresh_token"),
@@ -471,7 +469,7 @@ namespace CommerceApiSDK.Services
                         return result;
                     }
 
-                    if (request.RequestUri.AbsolutePath.Contains(TokenUri) || request.RequestUri.AbsolutePath.Contains(TokenLogoutUri))
+                    if (request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenUri) || request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenLogoutUri))
                     {
                         return result;
                     }
@@ -550,7 +548,7 @@ namespace CommerceApiSDK.Services
                         new KeyValuePair<string, string>("scope", $"{ApiScopeKey} offline_access"),
                     });
 
-                HttpResponseMessage result = await PostAsync(TokenUri, requestContent);
+                HttpResponseMessage result = await PostAsync(CommerceAPIConstants.TokenUri, requestContent);
                 if (!result.IsSuccessStatusCode)
                 {
                     ErrorResponse error = await Task.Run(() => ServiceBase.DeserializeModel<ErrorResponse>(result));

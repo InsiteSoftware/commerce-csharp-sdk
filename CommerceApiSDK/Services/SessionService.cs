@@ -12,8 +12,6 @@ namespace CommerceApiSDK.Services
     public class SessionService : ServiceBase, ISessionService
     {
         protected readonly IMvxMessenger messenger;
-        private const string PostSessionUri = "/api/v1/sessions";
-        private const string CurrentSessionUri = "/api/v1/sessions/current";
 
         private Session currentSession;
         public Session CurrentSession => currentSession;
@@ -42,7 +40,7 @@ namespace CommerceApiSDK.Services
         public async Task<HttpResponseMessage> DeleteCurrentSession()
         {
             currentSession = null;
-            return await DeleteAsync(CurrentSessionUri);
+            return await DeleteAsync(CommerceAPIConstants.CurrentSessionUri);
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
-                ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(PostSessionUri, stringContent);
+                ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(CommerceAPIConstants.PostSessionUri, stringContent);
 
                 if (result?.Model != null)
                 {
@@ -84,7 +82,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
-                Session result = await PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
+                Session result = await PatchAsyncNoCache<Session>(CommerceAPIConstants.CurrentSessionUri, stringContent);
 
                 if (result != null)
                 {
@@ -115,7 +113,7 @@ namespace CommerceApiSDK.Services
                 Session session = new Session() { ResetPassword = true, UserName = userName };
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
 
-                return await PatchAsyncNoCache<Session>(CurrentSessionUri, stringContent);
+                return await PatchAsyncNoCache<Session>(CommerceAPIConstants.CurrentSessionUri, stringContent);
             }
             catch (Exception exception)
             {
@@ -141,7 +139,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Session result = await GetAsyncNoCache<Session>($"{CurrentSessionUri}");
+                Session result = await GetAsyncNoCache<Session>($"{CommerceAPIConstants.CurrentSessionUri}");
 
                 if (result != null)
                 {

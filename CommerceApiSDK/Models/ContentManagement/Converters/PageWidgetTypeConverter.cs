@@ -1,5 +1,6 @@
 ﻿using System;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Models.Enums;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Converters

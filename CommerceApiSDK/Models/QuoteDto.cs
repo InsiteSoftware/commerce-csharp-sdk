@@ -82,20 +82,4 @@ namespace CommerceApiSDK.Models
         public long? Percent { get; set; }
         public string CalculationMethod { get; set; }
     }
-
-    public enum QuoteStatus
-    {
-        Cart,
-        QuoteProposed,
-        AwaitingApproval,
-        QuoteRejected,
-        QuoteRequested,
-        QuoteCreated,
-    }
-
-    public enum QuoteType
-    {
-        Job,
-        Quote,
-    }
 }

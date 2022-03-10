@@ -11,10 +11,6 @@ namespace CommerceApiSDK.Services
 {
     public class ProductService : ServiceBase, IProductService
     {
-        private const string ProductsUrl = "/api/v1/products";
-        private const string RealTimePricingUrl = "/api/v1/realtimepricing";
-        private const string RealTimeInventoryUrl = "/api/v1/realtimeinventory";
-
         public ProductService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -25,7 +21,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string queryString = parameters.ToQueryString();
-                string url = $"{ProductsUrl}/{queryString}";
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
                 GetProductCollectionResult productsResult = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
@@ -53,7 +49,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string queryString = parameters.ToQueryString();
-                string url = $"{ProductsUrl}/{queryString}";
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
                 GetProductCollectionResult productsResult = await GetAsyncNoCache<GetProductCollectionResult>(url);
 
@@ -80,7 +76,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = ProductsUrl + parameters.ToQueryString();
+                string url = CommerceAPIConstants.ProductsUrl + parameters.ToQueryString();
 
                 bool result = await HasCache(url);
 
@@ -104,7 +100,7 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{ProductsUrl}/{productId}{queryString}";
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}{queryString}";
 
                 GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
@@ -131,7 +127,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{ProductsUrl}/{productId}/price?qtyOrdered={quantity}&unitOfMeasure={unitOfMeasure}";
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/price?qtyOrdered={quantity}&unitOfMeasure={unitOfMeasure}";
 
                 if (configuration != null && configuration.Count != 0)
                 {
@@ -169,7 +165,7 @@ namespace CommerceApiSDK.Services
                 if (IsOnline)
                 {
                     StringContent stringContent = await Task.Run(() => SerializeModel(new { productPriceParameters }));
-                    GetRealTimePricingResult result = await PostAsyncNoCache<GetRealTimePricingResult>(RealTimePricingUrl, stringContent);
+                    GetRealTimePricingResult result = await PostAsyncNoCache<GetRealTimePricingResult>(CommerceAPIConstants.RealTimePricingUrl, stringContent);
                     return result;
                 }
                 else
@@ -197,7 +193,7 @@ namespace CommerceApiSDK.Services
                         queryString = parameters.ToQueryString();
                     }
 
-                    string url = $"{RealTimeInventoryUrl}/{queryString}";
+                    string url = $"{CommerceAPIConstants.RealTimeInventoryUrl}/{queryString}";
 
                     StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters.ProductIds }));
 
