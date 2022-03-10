@@ -25,6 +25,7 @@ namespace CommerceApiSDK.Services
             services.AddSingleton<IInvoiceService, InvoiceService>();
             services.AddSingleton<IJobQuoteService, JobQuoteService>();
             services.AddSingleton<ILoggerService, DefaultLogger>();
+            services.AddSingleton<IMessengerService, MessengerService>();
             services.AddSingleton<IMobileContentService, MobileContentService>();
             services.AddSingleton<IMobileSpireContentService, MobileSpireContentService>();
             services.AddSingleton<IOrderService, OrderService>();

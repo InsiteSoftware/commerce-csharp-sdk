@@ -38,7 +38,7 @@ namespace CommerceApiSDK.Services
 
         private readonly ISecureStorageService secureStorageService;
         private readonly ILocalStorageService localStorageService;
-        protected readonly IMvxMessenger messenger;
+        protected readonly IMessengerService optiMessenger;
         protected readonly ITrackingService trackingService;
         private readonly ILoggerService loggerService;
 
@@ -96,11 +96,11 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMvxMessenger messenger, ITrackingService trackingService, ILoggerService loggerService)
+        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMessengerService optiMessenger, ITrackingService trackingService, ILoggerService loggerService)
         {
             this.secureStorageService = secureStorageService;
             this.localStorageService = localStorageService;
-            this.messenger = messenger;
+            this.optiMessenger = optiMessenger;
             this.trackingService = trackingService;
             this.loggerService = loggerService;
             CreateClient();
@@ -322,7 +322,7 @@ namespace CommerceApiSDK.Services
 
         protected virtual void NotifyRefreshTokenExpired()
         {
-            messenger.Publish(new RefreshTokenExpiredMessage(this));
+            optiMessenger.Publish(new RefreshTokenExpiredOptiMessage());
         }
 
         public void Reset()
