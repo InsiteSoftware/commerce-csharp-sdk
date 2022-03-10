@@ -7,8 +7,6 @@ namespace CommerceApiSDK.Services
 {
     public class CatalogpagesService : ServiceBase, ICatalogpagesService
     {
-        private const string CatalogpageUrl = "/api/v1/catalogpages?path=";
-
         public CatalogpagesService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -18,7 +16,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{CatalogpageUrl}{productPath}";
+                string url = $"{CommerceAPIConstants.CatalogpageUrl}{productPath}";
 
                 CatalogpagesResult productResult = await GetAsyncWithCachedResponse<CatalogpagesResult>(url);
 

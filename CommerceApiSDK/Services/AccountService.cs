@@ -9,9 +9,6 @@ namespace CommerceApiSDK.Services
 {
     public class AccountService : ServiceBase, IAccountService
     {
-        private const string AccountUrl = "/api/v1/accounts";
-        private const string CurrentPaymentProfiles = "/current/paymentprofiles";
-
         private Account currentAccount;
 
         public Account CurrentAccount
@@ -38,7 +35,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<AccountResult>(AccountUrl);
+                return await GetAsyncNoCache<AccountResult>(CommerceAPIConstants.AccountUrl);
             }
             catch (Exception exception)
             {
@@ -51,7 +48,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Account account = await GetAsyncNoCache<Account>($"{AccountUrl}/current", DefaultRequestTimeout);
+                Account account = await GetAsyncNoCache<Account>($"{CommerceAPIConstants.AccountUrl}/current", DefaultRequestTimeout);
 
                 if (account != null)
                 {
@@ -71,7 +68,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/current";
+                string url = $"{CommerceAPIConstants.AccountUrl}/current";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PatchAsyncNoCache<Account>(url, stringContent);
 
@@ -89,7 +86,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}";
+                string url = $"{CommerceAPIConstants.AccountUrl}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PostAsyncNoCache<Account>(url, stringContent);
 
@@ -107,7 +104,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/{accountId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}/{accountId}";
                 return await GetAsyncNoCache<Account>(url);
             }
             catch (Exception exception)
@@ -122,7 +119,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/{accountId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}/{accountId}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(accountId));
                 Account result = await PatchAsyncNoCache<Account>(url, stringContent);
 
@@ -140,7 +137,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/{accountId}/shiptos";
+                string url = $"{CommerceAPIConstants.AccountUrl}/{accountId}/shiptos";
                 StringContent stringContent = await Task.Run(() => SerializeModel(accountId));
                 Account result = await PatchAsyncNoCache<Account>(url, stringContent);
 
@@ -158,7 +155,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/{accountId}/shiptos";
+                string url = $"{CommerceAPIConstants.AccountUrl}/{accountId}/shiptos";
                 return await GetAsyncNoCache<ShipTo>(url);
             }
             catch (Exception exception)
@@ -173,7 +170,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}{CurrentPaymentProfiles}";
+                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
                 Account result = await GetAsyncNoCache<Account>(url, DefaultRequestTimeout);
 
                 if (result != null)
@@ -195,7 +192,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}{CurrentPaymentProfiles}";
+                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PostAsyncNoCache<Account>(url, stringContent);
 
@@ -218,7 +215,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}{CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PatchAsyncNoCache<Account>(url, null);
 
@@ -241,7 +238,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}{CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 Account result = await GetAsyncNoCache<Account>(url, DefaultRequestTimeout);
 
                 if (result != null)
@@ -263,7 +260,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}{CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 HttpResponseMessage result = await DeleteAsync(url);
                 return result.IsSuccessStatusCode;
             }
@@ -279,7 +276,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/vmi/{vmiUserId}";
+                string url = $"{CommerceAPIConstants.AccountUrl}/vmi/{vmiUserId}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PatchAsyncNoCache<Account>(url, stringContent);
 
@@ -297,7 +294,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{AccountUrl}/vmi/import";
+                string url = $"{CommerceAPIConstants.AccountUrl}/vmi/import";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PostAsyncNoCache<Account>(url, stringContent);
 

@@ -9,9 +9,6 @@ namespace CommerceApiSDK.Services
 {
     public class PaymentProfileService : ServiceBase, IPaymentProfileService
     {
-        private const string PaymentProfileUri = "/api/v1/accounts/current/paymentprofiles";
-        private const string CartUri = "/api/v1/carts/current";
-
         public PaymentProfileService(
             IClientService clientService,
             INetworkService networkService,
@@ -26,7 +23,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = parameters == null ? PaymentProfileUri : $"{PaymentProfileUri}{parameters.ToQueryString()}";
+                string url = parameters == null ? CommerceAPIConstants.PaymentProfileUri : $"{CommerceAPIConstants.PaymentProfileUri}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<AccountPaymentProfileCollection>(url);
             }
             catch (Exception exception)
@@ -45,7 +42,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                string url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfileId}";
                 AccountPaymentProfile result = await GetAsyncNoCache<AccountPaymentProfile>(url);
                 if (result == null)
                 {
@@ -79,11 +76,11 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(accountPaymentProfile));
                 if (accountPaymentProfile.Id.Equals(Guid.Empty.ToString()))
                 {
-                    response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(PaymentProfileUri, stringContent);
+                    response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(CommerceAPIConstants.PaymentProfileUri, stringContent);
                 }
                 else
                 {
-                    string editUrl = $"{PaymentProfileUri}/{accountPaymentProfile.Id}";
+                    string editUrl = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfile.Id}";
                     response = await PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(editUrl, stringContent);
                 }
 
@@ -105,7 +102,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                string url = $"{PaymentProfileUri}/{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfileId}";
                 HttpResponseMessage deleteResponse = await DeleteAsync(url);
                 return deleteResponse != null && deleteResponse.IsSuccessStatusCode;
             }
@@ -120,7 +117,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = parameters?.Expand != null ? $"{CartUri}{parameters.ToQueryString()}" : CartUri;
+                string url = parameters?.Expand != null ? $"{CommerceAPIConstants.CartUri}{parameters.ToQueryString()}" : CommerceAPIConstants.CartUri;
                 return await GetAsyncNoCache<Cart>(url);
             }
             catch (Exception exception)

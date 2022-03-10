@@ -8,20 +8,6 @@ namespace CommerceApiSDK.Test.TestHelpers
 {
     class WishListFactory
     {
-        public const string Shortdescriptionunique = "ShortDescriptionunique";
-
-        public const string ErpNumber = "ERPNumber";
-
-        public const string ManufacturerItemUnique = "ManufacturerItemunique";
-
-        public const string CustomerNameUnique = "CustomerNameunique";
-
-        public const string CustomerName = "CustomerName";
-
-        public const string KeyWord = "word";
-
-        public const string Manufactureritem = "ManufacturerItem";
-
         public static List<WishListLine> CreateWishListLines()
         {
             return new List<WishListLine>
@@ -103,25 +89,25 @@ namespace CommerceApiSDK.Test.TestHelpers
                         {
                             ShortDescription =
                                 CreateShortDescription(
-                                    KeyWord,
+                                    CommerceAPIConstants.KeyWord,
                                     20,
-                                    preFix + Shortdescriptionunique + i.ToString() + postFix),
+                                    preFix + CommerceAPIConstants.Shortdescriptionunique + i.ToString() + postFix),
                             QtyOrdered = 2,
                             Pricing = new ProductPriceDto { UnitListPrice = price, UnitNetPrice = price },
                             CustomerName =
                                 CreateShortDescription(
-                                    CustomerName,
+                                    CommerceAPIConstants.CustomerName,
                                     2,
-                                    preFix + CustomerNameUnique + i.ToString() + postFix),
+                                    preFix + CommerceAPIConstants.CustomerNameUnique + i.ToString() + postFix),
                             ManufacturerItem =
                                 CreateShortDescription(
-                                    Manufactureritem,
+                                    CommerceAPIConstants.Manufactureritem,
                                     1,
-                                    preFix + ManufacturerItemUnique + i.ToString() + postFix),
+                                    preFix + CommerceAPIConstants.ManufacturerItemUnique + i.ToString() + postFix),
                             ERPNumber = CreateShortDescription(
-                                ErpNumber,
+                                CommerceAPIConstants.ErpNumber,
                                 1,
-                                preFix + ErpNumber + i.ToString() + postFix),
+                                preFix + CommerceAPIConstants.ErpNumber + i.ToString() + postFix),
                             ProductId = new Guid(),
                             IsActive = true,
                             IsVisible = true
@@ -148,7 +134,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                 {
                     stringBuilder.Append(unique);
                     stringBuilder.Append(" ");
-                    stringBuilder.Append(unique + KeyWord);
+                    stringBuilder.Append(unique + CommerceAPIConstants.KeyWord);
                     stringBuilder.Append(" ");
                 }
             }

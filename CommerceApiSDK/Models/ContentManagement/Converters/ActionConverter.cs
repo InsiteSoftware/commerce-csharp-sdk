@@ -2,6 +2,7 @@
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.ContentManagement.Converters;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Models.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

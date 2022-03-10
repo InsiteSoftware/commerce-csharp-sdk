@@ -3,19 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using CommerceApiSDK.Models.ContentManagement.Converters;
 using CommerceApiSDK.Models.ContentManagement.Widgets;
+using CommerceApiSDK.Models.Enums;
 using MvvmCross.Plugin.Color;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models.ContentManagement.Pages
 {
-    public enum PageType
-    {
-        Unknown,
-        MobileAccount,
-        MobileShop,
-        MobileSearch,
-    }
-
     public class PageInformation
     {
         public string Title { get; set; }

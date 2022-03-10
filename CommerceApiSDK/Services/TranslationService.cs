@@ -8,13 +8,11 @@ namespace CommerceApiSDK.Services
 {
     public class TranslationService : ServiceBase, ITranslationService
     {
-        private const string TranslationUrl = "/api/v1/translationdictionaries";
-
         public static int URIMaxLength = 2048;
 
         public int GetMaxLengthOfTranslationText()
         {
-            return URIMaxLength - (Client.Url.AbsoluteUri.Length + TranslationUrl.Length);
+            return URIMaxLength - (Client.Url.AbsoluteUri.Length + CommerceAPIConstants.TranslationUrl.Length);
         }
 
         public TranslationService(
@@ -36,7 +34,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = TranslationUrl;
+                string url = CommerceAPIConstants.TranslationUrl;
 
                 if (parameters != null)
                 {

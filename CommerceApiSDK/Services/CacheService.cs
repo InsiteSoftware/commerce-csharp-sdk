@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 using Akavache;
 using Akavache.Sqlite3;
 using CommerceApiSDK.Services.Interfaces;
+using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Services
 {
     public class CacheService : ICacheService
     {
-        private const string OfflineCacheDatabaseName = "blobs.db";
-        private const string LocalStorageDatabaseName = "storage.db";
-
         /// <summary>
         /// number of minutes to cache data while online.
         /// </summary>
@@ -42,9 +40,9 @@ namespace CommerceApiSDK.Services
         {
             this.filesystemProvider = filesystemProvider;
             this.loggerService = loggerService;
-            offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
+            offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName));
             onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
-            localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
+            localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName));
         }
 
         public void Shutdown()
@@ -54,14 +52,14 @@ namespace CommerceApiSDK.Services
             {
                 offlineCache.Value.Dispose();
                 offlineCache.Value.Shutdown.Wait();
-                offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(OfflineCacheDatabaseName));
+                offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName));
             }
 
             if (localStorage.IsValueCreated)
             {
                 localStorage.Value.Dispose();
                 localStorage.Value.Shutdown.Wait();
-                localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(LocalStorageDatabaseName));
+                localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName));
             }
 
             if (onlineCache.IsValueCreated)

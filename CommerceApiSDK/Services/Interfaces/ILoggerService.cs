@@ -1,4 +1,6 @@
 ﻿using System;
+using CommerceApiSDK.Models.Enums;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ILoggerService

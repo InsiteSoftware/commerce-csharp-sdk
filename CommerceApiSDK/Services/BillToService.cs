@@ -11,8 +11,6 @@ namespace CommerceApiSDK.Services
 {
     public class BillToService : ServiceBase, IBillToService
     {
-        private const string BillToToUrl = "/api/v1/billtos";
-
         private string ShipToToUrl(string billToId)
         {
             return $"/api/v1/billtos/{billToId}/shiptos";
@@ -32,7 +30,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = BillToToUrl;
+                string url = CommerceAPIConstants.BillToToUrl;
                 List<string> parameters = new List<string>()
                 {
                     "parameter.page=" + pageNumber,
@@ -68,7 +66,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = BillToToUrl;
+                var url = CommerceAPIConstants.BillToToUrl;
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
                 var result = await this.PostAsyncNoCache<BillToResult>(url, stringContent);
@@ -175,7 +173,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                string url = $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
                 return await GetAsyncNoCache<ShipTo>(url);
             }
             catch (Exception exception)
@@ -189,7 +187,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{BillToToUrl}/{billToId}/shiptos/{shipToId}";
+                string url = $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
 
                 var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);

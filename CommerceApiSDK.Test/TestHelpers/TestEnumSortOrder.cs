@@ -1,4 +1,5 @@
-﻿using CommerceApiSDK.Services.Attributes;
+﻿using System;
+using CommerceApiSDK.Services.Attributes;
 
 namespace CommerceApiSDK.Test.TestHelpers
 {

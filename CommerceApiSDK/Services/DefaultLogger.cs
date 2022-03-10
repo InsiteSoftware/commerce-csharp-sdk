@@ -1,4 +1,5 @@
 ﻿using System;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services

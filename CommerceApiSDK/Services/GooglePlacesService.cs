@@ -11,9 +11,6 @@ namespace CommerceApiSDK.Services
 {
     public class GooglePlacesService : ServiceBase, IGooglePlacesService
     {
-        private const string GooglePlacesAPIUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
-        private const string GoogleAPIKey = "AIzaSyDcSlK6wqK4KNhonVLQOPk890sLnfIVXeE";
-
         public GooglePlacesService(
             IClientService clientService,
             INetworkService networkService,
@@ -34,7 +31,7 @@ namespace CommerceApiSDK.Services
                 parameters.Add("input=" + searchQuery);
                 parameters.Add("inputtype=textquery");
                 parameters.Add("fields=formatted_address,geometry");
-                parameters.Add("key=" + GoogleAPIKey);
+                parameters.Add("key=" + CommerceAPIConstants.GoogleAPIKey);
 
                 IGeolocator locator = CrossGeolocator.Current;
 
@@ -53,7 +50,7 @@ namespace CommerceApiSDK.Services
                     TrackingService.TrackException(ex);
                 }
 
-                string url = GooglePlacesAPIUrl + "?" + string.Join("&", parameters);
+                string url = CommerceAPIConstants.GooglePlacesAPIUrl + "?" + string.Join("&", parameters);
                 string result = await GetAsyncStringResultNoCacheNoHost(url).ConfigureAwait(false);
 
                 if (result != null)

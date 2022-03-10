@@ -365,33 +365,10 @@ namespace CommerceApiSDK.Models
         public IList<CartLine> CartLines { get; set; }
     }
 
-    public enum CartSortOrder
-    {
-        [SortOrder("Order Date", "Order Date \u2193", "OrderDate DESC")]
-        OrderDateDescending,
-
-        [SortOrder("Order Date", "Order Date \u2191", "OrderDate ASC")]
-        OrderDateAscending,
-
-        [SortOrder("Order SubTotal", "Order SubTotal \u2193", "OrderSubTotal DESC")]
-        OrderSubTotalDescending,
-
-        [SortOrder("Order SubTotal", "Order SubTotal \u2191", "OrderSubTotal ASC")]
-        OrderSubTotalAscending
-    }
-
     public class CartCollectionModel : BaseModel
     {
         public IList<Cart> Carts { get; set; }
 
         public Pagination Pagination { get; set; }
-    }
-
-    public enum CartStatus
-    {
-        Saved,
-        Submitted,
-        AwaitingApproval,
-        RequisitionSubmitted,
     }
 }

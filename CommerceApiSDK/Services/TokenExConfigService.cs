@@ -7,8 +7,6 @@ namespace CommerceApiSDK.Services
 {
     public class TokenExConfigService : ServiceBase, ITokenExConfigService
     {
-        private const string TokenexconfigUrl = "/api/v1/tokenexconfig";
-
         public TokenExConfigService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
              : base(clientService, networkService, trackingService, cacheService, loggerService)
         {
@@ -18,7 +16,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                TokenExDto tokenexConfig= await GetAsyncNoCache<TokenExDto>(TokenexconfigUrl, DefaultRequestTimeout);
+                TokenExDto tokenexConfig= await GetAsyncNoCache<TokenExDto>(CommerceAPIConstants.TokenexconfigUrl, DefaultRequestTimeout);
                 
                 return tokenexConfig;
             }

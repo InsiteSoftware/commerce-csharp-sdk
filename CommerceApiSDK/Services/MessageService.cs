@@ -8,8 +8,6 @@ namespace CommerceApiSDK.Services
 {
     public class MessageService : ServiceBase, IMessageService
     {
-        private const string MessageUri = "/api/v1/messages";
-
         public MessageService(
             IClientService clientService,
             INetworkService networkService,
@@ -30,7 +28,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(message));
-                return await PostAsyncNoCache<MessageDto>(MessageUri, stringContent);
+                return await PostAsyncNoCache<MessageDto>(CommerceAPIConstants.MessageUri, stringContent);
             }
             catch (Exception exception)
             {
