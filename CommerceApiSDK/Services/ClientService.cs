@@ -24,8 +24,9 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class ClientService : IClientService
     {
-        protected virtual string ClientId { get; } = "mobile";
-        protected virtual string ClientSecret { get; } = "009AC476-B28E-4E33-8BAE-B5F103A142BC";
+        protected virtual string ClientId { get; } = ClientConfig.ClientId;
+        protected virtual string ClientSecret { get; } = ClientConfig.ClientSecret;
+        protected bool IsCachingEnabled { get; } = ClientConfig.IsCachingEnabled;
 
         protected virtual string BearerTokenStorageKey { get; } = "bearerToken";
         protected virtual string RefreshTokenStorageKey { get; } = "refreshToken";
