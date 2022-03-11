@@ -26,7 +26,6 @@ namespace CommerceApiSDK.Services
     {
         protected virtual string ClientId { get; } = ClientConfig.ClientId;
         protected virtual string ClientSecret { get; } = ClientConfig.ClientSecret;
-        protected bool IsCachingEnabled { get; } = ClientConfig.IsCachingEnabled;
 
         protected virtual string BearerTokenStorageKey { get; } = "bearerToken";
         protected virtual string RefreshTokenStorageKey { get; } = "refreshToken";
