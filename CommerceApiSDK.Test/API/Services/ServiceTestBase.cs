@@ -1,9 +1,5 @@
 ﻿using CommerceApiSDK.Services.Interfaces;
 using Moq;
-using MvvmCross;
-using MvvmCross.Base;
-using MvvmCross.IoC;
-using MvvmCross.Logging;
 
 namespace CommerceApiSDK.Test.Services
 {
@@ -16,7 +12,6 @@ namespace CommerceApiSDK.Test.Services
         protected Mock<INetworkService> NetworkServiceMock;
         protected Mock<ITrackingService> TrackingServiceMock;
         protected Mock<ISessionService> SessionServiceMock;
-        protected Mock<IMvxLogProvider> LogProviderMock;
         protected Mock<ICacheService> CacheServiceMock;
         protected Mock<ILoggerService> LoggerServiceMock;
 
@@ -26,17 +21,8 @@ namespace CommerceApiSDK.Test.Services
             NetworkServiceMock = new Mock<INetworkService>();
             TrackingServiceMock = new Mock<ITrackingService>();
             SessionServiceMock = new Mock<ISessionService>();
-            LogProviderMock = new Mock<IMvxLogProvider>();
             CacheServiceMock = new Mock<ICacheService>();
             LoggerServiceMock = new Mock<ILoggerService>();
-
-            MvxSingleton.ClearAllSingletons();
-            MvxIocOptions iocOptions = new MvxIocOptions()
-            {
-                PropertyInjectorOptions = MvxPropertyInjectorOptions.All
-            };
-            _ = MvxIoCProvider.Initialize(iocOptions);
-            Mvx.IoCProvider.RegisterSingleton(LogProviderMock.Object);
         }
     }
 }
