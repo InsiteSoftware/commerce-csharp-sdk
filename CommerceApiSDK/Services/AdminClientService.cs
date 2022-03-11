@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
-using MvvmCross.Plugin.Messenger;
 
 namespace CommerceApiSDK.Services
 {
