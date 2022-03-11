@@ -41,16 +41,16 @@ namespace CommerceApiSDK.Services
         public AdminClientService(
             ISecureStorageService secureStorageService,
             ILocalStorageService localStorageService,
-            IMvxMessenger messenger,
+            IMessengerService optiMessenger,
             ITrackingService trackingService,
             ILoggerService loggerService)
-            : base(secureStorageService, localStorageService, messenger, trackingService, loggerService)
+            : base(secureStorageService, localStorageService, optiMessenger, trackingService, loggerService)
         {
         }
 
         protected override void NotifyRefreshTokenExpired()
         {
-            messenger.Publish(new AdminRefreshTokenExpiredMessage(this));
+            optiMessenger.Publish(new AdminRefreshTokenExpiredOptiMessage(this));
         }
     }
 }

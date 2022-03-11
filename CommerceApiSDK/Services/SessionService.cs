@@ -11,7 +11,7 @@ namespace CommerceApiSDK.Services
 {
     public class SessionService : ServiceBase, ISessionService
     {
-        protected readonly IMvxMessenger messenger;
+        protected readonly IMessengerService optiMessenger;
 
         private Session currentSession;
         public Session CurrentSession => currentSession;
@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Services
             IClientService clientService,
             INetworkService networkService,
             ITrackingService trackingService,
-            IMvxMessenger messenger,
+            IMessengerService optiMessenger,
             ICacheService cacheService,
             ILoggerService loggerService)
             : base(
@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
                   cacheService,
                   loggerService)
         {
-            this.messenger = messenger;
+            this.optiMessenger = optiMessenger;
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace CommerceApiSDK.Services
                         if (!currentSession.Persona.Equals(result.Persona)
                             || !(currentSession.Personas != null && result.Personas != null && Enumerable.SequenceEqual(currentSession.Personas, result.Personas)))
                         {
-                            messenger.Publish(new SessionChangedMessage(this));
+                            optiMessenger.Publish(new SessionChangedOptiMessage());
                         }
                     }
 

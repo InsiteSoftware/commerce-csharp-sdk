@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,24 +15,24 @@ namespace CommerceApiSDK.Services
     {
         private readonly IAdminClientService adminClientService;
 
-        private readonly IMvxMessenger messenger;
-        private MvxSubscriptionToken adminRefreshTokenNotificationSubscription;
+        private readonly IMessengerService optiMessenger;
+        private IDisposable adminRefreshTokenNotificationSubscription;
 
         public AdminAuthenticationService(
             IClientService clientService,
             ISessionService sessionService,
-            IMvxMessenger messenger,
+            IMessengerService optiMessenger,
             IAccountService accountService,
             IAdminClientService adminClientService)
             : base(
                 clientService,
                 sessionService,
-                messenger,
+                optiMessenger,
                 accountService)
         {
             this.adminClientService = adminClientService;
-            this.messenger = messenger;
-            adminRefreshTokenNotificationSubscription = this.messenger.Subscribe<AdminRefreshTokenExpiredMessage>(AdminRefreshTokenExpiredHandler);
+            this.optiMessenger = optiMessenger;
+            adminRefreshTokenNotificationSubscription = this.optiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace CommerceApiSDK.Services
 
             if (adminRefreshTokenNotificationSubscription == null)
             {
-                adminRefreshTokenNotificationSubscription = messenger.Subscribe<AdminRefreshTokenExpiredMessage>(AdminRefreshTokenExpiredHandler);
+                adminRefreshTokenNotificationSubscription = optiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -78,7 +79,7 @@ namespace CommerceApiSDK.Services
 
             adminClientService.RemoveAccessToken();
 
-            messenger.Publish(new AdminSignedOutMessage(this)
+            optiMessenger.Publish(new AdminSignedOutOptiMessage()
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -123,12 +124,12 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        private void AdminRefreshTokenExpiredHandler(MvxMessage message)
+        private void AdminRefreshTokenExpiredHandler(OptiMessage message)
         {
             Logout(true);
         }
 
-        protected override void RefreshTokenExpiredHandler(MvxMessage message)
+        protected override void RefreshTokenExpiredHandler(OptiMessage message)
         {
             // this method should do nothing because the AuthenticationService is handling this expiration of the Client Service
         }

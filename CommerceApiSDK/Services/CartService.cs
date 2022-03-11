@@ -14,21 +14,21 @@ namespace CommerceApiSDK.Services
 {
     public class CartService : ServiceBase, ICartService
     {
-        private MvxSubscriptionToken token;
-        private readonly IMvxMessenger messenger;
+        private IDisposable token;
+        private readonly IMessengerService optiMessenger;
 
         public CartService(
             IClientService clientService,
-            IMvxMessenger messenger,
+            IMessengerService optiMessenger,
             INetworkService networkService,
             ITrackingService trackingService,
             ICacheService cacheService,
             ILoggerService loggerService)
             : base(clientService, networkService, trackingService, cacheService,loggerService)
         {
-            this.messenger = messenger;
+            this.optiMessenger = optiMessenger;
             isCartEmpty = true;
-            token = this.messenger.Subscribe<UserSignedOutMessage>(UserSignedOutHandler);
+            token = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
@@ -195,7 +195,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        private void UserSignedOutHandler(MvxMessage message)
+        private void UserSignedOutHandler(OptiMessage message)
         {
             IsCartEmpty = true;
         }

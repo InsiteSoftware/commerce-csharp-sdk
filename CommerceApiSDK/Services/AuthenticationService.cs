@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
@@ -14,20 +15,20 @@ namespace CommerceApiSDK.Services
     {
         private readonly IClientService clientService;
         private readonly ISessionService sessionService;
-        private readonly IMvxMessenger messenger;
-        private MvxSubscriptionToken refreshTokenNotificationSubscription;
+        private readonly IMessengerService optiMessenger;
+        private IDisposable refreshTokenNotificationSubscription;
         private readonly IAccountService accountService;
 
         public AuthenticationService(
             IClientService clientService,
             ISessionService sessionService,
-            IMvxMessenger messenger,
+            IMessengerService optiMessenger,
             IAccountService accountService)
         {
             this.clientService = clientService;
             this.sessionService = sessionService;
-            this.messenger = messenger;
-            refreshTokenNotificationSubscription = this.messenger.Subscribe<RefreshTokenExpiredMessage>(RefreshTokenExpiredHandler);
+            this.optiMessenger = optiMessenger;
+            refreshTokenNotificationSubscription = this.optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
             this.accountService = accountService;
         }
 
@@ -68,7 +69,7 @@ namespace CommerceApiSDK.Services
 
             if (refreshTokenNotificationSubscription == null)
             {
-                refreshTokenNotificationSubscription = messenger.Subscribe<RefreshTokenExpiredMessage>(RefreshTokenExpiredHandler);
+                refreshTokenNotificationSubscription = optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -121,7 +122,7 @@ namespace CommerceApiSDK.Services
 
             clientService.RemoveAccessToken();
 
-            messenger.Publish(new UserSignedOutMessage(this)
+            optiMessenger.Publish(new UserSignedOutOptiMessage()
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -143,7 +144,7 @@ namespace CommerceApiSDK.Services
             return false;
         }
 
-        protected virtual void RefreshTokenExpiredHandler(MvxMessage message)
+        protected virtual void RefreshTokenExpiredHandler(OptiMessage message)
         {
             LogoutAsync(true);
         }
