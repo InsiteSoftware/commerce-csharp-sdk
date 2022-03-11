@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
-using MvvmCross.Plugin.Messenger;
 
 namespace CommerceApiSDK.Services
 {

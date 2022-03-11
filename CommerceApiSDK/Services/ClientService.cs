@@ -12,7 +12,6 @@ using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
-using MvvmCross.Plugin.Messenger;
 
 namespace CommerceApiSDK.Services
 {

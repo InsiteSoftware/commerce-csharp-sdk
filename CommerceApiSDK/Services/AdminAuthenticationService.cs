@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
-using MvvmCross.Plugin.Messenger;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Services
