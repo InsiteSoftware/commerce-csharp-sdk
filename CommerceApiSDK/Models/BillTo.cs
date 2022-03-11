@@ -35,6 +35,9 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Indicates if this BillTo is set as the user's default</summary>
         public bool IsDefault { get; set; }
+
+        /// <summary>The accounts receivable information for the customer.</summary>
+        public AccountsReceivable AccountsReceivable { get; set; }
     }
 
     public class CostCode

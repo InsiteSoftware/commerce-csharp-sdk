@@ -1,11 +1,10 @@
-﻿using System;
+﻿using CommerceApiSDK.Models;
 using System.Threading.Tasks;
-using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ICatalogpagesService
     {
-        Task<CatalogpagesResult> GetProductCatalogInformation(string productPath);
+        Task<CatalogPage> GetProductCatalogInformation(string productPath);
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using CommerceApiSDK.Models.Results;
+﻿using CommerceApiSDK.Models;
 using CommerceApiSDK.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace CommerceApiSDK.Services
 {
@@ -12,13 +12,13 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<CatalogpagesResult> GetProductCatalogInformation(string productPath)
+        public async Task<CatalogPage> GetProductCatalogInformation(string productPath)
         {
             try
             {
                 string url = $"{CommerceAPIConstants.CatalogpageUrl}{productPath}";
 
-                CatalogpagesResult productResult = await GetAsyncWithCachedResponse<CatalogpagesResult>(url);
+                CatalogPage productResult = await GetAsyncWithCachedResponse<CatalogPage>(url);
 
                 if (productResult == null)
                 {
