@@ -1,12 +1,18 @@
-﻿using CommerceApiSDK.Models;
+﻿using Akavache;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-namespace CommerceApiSDK.Services
+using Splat;
+
+namespace CommerceApiSDK.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddComerceSdk(this IServiceCollection services, string host, string clientId, string clientSecret, bool isCachingEnabled)
+        public static IServiceCollection AddCommerceSdk(this IServiceCollection services, string host, string clientId, string clientSecret, bool isCachingEnabled)
         {
+            BlobCache.ApplicationName = "CommerceApiSDK";
+
             services.AddSingleton<IAccountService, AccountService>();
             services.AddSingleton<IAdminAuthenticationService, AdminAuthenticationService>();
             services.AddSingleton<IAdminClientService, AdminClientService>();
@@ -14,6 +20,7 @@ namespace CommerceApiSDK.Services
             services.AddSingleton<IAutocompleteService, AutocompleteService>();
             services.AddSingleton<IBillToService, BillToService>();
             services.AddSingleton<IBrandService, BrandService>();
+            services.AddSingleton(Locator.Current.GetService<IFilesystemProvider>());
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<ICartLineService, CartLineService>();
             services.AddSingleton<ICartService, CartService>();
@@ -22,6 +29,7 @@ namespace CommerceApiSDK.Services
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IDashboardPanelsService, DashboardPanelsService>();
             services.AddSingleton<IDealerService, DealerService>();
+            services.AddSingleton<IGooglePlacesService, GooglePlacesService>();
             services.AddSingleton<IInvoiceService, InvoiceService>();
             services.AddSingleton<IJobQuoteService, JobQuoteService>();
             services.AddSingleton<ILoggerService, DefaultLogger>();
@@ -31,6 +39,7 @@ namespace CommerceApiSDK.Services
             services.AddSingleton<IOrderService, OrderService>();
             services.AddSingleton<IPaymentProfileService, PaymentProfileService>();
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IProductV2Service, ProductV2Service>();
             services.AddSingleton<IQuoteLineService, QuoteLineService>();
             services.AddSingleton<IQuoteService, QuoteService>();
             services.AddSingleton<ISessionService, SessionService>();
@@ -43,11 +52,9 @@ namespace CommerceApiSDK.Services
             services.AddSingleton<IWishListLineService, WishListLineService>();
             services.AddSingleton<IWishListService, WishListService>();
 
-            //ICacheService needs to be implemented outside of the API SDK
             //ILocalStorageService needs to be implemented outside of the API SDK
-            //IMessageService needs to be implemented outside of the API SDK
             //INetworkService needs to be implemented outside of the API SDK
-            //ISecureStorage needs to be implemented outside of the API SDK
+            //ISecureStorageService needs to be implemented outside of the API SDK
             //ITrackingService needs to be implemented outside of the API SDK
 
             ClientConfig.InitClientConfig(host, clientId, clientSecret, isCachingEnabled);

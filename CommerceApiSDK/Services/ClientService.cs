@@ -107,25 +107,25 @@ namespace CommerceApiSDK.Services
 
         public void CreateClient()
         {
-            
-                httpClientHandler = new HttpClientHandler
-                {
-                    AllowAutoRedirect = true,
-                    UseCookies = true,
-                    CookieContainer = new CookieContainer(),
-                    ClientCertificateOptions = ClientCertificateOption.Automatic,
+            Host = ClientConfig.HostUrl;
 
-                    // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
-                    // UseProxy = true,
-                    // Proxy = CFNetwork.GetDefaultProxy()
-                };
+            httpClientHandler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseCookies = true,
+                CookieContainer = new CookieContainer(),
+                ClientCertificateOptions = ClientCertificateOption.Automatic,
 
-                client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, loggerService, NotifyRefreshTokenExpired))
-                {
-                    Timeout = Timeout.InfiniteTimeSpan,
-                };
-                client.DefaultRequestHeaders.Add("User-Agent", "insitemobileapp");
-            
+                // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
+                // UseProxy = true,
+                // Proxy = CFNetwork.GetDefaultProxy()
+            };
+
+            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, loggerService, NotifyRefreshTokenExpired))
+            {
+                Timeout = Timeout.InfiniteTimeSpan,
+            };
+            client.DefaultRequestHeaders.Add("User-Agent", "insitemobileapp");
         }
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)

@@ -35,6 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Splat" Version="14.1.45" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Attributes\OrderSortOrderAttribute.cs" />
@@ -53,5 +54,6 @@
     <None Remove="Microsoft.Extensions.Hosting" />
     <None Remove="NuGet.Build.Packaging" />
     <None Remove="Models\Enum\" />
+    <None Remove="Splat" />
   </ItemGroup>
 </Project>
