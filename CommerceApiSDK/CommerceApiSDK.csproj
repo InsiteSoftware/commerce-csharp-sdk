@@ -3,16 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <NoWarn>NU1701</NoWarn>
-    <Configurations>Debug;FakeClient;Release</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
     <NoWarn>NU1701; NU1605</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FakeClient|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;FAKECLIENT;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup>
@@ -35,6 +32,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Splat" Version="14.1.45" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Attributes\OrderSortOrderAttribute.cs" />
@@ -53,5 +51,6 @@
     <None Remove="Microsoft.Extensions.Hosting" />
     <None Remove="NuGet.Build.Packaging" />
     <None Remove="Models\Enum\" />
+    <None Remove="Splat" />
   </ItemGroup>
 </Project>
