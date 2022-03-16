@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Services.Attributes;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -21,9 +22,15 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<WishListCollectionModel> GetWishLists(int pageNumber = 1, int pageSize = 16, WishListSortOrder sortOrder = WishListSortOrder.ModifiedOnDescending, string searchText = null)
+        public async Task<WishListCollectionModel> GetWishLists(WishListQueryParameters parameters)
         {
-            string url = GetWishListsUrl(pageNumber, pageSize, sortOrder, searchText);
+            string url = CommerceAPIConstants.WishListUrl;
+
+            if (parameters != null)
+            {
+                string queryString = parameters.ToQueryString();
+                url += queryString;
+            }
 
             try
             {
@@ -72,12 +79,14 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishList> CreateWishList(string wishListName, string description = "")
+        public async Task<WishList> CreateWishList(CreateWishListQueryParameters parameters)
         {
-            StringContent stringContent = await Task.Run(() => SerializeModel(new WishList { Name = wishListName, Description = description }));
+            string url = CommerceAPIConstants.WishListUrl;
+
+            StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
             try
             {
-                WishList result = await PostAsyncNoCache<WishList>("/api/v1/wishlists", stringContent);
+                WishList result = await PostAsyncNoCache<WishList>(url, stringContent);
                 if (result != null)
                 {
                     await ClearGetWishListsCacheAsync();
@@ -92,14 +101,15 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(string wishListName, string description = "")
+        public async Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(CreateWishListQueryParameters parameters)
         {
-            WishList wishList = new WishList() { Name = wishListName, Description = description };
-            StringContent stringContent = await Task.Run(() => SerializeModel(wishList));
+            string url = CommerceAPIConstants.WishListUrl;
+
+            StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
 
             try
             {
-                ServiceResponse<WishList> result = await PostAsyncNoCacheWithErrorMessage<WishList>("/api/v1/wishlists", stringContent);
+                ServiceResponse<WishList> result = await PostAsyncNoCacheWithErrorMessage<WishList>(url, stringContent);
                 if (result?.Model != null)
                 {
                     await ClearGetWishListsCacheAsync();
@@ -202,19 +212,6 @@ namespace CommerceApiSDK.Services
         private string GetWishListUrl(Guid wishListId)
         {
             return $"/api/v1/wishlists/{wishListId}?expand=hiddenproducts,getalllines";
-        }
-
-        private string GetWishListsUrl(int pageNumber, int pageSize, WishListSortOrder sortOrder, string searchText = null)
-        {
-            string url = "/api/v1/wishlists?expand=top3products" + $"&page={pageNumber}" + $"&pageSize={pageSize}"
-                   + $"&sort={SortOrderAttribute.GetSortOrderValue(sortOrder)}";
-
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                url += "&query=" + WebUtility.UrlEncode(searchText);
-            }
-
-            return url;
         }
     }
 }

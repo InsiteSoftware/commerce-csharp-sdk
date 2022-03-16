@@ -55,4 +55,16 @@ namespace CommerceApiSDK.Models.Parameters
         public Guid? ProductId { get; set; }
         public Guid? VariantChildId { get; set; }
     }
+
+    public class ProductPriceQueryParameters : BaseQueryParameters
+    {
+        [QueryParameter(QueryOptions.DoNotQuery)]
+        public decimal quantity { get; set; }
+
+        [QueryParameter(QueryOptions.DoNotQuery)]
+        public string unitOfMeasure { get; set; }
+
+        [QueryParameter(QueryOptions.DoNotQuery)]
+        public List<Guid> configuration { get; set; } = null;
+    }
 }

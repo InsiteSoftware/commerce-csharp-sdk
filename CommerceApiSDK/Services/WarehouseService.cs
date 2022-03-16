@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -13,22 +14,17 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<GetWarehouseCollectionResult> GetWarehouses(double latitude = 0, double longitude = 0, int pageNumber = 1, int pageSize = 16)
+        public async Task<GetWarehouseCollectionResult> GetWarehouses(WarehouseQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.WarehousesUrl;
-                List<string> parameters = new List<string>()
-                {
-                    "latitude=" + latitude,
-                    "longitude=" + longitude,
-                    "page=" + pageNumber,
-                    "pageSize=" + pageSize,
-                    "sort=Distance",
-                    "onlyPickupWarehouses=true",
-                };
 
-                url += "?" + string.Join("&", parameters);
+                if(parameters != null)
+                {
+                    string queryString = parameters.ToQueryString();
+                    url += queryString;
+                }
 
                 return await GetAsyncWithCachedResponse<GetWarehouseCollectionResult>(url);
             }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Services.Attributes;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -22,24 +23,18 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<WishListLineCollectionModel> GetWishListLines(Guid wishListId, int pageNumber = 1, int pageSize = 16, WishListLineSortOrder sortOrder = WishListLineSortOrder.CustomSort, string searchQuery = null)
+        public async Task<WishListLineCollectionModel> GetWishListLines(Guid wishListId, WishListLineQueryParameters parameters)
         {
-            List<string> parameters = new List<string>()
-            {
-                "page=" + pageNumber,
-                "pageSize=" + pageSize,
-                "sort=" + SortOrderAttribute.GetSortOrderValue(sortOrder)
-            };
-
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                parameters.Add("query=" + WebUtility.UrlEncode(searchQuery));
-            }
-
-            string url = $"/api/v1/wishlists/{wishListId}/wishlistlines" + "?" + string.Join("&", parameters);
-
             try
             {
+                string url = $"{CommerceAPIConstants.WishListUrl}/{wishListId}/wishlistlines";
+
+                if (parameters != null)
+                {
+                    string queryString = parameters.ToQueryString();
+                    url += queryString;
+                }
+
                 return await GetAsyncWithCachedResponse<WishListLineCollectionModel>(url);
             }
             catch (Exception e)

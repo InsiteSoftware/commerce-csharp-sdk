@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Services.Attributes;
 using Newtonsoft.Json;
 
@@ -10,15 +11,15 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWishListService
     {
-        Task<WishListCollectionModel> GetWishLists(int pageNumber = 1, int pageSize = 16, WishListSortOrder sortOrder = WishListSortOrder.ModifiedOnDescending, string searchText = null);
+        Task<WishListCollectionModel> GetWishLists(WishListQueryParameters parameters);
 
         Task<WishList> GetWishList(Guid wishListId);
 
         Task<bool> DeleteWishList(Guid wishListId);
 
-        Task<WishList> CreateWishList(string wishListName, string description = "");
+        Task<WishList> CreateWishList(CreateWishListQueryParameters parameters);
 
-        Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(string wishListName, string description = "");
+        Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(CreateWishListQueryParameters parameters);
 
         Task<WishList> UpdateWishList(WishList wishList);
 

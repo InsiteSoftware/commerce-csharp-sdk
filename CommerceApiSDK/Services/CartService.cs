@@ -45,52 +45,21 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCurrentCart(bool getCartlines = false, bool getCostCodes = false, bool getShipping = false, bool getTax = false, bool getCarriers = false, bool getPaymentMethods = false)
+        public async Task<Cart> GetCurrentCart(CurrentCartQueryParameters parameters)
         {
             try
             {
-                List<string> parameters = new List<string>();
-                List<string> expandParameters = new List<string>();
-
-                if (getCartlines)
+                string url = CommerceAPIConstants.CartUri;
+                
+                if (parameters != null)
                 {
-                    expandParameters.Add("cartlines");
+                    string queryString = parameters.ToQueryString();
+                    url += queryString;
                 }
 
-                if (getCostCodes)
-                {
-                    expandParameters.Add("costcodes");
-                }
-
-                if (getShipping)
-                {
-                    expandParameters.Add("shipping");
-                }
-
-                if (getTax)
-                {
-                    expandParameters.Add("tax");
-                }
-
-                if (getCarriers)
-                {
-                    expandParameters.Add("carriers");
-                }
-
-                if (getPaymentMethods)
-                {
-                    expandParameters.Add("paymentoptions");
-                }
-
-                if (expandParameters.Count > 0)
-                {
-                    parameters.Add("expand=" + string.Join(",", expandParameters));
-                }
-
-                string url = CommerceAPIConstants.CartUri + "?" + string.Join("&", parameters);
                 Cart result = await GetAsyncNoCache<Cart>(url);
 
-                if (getCartlines)
+                if (parameters.getCartlines)
                 {
                     IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
                 }

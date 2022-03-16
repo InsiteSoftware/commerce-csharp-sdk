@@ -123,15 +123,16 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ProductPriceDto> GetProductPrice(Guid productId, decimal quantity, string unitOfMeasure, List<Guid> configuration = null)
+        public async Task<ProductPriceDto> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters)
         {
             try
             {
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/price?qtyOrdered={quantity}&unitOfMeasure={unitOfMeasure}";
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/price";
 
-                if (configuration != null && configuration.Count != 0)
+                if (parameters != null)
                 {
-                    url += "&configuration=" + string.Join("&configuration=", configuration);
+                    string queryString = parameters.ToQueryString();
+                    url += queryString;
                 }
 
                 ProductPriceDto pricingResult = await GetAsyncWithCachedResponse<ProductPriceDto>(url);

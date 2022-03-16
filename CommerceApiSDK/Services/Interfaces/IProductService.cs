@@ -17,7 +17,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<GetProductResult> GetProduct(Guid productId, ProductQueryParameters parameters = null);
 
-        Task<ProductPriceDto> GetProductPrice(Guid productId, decimal quantity, string unitOfMeasure, List<Guid> configuration = null);
+        Task<ProductPriceDto> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters);
 
         Task<GetRealTimePricingResult> GetProductRealTimePrices(List<ProductPriceQueryParameter> productPriceParameters);
 

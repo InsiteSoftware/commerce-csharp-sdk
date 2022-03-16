@@ -19,7 +19,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
 
-        Task<Cart> GetCurrentCart(bool getCartlines = false, bool getCostCodes = false, bool getShipping = false, bool getTax = false, bool getCarriers = false, bool getPaymentMethods = false);
+        Task<Cart> GetCurrentCart(CurrentCartQueryParameters parameters);
 
         Task<GetCartLinesResult> GetCartLines();
 
