@@ -533,7 +533,7 @@ namespace CommerceApiSDK.Services
                             AutocompleteProduct product = new AutocompleteProduct()
                             {
                                 Id = productResult.Product.Id.ToString(),
-                                Title = productResult.Product.ShortDescription,
+                                Title = productResult.Product.ProductTitle,
                                 Image = productResult.Product.MediumImagePath,
                                 Name = productResult.Product.Name,
                                 ErpNumber = productResult.Product.ERPNumber,
