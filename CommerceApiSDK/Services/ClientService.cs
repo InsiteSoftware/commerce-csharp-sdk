@@ -130,14 +130,14 @@ namespace CommerceApiSDK.Services
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}");
+            loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                    loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}");
+                    loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
                 }
 
             return response;
@@ -154,15 +154,15 @@ namespace CommerceApiSDK.Services
     
             response = await client.GetAsync(path, cancellationToken);
             
-            loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ");
-            loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}");
+            loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
+            loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
@@ -172,7 +172,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }         
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -182,19 +182,19 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
            
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, MakeUrl(path)))
-                {
+                {   
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}");
+            loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
@@ -204,7 +204,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -220,7 +220,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ");
+            loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -304,7 +304,7 @@ namespace CommerceApiSDK.Services
                 request.SetTimeout(request.GetTimeout());
                 HttpResponseMessage response = await client.SendAsync(request);
 
-                loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ");
+                loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -447,7 +447,7 @@ namespace CommerceApiSDK.Services
 
             protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
-                loggerService.LogConsole(LogLevel.INFO, "Sending Async request : {0} {1}");
+                loggerService.LogConsole(LogLevel.INFO, "Sending Async request : {0} {1}", request, cancellationToken);
                 HttpResponseMessage result = null;
                 
                     using (CancellationTokenSource cts = GetCancellationTokenSource(request, cancellationToken))
@@ -455,7 +455,7 @@ namespace CommerceApiSDK.Services
                         try
                         {
                             result = await base.SendAsync(request, cts?.Token ?? cancellationToken);
-                            loggerService.LogConsole(LogLevel.INFO, "SendAsync Response : {0}");
+                            loggerService.LogConsole(LogLevel.INFO, "SendAsync Response : {0}", result);
                         }
                         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
                         {

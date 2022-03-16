@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
 
             string url = $"{CommerceAPIConstants.contentUrl}{pageName}";
 
-            loggerService.LogConsole(LogLevel.INFO, "Response content: {0}");
+            loggerService.LogConsole(LogLevel.INFO, "Response content: {0}", url);
 
             return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
         }
