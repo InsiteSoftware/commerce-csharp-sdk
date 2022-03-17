@@ -45,24 +45,18 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCurrentCart(CurrentCartQueryParameters parameters)
+        public async Task<Cart> GetCurrentCart(CartDetailQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.CartUri;
-                
+
                 if (parameters != null)
                 {
                     string queryString = parameters.ToQueryString();
                     url += queryString;
                 }
-
                 Cart result = await GetAsyncNoCache<Cart>(url);
-
-                if (parameters.getCartlines)
-                {
-                    IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
-                }
 
                 return result;
             }

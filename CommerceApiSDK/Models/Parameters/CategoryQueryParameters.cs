@@ -9,13 +9,11 @@ namespace CommerceApiSDK.Models.Parameters
         [QueryParameter(QueryOptions.DoNotQuery)]
         public Guid? startCategoryId { get; set; } = null;
 
-        [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
         public int? maxDepth { get; set; } = null;
     }
 
     public class FeaturedCategoryQueryParameter : BaseQueryParameters
     {
-        [QueryParameter(QueryOptions.DoNotQuery)]
         public int? maxDepth { get; set; } = null;
     }
 }
