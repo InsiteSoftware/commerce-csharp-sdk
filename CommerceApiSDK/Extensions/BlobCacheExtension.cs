@@ -6,7 +6,7 @@ using Akavache;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
-    public static class IBlobCacheExtension
+    public static class BlobCacheExtension
     {
         public static async Task InvalidateObjectWithKeysStartingWith<T>(this IBlobCache blobCache, string keyPrefix)
         {
