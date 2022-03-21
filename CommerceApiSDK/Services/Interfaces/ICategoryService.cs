@@ -23,6 +23,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<bool> HasCategoryCache(Guid categoryId);
 
-        Task<List<Category>> GetFeaturedCategories(FeaturedCategoryQueryParameter parameter);
+        Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters);
     }
 }

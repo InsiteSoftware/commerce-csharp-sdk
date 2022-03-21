@@ -20,11 +20,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = CommerceAPIConstants.WarehousesUrl;
 
-                if(parameters != null)
-                {
-                    string queryString = parameters.ToQueryString();
-                    url += queryString;
-                }
+                url += parameters?.ToQueryString();
 
                 return await GetAsyncWithCachedResponse<GetWarehouseCollectionResult>(url);
             }

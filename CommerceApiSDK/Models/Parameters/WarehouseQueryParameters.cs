@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CommerceApiSDK.Attributes;
 using CommerceApiSDK.Models.Enums;
 
@@ -6,16 +7,22 @@ namespace CommerceApiSDK.Models.Parameters
 {
     public class WarehouseQueryParameters : BaseQueryParameters
     {
-        public double latitude { get; set; } = 0;
+        public double Latitude { get; set; } = 0;
 
-        public double longitude { get; set; } = 0;
+        public double Longitude { get; set; } = 0;
 
-        public int pageNumber { get; set; } = 1;
+        public bool OnlyPickupWarehouses { get; set; } = true;
 
-        public int pageSize { get; set; } = 16;
+        /// <summary>
+        /// Here are parameters to be passed in the Expand List.
+        /// </summary>
+        [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
+        public List<string> Expand { get; set; } = null;
 
-        public string sort { get; set; } = "Distance";
+        public bool UseDefaultLocation { get; set; }
 
-        public bool onlyPickupWarehouses { get; set; } = true;
+        public int Radius { get; set; }
+
+        public bool ExcludeCurrentPickupWarehouse { get; set; }
     }
 }

@@ -6,12 +6,12 @@ namespace CommerceApiSDK.Models.Parameters
 {
     public class WishListLineQueryParameters : BaseQueryParameters
     {
-        public int pageNumber = 1;
+        public WishListLineSortOrder SortOrder = WishListLineSortOrder.CustomSort;
 
-        public int pageSize = 16;
+        public int DefaultPageSize;
 
-        public WishListLineSortOrder sortOrder = WishListLineSortOrder.CustomSort;
+        public string ChangedSharedListLinesQuantities;
 
-        public string searchQuery = null;
+        public string Query = null;
     }
 }

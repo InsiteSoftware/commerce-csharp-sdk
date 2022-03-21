@@ -51,12 +51,10 @@ namespace CommerceApiSDK.Services
             {
                 string url = CommerceAPIConstants.CartUri;
 
-                if (parameters != null)
-                {
-                    string queryString = parameters.ToQueryString();
-                    url += queryString;
-                }
+                url += parameters.ToQueryString();
                 Cart result = await GetAsyncNoCache<Cart>(url);
+
+                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
 
                 return result;
             }

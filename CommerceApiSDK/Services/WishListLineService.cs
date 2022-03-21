@@ -29,11 +29,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WishListUrl}/{wishListId}/wishlistlines";
 
-                if (parameters != null)
-                {
-                    string queryString = parameters.ToQueryString();
-                    url += queryString;
-                }
+                url += parameters?.ToQueryString();
 
                 return await GetAsyncWithCachedResponse<WishListLineCollectionModel>(url);
             }

@@ -17,6 +17,7 @@ namespace CommerceApiSDK.Models.Parameters
 
         /// <summary>
         /// Here are parameters to be passed in the Expand List.
+        /// Options: cartlines, costcodes, shipping, tax, carriers, paymentoptions
         /// </summary>
         [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
         public List<string> Expand { get; set; } = null;

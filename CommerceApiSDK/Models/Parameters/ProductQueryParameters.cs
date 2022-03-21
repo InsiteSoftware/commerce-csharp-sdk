@@ -58,11 +58,18 @@ namespace CommerceApiSDK.Models.Parameters
 
     public class ProductPriceQueryParameters : BaseQueryParameters
     {
-        public decimal quantity { get; set; }
+        public decimal QtyOrdered { get; set; }
 
-        public string unitOfMeasure { get; set; }
+        public string UnitOfMeasure { get; set; }
 
         [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
-        public List<Guid> configuration { get; set; } = null;
+        public List<Guid> Configuration { get; set; } = null;
+
+        public object Properties { get; set; }
+
+        public bool IsValid { get; set; }
+
+        public string ValidationMessage { get; set; }
+
     }
 }

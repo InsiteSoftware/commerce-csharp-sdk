@@ -129,7 +129,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/price";
 
-                if (parameters != null)
+                if (parameters.Configuration.Count > 0)
                 {
                     string queryString = parameters.ToQueryString();
                     url += queryString;

@@ -26,11 +26,7 @@ namespace CommerceApiSDK.Services
         {
             string url = CommerceAPIConstants.WishListUrl;
 
-            if (parameters != null)
-            {
-                string queryString = parameters.ToQueryString();
-                url += queryString;
-            }
+            url += parameters?.ToQueryString();
 
             try
             {
@@ -83,7 +79,7 @@ namespace CommerceApiSDK.Services
         {
             string url = CommerceAPIConstants.WishListUrl;
 
-            StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
+            StringContent stringContent = await Task.Run(() => SerializeModel(parameters.WishListObj));
             try
             {
                 WishList result = await PostAsyncNoCache<WishList>(url, stringContent);
@@ -105,7 +101,7 @@ namespace CommerceApiSDK.Services
         {
             string url = CommerceAPIConstants.WishListUrl;
 
-            StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
+            StringContent stringContent = await Task.Run(() => SerializeModel(parameters.WishListObj));
 
             try
             {

@@ -33,11 +33,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = CommerceAPIConstants.CategoryUrl;
 
-                if (parameters != null)
-                {
-                    string queryString = parameters.ToQueryString();
-                    url += queryString;
-                }
+                url += parameters?.ToQueryString();
 
                 CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 if (categoryResult == null)
@@ -76,17 +72,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<List<Category>> GetFeaturedCategories(FeaturedCategoryQueryParameter parameter)
+        public async Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.CategoryUrl;
 
-                if (parameter != null)
-                {
-                    string queryString = parameter.ToQueryString();
-                    url += queryString;
-                }
+                url += parameters?.ToQueryString();
 
                 CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);

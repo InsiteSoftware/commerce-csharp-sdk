@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using CommerceApiSDK.Attributes;
 using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Models.Parameters
 {
     public class WishListQueryParameters : BaseQueryParameters
     {
-        public string expand { get; set; } = "top3products";
+        [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
+        public List<string> Expand { get; set; } = new List<string> {"top3products"};
 
-        public int pageNumber { get; set; } = 1;
+        public int PageNumber { get; set; } = 1;
 
-        public int pageSize { get; set; } = 16;
+        public WishListSortOrder SortOrder { get; set; } = WishListSortOrder.ModifiedOnDescending;
 
-        public WishListSortOrder sortOrder { get; set; } = WishListSortOrder.ModifiedOnDescending;
+        public string SearchText { get; set; } = null;
 
-        public string searchText { get; set; } = null;
+        /// <summary>
+        /// Here are the values in the Exclude List.
+        /// </summary>
+        [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
+        public List<string> Exclude { get; set; }
+
+        public int CurrentPage { get; set; }
     }
 
     public class CreateWishListQueryParameters : BaseQueryParameters
     {
-        public string wishListName { get; set; }
-
-        public string description { get; set; } = "";
+        public WishList WishListObj { get; set; } = null;
     }
 }
