@@ -126,7 +126,6 @@ namespace CommerceApiSDK.Services
             {
                 Timeout = Timeout.InfiniteTimeSpan,
             };
-            client.DefaultRequestHeaders.Add("User-Agent", "insitemobileapp");
         }
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
