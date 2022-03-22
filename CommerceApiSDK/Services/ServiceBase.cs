@@ -59,8 +59,6 @@ namespace CommerceApiSDK.Services
         protected readonly ICacheService cacheService;
         protected readonly ILoggerService loggerService;
 
-        public bool IsCacheEnabled { get; }
-
         public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(60.0);
 
         protected ServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
@@ -70,7 +68,6 @@ namespace CommerceApiSDK.Services
             TrackingService = trackingService;
             this.cacheService = cacheService;
             this.loggerService = loggerService;
-            IsCacheEnabled= ClientConfig.IsCachingEnabled;
         }
 
         /// <summary>
@@ -176,7 +173,7 @@ namespace CommerceApiSDK.Services
                         return model;
                     }
                 }
-                else if(IsCacheEnabled)
+                else if(ClientConfig.IsCachingEnabled)
                 {
                     return await GetOfflineData<T>(key);
                 }
@@ -219,7 +216,7 @@ namespace CommerceApiSDK.Services
                         return receivedString;
                     }
                 }
-                else if(IsCacheEnabled)
+                else if(ClientConfig.IsCachingEnabled)
                 {
                     return await GetOfflineData<string>(key);
                 }
@@ -264,7 +261,7 @@ namespace CommerceApiSDK.Services
         {
             string key = Client.Host + url + Client.SessionStateKey;
 
-            if (!IsOnline && IsCacheEnabled)
+            if (!IsOnline && ClientConfig.IsCachingEnabled)
             {
                 return await GetOfflineData<T>(key);
             }
