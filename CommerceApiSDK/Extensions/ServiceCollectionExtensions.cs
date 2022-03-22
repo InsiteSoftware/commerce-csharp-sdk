@@ -29,7 +29,6 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IDashboardPanelsService, DashboardPanelsService>();
             services.AddSingleton<IDealerService, DealerService>();
-            services.AddSingleton<IGooglePlacesService, GooglePlacesService>();
             services.AddSingleton<IInvoiceService, InvoiceService>();
             services.AddSingleton<IJobQuoteService, JobQuoteService>();
             services.AddSingleton<ILoggerService, DefaultLogger>();
