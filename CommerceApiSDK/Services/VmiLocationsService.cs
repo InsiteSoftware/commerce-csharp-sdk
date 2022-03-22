@@ -11,14 +11,11 @@ namespace CommerceApiSDK.Services
 {
     public class VmiLocationsService : ServiceBase, IVmiLocationsService
     {
-        private readonly IGooglePlacesService googlePlacesService;
-
         public VmiLocationsService(
             IClientService clientService,
             INetworkService networkService,
             ITrackingService trackingService,
             ICacheService cacheService,
-            IGooglePlacesService googlePlacesService,
             ILoggerService loggerService)
             : base(
                   clientService,
@@ -27,33 +24,9 @@ namespace CommerceApiSDK.Services
                   cacheService,
                   loggerService)
         {
-            this.googlePlacesService = googlePlacesService;
         }
 
         #region VMI Locations
-
-        public async Task<LatLong> GetPlaceFromAddresss(Address address)
-        {
-            string fullAddress = $"{address?.Address1} {address?.City} {(address?.State == null ? string.Empty : address?.State.Name)} {address?.PostalCode}";
-            try
-            {
-                GooglePlace result = await googlePlacesService.GetPlace(fullAddress);
-                if (result != null)
-                {
-                    return new LatLong()
-                    {
-                        Latitude = result.Latitude,
-                        Longitude = result.Longitude
-                    };
-                }
-            }
-            catch (Exception exception)
-            {
-                TrackingService.TrackException(exception);
-            }
-
-            return null;
-        }
 
         public async Task<GetVmiLocationResult> GetVmiLocations(VmiLocationQueryParameters parameters = null)
         {

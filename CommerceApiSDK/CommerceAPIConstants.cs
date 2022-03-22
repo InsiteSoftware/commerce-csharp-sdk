@@ -2,10 +2,6 @@
 {
     public static class CommerceAPIConstants
     {
-        public const string GooglePlacesAPIUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
-
-        public const string GoogleAPIKey = "AIzaSyDcSlK6wqK4KNhonVLQOPk890sLnfIVXeE";
-
         public const string Shortdescriptionunique = "ShortDescriptionunique";
 
         public const string ManufacturerItemUnique = "ManufacturerItemunique";
