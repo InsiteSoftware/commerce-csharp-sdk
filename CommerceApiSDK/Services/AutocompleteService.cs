@@ -12,9 +12,9 @@ namespace CommerceApiSDK.Services
     {
 
         public AutocompleteService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
             : base(
-                  optiAPIBaseServiceProvider)
+                  commerceAPIServiceProvider)
         {
         }
 
@@ -55,7 +55,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

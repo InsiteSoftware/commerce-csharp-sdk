@@ -7,8 +7,8 @@ namespace CommerceApiSDK.Services
 {
     public class DashboardPanelsService : ServiceBase, IDashboardPanelsService
     {
-        public DashboardPanelsService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+        public DashboardPanelsService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -21,7 +21,7 @@ namespace CommerceApiSDK.Services
             }
             catch(Exception ex)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(ex);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
                 return null;
             }
         }

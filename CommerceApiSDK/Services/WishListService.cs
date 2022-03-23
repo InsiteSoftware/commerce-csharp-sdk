@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,8 +12,8 @@ namespace CommerceApiSDK.Services
     public class WishListService : WishListServiceBase, IWishListService
     {
         public WishListService(
-           IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+           ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -27,7 +27,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -42,7 +42,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -63,7 +63,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return false;
             }
         }
@@ -83,7 +83,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -105,7 +105,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -126,7 +126,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -147,7 +147,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -166,7 +166,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return false;
             }
         }
@@ -190,7 +190,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return false;
             }
         }

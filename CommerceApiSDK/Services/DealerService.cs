@@ -8,8 +8,8 @@ namespace CommerceApiSDK.Services
 {
     public class DealerService : ServiceBase, IDealerService
     {
-        public DealerService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-         : base(optiAPIBaseServiceProvider)
+        public DealerService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+         : base(commerceAPIServiceProvider)
         {
         }
 

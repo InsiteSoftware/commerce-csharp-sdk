@@ -8,11 +8,11 @@ namespace CommerceApiSDK.Test.Services
     /// </summary>
     public class ServiceTestBase
     {
-        protected Mock<IOptiAPIBaseServiceProvider> OptiAPIBaseServiceMock;
+        protected Mock<ICommerceAPIServiceProvider> OptiAPIBaseServiceMock;
 
         protected virtual void SetUp()
         {
-            OptiAPIBaseServiceMock = new Mock<IOptiAPIBaseServiceProvider>();
+            OptiAPIBaseServiceMock = new Mock<ICommerceAPIServiceProvider>();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
 
-namespace CommerceApiSDK.Services.Interfaces
+namespace CommerceApiSDK.Extensions
 {
     public static class BlobCacheExtension
     {

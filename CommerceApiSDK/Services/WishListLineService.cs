@@ -13,8 +13,8 @@ namespace CommerceApiSDK.Services
     public class WishListLineService : WishListServiceBase, IWishListLineService
     {
         public WishListLineService(
-           IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+           ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -40,7 +40,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -62,7 +62,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return false;
             }
         }
@@ -91,7 +91,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return false;
             }
         }
@@ -113,7 +113,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }

@@ -12,13 +12,13 @@ namespace CommerceApiSDK.Services
 
         public int GetMaxLengthOfTranslationText()
         {
-            return URIMaxLength - (_optiAPIBaseServiceProvider.GetClientService().Url.AbsoluteUri.Length + CommerceAPIConstants.TranslationUrl.Length);
+            return URIMaxLength - (_commerceAPIServiceProvider.GetClientService().Url.AbsoluteUri.Length + CommerceAPIConstants.TranslationUrl.Length);
         }
 
         public TranslationService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
             : base(
-                  optiAPIBaseServiceProvider)
+                  commerceAPIServiceProvider)
         {
         }
 
@@ -40,7 +40,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

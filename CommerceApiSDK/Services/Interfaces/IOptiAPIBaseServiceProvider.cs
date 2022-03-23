@@ -2,7 +2,7 @@
 
 namespace CommerceApiSDK.Services.Interfaces
 {
-     public interface IOptiAPIBaseServiceProvider
+     public interface ICommerceAPIServiceProvider
     {
         IAccountService GetAccountService();
         IAdminAuthenticationService GetAdminAuthenticationService();

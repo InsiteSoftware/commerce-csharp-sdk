@@ -3,7 +3,7 @@ using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
 {
-    public class OptiAPIBaseServiceProvider : IOptiAPIBaseServiceProvider
+    public class CommerceAPIServiceProvider : ICommerceAPIServiceProvider
     {
         private readonly IAccountService _accountService;
         private readonly IAdminAuthenticationService _adminAuthenticationService;
@@ -48,7 +48,7 @@ namespace CommerceApiSDK.Services
         private readonly IWishListLineService _wishListLineService;
         private readonly IWishListService _wishListService;
 
-        public OptiAPIBaseServiceProvider(IAccountService accountService, IAdminAuthenticationService adminAuthenticationService, IAdminClientService adminClientService, IAuthenticationService authenticationService,
+        public CommerceAPIServiceProvider(IAccountService accountService, IAdminAuthenticationService adminAuthenticationService, IAdminClientService adminClientService, IAuthenticationService authenticationService,
             IAutocompleteService autocompleteService, IBillToService billToService, IBrandService brandService, ICacheService cacheService, ICartLineService cartLineService,
             ICartService cartService, ICatalogpagesService catalogpagesService, ICategoryService categoryService, IClientService clientService, IDashboardPanelsService dashboardPanelsService,
             IDealerService dealerService, IInvoiceService invoiceService, IJobQuoteService jobQuoteService, ILocalStorageService localStorageService,

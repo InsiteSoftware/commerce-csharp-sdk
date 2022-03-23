@@ -15,8 +15,8 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class WebsiteService : ServiceBase, IWebsiteService
     {
-        public WebsiteService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+        public WebsiteService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {            
         }
 
@@ -29,7 +29,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -52,7 +52,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -72,7 +72,7 @@ namespace CommerceApiSDK.Services
                 }
                 else
                 {
-                    Uri domain = _optiAPIBaseServiceProvider.GetClientService().Url;
+                    Uri domain = _commerceAPIServiceProvider.GetClientService().Url;
 
                     if (string.IsNullOrEmpty(domain.AbsolutePath) || string.IsNullOrEmpty(path))
                     {
@@ -83,11 +83,11 @@ namespace CommerceApiSDK.Services
                 }
 
                 // sign
-                string token = await _optiAPIBaseServiceProvider.GetClientService().GetAccessToken();
-                string billTo = _optiAPIBaseServiceProvider.GetSessionService().CurrentSession?.BillTo?.Id;
-                string shipTo = _optiAPIBaseServiceProvider.GetSessionService().CurrentSession?.ShipTo?.Id;
-                string languageCode = _optiAPIBaseServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode;
-                string currencyCode = _optiAPIBaseServiceProvider.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
+                string token = await _commerceAPIServiceProvider.GetClientService().GetAccessToken();
+                string billTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.BillTo?.Id;
+                string shipTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.ShipTo?.Id;
+                string languageCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode;
+                string currencyCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
                 string linkChar = result.Contains("?") ? "&" : "?";
 
                 result = string.IsNullOrEmpty(token) || string.IsNullOrEmpty(billTo) || string.IsNullOrEmpty(shipTo)
@@ -96,7 +96,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
+                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
                 return null;
             }
 
@@ -119,7 +119,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -131,7 +131,7 @@ namespace CommerceApiSDK.Services
                 messageName
             });
 
-            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(_optiAPIBaseServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
+            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(_commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
             if (siteMessageItem != null)
             {
                 return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
@@ -157,7 +157,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -170,7 +170,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
