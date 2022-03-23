@@ -22,9 +22,7 @@ namespace CommerceApiSDK.Test.Services
         [Test]
         public void GetAuthorizedURL_WithPath_ReturnsValidUrl()
         {
-            string languageCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession.Language.LanguageCode;
-            string currencyCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession.Currency.CurrencyCode;
-            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
+            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode=&SetContextCurrencyCode=";
             string domain = "https://mobileautomation.insitesandbox.com";
             string path = "/Catalog/Power-Tools/Circular-Saws";
 
