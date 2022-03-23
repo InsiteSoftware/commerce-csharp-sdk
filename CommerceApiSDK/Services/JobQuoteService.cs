@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
@@ -11,8 +11,8 @@ namespace CommerceApiSDK.Services
     public class JobQuoteService : ServiceBase, IJobQuoteService
     {
         public JobQuoteService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -24,7 +24,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -44,7 +44,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -65,7 +65,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

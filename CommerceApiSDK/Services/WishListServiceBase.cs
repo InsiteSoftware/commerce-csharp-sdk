@@ -6,7 +6,7 @@ namespace CommerceApiSDK.Services
 {
     public class WishListServiceBase : ServiceBase
     {
-        public WishListServiceBase(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider) : base(optiAPIBaseServiceProvider)
+        public WishListServiceBase(ICommerceAPIServiceProvider commerceAPIServiceProvider) : base(commerceAPIServiceProvider)
         {
         }
 
@@ -19,7 +19,7 @@ namespace CommerceApiSDK.Services
         /// <returns>void</returns>
         protected async Task ClearWishListRelatedCacheAsync(Guid wishListId)
         {
-            string prefix = _optiAPIBaseServiceProvider.GetClientService().Host + $"/api/v1/wishlists/{wishListId}";
+            string prefix = _commerceAPIServiceProvider.GetClientService().Host + $"/api/v1/wishlists/{wishListId}";
             await ClearOnlineCacheForUrlsStartingWith<WishListLineCollectionModel>(prefix);
             await ClearOnlineCacheForUrlsStartingWith<WishList>(prefix);
         }

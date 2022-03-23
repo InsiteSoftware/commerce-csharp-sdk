@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -18,8 +18,8 @@ namespace CommerceApiSDK.Services
 
         private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
 
-        public BillToService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+        public BillToService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -39,7 +39,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -57,7 +57,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(ex);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
                 return null;
             }
         }
@@ -72,7 +72,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -90,7 +90,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(ex);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
                 return null;
             }
         }
@@ -111,7 +111,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -129,7 +129,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(ex);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
                 return null;
             }
         }
@@ -143,7 +143,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -162,7 +162,7 @@ namespace CommerceApiSDK.Services
 
             catch(Exception ex)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(ex);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
                 return null;
             }
         }

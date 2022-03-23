@@ -50,7 +50,7 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IWebsiteService, WebsiteService>();
             services.AddSingleton<IWishListLineService, WishListLineService>();
             services.AddSingleton<IWishListService, WishListService>();
-            services.AddSingleton<IOptiAPIBaseServiceProvider, OptiAPIBaseServiceProvider>();
+            services.AddSingleton<ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
 
             //ILocalStorageService needs to be implemented outside of the API SDK
             //INetworkService needs to be implemented outside of the API SDK

@@ -18,9 +18,9 @@ namespace CommerceApiSDK.Services
         private IDisposable adminRefreshTokenNotificationSubscription;
 
         public AdminAuthenticationService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
             : base(
-                optiAPIBaseServiceProvider)
+                commerceAPIServiceProvider)
         {
             this.adminClientService = adminClientService;
             this.optiMessenger = optiMessenger;

@@ -38,14 +38,14 @@ namespace CommerceApiSDK.Services
         }
 
         public AdminClientService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
         protected override void NotifyRefreshTokenExpired()
         {
-            _optiAPIBaseServiceProvider.GetMessengerService().Publish(new AdminRefreshTokenExpiredOptiMessage(this));
+            _commerceAPIServiceProvider.GetMessengerService().Publish(new AdminRefreshTokenExpiredOptiMessage(this));
         }
     }
 }

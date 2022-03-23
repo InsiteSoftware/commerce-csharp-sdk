@@ -15,8 +15,8 @@ namespace CommerceApiSDK.Services
     {
         private CategoryResult lastCategoryResult;
 
-        public CategoryService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-            : base(optiAPIBaseServiceProvider)
+        public CategoryService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -59,7 +59,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -79,7 +79,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -103,7 +103,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

@@ -7,9 +7,9 @@ namespace CommerceApiSDK.Services
     public class MobileSpireContentService : ServiceBase, IMobileSpireContentService
     {
         public MobileSpireContentService(
-            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
           : base(
-                optiAPIBaseServiceProvider)
+                commerceAPIServiceProvider)
         {
         }
 
@@ -22,7 +22,7 @@ namespace CommerceApiSDK.Services
 
             string url = $"{CommerceAPIConstants.contentUrl}{pageName}";
 
-            _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Response content: {0}", url);
+            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Response content: {0}", url);
 
             return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
         }

@@ -8,8 +8,8 @@ namespace CommerceApiSDK.Services
 {
     public class WarehouseService : ServiceBase, IWarehouseService
     {
-        public WarehouseService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
-         : base(optiAPIBaseServiceProvider)
+        public WarehouseService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+         : base(commerceAPIServiceProvider)
         {
         }
 
@@ -34,7 +34,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
