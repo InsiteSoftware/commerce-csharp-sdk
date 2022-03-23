@@ -22,14 +22,18 @@ namespace CommerceApiSDK.Test.Services
         [Test]
         public void GetAuthorizedURL_WithPath_ReturnsValidUrl()
         {
-            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode=&SetContextCurrencyCode=";
             string domain = "https://mobileautomation.insitesandbox.com";
             string path = "/Catalog/Power-Tools/Circular-Saws";
 
-            websiteService = new WebsiteService(OptiAPIBaseServiceMock.Object);
-
             OptiAPIBaseServiceMock.Setup(o => o.GetClientService().Url).Returns(new Uri(domain));
             OptiAPIBaseServiceMock.Setup(x => x.GetSessionService().CurrentSession).Returns(new Session { });
+
+            string languageCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Language?.LanguageCode;
+            string currencyCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
+
+            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
+
+            websiteService = new WebsiteService(OptiAPIBaseServiceMock.Object);
 
             string returnedUrl = websiteService.GetAuthorizedURL(path).Result;
 
