@@ -7,8 +7,8 @@ namespace CommerceApiSDK.Services
 {
     public class CatalogpagesService : ServiceBase, ICatalogpagesService
     {
-        public CatalogpagesService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
+        public CatalogpagesService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            : base(optiAPIBaseServiceProvider)
         {
         }
 
@@ -29,7 +29,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

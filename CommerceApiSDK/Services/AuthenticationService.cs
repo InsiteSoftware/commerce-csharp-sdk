@@ -12,23 +12,15 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IClientService clientService;
-        private readonly ISessionService sessionService;
-        private readonly IMessengerService optiMessenger;
+        private readonly IOptiAPIBaseServiceProvider _optiAPIBaseServiceProvider;
         private IDisposable refreshTokenNotificationSubscription;
-        private readonly IAccountService accountService;
 
         public AuthenticationService(
-            IClientService clientService,
-            ISessionService sessionService,
-            IMessengerService optiMessenger,
-            IAccountService accountService)
+            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
         {
-            this.clientService = clientService;
-            this.sessionService = sessionService;
-            this.optiMessenger = optiMessenger;
-            refreshTokenNotificationSubscription = this.optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
-            this.accountService = accountService;
+            _optiAPIBaseServiceProvider = optiAPIBaseServiceProvider;
+            refreshTokenNotificationSubscription = _optiAPIBaseServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+ 
         }
 
         /// <summary>
@@ -39,36 +31,36 @@ namespace CommerceApiSDK.Services
         /// <returns>Whether or not sign in was successful</returns>
         public virtual async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
         {
-            ServiceResponse<TokenResult> result = await clientService.Generate(userName, password);
+            ServiceResponse<TokenResult> result = await _optiAPIBaseServiceProvider.GetClientService().Generate(userName, password);
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            clientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
-            clientService.StoreSessionState();
+            _optiAPIBaseServiceProvider.GetClientService().SetBearerAuthorizationHeader(tokenResult.AccessToken);
+            _optiAPIBaseServiceProvider.GetClientService().StoreSessionState();
 
             Session session = new Session() { UserName = userName, Password = password };
-            ServiceResponse<Session> sessionCreateResult = await sessionService.PostSession(session);
+            ServiceResponse<Session> sessionCreateResult = await _optiAPIBaseServiceProvider.GetSessionService().PostSession(session);
             Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
-                clientService.SetBasicAuthorizationHeader();
+                _optiAPIBaseServiceProvider.GetClientService().SetBasicAuthorizationHeader();
                 return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
             }
 
-            Session sessionPatchResult = await sessionService.PatchSession(createdSession);
+            Session sessionPatchResult = await _optiAPIBaseServiceProvider.GetSessionService().PatchSession(createdSession);
 
             if (sessionPatchResult == null)
             {
-                clientService.SetBasicAuthorizationHeader();
+                _optiAPIBaseServiceProvider.GetClientService().SetBasicAuthorizationHeader();
                 return (false, ErrorResponse.Empty());
             }
 
             if (refreshTokenNotificationSubscription == null)
             {
-                refreshTokenNotificationSubscription = optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+                refreshTokenNotificationSubscription = _optiAPIBaseServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -95,16 +87,16 @@ namespace CommerceApiSDK.Services
                 refreshTokenNotificationSubscription = null;
             }
 
-            sessionService.ClearCache();
+            _optiAPIBaseServiceProvider.GetSessionService().ClearCache();
 
             Session clonedSession;
-            if (sessionService.CurrentSession is Session currentSession)
+            if (_optiAPIBaseServiceProvider.GetSessionService().CurrentSession is Session currentSession)
             {
                 clonedSession = currentSession.Clone() as Session;
             }
             else
             {
-                clonedSession = await sessionService.GetCurrentSession();
+                clonedSession = await _optiAPIBaseServiceProvider.GetSessionService().GetCurrentSession();
             }
 
             if (clonedSession != null)
@@ -114,14 +106,14 @@ namespace CommerceApiSDK.Services
                 clonedSession.ShipTo = null;
                 clonedSession.Language = null;
                 clonedSession.IsAuthenticated = false;
-                await sessionService.PatchSession(clonedSession);
+                await _optiAPIBaseServiceProvider.GetSessionService().PatchSession(clonedSession);
             }
 
-            clientService.Reset();
+            _optiAPIBaseServiceProvider.GetClientService().Reset();
 
-            clientService.RemoveAccessToken();
+            _optiAPIBaseServiceProvider.GetClientService().RemoveAccessToken();
 
-            optiMessenger.Publish(new UserSignedOutOptiMessage()
+            _optiAPIBaseServiceProvider.GetMessengerService().Publish(new UserSignedOutOptiMessage()
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -133,11 +125,11 @@ namespace CommerceApiSDK.Services
         /// <returns>Boolean value for whether or not user is logged in</returns>
         public virtual async Task<bool> IsAuthenticatedAsync()
         {
-            if (clientService.IsExistsAccessToken())
+            if (_optiAPIBaseServiceProvider.GetClientService().IsExistsAccessToken())
             {
-                _ = await accountService.GetCurrentAccountAsync();
+                _ = await _optiAPIBaseServiceProvider.GetAccountService().GetCurrentAccountAsync();
 
-                return clientService.IsExistsAccessToken();
+                return _optiAPIBaseServiceProvider.GetClientService().IsExistsAccessToken();
             }
 
             return false;

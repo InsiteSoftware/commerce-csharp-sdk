@@ -10,17 +10,9 @@ namespace CommerceApiSDK.Services
     public class ProductV2Service : ServiceBase, IProductV2Service
     {
         public ProductV2Service(
-            IClientService clientService,
-            INetworkService networkService,
-            ITrackingService trackingService,
-            ICacheService cacheService,
-            ILoggerService loggerService)
+            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
             : base(
-                  clientService,
-                  networkService,
-                  trackingService,
-                  cacheService,
-                  loggerService)
+                 optiAPIBaseServiceProvider)
         {
         }
 
@@ -65,7 +57,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -99,7 +91,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -133,7 +125,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -167,7 +159,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -201,7 +193,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -235,7 +227,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

@@ -24,8 +24,8 @@ namespace CommerceApiSDK.Services
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-        public CartLineService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
+        public CartLineService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            : base(optiAPIBaseServiceProvider)
         {
         }
 
@@ -45,7 +45,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception) when (!(exception is OperationCanceledException))
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
             }
             finally
             {
@@ -92,7 +92,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -106,7 +106,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return false;
             }
         }
@@ -122,7 +122,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

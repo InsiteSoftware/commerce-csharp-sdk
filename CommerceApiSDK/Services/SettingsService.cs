@@ -8,12 +8,8 @@ namespace CommerceApiSDK.Services
     public class SettingsService : ServiceBase, ISettingsService
     {
         public SettingsService(
-            IClientService clientService,
-            INetworkService networkService,
-            ITrackingService trackingService,
-            ICacheService cacheService,
-            ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
+            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            : base(optiAPIBaseServiceProvider)
         {
         }
 
@@ -25,14 +21,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load settings for {Client.Host}, but the settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -46,14 +42,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load product settings for {Client.Host}, but the product settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load product settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the product settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -67,14 +63,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load account settings for {Client.Host}, but the account settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load account settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the account settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -88,14 +84,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load website settings for {Client.Host}, but the website settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load website settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the website settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -109,14 +105,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load wish list settings for {Client.Host}, but the wish list settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load wish list settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the wish list settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -130,14 +126,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load cart settings for {Client.Host}, but the cart settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load cart settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the cart settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -151,14 +147,14 @@ namespace CommerceApiSDK.Services
                 if (settings == null)
                 {
                     throw new NullReferenceException(
-                        $"Attempted to load mobile app settings for {Client.Host}, but the mobile app settings response is null. This website might either be an older ISC website or not an ISC website.");
+                        $"Attempted to load mobile app settings for {_optiAPIBaseServiceProvider.GetClientService().Host}, but the mobile app settings response is null. This website might either be an older ISC website or not an ISC website.");
                 }
 
                 return settings;
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -171,7 +167,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
