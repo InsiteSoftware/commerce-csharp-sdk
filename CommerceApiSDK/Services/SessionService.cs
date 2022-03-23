@@ -16,20 +16,10 @@ namespace CommerceApiSDK.Services
         public Session CurrentSession => currentSession;
 
         public SessionService(
-            IClientService clientService,
-            INetworkService networkService,
-            ITrackingService trackingService,
-            IMessengerService optiMessenger,
-            ICacheService cacheService,
-            ILoggerService loggerService)
+            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
             : base(
-                  clientService,
-                  networkService,
-                  trackingService,
-                  cacheService,
-                  loggerService)
+                  optiAPIBaseServiceProvider)
         {
-            this.optiMessenger = optiMessenger;
         }
 
         /// <summary>
@@ -57,7 +47,7 @@ namespace CommerceApiSDK.Services
 
                 if (result?.Model != null)
                 {
-                    Client.StoreSessionState(result.Model);
+                    _optiAPIBaseServiceProvider.GetClientService().StoreSessionState(result.Model);
                     currentSession = result.Model;
                 }
 
@@ -65,7 +55,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -94,7 +84,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -116,7 +106,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -151,7 +141,7 @@ namespace CommerceApiSDK.Services
                         }
                     }
 
-                    Client.StoreSessionState(result);
+                    _optiAPIBaseServiceProvider.GetClientService().StoreSessionState(result);
                     currentSession = result;
                 }
 
@@ -159,7 +149,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _optiAPIBaseServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

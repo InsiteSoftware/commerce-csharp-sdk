@@ -34,12 +34,12 @@ namespace CommerceApiSDK.Services
         public IBlobCache LocalStorage => localStorage.Value;
 
         private readonly IFilesystemProvider filesystemProvider;
-        private readonly ILoggerService loggerService;
+        private readonly IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider;
 
-        public CacheService(IFilesystemProvider filesystemProvider, ILoggerService loggerService)
+        public CacheService(IFilesystemProvider filesystemProvider, IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
         {
             this.filesystemProvider = filesystemProvider;
-            this.loggerService = loggerService;
+            this.optiAPIBaseServiceProvider = optiAPIBaseServiceProvider;
             offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName));
             onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
             localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName));
@@ -81,12 +81,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.InsertObject(key, value);
-                loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
                 return true;
             }
             catch
             {
-                loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
                 return false;
             }
         }
@@ -102,12 +102,12 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.Insert(key, value);
-                loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
                 return true;
             }
             catch
             {
-                loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
                 return false;
             }
         }
@@ -119,7 +119,7 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                    optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
                     return null;
                 }
 
@@ -128,7 +128,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                loggerService.LogConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}", key, ex.Message);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}", key, ex.Message);
                 return null;
             }
         }
@@ -140,17 +140,17 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                    optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
                     return null;
                 }
 
                 byte[] offlineObject = await LocalStorage.Get(key);
-                loggerService.LogConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}", null, key, offlineObject);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}", null, key, offlineObject);
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
                 return null;
             }
         }

@@ -38,18 +38,14 @@ namespace CommerceApiSDK.Services
         }
 
         public AdminClientService(
-            ISecureStorageService secureStorageService,
-            ILocalStorageService localStorageService,
-            IMessengerService optiMessenger,
-            ITrackingService trackingService,
-            ILoggerService loggerService)
-            : base(secureStorageService, localStorageService, optiMessenger, trackingService, loggerService)
+            IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
+            : base(optiAPIBaseServiceProvider)
         {
         }
 
         protected override void NotifyRefreshTokenExpired()
         {
-            optiMessenger.Publish(new AdminRefreshTokenExpiredOptiMessage(this));
+            _optiAPIBaseServiceProvider.GetMessengerService().Publish(new AdminRefreshTokenExpiredOptiMessage(this));
         }
     }
 }

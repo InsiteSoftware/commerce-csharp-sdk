@@ -36,11 +36,7 @@ namespace CommerceApiSDK.Services
         protected HttpClient client;
         public HttpClientHandler httpClientHandler;
 
-        private readonly ISecureStorageService secureStorageService;
-        private readonly ILocalStorageService localStorageService;
-        protected readonly IMessengerService optiMessenger;
-        protected readonly ITrackingService trackingService;
-        private readonly ILoggerService loggerService;
+        protected IOptiAPIBaseServiceProvider _optiAPIBaseServiceProvider;
 
         protected virtual string[] StoredCookiesNames { get; } = { "CurrentPickUpWarehouseId", "CurrentFulfillmentMethod", "CurrentBillToId", "CurrentShipToId", "BillToIdShipToId", "CurrentLanguageId", "SetContextLanguageCode", "SetContextPersonaIds" };
 
@@ -96,13 +92,9 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMessengerService optiMessenger, ITrackingService trackingService, ILoggerService loggerService)
+        public ClientService(IOptiAPIBaseServiceProvider optiAPIBaseServiceProvider)
         {
-            this.secureStorageService = secureStorageService;
-            this.localStorageService = localStorageService;
-            this.optiMessenger = optiMessenger;
-            this.trackingService = trackingService;
-            this.loggerService = loggerService;
+            _optiAPIBaseServiceProvider = optiAPIBaseServiceProvider;
             CreateClient();
         }
 
@@ -122,7 +114,7 @@ namespace CommerceApiSDK.Services
                 // Proxy = CFNetwork.GetDefaultProxy()
             };
 
-            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, loggerService, NotifyRefreshTokenExpired))
+            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, _optiAPIBaseServiceProvider.GetLoggerService(), NotifyRefreshTokenExpired))
             {
                 Timeout = Timeout.InfiniteTimeSpan,
             };
@@ -130,14 +122,14 @@ namespace CommerceApiSDK.Services
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                    loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
+                _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
                 }
 
             return response;
@@ -153,16 +145,16 @@ namespace CommerceApiSDK.Services
             HttpResponseMessage response;
     
             response = await client.GetAsync(path, cancellationToken);
-            
-            loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
-            loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
+
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
@@ -170,9 +162,9 @@ namespace CommerceApiSDK.Services
                     request.Content = content;
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                }         
+                }
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -187,14 +179,14 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
@@ -204,7 +196,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -220,7 +212,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -235,7 +227,7 @@ namespace CommerceApiSDK.Services
             {
                 // If token is null/empty after Forbidden status, we aren't logged in
                 // so no need to retry
-                string token = secureStorageService.Load(BearerTokenStorageKey);
+                string token = _optiAPIBaseServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
                 if (string.IsNullOrEmpty(token))
                 {
                     return response;
@@ -291,7 +283,7 @@ namespace CommerceApiSDK.Services
            
                 client.DefaultRequestHeaders.Authorization = null;
 
-                string refreshToken = secureStorageService.Load(RefreshTokenStorageKey);
+                string refreshToken = _optiAPIBaseServiceProvider.GetSecureStorageService().Load(RefreshTokenStorageKey);
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}");
                 FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
                 {
@@ -304,7 +296,7 @@ namespace CommerceApiSDK.Services
                 request.SetTimeout(request.GetTimeout());
                 HttpResponseMessage response = await client.SendAsync(request);
 
-                loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -321,7 +313,7 @@ namespace CommerceApiSDK.Services
 
         protected virtual void NotifyRefreshTokenExpired()
         {
-            optiMessenger.Publish(new RefreshTokenExpiredOptiMessage());
+            _optiAPIBaseServiceProvider.GetMessengerService().Publish(new RefreshTokenExpiredOptiMessage());
         }
 
         public void Reset()
@@ -329,18 +321,18 @@ namespace CommerceApiSDK.Services
             StoreCookies();
             CreateClient();
 
-            loggerService.LogDebug(LogLevel.DEBUG, "The ClientService was reset.");
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "The ClientService was reset.");
         }
 
         public void StoreSessionState(Session currentSession = null)
         {
             StoreCookies(currentSession);
-            loggerService.LogDebug(LogLevel.DEBUG, "State was stored.");
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "State was stored.");
         }
 
         private void StoreCookies(Session currentSession = null)
         {
-            loggerService.LogDebug(LogLevel.DEBUG, "Saving cookies");
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Saving cookies");
             if (Cookies != null)
             {
                 string cookieValues = string.Empty;
@@ -357,21 +349,21 @@ namespace CommerceApiSDK.Services
                     }
                 }
 
-                localStorageService.Save(CookiesStorageKey, cookieValues);
+                _optiAPIBaseServiceProvider.GetLocalStorageService().Save(CookiesStorageKey, cookieValues);
             }
         }
 
         public void LoadSessionState()
         {
-            loggerService.LogDebug(LogLevel.DEBUG, "Loading state");
-            string accessToken = secureStorageService.Load(BearerTokenStorageKey);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loading state");
+            string accessToken = _optiAPIBaseServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
             if (!string.IsNullOrEmpty(accessToken))
             {
                 SetBearerAuthorizationHeader(accessToken);
             }
 
             LoadCookies();
-            loggerService.LogDebug(LogLevel.DEBUG, "Loaded state");
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loaded state");
         }
 
         public void SetCookie(Cookie cookie)
@@ -381,8 +373,8 @@ namespace CommerceApiSDK.Services
 
         protected void LoadCookies()
         {
-            loggerService.LogDebug(LogLevel.DEBUG, "Loading Cookies");
-            string cookieValues = localStorageService.Load(CookiesStorageKey, string.Empty);
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loading Cookies");
+            string cookieValues = _optiAPIBaseServiceProvider.GetLocalStorageService().Load(CookiesStorageKey, string.Empty);
             if (string.IsNullOrEmpty(cookieValues))
             {
                 return;
@@ -398,7 +390,7 @@ namespace CommerceApiSDK.Services
                     httpClientHandler.CookieContainer.Add(Url, new Cookie(name, value));
                 }
             }
-            loggerService.LogDebug(LogLevel.DEBUG, "Loaded Cookies");
+            _optiAPIBaseServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loaded Cookies");
         }
 
         public void SetBasicAuthorizationHeader()
@@ -417,28 +409,28 @@ namespace CommerceApiSDK.Services
 
         public bool IsExistsAccessToken()
         {
-            return !string.IsNullOrEmpty(secureStorageService.Load(BearerTokenStorageKey));
+            return !string.IsNullOrEmpty(_optiAPIBaseServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey));
         }
 
         public void StoreAccessToken(TokenResult tokens)
         {
-            secureStorageService.Save(BearerTokenStorageKey, tokens.AccessToken);
-            secureStorageService.Save(RefreshTokenStorageKey, tokens.RefreshToken);
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Save(BearerTokenStorageKey, tokens.AccessToken);
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Save(RefreshTokenStorageKey, tokens.RefreshToken);
 
             TimeSpan timeSpan = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn).TimeOfDay;
-            secureStorageService.Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
         }
 
         public void RemoveAccessToken()
         {
-            secureStorageService.Remove(BearerTokenStorageKey);
-            secureStorageService.Remove(RefreshTokenStorageKey);
-            secureStorageService.Remove(ExpiresInStorageKey);
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Remove(BearerTokenStorageKey);
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Remove(RefreshTokenStorageKey);
+            _optiAPIBaseServiceProvider.GetSecureStorageService().Remove(ExpiresInStorageKey);
         }
 
         public async Task<string> GetAccessToken()
         {
-            string timestampStr = secureStorageService.Load(ExpiresInStorageKey);
+            string timestampStr = _optiAPIBaseServiceProvider.GetSecureStorageService().Load(ExpiresInStorageKey);
             if (!string.IsNullOrEmpty(timestampStr))
             {
                 double timestamp = double.Parse(timestampStr);
@@ -452,7 +444,7 @@ namespace CommerceApiSDK.Services
                 }
             }
 
-            return secureStorageService.Load(BearerTokenStorageKey);
+            return _optiAPIBaseServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
         }
 
         public async Task<ServiceResponse<TokenResult>> Generate(string userName, string password)
