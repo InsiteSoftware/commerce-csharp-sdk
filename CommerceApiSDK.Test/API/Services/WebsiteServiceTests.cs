@@ -16,27 +16,24 @@ namespace CommerceApiSDK.Test.Services
             base.SetUp();
 
             websiteService = new WebsiteService(
-                ClientServiceMock.Object,
-                NetworkServiceMock.Object,
-                TrackingServiceMock.Object,
-                SessionServiceMock.Object,
-                CacheServiceMock.Object,
-                LoggerServiceMock.Object);
+                OptiAPIBaseServiceMock.Object);
         }
 
         [Test]
         public void GetAuthorizedURL_WithPath_ReturnsValidUrl()
         {
-            string languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
-            string currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
-            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
             string domain = "https://mobileautomation.insitesandbox.com";
             string path = "/Catalog/Power-Tools/Circular-Saws";
 
-            websiteService = new WebsiteService(ClientServiceMock.Object, NetworkServiceMock.Object, TrackingServiceMock.Object, SessionServiceMock.Object, CacheServiceMock.Object, LoggerServiceMock.Object);
+            OptiAPIBaseServiceMock.Setup(o => o.GetClientService().Url).Returns(new Uri(domain));
+            OptiAPIBaseServiceMock.Setup(x => x.GetSessionService().CurrentSession).Returns(new Session { });
 
-            ClientServiceMock.Setup(o => o.Url).Returns(new Uri(domain));
-            SessionServiceMock.Setup(x => x.CurrentSession).Returns(new Session { });
+            string languageCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Language?.LanguageCode;
+            string currencyCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
+
+            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
+
+            websiteService = new WebsiteService(OptiAPIBaseServiceMock.Object);
 
             string returnedUrl = websiteService.GetAuthorizedURL(path).Result;
 

@@ -9,7 +9,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IVmiLocationsService
     {
-        Task<LatLong> GetPlaceFromAddresss(Address address);
         Task<GetVmiLocationResult> GetVmiLocations(VmiLocationQueryParameters parameters = null);
         Task<GetVmiBinResult> GetVmiBins(VmiBinQueryParameters parameters = null);
         Task<GetVmiCountResult> GetBinCounts(VmiCountQueryParameters parameters = null);

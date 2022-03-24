@@ -31,6 +31,8 @@ namespace CommerceApiSDK.Models
         public string BrandName { get; set; }
 
         public string BrandDetailPagePath { get; set; }
+
+        public string BinNumber { get; set; }
     }
 
     public class AutocompleteBrand : BaseModel

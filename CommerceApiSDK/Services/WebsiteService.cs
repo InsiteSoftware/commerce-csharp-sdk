@@ -15,14 +15,9 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class WebsiteService : ServiceBase, IWebsiteService
     {
-        private readonly ISessionService sessionService;
-        private readonly ILoggerService loggerService;
-
-        public WebsiteService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ISessionService sessionService, ICacheService cacheService, ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
-        {
-            this.sessionService = sessionService;
-            this.loggerService = loggerService;
+        public WebsiteService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
+        {            
         }
 
         public async Task<Website> GetWebsite()
@@ -34,7 +29,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -57,7 +52,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -77,7 +72,7 @@ namespace CommerceApiSDK.Services
                 }
                 else
                 {
-                    Uri domain = Client.Url;
+                    Uri domain = _commerceAPIServiceProvider.GetClientService().Url;
 
                     if (string.IsNullOrEmpty(domain.AbsolutePath) || string.IsNullOrEmpty(path))
                     {
@@ -88,11 +83,11 @@ namespace CommerceApiSDK.Services
                 }
 
                 // sign
-                string token = await Client.GetAccessToken();
-                string billTo = sessionService.CurrentSession?.BillTo?.Id;
-                string shipTo = sessionService.CurrentSession?.ShipTo?.Id;
-                string languageCode = sessionService.CurrentSession?.Language?.LanguageCode;
-                string currencyCode = sessionService.CurrentSession?.Currency?.CurrencyCode;
+                string token = await _commerceAPIServiceProvider.GetClientService().GetAccessToken();
+                string billTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.BillTo?.Id;
+                string shipTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.ShipTo?.Id;
+                string languageCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode;
+                string currencyCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
                 string linkChar = result.Contains("?") ? "&" : "?";
 
                 result = string.IsNullOrEmpty(token) || string.IsNullOrEmpty(billTo) || string.IsNullOrEmpty(shipTo)
@@ -101,7 +96,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                loggerService.LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
+                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
                 return null;
             }
 
@@ -124,7 +119,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -136,7 +131,7 @@ namespace CommerceApiSDK.Services
                 messageName
             });
 
-            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
+            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(_commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
             if (siteMessageItem != null)
             {
                 return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
@@ -162,7 +157,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -175,7 +170,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }

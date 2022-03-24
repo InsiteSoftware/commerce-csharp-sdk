@@ -12,23 +12,15 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IClientService clientService;
-        private readonly ISessionService sessionService;
-        private readonly IMessengerService optiMessenger;
+        private readonly ICommerceAPIServiceProvider _commerceAPIServiceProvider;
         private IDisposable refreshTokenNotificationSubscription;
-        private readonly IAccountService accountService;
 
         public AuthenticationService(
-            IClientService clientService,
-            ISessionService sessionService,
-            IMessengerService optiMessenger,
-            IAccountService accountService)
+            ICommerceAPIServiceProvider commerceAPIServiceProvider)
         {
-            this.clientService = clientService;
-            this.sessionService = sessionService;
-            this.optiMessenger = optiMessenger;
-            refreshTokenNotificationSubscription = this.optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
-            this.accountService = accountService;
+            _commerceAPIServiceProvider = commerceAPIServiceProvider;
+            refreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+ 
         }
 
         /// <summary>
@@ -39,36 +31,36 @@ namespace CommerceApiSDK.Services
         /// <returns>Whether or not sign in was successful</returns>
         public virtual async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
         {
-            ServiceResponse<TokenResult> result = await clientService.Generate(userName, password);
+            ServiceResponse<TokenResult> result = await _commerceAPIServiceProvider.GetClientService().Generate(userName, password);
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            clientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
-            clientService.StoreSessionState();
+            _commerceAPIServiceProvider.GetClientService().SetBearerAuthorizationHeader(tokenResult.AccessToken);
+            _commerceAPIServiceProvider.GetClientService().StoreSessionState();
 
             Session session = new Session() { UserName = userName, Password = password };
-            ServiceResponse<Session> sessionCreateResult = await sessionService.PostSession(session);
+            ServiceResponse<Session> sessionCreateResult = await _commerceAPIServiceProvider.GetSessionService().PostSession(session);
             Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
-                clientService.SetBasicAuthorizationHeader();
+                _commerceAPIServiceProvider.GetClientService().SetBasicAuthorizationHeader();
                 return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
             }
 
-            Session sessionPatchResult = await sessionService.PatchSession(createdSession);
+            Session sessionPatchResult = await _commerceAPIServiceProvider.GetSessionService().PatchSession(createdSession);
 
             if (sessionPatchResult == null)
             {
-                clientService.SetBasicAuthorizationHeader();
+                _commerceAPIServiceProvider.GetClientService().SetBasicAuthorizationHeader();
                 return (false, ErrorResponse.Empty());
             }
 
             if (refreshTokenNotificationSubscription == null)
             {
-                refreshTokenNotificationSubscription = optiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+                refreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -95,16 +87,16 @@ namespace CommerceApiSDK.Services
                 refreshTokenNotificationSubscription = null;
             }
 
-            sessionService.ClearCache();
+            _commerceAPIServiceProvider.GetSessionService().ClearCache();
 
             Session clonedSession;
-            if (sessionService.CurrentSession is Session currentSession)
+            if (_commerceAPIServiceProvider.GetSessionService().CurrentSession is Session currentSession)
             {
                 clonedSession = currentSession.Clone() as Session;
             }
             else
             {
-                clonedSession = await sessionService.GetCurrentSession();
+                clonedSession = await _commerceAPIServiceProvider.GetSessionService().GetCurrentSession();
             }
 
             if (clonedSession != null)
@@ -114,14 +106,14 @@ namespace CommerceApiSDK.Services
                 clonedSession.ShipTo = null;
                 clonedSession.Language = null;
                 clonedSession.IsAuthenticated = false;
-                await sessionService.PatchSession(clonedSession);
+                await _commerceAPIServiceProvider.GetSessionService().PatchSession(clonedSession);
             }
 
-            clientService.Reset();
+            _commerceAPIServiceProvider.GetClientService().Reset();
 
-            clientService.RemoveAccessToken();
+            _commerceAPIServiceProvider.GetClientService().RemoveAccessToken();
 
-            optiMessenger.Publish(new UserSignedOutOptiMessage()
+            _commerceAPIServiceProvider.GetMessengerService().Publish(new UserSignedOutOptiMessage()
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
@@ -133,11 +125,11 @@ namespace CommerceApiSDK.Services
         /// <returns>Boolean value for whether or not user is logged in</returns>
         public virtual async Task<bool> IsAuthenticatedAsync()
         {
-            if (clientService.IsExistsAccessToken())
+            if (_commerceAPIServiceProvider.GetClientService().IsExistsAccessToken())
             {
-                _ = await accountService.GetCurrentAccountAsync();
+                _ = await _commerceAPIServiceProvider.GetAccountService().GetCurrentAccountAsync();
 
-                return clientService.IsExistsAccessToken();
+                return _commerceAPIServiceProvider.GetClientService().IsExistsAccessToken();
             }
 
             return false;

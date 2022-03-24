@@ -4,9 +4,9 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Akavache;
 
-namespace CommerceApiSDK.Services.Interfaces
+namespace CommerceApiSDK.Extensions
 {
-    public static class IBlobCacheExtension
+    public static class BlobCacheExtension
     {
         public static async Task InvalidateObjectWithKeysStartingWith<T>(this IBlobCache blobCache, string keyPrefix)
         {

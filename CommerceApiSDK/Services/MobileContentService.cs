@@ -8,8 +8,8 @@ namespace CommerceApiSDK.Services
 {
     public class MobileContentService : ServiceBase, IMobileContentService
     {
-        public MobileContentService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
-          : base(clientService, networkService, trackingService, cacheService, loggerService)
+        public MobileContentService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+          : base(commerceAPIServiceProvider)
         {
         }
 

@@ -6,15 +6,15 @@ namespace CommerceApiSDK.Services
 {
     public class DefaultLogger : ILoggerService
     {
-        public void LogConsole(LogLevel level, string message)
+        public void LogConsole(LogLevel level, string message, params object[] parameters)
         {
-            string line = $"Optimizely[{level}] : {message}";
+            string line = $"Optimizely[{level}] : {String.Format(message, parameters)}";
             Console.WriteLine(line);
         }
 
-        public void LogDebug(LogLevel level, string message)
+        public void LogDebug(LogLevel level, string message, params object[] parameters)
         {
-            string line = $"Optimizely[{level}] : {message}";
+            string line = $"Optimizely[{level}] : {String.Format(message, parameters)}";
             System.Diagnostics.Debug.WriteLine(line);
         }
     }

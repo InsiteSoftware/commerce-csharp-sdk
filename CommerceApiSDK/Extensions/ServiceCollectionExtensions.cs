@@ -29,7 +29,6 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IDashboardPanelsService, DashboardPanelsService>();
             services.AddSingleton<IDealerService, DealerService>();
-            services.AddSingleton<IGooglePlacesService, GooglePlacesService>();
             services.AddSingleton<IInvoiceService, InvoiceService>();
             services.AddSingleton<IJobQuoteService, JobQuoteService>();
             services.AddSingleton<ILoggerService, DefaultLogger>();
@@ -51,6 +50,7 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IWebsiteService, WebsiteService>();
             services.AddSingleton<IWishListLineService, WishListLineService>();
             services.AddSingleton<IWishListService, WishListService>();
+            services.AddSingleton<ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
 
             //ILocalStorageService needs to be implemented outside of the API SDK
             //INetworkService needs to be implemented outside of the API SDK

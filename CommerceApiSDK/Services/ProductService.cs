@@ -10,8 +10,8 @@ namespace CommerceApiSDK.Services
 {
     public class ProductService : ServiceBase, IProductService
     {
-        public ProductService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
+        public ProductService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
         }
 
@@ -38,7 +38,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -83,7 +83,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return false;
             }
         }
@@ -117,7 +117,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -140,7 +140,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -175,7 +175,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                TrackingService.TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }
@@ -208,7 +208,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                TrackingService.TrackException(e);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
                 return null;
             }
         }

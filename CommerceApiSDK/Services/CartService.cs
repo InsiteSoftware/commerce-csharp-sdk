@@ -14,20 +14,13 @@ namespace CommerceApiSDK.Services
     public class CartService : ServiceBase, ICartService
     {
         private IDisposable token;
-        private readonly IMessengerService optiMessenger;
 
         public CartService(
-            IClientService clientService,
-            IMessengerService optiMessenger,
-            INetworkService networkService,
-            ITrackingService trackingService,
-            ICacheService cacheService,
-            ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService,loggerService)
+           ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            : base(commerceAPIServiceProvider)
         {
-            this.optiMessenger = optiMessenger;
             isCartEmpty = true;
-            token = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
+            token = _commerceAPIServiceProvider.GetMessengerService().Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
@@ -60,7 +53,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -80,7 +73,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -96,7 +89,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -112,7 +105,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -129,7 +122,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -150,7 +143,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return false;
             }
         }
@@ -168,7 +161,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -189,7 +182,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -231,7 +224,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return null;
             }
         }
@@ -251,7 +244,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                TrackingService.TrackException(exception);
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return false;
             }
         }

@@ -14,6 +14,9 @@ namespace CommerceApiSDK.Models
         /// <summary>CustomerName is derived from the CompanyName + LastName + FirstName fields</summary>
         public string CustomerName { get; set; }
 
+        /// <summary>Display label used in the BillTo/ShipTo selection dropdown. It is a concatenation of the CompanyNumber, CustomerName, City and State</summary>
+        public string Label { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
