@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
@@ -17,9 +16,9 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<GetProductResult> GetProduct(Guid productId, ProductQueryParameters parameters = null);
 
-        Task<ProductPriceDto> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters);
+        Task<ProductPrice> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters);
 
-        Task<GetRealTimePricingResult> GetProductRealTimePrices(List<ProductPriceQueryParameter> productPriceParameters);
+        Task<GetRealTimePricingResult> GetProductRealTimePrices(RealTimePricingParameters parameters);
 
         Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(RealTimeInventoryParameters parameters);
     }

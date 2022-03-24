@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
@@ -10,10 +11,14 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface IPaymentProfileService
     {
-        Task<AccountPaymentProfileCollection> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null);
+        Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null);
+
         Task<AccountPaymentProfile> GetPaymentProfile(Guid accountPaymentProfileId);
+
         Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(AccountPaymentProfile accountPaymentProfile);
+
         Task<bool> DeletePaymentProfile(Guid accountPaymentProfileId);
+
         Task<Cart> GetPaymentCurrentCart(PaymentProfileQueryParameters parameters = null);
     }
 }

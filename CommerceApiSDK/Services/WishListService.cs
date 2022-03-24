@@ -22,11 +22,9 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<WishListCollectionModel> GetWishLists(WishListQueryParameters parameters)
+        public async Task<WishListCollectionModel> GetWishLists()
         {
             string url = CommerceAPIConstants.WishListUrl;
-
-            url += parameters?.ToQueryString();
 
             try
             {
@@ -39,9 +37,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishList> GetWishList(Guid wishListId)
+        public async Task<WishList> GetWishList(Guid wishListId, WishListQueryParameters parameters)
         {
             string url = GetWishListUrl(wishListId);
+
+            url += parameters?.ToQueryString();
 
             try
             {

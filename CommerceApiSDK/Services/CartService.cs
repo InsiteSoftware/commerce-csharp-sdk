@@ -45,7 +45,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCurrentCart(CartDetailQueryParameters parameters)
+        public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
         {
             try
             {
@@ -173,7 +173,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartCollectionModel> GetCarts(CartQueryParameters parameters = null)
+        public async Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCart(CartDetailQueryParameters parameters)
+        public async Task<Cart> GetCart(CartQueryParameters parameters)
         {
             try
             {

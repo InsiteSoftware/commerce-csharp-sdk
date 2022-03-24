@@ -6,6 +6,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWarehouseService
     {
-        Task<GetWarehouseCollectionResult> GetWarehouses(WarehouseQueryParameters parameters);
+        Task<GetWarehouseCollectionResult> GetWarehouses(WarehousesQueryParameters parameters);
     }
 }

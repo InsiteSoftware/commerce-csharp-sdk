@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
@@ -19,12 +20,12 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<AccountPaymentProfileCollection> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null)
+        public async Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null)
         {
             try
             {
                 string url = parameters == null ? CommerceAPIConstants.PaymentProfileUri : $"{CommerceAPIConstants.PaymentProfileUri}{parameters.ToQueryString()}";
-                return await GetAsyncNoCache<AccountPaymentProfileCollection>(url);
+                return await GetAsyncNoCache<AccountPaymentProfileCollectionResult>(url);
             }
             catch (Exception exception)
             {

@@ -90,7 +90,7 @@ namespace CommerceApiSDK.Models
         public string UnitOfMeasureDescription { get; set; }
 
         /// <summary>Gets or sets the inventory availability information.</summary>
-        public AvailabilityDto Availability { get; set; }
+        public Availability Availability { get; set; }
 
         /// <summary>Gets or sets the inventory qty ordered.</summary>
         public decimal InventoryQtyOrdered { get; set; }

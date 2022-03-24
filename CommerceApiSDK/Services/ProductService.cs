@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
@@ -123,7 +122,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ProductPriceDto> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters)
+        public async Task<ProductPrice> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters)
         {
             try
             {
@@ -135,7 +134,7 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                ProductPriceDto pricingResult = await GetAsyncWithCachedResponse<ProductPriceDto>(url);
+                ProductPrice pricingResult = await GetAsyncWithCachedResponse<ProductPrice>(url);
 
                 return pricingResult;
             }
@@ -150,22 +149,22 @@ namespace CommerceApiSDK.Services
         {
             if (product.Pricing == null)
             {
-                product.Pricing = new ProductPriceDto();
+                product.Pricing = new ProductPrice();
             }
 
             if (product.Availability == null)
             {
-                product.Availability = new AvailabilityDto();
+                product.Availability = new Availability();
             }
         }
 
-        public async Task<GetRealTimePricingResult> GetProductRealTimePrices(List<ProductPriceQueryParameter> productPriceParameters)
+        public async Task<GetRealTimePricingResult> GetProductRealTimePrices(RealTimePricingParameters parameters)
         {
             try
             {
                 if (IsOnline)
                 {
-                    StringContent stringContent = await Task.Run(() => SerializeModel(new { productPriceParameters }));
+                    StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters }));
                     GetRealTimePricingResult result = await PostAsyncNoCache<GetRealTimePricingResult>(CommerceAPIConstants.RealTimePricingUrl, stringContent);
                     return result;
                 }

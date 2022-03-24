@@ -4,6 +4,6 @@ namespace CommerceApiSDK.Models.Results
 {
     public class GetRealTimeInventoryResult : BaseModel
     {
-        public List<ProductInventoryDto> RealTimeInventoryResults { get; set; }
+        public List<ProductInventory> RealTimeInventoryResults { get; set; }
     }
 }

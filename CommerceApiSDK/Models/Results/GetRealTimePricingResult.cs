@@ -4,6 +4,6 @@ namespace CommerceApiSDK.Models.Results
 {
     public class GetRealTimePricingResult : BaseModel
     {
-        public IList<ProductPriceDto> RealTimePricingResults { get; set; }
+        public IList<ProductPrice> RealTimePricingResults { get; set; }
     }
 }

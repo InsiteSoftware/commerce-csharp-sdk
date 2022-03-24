@@ -8,13 +8,13 @@ namespace CommerceApiSDK.Models.Results
 
         public IList<Product> Products { get; set; }
 
-        public IList<CategoryFacetDto> CategoryFacets { get; set; }
+        public IList<CategoryFacet> CategoryFacets { get; set; }
 
         public IList<AttributeType> AttributeTypeFacets { get; set; }
 
-        public IList<BrandFacetDto> BrandFacets { get; set; }
+        public IList<GenericFacet> BrandFacets { get; set; }
 
-        public IList<ProductLineFacetDto> ProductLineFacets { get; set; }
+        public IList<ProductLine> ProductLineFacets { get; set; }
 
         public IList<SuggestionDto> DidYouMeanSuggestions { get; set; }
 

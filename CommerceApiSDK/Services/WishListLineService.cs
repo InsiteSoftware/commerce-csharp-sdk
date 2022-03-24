@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
-using CommerceApiSDK.Services.Attributes;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services

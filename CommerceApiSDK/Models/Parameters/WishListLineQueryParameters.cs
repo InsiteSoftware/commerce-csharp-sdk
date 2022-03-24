@@ -1,6 +1,4 @@
-﻿using System;
-using CommerceApiSDK.Attributes;
-using CommerceApiSDK.Models.Enums;
+﻿using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models.Parameters
 {

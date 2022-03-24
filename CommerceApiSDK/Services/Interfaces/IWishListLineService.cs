@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
-using CommerceApiSDK.Services.Attributes;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
