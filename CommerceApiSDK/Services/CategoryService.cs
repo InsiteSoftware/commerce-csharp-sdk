@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -26,26 +27,13 @@ namespace CommerceApiSDK.Services
         /// <param name="startCategoryId">Parent category or null for base level categories.</param>
         /// <param name="maxDepth">depth of children to fetch.</param>
         /// <returns>List of categories.</returns>
-        public async Task<List<Category>> GetCategoryList(Guid? startCategoryId = null, int? maxDepth = null)
+        public async Task<List<Category>> GetCategoryList(CategoryQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.CategoryUrl;
-                List<string> parameters = new List<string>();
-                if (startCategoryId.HasValue)
-                {
-                    parameters.Add("parameter.startCategoryId=" + startCategoryId);
-                }
 
-                if (maxDepth.HasValue)
-                {
-                    parameters.Add("parameter.maxDepth=" + maxDepth);
-                }
-
-                if (parameters.Count > 0)
-                {
-                    url += "?" + string.Join("&", parameters);
-                }
+                url += parameters?.ToQueryString();
 
                 CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 if (categoryResult == null)
@@ -84,16 +72,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<List<Category>> GetFeaturedCategories(int? maxDepth = null)
+        public async Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.CategoryUrl;
 
-                if (maxDepth.HasValue)
-                {
-                    url += "?maxDepth=" + maxDepth;
-                }
+                url += parameters?.ToQueryString();
 
                 CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);

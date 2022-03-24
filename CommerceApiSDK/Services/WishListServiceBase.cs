@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CommerceApiSDK.Models;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services

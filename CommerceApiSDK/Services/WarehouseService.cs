@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -13,24 +15,44 @@ namespace CommerceApiSDK.Services
         {
         }
 
-        public async Task<GetWarehouseCollectionResult> GetWarehouses(double latitude = 0, double longitude = 0, int pageNumber = 1, int pageSize = 16)
+        public async Task<GetWarehouseCollectionResult> GetWarehouses(WarehousesQueryParameters parameters)
         {
             try
             {
                 string url = CommerceAPIConstants.WarehousesUrl;
-                List<string> parameters = new List<string>()
-                {
-                    "latitude=" + latitude,
-                    "longitude=" + longitude,
-                    "page=" + pageNumber,
-                    "pageSize=" + pageSize,
-                    "sort=Distance",
-                    "onlyPickupWarehouses=true",
-                };
 
-                url += "?" + string.Join("&", parameters);
+                url += parameters?.ToQueryString();
 
                 return await GetAsyncWithCachedResponse<GetWarehouseCollectionResult>(url);
+            }
+            catch (Exception exception)
+            {
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Warehouse> GetWarehouse(Guid warehouseId, WarehouseQueryParameters parameters)
+        {
+            try
+            {
+                string queryString = string.Empty;
+
+                if (parameters != null)
+                {
+                    queryString = parameters.ToQueryString();
+                }
+
+                string url = $"{CommerceAPIConstants.WarehousesUrl}/{warehouseId}{queryString}";
+
+                Warehouse warehouseResult = await GetAsyncWithCachedResponse<Warehouse>(url);
+
+                if (warehouseResult == null)
+                {
+                    return null;
+                }
+
+                return warehouseResult;
             }
             catch (Exception exception)
             {

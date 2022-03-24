@@ -70,7 +70,7 @@ namespace CommerceApiSDK.Models
 
         public decimal QtyLeft { get; set; }
 
-        public ProductPriceDto Pricing { get; set; }
+        public ProductPrice Pricing { get; set; }
 
         public bool IsPromotionItem { get; set; }
 
@@ -82,7 +82,7 @@ namespace CommerceApiSDK.Models
 
         public IList<BreakPriceDto> BreakPrices { get; set; }
 
-        public AvailabilityDto Availability { get; set; }
+        public Availability Availability { get; set; }
 
         public decimal QtyOnHand { get; set; }
 

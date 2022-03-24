@@ -20,12 +20,12 @@ namespace CommerceApiSDK.Services
         {
             if (product.Pricing == null)
             {
-                product.Pricing = new ProductPriceDto();
+                product.Pricing = new ProductPrice();
             }
 
             if (product.Availability == null)
             {
-                product.Availability = new AvailabilityDto();
+                product.Availability = new Availability();
             }
         }
 

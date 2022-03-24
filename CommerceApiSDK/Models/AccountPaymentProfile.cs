@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Models
@@ -166,14 +165,5 @@ namespace CommerceApiSDK.Models
 
         [JsonIgnore]
         public string SecurityCode;
-    }
-
-    public class AccountPaymentProfileCollection : BaseModel
-    {
-        /// <summary>Gets or sets the account payment profile collection.</summary>
-        public IList<AccountPaymentProfile> AccountPaymentProfiles { get; set; }
-
-        /// <summary>Gets or sets the pagging.</summary>
-        public Pagination Pagination { get; set; }
     }
 }

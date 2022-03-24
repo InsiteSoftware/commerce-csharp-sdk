@@ -17,7 +17,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                    ShortDescription = "a product",
                                    QtyOrdered = 1,
                                    Pricing =
-                                       new ProductPriceDto
+                                       new ProductPrice
                                            {
                                                UnitListPrice = 1,
                                                UnitNetPrice = 1
@@ -31,7 +31,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                    ShortDescription = "c product",
                                    QtyOrdered = 1,
                                    Pricing =
-                                       new ProductPriceDto
+                                       new ProductPrice
                                            {
                                                UnitListPrice = 4,
                                                UnitNetPrice = 5
@@ -45,7 +45,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                    ShortDescription = "b product",
                                    QtyOrdered = 1000,
                                    Pricing =
-                                       new ProductPriceDto
+                                       new ProductPrice
                                            {
                                                UnitListPrice = 10,
                                                UnitNetPrice = 9.14M
@@ -59,7 +59,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                    ShortDescription = "0 product",
                                    QtyOrdered = 2,
                                    Pricing =
-                                       new ProductPriceDto
+                                       new ProductPrice
                                            {
                                                UnitListPrice = 2,
                                                UnitNetPrice = 1
@@ -93,7 +93,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                     20,
                                     preFix + CommerceAPIConstants.Shortdescriptionunique + i.ToString() + postFix),
                             QtyOrdered = 2,
-                            Pricing = new ProductPriceDto { UnitListPrice = price, UnitNetPrice = price },
+                            Pricing = new ProductPrice { UnitListPrice = price, UnitNetPrice = price },
                             CustomerName =
                                 CreateShortDescription(
                                     CommerceAPIConstants.CustomerName,

@@ -137,5 +137,7 @@
         public const string TokenValidationUri = "identity/connect/accesstokenvalidation?token=";
 
         public const string TokenUri = "identity/connect/token";
+
+        public const string WishListUrl = "/api/v1/wishlists/";
     }
 }

@@ -19,7 +19,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
 
-        Task<Cart> GetCurrentCart(bool getCartlines = false, bool getCostCodes = false, bool getShipping = false, bool getTax = false, bool getCarriers = false, bool getPaymentMethods = false);
+        Task<Cart> GetCurrentCart(CartQueryParameters parameters);
 
         Task<GetCartLinesResult> GetCartLines();
 
@@ -33,9 +33,10 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId);
 
-        Task<CartCollectionModel> GetCarts(CartQueryParameters parameters = null);
+        Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null);
 
-        Task<Cart> GetCart(CartDetailQueryParameters parameters);
+        Task<Cart> GetCart(CartQueryParameters parameters);
+
         Task<bool> DeleteCart(Guid cartId);
     }
 }

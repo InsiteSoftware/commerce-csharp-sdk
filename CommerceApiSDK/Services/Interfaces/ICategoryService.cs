@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
@@ -16,12 +17,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="startCategoryId">Parent category or null for base level categories.</param>
         /// <param name="maxDepth">depth of children to fetch.</param>
         /// <returns>List of categories.</returns>
-        Task<List<Category>> GetCategoryList(Guid? startCategoryId = null, int? maxDepth = null);
+        Task<List<Category>> GetCategoryList(CategoryQueryParameters parameters);
 
         Task<Category> GetCategory(Guid categoryId);
 
         Task<bool> HasCategoryCache(Guid categoryId);
 
-        Task<List<Category>> GetFeaturedCategories(int? maxDepth = null);
+        Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters);
     }
 }

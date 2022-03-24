@@ -38,55 +38,16 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCurrentCart(bool getCartlines = false, bool getCostCodes = false, bool getShipping = false, bool getTax = false, bool getCarriers = false, bool getPaymentMethods = false)
+        public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
         {
             try
             {
-                List<string> parameters = new List<string>();
-                List<string> expandParameters = new List<string>();
+                string url = CommerceAPIConstants.CartUri;
 
-                if (getCartlines)
-                {
-                    expandParameters.Add("cartlines");
-                }
-
-                if (getCostCodes)
-                {
-                    expandParameters.Add("costcodes");
-                }
-
-                if (getShipping)
-                {
-                    expandParameters.Add("shipping");
-                }
-
-                if (getTax)
-                {
-                    expandParameters.Add("tax");
-                }
-
-                if (getCarriers)
-                {
-                    expandParameters.Add("carriers");
-                }
-
-                if (getPaymentMethods)
-                {
-                    expandParameters.Add("paymentoptions");
-                }
-
-                if (expandParameters.Count > 0)
-                {
-                    parameters.Add("expand=" + string.Join(",", expandParameters));
-                }
-
-                string url = CommerceAPIConstants.CartUri + "?" + string.Join("&", parameters);
+                url += parameters.ToQueryString();
                 Cart result = await GetAsyncNoCache<Cart>(url);
 
-                if (getCartlines)
-                {
-                    IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
-                }
+                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
 
                 return result;
             }
@@ -205,7 +166,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartCollectionModel> GetCarts(CartQueryParameters parameters = null)
+        public async Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null)
         {
             try
             {
@@ -226,7 +187,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCart(CartDetailQueryParameters parameters)
+        public async Task<Cart> GetCart(CartQueryParameters parameters)
         {
             try
             {
