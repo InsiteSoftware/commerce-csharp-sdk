@@ -6,8 +6,8 @@ namespace CommerceApiSDK.Services
 {
     public class AdminClientService : ClientService, IAdminClientService
     {
-        protected override string ClientId { get; } = "isc_admin";
-        protected override string ClientSecret { get; } = "F684FC94-B3BE-4BC7-B924-636561177C8F";
+        protected override string ClientId { get; set; } = "isc_admin";
+        protected override string ClientSecret { get; set; } = "F684FC94-B3BE-4BC7-B924-636561177C8F";
 
         protected override string BearerTokenStorageKey { get; } = "admin_bearerToken";
         protected override string RefreshTokenStorageKey { get; } = "admin_refreshToken";
