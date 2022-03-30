@@ -24,8 +24,8 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class ClientService : IClientService
     {
-        protected virtual string ClientId { get; } = ClientConfig.ClientId;
-        protected virtual string ClientSecret { get; } = ClientConfig.ClientSecret;
+        protected virtual string ClientId { get; set; } = ClientConfig.ClientId;
+        protected virtual string ClientSecret { get; set; } = ClientConfig.ClientSecret;
 
         protected virtual string BearerTokenStorageKey { get; } = "bearerToken";
         protected virtual string RefreshTokenStorageKey { get; } = "refreshToken";
