@@ -48,7 +48,6 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IWishListService, WishListService>();
             services.AddSingleton<IRealTimePricingService, RealTimePricingService>();
             services.AddSingleton<IRealTimeInventoryService, RealTimeInventoryService>();
-            services.AddSingleton<ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
             
 
             //ILocalStorageService needs to be implemented outside of the API SDK
