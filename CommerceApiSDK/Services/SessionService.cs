@@ -114,6 +114,7 @@ namespace CommerceApiSDK.Services
         /// <summary>
         /// Clears all local caches
         /// </summary>
+        [Obsolete("Caution: Will be removed in a future release.")]
         public void ClearCache()
         {
             ClearAllCaches();

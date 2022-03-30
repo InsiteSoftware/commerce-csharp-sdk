@@ -13,7 +13,6 @@ namespace CommerceApiSDK.Services
         private readonly IBillToService _billToService;
         private readonly IBrandService _brandService;
         private readonly ICacheService _cacheService;
-        private readonly ICartLineService _cartLineService;
         private readonly ICartService _cartService;
         private readonly ICatalogpagesService _catalogpagesService;
         private readonly ICategoryService _categoryService;
@@ -31,10 +30,8 @@ namespace CommerceApiSDK.Services
         private readonly INetworkService _networkService;
         private readonly IOptimizelyService _optimizelyService;
         private readonly IOrderService _orderService;
-        private readonly IPaymentProfileService _paymentProfileService;
         private readonly IProductService _productService;
         private readonly IProductV2Service _productV2Service;
-        private readonly IQuoteLineService _quoteLineService;
         private readonly IQuoteService _quoteService;
         private readonly ISecureStorageService _secureStorageService;
         private readonly ISessionService _sessionService;
@@ -45,18 +42,19 @@ namespace CommerceApiSDK.Services
         private readonly IVmiLocationsService _vmiLocationsService;
         private readonly IWarehouseService _warehouseService;
         private readonly IWebsiteService _websiteService;
-        private readonly IWishListLineService _wishListLineService;
         private readonly IWishListService _wishListService;
+        private readonly IRealTimePricingService _realTimePricingService;
+        private readonly IRealTimeInventoryService _realTimeInventoryService;
 
         public CommerceAPIServiceProvider(IAccountService accountService, IAdminAuthenticationService adminAuthenticationService, IAdminClientService adminClientService, IAuthenticationService authenticationService,
-            IAutocompleteService autocompleteService, IBillToService billToService, IBrandService brandService, ICacheService cacheService, ICartLineService cartLineService,
+            IAutocompleteService autocompleteService, IBillToService billToService, IBrandService brandService, ICacheService cacheService,
             ICartService cartService, ICatalogpagesService catalogpagesService, ICategoryService categoryService, IClientService clientService, IDashboardPanelsService dashboardPanelsService,
             IDealerService dealerService, IInvoiceService invoiceService, IJobQuoteService jobQuoteService, ILocalStorageService localStorageService,
             ILoggerService loggerService, IMessageService messageService, IMessengerService messengerService, IMobileContentService mobileContentService, IMobileSpireContentService mobileSpireContentService,
-            INetworkService networkService, IOptimizelyService optimizelyService, IOrderService orderService, IPaymentProfileService paymentProfileService, IProductService productService,
-            IProductV2Service productV2Service, IQuoteLineService quoteLineService, IQuoteService quoteService, ISecureStorageService secureStorageService, ISessionService sessionService,
+            INetworkService networkService, IOptimizelyService optimizelyService, IOrderService orderService, IProductService productService,
+            IProductV2Service productV2Service, IQuoteService quoteService, ISecureStorageService secureStorageService, ISessionService sessionService,
             ISettingsService settingsService, ITokenExConfigService tokenExConfigService, ITrackingService trackingService, ITranslationService translationService, IVmiLocationsService vmiLocationsService,
-            IWarehouseService warehouseService, IWebsiteService websiteService, IWishListLineService wishListLineService, IWishListService wishListService)
+            IWarehouseService warehouseService, IWebsiteService websiteService, IWishListService wishListService, IRealTimePricingService realTimePricingService, IRealTimeInventoryService realTimeInventoryService)
         {
             _accountService = accountService;
             _adminAuthenticationService = adminAuthenticationService;
@@ -66,7 +64,6 @@ namespace CommerceApiSDK.Services
             _billToService = billToService;
             _brandService = brandService;
             _cacheService = cacheService;
-            _cartLineService = cartLineService;
             _cartService = cartService;
             _catalogpagesService = catalogpagesService;
             _categoryService = categoryService;
@@ -84,10 +81,8 @@ namespace CommerceApiSDK.Services
             _networkService = networkService;
             _optimizelyService = optimizelyService;
             _orderService = orderService;
-            _paymentProfileService = paymentProfileService;
             _productService = productService;
             _productV2Service = productV2Service;
-            _quoteLineService = quoteLineService;
             _quoteService = quoteService;
             _secureStorageService = secureStorageService;
             _sessionService = sessionService;
@@ -98,8 +93,9 @@ namespace CommerceApiSDK.Services
             _vmiLocationsService = vmiLocationsService;
             _warehouseService = warehouseService;
             _websiteService = websiteService;
-            _wishListLineService = wishListLineService;
             _wishListService = wishListService;
+            _realTimePricingService = realTimePricingService;
+            _realTimeInventoryService = realTimeInventoryService;
         }
 
         public IAccountService GetAccountService()
@@ -140,11 +136,6 @@ namespace CommerceApiSDK.Services
         public ICacheService GetCacheService()
         {
             return _cacheService;
-        }
-
-        public ICartLineService GetCartLineService()
-        {
-            return _cartLineService;
         }
 
         public ICartService GetCartService()
@@ -232,11 +223,6 @@ namespace CommerceApiSDK.Services
             return _orderService;
         }
 
-        public IPaymentProfileService GetPaymentProfileService()
-        {
-            return _paymentProfileService;
-        }
-
         public IProductService GetProductService()
         {
             return _productService;
@@ -245,11 +231,6 @@ namespace CommerceApiSDK.Services
         public IProductV2Service GetProductV2Service()
         {
             return _productV2Service;
-        }
-
-        public IQuoteLineService GetQuoteLineService()
-        {
-            return _quoteLineService;
         }
 
         public IQuoteService GetQuoteService()
@@ -302,14 +283,19 @@ namespace CommerceApiSDK.Services
             return _websiteService;
         }
 
-        public IWishListLineService GetWishListLineService()
-        {
-            return _wishListLineService;
-        }
-
         public IWishListService GetWishListService()
         {
             return _wishListService;
+        }
+
+        public IRealTimeInventoryService GetRealTimeInventoryService()
+        {
+            return _realTimeInventoryService;
+        }
+
+        public IRealTimePricingService GetRealTimePricingService()
+        {
+            return _realTimePricingService;
         }
     }
 }

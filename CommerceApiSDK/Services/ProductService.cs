@@ -43,6 +43,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<GetProductCollectionResult> GetProductsNoCache(ProductsQueryParameters parameters)
         {
             try
@@ -71,6 +72,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasProductsCache(ProductsQueryParameters parameters)
         {
             try
@@ -155,61 +157,6 @@ namespace CommerceApiSDK.Services
             if (product.Availability == null)
             {
                 product.Availability = new Availability();
-            }
-        }
-
-        public async Task<GetRealTimePricingResult> GetProductRealTimePrices(RealTimePricingParameters parameters)
-        {
-            try
-            {
-                if (IsOnline)
-                {
-                    StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters }));
-                    GetRealTimePricingResult result = await PostAsyncNoCache<GetRealTimePricingResult>(CommerceAPIConstants.RealTimePricingUrl, stringContent);
-                    return result;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
-                return null;
-            }
-        }
-
-        public async Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(RealTimeInventoryParameters parameters)
-        {
-            try
-            {
-                if (IsOnline)
-                {
-                    string queryString = string.Empty;
-
-                    if (parameters != null)
-                    {
-                        queryString = parameters.ToQueryString();
-                    }
-
-                    string url = $"{CommerceAPIConstants.RealTimeInventoryUrl}/{queryString}";
-
-                    StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters.ProductIds }));
-
-                    GetRealTimeInventoryResult result = await PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
-
-                    return result;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
-                return null;
             }
         }
     }

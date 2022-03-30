@@ -34,11 +34,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCache()
         {
             return await HasCache(CommerceAPIConstants.WebsitesUrl);
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCrosssellsCache()
         {
             return await HasCache(CommerceAPIConstants.WebsitesCrosssellsUrl);
@@ -57,6 +59,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetAuthorizedURL(string path)
         {
             string result;
@@ -124,6 +127,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
             GetSiteMessageCollectionResult messageResult = await GetSiteMessages(new List<string>

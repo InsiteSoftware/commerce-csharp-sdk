@@ -22,7 +22,6 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IBrandService, BrandService>();
             services.AddSingleton(Locator.Current.GetService<IFilesystemProvider>());
             services.AddSingleton<ICacheService, CacheService>();
-            services.AddSingleton<ICartLineService, CartLineService>();
             services.AddSingleton<ICartService, CartService>();
             services.AddSingleton<ICatalogpagesService, CatalogpagesService>();
             services.AddSingleton<ICategoryService, CategoryService>();
@@ -36,10 +35,8 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IMobileContentService, MobileContentService>();
             services.AddSingleton<IMobileSpireContentService, MobileSpireContentService>();
             services.AddSingleton<IOrderService, OrderService>();
-            services.AddSingleton<IPaymentProfileService, PaymentProfileService>();
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IProductV2Service, ProductV2Service>();
-            services.AddSingleton<IQuoteLineService, QuoteLineService>();
             services.AddSingleton<IQuoteService, QuoteService>();
             services.AddSingleton<ISessionService, SessionService>();
             services.AddSingleton<ISettingsService, SettingsService>();
@@ -48,9 +45,11 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IVmiLocationsService, VmiLocationsService>();
             services.AddSingleton<IWarehouseService, WarehouseService>();
             services.AddSingleton<IWebsiteService, WebsiteService>();
-            services.AddSingleton<IWishListLineService, WishListLineService>();
             services.AddSingleton<IWishListService, WishListService>();
+            services.AddSingleton<IRealTimePricingService, RealTimePricingService>();
+            services.AddSingleton<IRealTimeInventoryService, RealTimeInventoryService>();
             services.AddSingleton<ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
+            
 
             //ILocalStorageService needs to be implemented outside of the API SDK
             //INetworkService needs to be implemented outside of the API SDK
