@@ -1,19 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 using CommerceApiSDK.Services.Messages;
+using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Services
 {
     public class CartService : ServiceBase, ICartService
     {
         private IDisposable token;
+
+        private List<AddCartLine> addToCartRequests = new List<AddCartLine>();
+
+        public event EventHandler OnIsAddingToCartSlowChange;
+        public event EventHandler OnAddToCartRequestsCountChange;
+
+        private bool isAddingToCartSlow = false;
+        public bool IsAddingToCartSlow => isAddingToCartSlow;
+
+        public int AddToCartRequestsCount => addToCartRequests.Count;
+
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public CartService(
            ICommerceAPIServiceProvider commerceAPIServiceProvider)
@@ -246,6 +261,107 @@ namespace CommerceApiSDK.Services
             {
                 _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
                 return false;
+            }
+        }
+
+        public async Task<CartLine> AddCartLine(AddCartLine cartLine)
+        {
+            CartLine result = null;
+            try
+            {
+                addToCartRequests.Add(cartLine);
+                OnAddToCartRequestsCountChange?.Invoke(this, null);
+                MarkCurrentlyAddingCartLinesFlagToTrueIfNeeded();
+
+                StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
+                CancellationToken cancellationToken = cancellationTokenSource.Token;
+
+                result = await PostAsyncNoCache<CartLine>(CommerceAPIConstants.CartLineUrl, stringContent, null, cancellationToken);
+            }
+            catch (Exception exception) when (!(exception is OperationCanceledException))
+            {
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+            }
+            finally
+            {
+                addToCartRequests.Remove(cartLine);
+                OnAddToCartRequestsCountChange?.Invoke(this, null);
+                MarkCurrentlyAddingCartLinesFlagTоFalseIfPossible();
+            }
+
+            return result;
+        }
+
+        [Obsolete("Caution: Will be removed in a future release.")]
+        public void CancelAllAddCartLineTasks()
+        {
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = new CancellationTokenSource();
+        }
+
+        [Obsolete("Caution: Will be removed in a future release.")]
+        private async void MarkCurrentlyAddingCartLinesFlagToTrueIfNeeded()
+        {
+            await Task.Delay(CommerceAPIConstants.AddingToCartMillisecondsDelay);
+
+            if (addToCartRequests.Count > 0)
+            {
+                isAddingToCartSlow = true;
+                OnIsAddingToCartSlowChange?.Invoke(this, null);
+            }
+        }
+
+        [Obsolete("Caution: Will be removed in a future release.")]
+        private void MarkCurrentlyAddingCartLinesFlagTоFalseIfPossible()
+        {
+            if (addToCartRequests.Count == 0)
+            {
+                isAddingToCartSlow = false;
+                OnIsAddingToCartSlowChange?.Invoke(this, null);
+            }
+        }
+
+        public async Task<CartLine> UpdateCartLine(CartLine cartLine)
+        {
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
+                return await PatchAsyncNoCache<CartLine>($"{CommerceAPIConstants.CartLineUrl}/{cartLine.Id}", stringContent);
+            }
+            catch (Exception exception)
+            {
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteCartLine(CartLine cartLine)
+        {
+            try
+            {
+                HttpResponseMessage result = await DeleteAsync($"{CommerceAPIConstants.CartLineUrl}/{cartLine.Id}");
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception exception)
+            {
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                return false;
+            }
+        }
+
+        public async Task<List<CartLine>> AddCartLineCollection(List<AddCartLine> cartLineCollection)
+        {
+            try
+            {
+                JsonSerializerSettings serializationSettings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+                StringContent stringContent = await Task.Run(() => SerializeModel(new { cartLines = cartLineCollection }, serializationSettings));
+                CartLineList result = await PostAsyncNoCache<CartLineList>(CommerceAPIConstants.CartLineUrl + "/batch", stringContent);
+                return result?.CartLines?.ToList();
+            }
+            catch (Exception exception)
+            {
+                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                return null;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 
 namespace CommerceApiSDK.Services.Interfaces
@@ -41,5 +42,16 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<Account> PatchAccountsVmiAsync(Guid vmiUserId, Account account);
 
         Task<Account> PostAccountsVmiAsync(Account account);
+
+        /// <summary>
+        /// A service which manages the account payment profile.
+        /// </summary>
+        Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null);
+
+        Task<AccountPaymentProfile> GetPaymentProfile(Guid accountPaymentProfileId);
+
+        Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(AccountPaymentProfile accountPaymentProfile);
+
+        Task<bool> DeletePaymentProfile(Guid accountPaymentProfileId);
     }
 }

@@ -93,7 +93,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public List<Category> FlattenCategoryTree(IList<Category> categoryList)
+        private List<Category> FlattenCategoryTree(IList<Category> categoryList)
         {
             List<Category> flattened = new List<Category>();
 

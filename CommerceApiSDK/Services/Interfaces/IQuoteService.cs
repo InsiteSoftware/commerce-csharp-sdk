@@ -28,5 +28,9 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<QuoteLine> PatchQuoteLine(string quoteId, QuoteLine quoteLine);
 
         Task<QuoteDto> QuoteLinePricing(string quoteId, QuoteLinePricingQueryParameters param);
+
+        Task<QuoteLine> GetQuoteLine(string quoteId, string quoteLineId);
+
+        Task<QuoteLine> UpdateQuoteLine(string quoteId, QuoteLine quoteLine);
     }
 }

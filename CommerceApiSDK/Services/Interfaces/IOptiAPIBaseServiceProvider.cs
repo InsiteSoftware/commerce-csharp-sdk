@@ -12,7 +12,6 @@ namespace CommerceApiSDK.Services.Interfaces
         IBillToService GetBillToService();
         IBrandService GetBrandService();
         ICacheService GetCacheService();
-        ICartLineService GetCartLineService();
         ICartService GetCartService();
         ICatalogpagesService GetCatalogpagesService();
         ICategoryService GetCategoryService();
@@ -30,10 +29,8 @@ namespace CommerceApiSDK.Services.Interfaces
         INetworkService GetNetworkService();
         IOptimizelyService GetOptimizelyService();
         IOrderService GetOrderService();
-        IPaymentProfileService GetPaymentProfileService();
         IProductService GetProductService();
         IProductV2Service GetProductV2Service();
-        IQuoteLineService GetQuoteLineService();
         IQuoteService GetQuoteService();
         ISecureStorageService GetSecureStorageService();
         ISessionService GetSessionService();
@@ -44,7 +41,8 @@ namespace CommerceApiSDK.Services.Interfaces
         IVmiLocationsService GetVmiLocationsService();
         IWarehouseService GetWarehouseService();
         IWebsiteService GetWebsiteService();
-        IWishListLineService GetWishListLineService();
         IWishListService GetWishListService();
+        IRealTimePricingService GetRealTimePricingService();
+        IRealTimeInventoryService GetRealTimeInventoryService();
     }
 }
