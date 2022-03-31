@@ -303,7 +303,7 @@ namespace CommerceApiSDK.Models
         public Guid? ReplacementProductId { get; set; }
 
         /// <summary>Gets or sets the warehouses.</summary>
-        public IList<Warehouse> Warehouses { get; set; }
+        public IList<InventoryWarehouse> Warehouses { get; set; }
 
         public Brand Brand { get; set; }
 
