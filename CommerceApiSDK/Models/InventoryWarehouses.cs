@@ -6,7 +6,7 @@ namespace CommerceApiSDK.Models
     {
         public string UnitOfMeasure { get; set; }
 
-        public List<Warehouse> WarehouseDtos { get; set; }
+        public List<InventoryWarehouse> WarehouseDtos { get; set; }
     }
 }
 
