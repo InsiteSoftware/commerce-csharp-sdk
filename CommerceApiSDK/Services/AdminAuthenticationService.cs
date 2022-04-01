@@ -12,19 +12,16 @@ namespace CommerceApiSDK.Services
 {
     public class AdminAuthenticationService : AuthenticationService, IAdminAuthenticationService
     {
-        private readonly IAdminClientService adminClientService;
-
-        private readonly IMessengerService optiMessenger;
         private IDisposable adminRefreshTokenNotificationSubscription;
+        private readonly ICommerceAPIServiceProvider _commerceAPIServiceProvider;
 
         public AdminAuthenticationService(
             ICommerceAPIServiceProvider commerceAPIServiceProvider)
             : base(
                 commerceAPIServiceProvider)
         {
-            this.adminClientService = adminClientService;
-            this.optiMessenger = optiMessenger;
-            adminRefreshTokenNotificationSubscription = this.optiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+            adminRefreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+            _commerceAPIServiceProvider = commerceAPIServiceProvider;
         }
 
         /// <summary>
@@ -35,20 +32,19 @@ namespace CommerceApiSDK.Services
         /// <returns>Whether or not Login was successful</returns>
         public override async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
         {
-            ServiceResponse<TokenResult> result = await adminClientService.Generate($"admin_{userName}", password);
+            ServiceResponse<TokenResult> result = await _commerceAPIServiceProvider.GetAdminClientService().Generate($"admin_{userName}", password);
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
-            adminClientService.StoreSessionState();
-
             if (adminRefreshTokenNotificationSubscription == null)
             {
-                adminRefreshTokenNotificationSubscription = optiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+                adminRefreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
             }
+            _commerceAPIServiceProvider.GetAdminClientService().SetBearerAuthorizationHeader(tokenResult.AccessToken);
+            _commerceAPIServiceProvider.GetAdminClientService().StoreSessionState();
 
             return (true, null);
         }
@@ -65,16 +61,14 @@ namespace CommerceApiSDK.Services
                 adminRefreshTokenNotificationSubscription.Dispose();
                 adminRefreshTokenNotificationSubscription = null;
             }
+            _ = await _commerceAPIServiceProvider.GetAdminClientService().GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
+            _commerceAPIServiceProvider.GetAdminClientService().Reset();
 
-            _ = await adminClientService.GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
-            adminClientService.Reset();
-
-            adminClientService.RemoveAccessToken();
-
-            optiMessenger.Publish(new AdminSignedOutOptiMessage()
+            _commerceAPIServiceProvider.GetMessengerService().Publish(new AdminSignedOutOptiMessage()
             {
                 IsRefreshTokenExpired = isRefreshTokenExpired,
             });
+            _commerceAPIServiceProvider.GetAdminClientService().RemoveAccessToken();
         }
 
         /// <summary>
@@ -83,11 +77,11 @@ namespace CommerceApiSDK.Services
         /// <returns>Boolean value for whether or not user is logged in</returns>
         public override async Task<bool> IsAuthenticatedAsync()
         {
-            if (adminClientService.IsExistsAccessToken())
+            if (_commerceAPIServiceProvider.GetAdminClientService().IsExistsAccessToken())
             {
-                await adminClientService.GetAsync(CommerceAPIConstants.AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
+                await _commerceAPIServiceProvider.GetAdminClientService().GetAsync(CommerceAPIConstants.AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
 
-                return adminClientService.IsExistsAccessToken();
+                return _commerceAPIServiceProvider.GetAdminClientService().IsExistsAccessToken();
             }
 
             return false;
@@ -104,7 +98,7 @@ namespace CommerceApiSDK.Services
             Dictionary<string, string> payload = new Dictionary<string, string> { { "userName", userName } };
             StringContent stringContent = await Task.Run(() => ServiceBase.SerializeModel(payload, serializationSettings));
 
-            HttpResponseMessage httpResponseMessage = await adminClientService.PostAsync(CommerceAPIConstants.ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
+            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetAdminClientService().PostAsync(CommerceAPIConstants.ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
