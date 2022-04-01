@@ -23,8 +23,8 @@ The IServiceCollection extention method registers all the necessary services to 
 yourServiceCollection.AddCommerceSdk("yourHost.url", "yourClientID", "yourClientSecret",  enableCaching)
 ```
 - `host`: The domain url.
-- `clientID`: your id <-- where is this found
-- `clientSecret`: your access token <-- where is this found
+- `clientID`: Your ID 
+- `clientSecret`: Your Access Token
 - `isCachingEnabled`: A boolean used to determine if the SDK should load a cached version if service returned an empty response.
 
 Additionally, you will also need to register the services you implement ([required services](#implement-additional-services)) to your IoC Container.
@@ -40,45 +40,42 @@ yourServiceCollection.AddSingleton<ITrackingService, YourTrackingServiceImp>();
 If you use something other than the IServiceCollection to help with dependency injection, you can manually register the services to whichever container you're using. Below is a list of the services and their implementation class that need to be registered.
 
 ```sh
-IAccountService, AccountService>();
-IAdminAuthenticationService, AdminAuthenticationService
-IAdminClientService, AdminClientService>();
-IAuthenticationService, AuthenticationService>();
-IAutocompleteService, AutocompleteService>();
-IBillToService, BillToService>();
-IBrandService, BrandService>();
-ICacheService, CacheService>();
-ICartLineService, CartLineService>();
-ICartService, CartService>();
-ICatalogpagesService, CatalogpagesService>();
-ICategoryService, CategoryService>();
-IClientService, ClientService>();
 ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
-IDashboardPanelsService, DashboardPanelsService>();
+IMessengerService, MessengerService>();
+ICartService, CartService>();
+ILoggerService, Logger>();
+IClientService, OptClientService>();
+IAdminClientService, AdminClientService>();
+Locator.Current.GetService<IFilesystemProvider>());
+heService, CacheService>();
+ISessionService, SessionService>();
+ICategoryService, CategoryService>();
+IAccountService, AccountService>();
+IAuthenticationService, AuthenticationService>();
+IAdminAuthenticationService, AdminAuthenticationService>();
+ISettingsService, SettingsService>();
+IProductService, ProductService>();
+IProductV2Service, ProductV2Service>();
+IWebsiteService, WebsiteService>();
+IWarehouseService, WarehouseService>();
+ILocatorService, LocatorService>();
+IBillToService, BillToService>();
+IOrderService, OrderService>();
+IWishListService, WishListService>();
+IMessageService, MessageService>();
+IMobileContentService, MobileContentService>();
+IMobileSpireContentService, MobileSpireContentService>();
+IAutocompleteService, AutocompleteService>();
+IBrandService, BrandService>();
+ITranslationService, TranslationService>();
 IDealerService, DealerService>();
 IInvoiceService, InvoiceService>();
 IJobQuoteService, JobQuoteService>();
-ILoggerService, DefaultLogger>();
-IMessengerService, MessengerService>();
-IMobileContentService, MobileContentService>();
-IMobileSpireContentService, MobileSpireContentService>();
-IOrderService, OrderService>();
-IPaymentProfileService, PaymentProfileService>();
-IProductService, ProductService>();
-IProductV2Service, ProductV2Service>();
-IQuoteLineService, QuoteLineService>();
 IQuoteService, QuoteService>();
-ISessionService, SessionService>();
-ISettingsService, SettingsService>();
-ITokenExConfigService, TokenExConfigService>();
-ITranslationService, TranslationService>();
 IVmiLocationsService, VmiLocationsService>();
-IWarehouseService, WarehouseService>();
-IWebsiteService, WebsiteService>();
-IWishListLineService, WishListLineService>();
-IWishListService, WishListService>();
-ICommerceAPIServiceProvider, CommerceAPIServiceProvider();
+
 ```
+
 
 To configure the project to your environment, we recommend to overwrite our `ClientService.CreateClient()` method. In this method, you'll need to assign the Host, ClientId, ClientSecret, and set IsCachingEnabled boolean. This is also where you can configure the http client. An example implementation is show below:
 
