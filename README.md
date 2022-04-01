@@ -80,7 +80,7 @@ IWishListService, WishListService>();
 ICommerceAPIServiceProvider, CommerceAPIServiceProvider();
 ```
 
-To config the project to your environment, we recommend to overwrite our `ClientService.CreateClient()` method. In this method, you'll need to assign the Host, ClientId, ClientSecret, and set IsCachingEnabled boolean. This is also where you can configure the http client. An example implementation is show below:
+To configure the project to your environment, we recommend to overwrite our `ClientService.CreateClient()` method. In this method, you'll need to assign the Host, ClientId, ClientSecret, and set IsCachingEnabled boolean. This is also where you can configure the http client. An example implementation is show below:
 
 ```sh
     public class CommerceClientService : ClientService
