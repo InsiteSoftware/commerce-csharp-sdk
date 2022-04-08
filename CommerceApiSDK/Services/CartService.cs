@@ -16,8 +16,6 @@ namespace CommerceApiSDK.Services
 {
     public class CartService : ServiceBase, ICartService
     {
-        private IDisposable token;
-
         private List<AddCartLine> addToCartRequests = new List<AddCartLine>();
 
         public event EventHandler OnIsAddingToCartSlowChange;
@@ -35,7 +33,7 @@ namespace CommerceApiSDK.Services
             : base(commerceAPIServiceProvider)
         {
             isCartEmpty = true;
-            token = _commerceAPIServiceProvider.GetMessengerService().Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
+            _commerceAPIServiceProvider.GetMessengerService().Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;

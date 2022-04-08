@@ -12,7 +12,7 @@ namespace CommerceApiSDK.Services
 {
     public class AdminAuthenticationService : AuthenticationService, IAdminAuthenticationService
     {
-        private IDisposable adminRefreshTokenNotificationSubscription;
+        private Guid? subscriptionId;
         private readonly ICommerceAPIServiceProvider _commerceAPIServiceProvider;
 
         public AdminAuthenticationService(
@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Services
             : base(
                 commerceAPIServiceProvider)
         {
-            adminRefreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+            subscriptionId = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
             _commerceAPIServiceProvider = commerceAPIServiceProvider;
         }
 
@@ -39,9 +39,9 @@ namespace CommerceApiSDK.Services
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            if (adminRefreshTokenNotificationSubscription == null)
+            if (subscriptionId == null)
             {
-                adminRefreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+                subscriptionId = _commerceAPIServiceProvider.GetMessengerService().Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
             }
             _commerceAPIServiceProvider.GetAdminClientService().SetBearerAuthorizationHeader(tokenResult.AccessToken);
             _commerceAPIServiceProvider.GetAdminClientService().StoreSessionState();
@@ -56,11 +56,12 @@ namespace CommerceApiSDK.Services
         /// <returns></returns>
         public override async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (adminRefreshTokenNotificationSubscription != null)
+            if (subscriptionId.HasValue)
             {
-                adminRefreshTokenNotificationSubscription.Dispose();
-                adminRefreshTokenNotificationSubscription = null;
+                _commerceAPIServiceProvider.GetMessengerService().Unsubscribe<AdminRefreshTokenExpiredOptiMessage>(subscriptionId.Value);
+                subscriptionId = null;
             }
+
             _ = await _commerceAPIServiceProvider.GetAdminClientService().GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
             _commerceAPIServiceProvider.GetAdminClientService().Reset();
 
