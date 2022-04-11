@@ -13,13 +13,13 @@ namespace CommerceApiSDK.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly ICommerceAPIServiceProvider _commerceAPIServiceProvider;
-        private IDisposable refreshTokenNotificationSubscription;
+        private Guid? subscriptionId;
 
         public AuthenticationService(
             ICommerceAPIServiceProvider commerceAPIServiceProvider)
         {
             _commerceAPIServiceProvider = commerceAPIServiceProvider;
-            refreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+            subscriptionId = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
  
         }
 
@@ -58,9 +58,9 @@ namespace CommerceApiSDK.Services
                 return (false, ErrorResponse.Empty());
             }
 
-            if (refreshTokenNotificationSubscription == null)
+            if (subscriptionId == null)
             {
-                refreshTokenNotificationSubscription = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+                subscriptionId = _commerceAPIServiceProvider.GetMessengerService().Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
             }
 
             return (true, null);
@@ -81,10 +81,10 @@ namespace CommerceApiSDK.Services
         /// <param name="isRefreshTokenExpired">Whether or not logout was due to refresh token being expired</param>
         public virtual async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (refreshTokenNotificationSubscription != null)
+            if (subscriptionId.HasValue)
             {
-                refreshTokenNotificationSubscription.Dispose();
-                refreshTokenNotificationSubscription = null;
+                _commerceAPIServiceProvider.GetMessengerService().Unsubscribe<RefreshTokenExpiredOptiMessage>(subscriptionId.Value);
+                subscriptionId = null;
             }
 
             _commerceAPIServiceProvider.GetSessionService().ClearCache();
