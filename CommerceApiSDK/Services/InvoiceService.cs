@@ -10,8 +10,13 @@ namespace CommerceApiSDK.Services
 {
     public class InvoiceService : ServiceBase, IInvoiceService
     {
-        public InvoiceService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+        public InvoiceService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -42,7 +47,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -56,7 +61,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -72,7 +77,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return false;
             }
         }

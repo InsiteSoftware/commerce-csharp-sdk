@@ -15,9 +15,18 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class WebsiteService : ServiceBase, IWebsiteService
     {
-        public WebsiteService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
-        {            
+        private readonly ISessionService sessionService;
+
+        public WebsiteService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService,
+            ISessionService sessionService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+        {
+            this.sessionService = sessionService;
         }
 
         public async Task<Website> GetWebsite()
@@ -29,7 +38,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -37,13 +46,15 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCache()
         {
-            return await HasCache(CommerceAPIConstants.WebsitesUrl);
+            string key = this.ClientService.Host + CommerceAPIConstants.WebsitesUrl + this.ClientService.SessionStateKey;
+            return await this.CacheService.HasOnlineCache(key);
         }
 
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCrosssellsCache()
         {
-            return await HasCache(CommerceAPIConstants.WebsitesCrosssellsUrl);
+            string key = this.ClientService.Host + CommerceAPIConstants.WebsitesCrosssellsUrl + this.ClientService.SessionStateKey;
+            return await this.CacheService.HasOnlineCache(key);
         }
 
         public async Task<WebsiteCrosssells> GetWebsiteCrosssells()
@@ -54,7 +65,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -75,7 +86,7 @@ namespace CommerceApiSDK.Services
                 }
                 else
                 {
-                    Uri domain = _commerceAPIServiceProvider.GetClientService().Url;
+                    Uri domain = this.ClientService.Url;
 
                     if (string.IsNullOrEmpty(domain.AbsolutePath) || string.IsNullOrEmpty(path))
                     {
@@ -86,11 +97,11 @@ namespace CommerceApiSDK.Services
                 }
 
                 // sign
-                string token = await _commerceAPIServiceProvider.GetClientService().GetAccessToken();
-                string billTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.BillTo?.Id;
-                string shipTo = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.ShipTo?.Id;
-                string languageCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode;
-                string currencyCode = _commerceAPIServiceProvider.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
+                string token = await this.ClientService.GetAccessToken();
+                string billTo = this.sessionService.CurrentSession?.BillTo?.Id;
+                string shipTo = this.sessionService.CurrentSession?.ShipTo?.Id;
+                string languageCode = this.sessionService.CurrentSession?.Language?.LanguageCode;
+                string currencyCode = this.sessionService.CurrentSession?.Currency?.CurrencyCode;
                 string linkChar = result.Contains("?") ? "&" : "?";
 
                 result = string.IsNullOrEmpty(token) || string.IsNullOrEmpty(billTo) || string.IsNullOrEmpty(shipTo)
@@ -99,7 +110,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
+                this.LoggerService.LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
                 return null;
             }
 
@@ -122,7 +133,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -135,7 +146,7 @@ namespace CommerceApiSDK.Services
                 messageName
             });
 
-            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(_commerceAPIServiceProvider.GetSessionService().CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
+            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(this.sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
             if (siteMessageItem != null)
             {
                 return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
@@ -161,7 +172,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -174,7 +185,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

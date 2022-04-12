@@ -36,14 +36,18 @@ namespace CommerceApiSDK.Services
         protected HttpClient client;
         public HttpClientHandler httpClientHandler;
 
-        protected ICommerceAPIServiceProvider _commerceAPIServiceProvider;
+        protected readonly IMessengerService OptiMessenger;
+        protected readonly ITrackingService TrackingService;
+
+        private readonly ISecureStorageService secureStorageService;
+        private readonly ILocalStorageService localStorageService;
+        private readonly ILoggerService loggerService;
 
         protected virtual string[] StoredCookiesNames { get; } = { "CurrentPickUpWarehouseId", "CurrentFulfillmentMethod", "CurrentBillToId", "CurrentShipToId", "BillToIdShipToId", "CurrentLanguageId", "SetContextLanguageCode", "SetContextPersonaIds" };
 
         public bool IsSecure { get; set; } = true;
 
         private string host;
-
         public string Host
         {
             get => host;
@@ -92,9 +96,14 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public ClientService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMessengerService optiMessenger, ITrackingService trackingService, ILoggerService loggerService)
         {
-            _commerceAPIServiceProvider = commerceAPIServiceProvider;
+            this.OptiMessenger = optiMessenger;
+            this.TrackingService = trackingService;
+            this.secureStorageService = secureStorageService;
+            this.localStorageService = localStorageService;
+            this.loggerService = loggerService;
+
             CreateClient();
         }
 
@@ -114,7 +123,7 @@ namespace CommerceApiSDK.Services
                 // Proxy = CFNetwork.GetDefaultProxy()
             };
 
-            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, _commerceAPIServiceProvider.GetLoggerService(), NotifyRefreshTokenExpired))
+            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, this.loggerService, NotifyRefreshTokenExpired))
             {
                 Timeout = Timeout.InfiniteTimeSpan,
             };
@@ -122,14 +131,14 @@ namespace CommerceApiSDK.Services
 
         public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
                 {
                     request.SetTimeout(timeout);
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
+                this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
                 }
 
             return response;
@@ -146,15 +155,15 @@ namespace CommerceApiSDK.Services
     
             response = await client.GetAsync(path, cancellationToken);
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
+            this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
+            this.loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
@@ -164,7 +173,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -179,14 +188,14 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
+            this.loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
 
             return response;
         }
 
         public virtual async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
+            this.loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
             HttpResponseMessage response;
             
                 using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
@@ -196,7 +205,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -212,7 +221,7 @@ namespace CommerceApiSDK.Services
                     response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 }
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
 
             return response;
         }
@@ -227,7 +236,7 @@ namespace CommerceApiSDK.Services
             {
                 // If token is null/empty after Forbidden status, we aren't logged in
                 // so no need to retry
-                string token = _commerceAPIServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
+                string token = this.secureStorageService.Load(BearerTokenStorageKey);
                 if (string.IsNullOrEmpty(token))
                 {
                     return response;
@@ -283,7 +292,7 @@ namespace CommerceApiSDK.Services
            
                 client.DefaultRequestHeaders.Authorization = null;
 
-                string refreshToken = _commerceAPIServiceProvider.GetSecureStorageService().Load(RefreshTokenStorageKey);
+                string refreshToken = this.secureStorageService.Load(RefreshTokenStorageKey);
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}");
                 FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
                 {
@@ -296,7 +305,7 @@ namespace CommerceApiSDK.Services
                 request.SetTimeout(request.GetTimeout());
                 HttpResponseMessage response = await client.SendAsync(request);
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -313,7 +322,7 @@ namespace CommerceApiSDK.Services
 
         protected virtual void NotifyRefreshTokenExpired()
         {
-            _commerceAPIServiceProvider.GetMessengerService().Publish(new RefreshTokenExpiredOptiMessage());
+            this.OptiMessenger.Publish(new RefreshTokenExpiredOptiMessage());
         }
 
         public void Reset()
@@ -321,18 +330,18 @@ namespace CommerceApiSDK.Services
             StoreCookies();
             CreateClient();
 
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "The ClientService was reset.");
+            this.loggerService.LogDebug(LogLevel.DEBUG, "The ClientService was reset.");
         }
 
         public void StoreSessionState(Session currentSession = null)
         {
             StoreCookies(currentSession);
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "State was stored.");
+            this.loggerService.LogDebug(LogLevel.DEBUG, "State was stored.");
         }
 
         private void StoreCookies(Session currentSession = null)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Saving cookies");
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Saving cookies");
             if (Cookies != null)
             {
                 string cookieValues = string.Empty;
@@ -349,21 +358,21 @@ namespace CommerceApiSDK.Services
                     }
                 }
 
-                _commerceAPIServiceProvider.GetLocalStorageService().Save(CookiesStorageKey, cookieValues);
+                this.localStorageService.Save(CookiesStorageKey, cookieValues);
             }
         }
 
         public void LoadSessionState()
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loading state");
-            string accessToken = _commerceAPIServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Loading state");
+            string accessToken = this.secureStorageService.Load(BearerTokenStorageKey);
             if (!string.IsNullOrEmpty(accessToken))
             {
                 SetBearerAuthorizationHeader(accessToken);
             }
 
             LoadCookies();
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loaded state");
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Loaded state");
         }
 
         public void SetCookie(Cookie cookie)
@@ -373,8 +382,8 @@ namespace CommerceApiSDK.Services
 
         protected void LoadCookies()
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loading Cookies");
-            string cookieValues = _commerceAPIServiceProvider.GetLocalStorageService().Load(CookiesStorageKey, string.Empty);
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Loading Cookies");
+            string cookieValues = this.localStorageService.Load(CookiesStorageKey, string.Empty);
             if (string.IsNullOrEmpty(cookieValues))
             {
                 return;
@@ -390,7 +399,7 @@ namespace CommerceApiSDK.Services
                     httpClientHandler.CookieContainer.Add(Url, new Cookie(name, value));
                 }
             }
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Loaded Cookies");
+            this.loggerService.LogDebug(LogLevel.DEBUG, "Loaded Cookies");
         }
 
         public void SetBasicAuthorizationHeader()
@@ -403,34 +412,31 @@ namespace CommerceApiSDK.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-      
-
         #region Access Token
-
         public bool IsExistsAccessToken()
         {
-            return !string.IsNullOrEmpty(_commerceAPIServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey));
+            return !string.IsNullOrEmpty(this.secureStorageService.Load(BearerTokenStorageKey));
         }
 
         public void StoreAccessToken(TokenResult tokens)
         {
-            _commerceAPIServiceProvider.GetSecureStorageService().Save(BearerTokenStorageKey, tokens.AccessToken);
-            _commerceAPIServiceProvider.GetSecureStorageService().Save(RefreshTokenStorageKey, tokens.RefreshToken);
+            this.secureStorageService.Save(BearerTokenStorageKey, tokens.AccessToken);
+            this.secureStorageService.Save(RefreshTokenStorageKey, tokens.RefreshToken);
 
             TimeSpan timeSpan = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn).TimeOfDay;
-            _commerceAPIServiceProvider.GetSecureStorageService().Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
+            this.secureStorageService.Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
         }
 
         public void RemoveAccessToken()
         {
-            _commerceAPIServiceProvider.GetSecureStorageService().Remove(BearerTokenStorageKey);
-            _commerceAPIServiceProvider.GetSecureStorageService().Remove(RefreshTokenStorageKey);
-            _commerceAPIServiceProvider.GetSecureStorageService().Remove(ExpiresInStorageKey);
+            this.secureStorageService.Remove(BearerTokenStorageKey);
+            this.secureStorageService.Remove(RefreshTokenStorageKey);
+            this.secureStorageService.Remove(ExpiresInStorageKey);
         }
 
         public async Task<string> GetAccessToken()
         {
-            string timestampStr = _commerceAPIServiceProvider.GetSecureStorageService().Load(ExpiresInStorageKey);
+            string timestampStr = this.secureStorageService.Load(ExpiresInStorageKey);
             if (!string.IsNullOrEmpty(timestampStr))
             {
                 double timestamp = double.Parse(timestampStr);
@@ -444,7 +450,7 @@ namespace CommerceApiSDK.Services
                 }
             }
 
-            return _commerceAPIServiceProvider.GetSecureStorageService().Load(BearerTokenStorageKey);
+            return this.secureStorageService.Load(BearerTokenStorageKey);
         }
 
         public async Task<ServiceResponse<TokenResult>> Generate(string userName, string password)

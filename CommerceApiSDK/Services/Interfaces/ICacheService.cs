@@ -62,5 +62,9 @@ namespace CommerceApiSDK.Services.Interfaces
         /// </summary>
         /// <param name="key">Database key.</param>
         Task RemovePersistedData(string key);
+
+        Task<bool> HasOnlineCache(string key);
+
+        void ClearAllCaches();
     }
 }

@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using CommerceApiSDK.Models;
+﻿using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace CommerceApiSDK.Services
 {
     public class WarehouseService : ServiceBase, IWarehouseService
     {
-        public WarehouseService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-         : base(commerceAPIServiceProvider)
+        public WarehouseService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -27,7 +31,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -56,7 +60,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

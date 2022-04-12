@@ -16,6 +16,8 @@ namespace CommerceApiSDK.Services
 {
     public class CartService : ServiceBase, ICartService
     {
+        private readonly IMessengerService optiMessenger;
+
         private List<AddCartLine> addToCartRequests = new List<AddCartLine>();
 
         public event EventHandler OnIsAddingToCartSlowChange;
@@ -29,11 +31,18 @@ namespace CommerceApiSDK.Services
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public CartService(
-           ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+           IClientService ClientService,
+           INetworkService NetworkService,
+           ITrackingService TrackingService,
+           ICacheService CacheService,
+           ILoggerService LoggerService,
+           IMessengerService optiMessenger)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
+            this.optiMessenger = optiMessenger;
+
             isCartEmpty = true;
-            _commerceAPIServiceProvider.GetMessengerService().Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
+            this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
@@ -66,7 +75,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -86,7 +95,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -102,7 +111,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -118,7 +127,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -135,7 +144,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -156,7 +165,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -174,7 +183,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -195,7 +204,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -237,7 +246,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -257,7 +266,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -278,7 +287,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception) when (!(exception is OperationCanceledException))
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
             }
             finally
             {
@@ -328,7 +337,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -342,7 +351,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -358,7 +367,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

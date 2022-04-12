@@ -18,8 +18,8 @@ namespace CommerceApiSDK.Services
 
         private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
 
-        public BillToService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+        public BillToService(IClientService ClientService, INetworkService NetworkService, ITrackingService TrackingService, ICacheService CacheService, ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -39,7 +39,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -57,7 +57,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
+                this.TrackingService.TrackException(ex);
                 return null;
             }
         }
@@ -72,7 +72,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -90,7 +90,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
+                this.TrackingService.TrackException(ex);
                 return null;
             }
         }
@@ -111,7 +111,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -129,7 +129,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
+                this.TrackingService.TrackException(ex);
                 return null;
             }
         }
@@ -143,7 +143,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -162,7 +162,7 @@ namespace CommerceApiSDK.Services
 
             catch(Exception ex)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(ex);
+                this.TrackingService.TrackException(ex);
                 return null;
             }
         }

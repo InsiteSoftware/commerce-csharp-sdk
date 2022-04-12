@@ -16,8 +16,13 @@ namespace CommerceApiSDK.Services
     {
         private CategoryResult lastCategoryResult;
 
-        public CategoryService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+        public CategoryService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -47,7 +52,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -67,7 +72,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -88,7 +93,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -113,7 +118,8 @@ namespace CommerceApiSDK.Services
         public async Task<bool> HasCategoryCache(Guid categoryId)
         {
             string url = CommerceAPIConstants.CategoryUrl + "/" + categoryId;
-            return await HasCache(url);
+            string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
+            return await this.CacheService.HasOnlineCache(key);
         }
     }
 }
