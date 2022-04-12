@@ -3,7 +3,6 @@ using CommerceApiSDK.Models;
 using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Splat;
 
 namespace CommerceApiSDK.Extensions
 {
@@ -20,7 +19,7 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IAutocompleteService, AutocompleteService>();
             services.AddSingleton<IBillToService, BillToService>();
             services.AddSingleton<IBrandService, BrandService>();
-            services.AddSingleton(Locator.Current.GetService<IFilesystemProvider>());
+            services.AddSingleton<IFilesystemProvider, SimpleFilesystemProvider>();
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<ICartService, CartService>();
             services.AddSingleton<ICatalogpagesService, CatalogpagesService>();
