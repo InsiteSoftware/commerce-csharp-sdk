@@ -16,7 +16,12 @@ namespace CommerceApiSDK.Test.Services
             base.SetUp();
 
             websiteService = new WebsiteService(
-                OptiAPIBaseServiceMock.Object);
+                ClientServiceMock.Object,
+                NetworkServiceMock.Object,
+                TrackingServiceMock.Object,
+                CacheServiceMock.Object,
+                LoggerServiceMock.Object,
+                SessionServiceMock.Object);
         }
 
         [Test]
@@ -25,15 +30,15 @@ namespace CommerceApiSDK.Test.Services
             string domain = "https://mobileautomation.insitesandbox.com";
             string path = "/Catalog/Power-Tools/Circular-Saws";
 
-            OptiAPIBaseServiceMock.Setup(o => o.GetClientService().Url).Returns(new Uri(domain));
-            OptiAPIBaseServiceMock.Setup(x => x.GetSessionService().CurrentSession).Returns(new Session { });
+            ClientServiceMock.Setup(o => o.Url).Returns(new Uri(domain));
+            SessionServiceMock.Setup(x => x.CurrentSession).Returns(new Session { });
 
-            string languageCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Language?.LanguageCode;
-            string currencyCode = OptiAPIBaseServiceMock.Object.GetSessionService().CurrentSession?.Currency?.CurrencyCode;
+            string languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
+            string currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
 
             string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
 
-            websiteService = new WebsiteService(OptiAPIBaseServiceMock.Object);
+            websiteService = new WebsiteService(ClientServiceMock.Object, NetworkServiceMock.Object, TrackingServiceMock.Object, CacheServiceMock.Object, LoggerServiceMock.Object, SessionServiceMock.Object);
 
             string returnedUrl = websiteService.GetAuthorizedURL(path).Result;
 

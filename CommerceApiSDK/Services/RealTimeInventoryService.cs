@@ -9,8 +9,13 @@ namespace CommerceApiSDK.Services
 {
     public class RealTimeInventoryService : ServiceBase, IRealTimeInventoryService
     {
-        public RealTimeInventoryService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+        public RealTimeInventoryService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -42,7 +47,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }

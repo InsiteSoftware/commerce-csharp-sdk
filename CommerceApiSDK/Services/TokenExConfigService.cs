@@ -7,8 +7,13 @@ namespace CommerceApiSDK.Services
 {
     public class TokenExConfigService : ServiceBase, ITokenExConfigService
     {
-        public TokenExConfigService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-             : base(commerceAPIServiceProvider)
+        public TokenExConfigService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+             : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -22,7 +27,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

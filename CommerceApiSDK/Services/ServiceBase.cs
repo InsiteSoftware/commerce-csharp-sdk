@@ -54,13 +54,21 @@ namespace CommerceApiSDK.Services
     /// </summary>
     public class ServiceBase
     {
-        protected readonly ICommerceAPIServiceProvider _commerceAPIServiceProvider;
+        protected readonly IClientService ClientService;
+        protected readonly INetworkService NetworkService;
+        protected readonly ITrackingService TrackingService;
+        protected readonly ICacheService CacheService;
+        protected readonly ILoggerService LoggerService;
 
         public static readonly TimeSpan DefaultRequestTimeout = TimeSpan.FromSeconds(60.0);
 
-        protected ServiceBase(ICommerceAPIServiceProvider commerceAPIServiceProvider)
+        protected ServiceBase(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
         {
-            _commerceAPIServiceProvider = commerceAPIServiceProvider;
+            this.ClientService = clientService;
+            this.NetworkService = networkService;
+            this.TrackingService = trackingService;
+            this.CacheService = cacheService;
+            this.LoggerService = loggerService;
         }
 
         /// <summary>
@@ -125,21 +133,7 @@ namespace CommerceApiSDK.Services
         /// <summary>
         /// Whether the device has online access
         /// </summary>
-        protected bool IsOnline => _commerceAPIServiceProvider.GetNetworkService().IsOnline();
-
-        protected void ClearAllCaches()
-        {
-            _commerceAPIServiceProvider.GetCacheService().OfflineCache.InvalidateAll();
-            _commerceAPIServiceProvider.GetCacheService().OnlineCache.InvalidateAll();
-            _commerceAPIServiceProvider.GetCacheService().LocalStorage.InvalidateAll();
-        }
-
-        protected async Task<bool> HasCache(string url)
-        {
-            string key = _commerceAPIServiceProvider.GetClientService().Host + url + _commerceAPIServiceProvider.GetClientService().SessionStateKey;
-            IEnumerable<string> keys = await _commerceAPIServiceProvider.GetCacheService().OnlineCache.GetAllKeys();
-            return keys.Contains(key);
-        }
+        protected bool IsOnline => NetworkService.IsOnline();
 
         /// <summary>
         /// Fetches a url and caches the deserialized object
@@ -150,19 +144,19 @@ namespace CommerceApiSDK.Services
         /// GetAsyncWithCachedObject
         protected async Task<T> GetAsyncWithCachedResponse<T>(string url, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null) where T : class
         {
-            string key = _commerceAPIServiceProvider.GetClientService().Host + url + _commerceAPIServiceProvider.GetClientService().SessionStateKey;
+            string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
-            var result = await _commerceAPIServiceProvider.GetCacheService().OnlineCache.GetOrFetchObject(key, async () =>
+            var result = await this.CacheService.OnlineCache.GetOrFetchObject(key, async () =>
             {
                 if (IsOnline)
                 {
-                    HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().GetAsync(url, timeout, cancellationToken);
+                    HttpResponseMessage httpResponseMessage = await this.ClientService.GetAsync(url, timeout, cancellationToken);
 
                     if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
                     {
                         var model = DeserializeModel<T>(httpResponseMessage, jsonConverters);
-                        _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}", key);
-                        await _commerceAPIServiceProvider.GetCacheService().OfflineCache.InsertObject(key, model, DateTimeOffset.Now.AddMinutes(CacheService.OfflineCacheMinutes));
+                        this.LoggerService.LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}", key);
+                        await this.CacheService.OfflineCache.InsertObject(key, model, DateTimeOffset.Now.AddMinutes(Services.CacheService.OfflineCacheMinutes));
                         return model;
                     }
                 }
@@ -173,12 +167,12 @@ namespace CommerceApiSDK.Services
 
                 return null;
             },
-            DateTimeOffset.Now.AddMinutes(CacheService.OnlineCacheMinutes));
+            DateTimeOffset.Now.AddMinutes(Services.CacheService.OnlineCacheMinutes));
 
             if (result == null)
             {
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, " {0} response is null", null, key);
-                await _commerceAPIServiceProvider.GetCacheService().OnlineCache.Invalidate(key);
+                this.LoggerService.LogConsole(LogLevel.WARN, " {0} response is null", null, key);
+                await this.CacheService.OnlineCache.Invalidate(key);
                 return null;
             }
 
@@ -193,19 +187,19 @@ namespace CommerceApiSDK.Services
         /// GetAsyncStringResultWithCachedResponse
         protected async Task<string> GetAsyncStringResultWithCachedResponse(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            string key = _commerceAPIServiceProvider.GetClientService().Host + url + _commerceAPIServiceProvider.GetClientService().SessionStateKey;
+            string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
-            string result = await _commerceAPIServiceProvider.GetCacheService().OnlineCache.GetOrFetchObject(key, async () =>
+            string result = await this.CacheService.OnlineCache.GetOrFetchObject(key, async () =>
             {
                 if (IsOnline)
                 {
-                    HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().GetAsync(url, timeout, cancellationToken);
+                    HttpResponseMessage httpResponseMessage = await this.ClientService.GetAsync(url, timeout, cancellationToken);
 
                     if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
                     {
                         string receivedString = await httpResponseMessage.Content.ReadAsStringAsync();
-                        await _commerceAPIServiceProvider.GetCacheService().OfflineCache.InsertObject(key, receivedString, DateTimeOffset.Now.AddMinutes(CacheService.OfflineCacheMinutes));
-                        _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}", key);
+                        await this.CacheService.OfflineCache.InsertObject(key, receivedString, DateTimeOffset.Now.AddMinutes(Services.CacheService.OfflineCacheMinutes));
+                        this.LoggerService.LogDebug(LogLevel.DEBUG, "Insert Cache key:{0}", key);
                         return receivedString;
                     }
                 }
@@ -216,12 +210,12 @@ namespace CommerceApiSDK.Services
 
                 return null;
             },
-            DateTimeOffset.Now.AddMinutes(CacheService.OnlineCacheMinutes));
+            DateTimeOffset.Now.AddMinutes(Services.CacheService.OnlineCacheMinutes));
 
             if (result == null)
             {
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, " {0} response is null", null, key);
-                await _commerceAPIServiceProvider.GetCacheService().OnlineCache.Invalidate(key);
+                this.LoggerService.LogConsole(LogLevel.WARN, " {0} response is null", null, key);
+                await this.CacheService.OnlineCache.Invalidate(key);
                 return null;
             }
 
@@ -232,13 +226,13 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var offlineObject = await _commerceAPIServiceProvider.GetCacheService().OfflineCache.GetObject<T>(key);
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Get Offline cache object for {0} :{1}", null, key, offlineObject);
+                var offlineObject = await this.CacheService.OfflineCache.GetObject<T>(key);
+                this.LoggerService.LogConsole(LogLevel.INFO, "Get Offline cache object for {0} :{1}", null, key, offlineObject);
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                this.LoggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
                 return null;
             }
         }
@@ -252,26 +246,26 @@ namespace CommerceApiSDK.Services
         protected async Task<T> GetAsyncNoCache<T>(string url, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null)
             where T : class
         {
-            string key = _commerceAPIServiceProvider.GetClientService().Host + url + _commerceAPIServiceProvider.GetClientService().SessionStateKey;
+            string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
             if (!IsOnline && ClientConfig.IsCachingEnabled)
             {
                 return await GetOfflineData<T>(key);
             }
 
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().GetAsync(url, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.GetAsync(url, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 try
                 {
                     var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
-                    _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "GetAsync No Cache Response for {0}:{1}", url, result);
+                    this.LoggerService.LogConsole(LogLevel.INFO, "GetAsync No Cache Response for {0}:{1}", url, result);
                     return result;
                 }
                 catch (Exception exception)
                 {
-                    _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                    this.TrackingService.TrackException(exception);
                     return null;
                 }
             }
@@ -281,50 +275,50 @@ namespace CommerceApiSDK.Services
 
         protected async Task<string> GetAsyncStringResultNoCache(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().GetAsync(url, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.GetAsync(url, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 string result = await httpResponseMessage.Content.ReadAsStringAsync();
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "GetAsync String No Cache response for {0}: {1}", url, result);
+                this.LoggerService.LogConsole(LogLevel.INFO, "GetAsync String No Cache response for {0}: {1}", url, result);
                 return result;
             }
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
+            this.LoggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
             return null;
         }
 
         protected async Task<string> GetAsyncStringResultNoCacheNoHost(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().GetAsyncNoHost(url, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.GetAsyncNoHost(url, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 string result = await httpResponseMessage.Content.ReadAsStringAsync();
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "GetAsync String No Cache No Host response for {0}: {1}", url, result);
+                this.LoggerService.LogConsole(LogLevel.INFO, "GetAsync String No Cache No Host response for {0}: {1}", url, result);
                 return result;
             }
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
+            LoggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
             return null;
         }
 
         protected async Task<T> PostAsyncNoCache<T>(string url, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null, JsonConverter[] jsonConverters = null)
             where T : class
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().PostAsync(url, content, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(url, content, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
                 return result;
             }
-            _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.WARN, "PostAsyncNoCache for {0} is null", null, url);
+            this.LoggerService.LogConsole(LogLevel.WARN, "PostAsyncNoCache for {0} is null", null, url);
             return null;
         }
 
         protected async Task<ServiceResponse<T>> PostAsyncNoCacheWithErrorMessage<T>(string url, HttpContent content, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null)
             where T : class
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().PostAsync(url, content, timeout);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(url, content, timeout);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
@@ -341,7 +335,7 @@ namespace CommerceApiSDK.Services
         protected async Task<ServiceResponse<T>> PatchAsyncNoCacheWithErrorMessage<T>(string url, HttpContent content, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null)
             where T : class
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().PatchAsync(url, content, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.PatchAsync(url, content, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
@@ -357,7 +351,7 @@ namespace CommerceApiSDK.Services
 
         protected async Task<bool> PostAsyncNoResult(string url, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().PostAsync(url, content, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(url, content, timeout, cancellationToken);
 
             return httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK;
         }
@@ -365,12 +359,12 @@ namespace CommerceApiSDK.Services
         protected async Task<T> PatchAsyncNoCache<T>(string url, HttpContent content, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null)
             where T : class
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().PatchAsync(url, content, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.PatchAsync(url, content, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
                 var result = await Task.Run(() => DeserializeModel<T>(httpResponseMessage, jsonConverters));
-                _commerceAPIServiceProvider.GetLoggerService().LogConsole(LogLevel.INFO, "Patch No cache host response for {0}:{1}", null, url, result);
+                this.LoggerService.LogConsole(LogLevel.INFO, "Patch No cache host response for {0}:{1}", null, url, result);
 
                 return result;
             }
@@ -380,13 +374,13 @@ namespace CommerceApiSDK.Services
 
         protected async Task<HttpResponseMessage> DeleteAsync(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
-            return await _commerceAPIServiceProvider.GetClientService().DeleteAsync(url, timeout, cancellationToken);
+            return await this.ClientService.DeleteAsync(url, timeout, cancellationToken);
         }
 
         protected async Task<ServiceResponse<T>> DeleteAsyncWithErrorMessage<T>(string url, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null)
             where T : class
         {
-            HttpResponseMessage httpResponseMessage = await _commerceAPIServiceProvider.GetClientService().DeleteAsync(url, timeout, cancellationToken);
+            HttpResponseMessage httpResponseMessage = await this.ClientService.DeleteAsync(url, timeout, cancellationToken);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
             {
@@ -402,20 +396,20 @@ namespace CommerceApiSDK.Services
 
         protected async Task ClearOnlineCacheForUrlsStartingWith<T>(string urlPrefix)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0} with keys starting with: {1}", typeof(T).Name, urlPrefix);
-            await _commerceAPIServiceProvider.GetCacheService().OnlineCache.InvalidateObjectWithKeysStartingWith<T>(urlPrefix);
+            this.LoggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0} with keys starting with: {1}", typeof(T).Name, urlPrefix);
+            await this.CacheService.OnlineCache.InvalidateObjectWithKeysStartingWith<T>(urlPrefix);
         }
 
         protected async Task ClearOnlineCacheForSpecificUrl<T>(string url)
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Remove online cache for object from type: {0} with key:{1}", typeof(T).Name, url);
-            await _commerceAPIServiceProvider.GetCacheService().OnlineCache.InvalidateObject<T>(url);
+            this.LoggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for object from type: {0} with key:{1}", typeof(T).Name, url);
+            await this.CacheService.OnlineCache.InvalidateObject<T>(url);
         }
 
         protected async Task ClearOnlineCacheForObjects<T>()
         {
-            _commerceAPIServiceProvider.GetLoggerService().LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0}", typeof(T).Name);
-            await _commerceAPIServiceProvider.GetCacheService().OnlineCache.InvalidateAllObjects<T>();
+            this.LoggerService.LogDebug(LogLevel.DEBUG, "Remove online cache for objects from type: {0}", typeof(T).Name);
+            await this.CacheService.OnlineCache.InvalidateAllObjects<T>();
         }
     }
 }

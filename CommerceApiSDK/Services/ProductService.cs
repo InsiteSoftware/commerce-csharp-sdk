@@ -1,17 +1,21 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace CommerceApiSDK.Services
 {
     public class ProductService : ServiceBase, IProductService
     {
-        public ProductService(ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+        public ProductService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -38,7 +42,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -67,7 +71,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -78,14 +82,14 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url = CommerceAPIConstants.ProductsUrl + parameters.ToQueryString();
-
-                bool result = await HasCache(url);
+                string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
+                bool result = await this.CacheService.HasOnlineCache(key);
 
                 return result;
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return false;
             }
         }
@@ -119,7 +123,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -142,7 +146,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

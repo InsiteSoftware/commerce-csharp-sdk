@@ -16,9 +16,12 @@ namespace CommerceApiSDK.Services
         public Session CurrentSession => currentSession;
 
         public SessionService(
-            ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(
-                  commerceAPIServiceProvider)
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -47,7 +50,7 @@ namespace CommerceApiSDK.Services
 
                 if (result?.Model != null)
                 {
-                    _commerceAPIServiceProvider.GetClientService().StoreSessionState(result.Model);
+                    this.ClientService.StoreSessionState(result.Model);
                     currentSession = result.Model;
                 }
 
@@ -55,7 +58,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -84,7 +87,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -106,18 +109,9 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
-        }
-
-        /// <summary>
-        /// Clears all local caches
-        /// </summary>
-        [Obsolete("Caution: Will be removed in a future release.")]
-        public void ClearCache()
-        {
-            ClearAllCaches();
         }
 
         /// <summary>
@@ -142,7 +136,7 @@ namespace CommerceApiSDK.Services
                         }
                     }
 
-                    _commerceAPIServiceProvider.GetClientService().StoreSessionState(result);
+                    this.ClientService.StoreSessionState(result);
                     currentSession = result;
                 }
 
@@ -150,7 +144,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

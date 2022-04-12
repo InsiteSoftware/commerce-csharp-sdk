@@ -11,8 +11,12 @@ namespace CommerceApiSDK.Services
         private const string MessageUri = "/api/v1/messages";
 
         public MessageService(
-            ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -30,8 +34,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

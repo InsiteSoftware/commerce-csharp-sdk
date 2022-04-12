@@ -12,9 +12,17 @@ namespace CommerceApiSDK.Services
     {
 
         public AutocompleteService(
-            ICommerceAPIServiceProvider commerceAPIServiceProvider)
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
             : base(
-                  commerceAPIServiceProvider)
+                  ClientService,
+                  NetworkService,
+                  TrackingService,
+                  CacheService,
+                  LoggerService)
         {
         }
 
@@ -55,7 +63,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }
@@ -68,7 +76,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception exception)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(exception);
+                this.TrackingService.TrackException(exception);
                 return null;
             }
         }

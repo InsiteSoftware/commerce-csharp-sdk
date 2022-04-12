@@ -13,8 +13,12 @@ namespace CommerceApiSDK.Services
     public class WishListService : ServiceBase, IWishListService
     {
         public WishListService(
-           ICommerceAPIServiceProvider commerceAPIServiceProvider)
-            : base(commerceAPIServiceProvider)
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService)
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
         }
 
@@ -28,7 +32,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -45,7 +49,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -66,7 +70,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return false;
             }
         }
@@ -88,7 +92,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -111,7 +115,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -132,7 +136,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -153,7 +157,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -172,7 +176,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return false;
             }
         }
@@ -196,7 +200,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return false;
             }
         }
@@ -218,7 +222,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -240,7 +244,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return false;
             }
         }
@@ -269,7 +273,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return false;
             }
         }
@@ -291,7 +295,7 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception e)
             {
-                _commerceAPIServiceProvider.GetTrackingService().TrackException(e);
+                this.TrackingService.TrackException(e);
                 return null;
             }
         }
@@ -306,7 +310,7 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task ClearWishListRelatedCacheAsync(Guid wishListId)
         {
-            string prefix = _commerceAPIServiceProvider.GetClientService().Host + $"/api/v1/wishlists/{wishListId}";
+            string prefix = this.ClientService.Host + $"/api/v1/wishlists/{wishListId}";
             await ClearOnlineCacheForUrlsStartingWith<WishListLineCollectionModel>(prefix);
             await ClearOnlineCacheForUrlsStartingWith<WishList>(prefix);
         }

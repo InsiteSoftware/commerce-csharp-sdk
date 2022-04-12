@@ -23,10 +23,5 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<HttpResponseMessage> DeleteCurrentSession();
 
         Task<Session> ResetPassword(string userName);
-
-        /// <summary>
-        /// Clear the cached data for all services
-        /// </summary>
-        void ClearCache();
     }
 }
