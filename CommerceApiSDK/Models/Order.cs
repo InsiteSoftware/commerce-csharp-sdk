@@ -213,6 +213,15 @@ namespace CommerceApiSDK.Models
 
         [JsonIgnore]
         public string PONumberLabel { get; set; }
+
+        [JsonIgnore]
+        public string OrderNumber
+        {
+            get
+            {
+                return string.IsNullOrEmpty(this.ErpOrderNumber) ? this.WebOrderNumber : this.ErpOrderNumber;
+            }
+        }
     }
 
     public class OrderHistoryTaxDto
