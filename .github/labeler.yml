@@ -1,0 +1,11 @@
+# Add 'repo' label to any root file changes
+repo:
+- '*'
+
+# Add 'test' label to any change to Test files within the source dir
+test:
+- CommerceApiSDK.Test/**/*
+
+# Add 'demo' label to any change to DemoApp files within the source dir
+demo:
+- CommerceApiSDK.DemoApp/**/*
