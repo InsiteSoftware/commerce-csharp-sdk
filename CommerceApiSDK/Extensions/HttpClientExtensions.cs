@@ -13,7 +13,11 @@ namespace CommerceApiSDK.Services
         /// <param name="requestUri">Uri to fetch.</param>
         /// <param name="iContent">Body content.</param>
         /// <returns>A response message.</returns>
-        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, HttpContent iContent)
+        public static async Task<HttpResponseMessage> PatchAsync(
+            this HttpClient client,
+            Uri requestUri,
+            HttpContent iContent
+        )
         {
             HttpMethod method = new HttpMethod("PATCH");
             HttpRequestMessage request = new HttpRequestMessage(method, requestUri)
@@ -26,9 +30,7 @@ namespace CommerceApiSDK.Services
             {
                 response = await client.SendAsync(request);
             }
-            catch (TaskCanceledException)
-            {
-            }
+            catch (TaskCanceledException) { }
 
             return response;
         }

@@ -12,10 +12,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<DashboardPanelsResult> GetDashboardPanelsAsync()
         {
@@ -24,7 +22,7 @@ namespace CommerceApiSDK.Services
                 var url = CommerceAPIConstants.DashboardPanelUrl;
                 return await GetAsyncNoCache<DashboardPanelsResult>(url);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
                 return null;

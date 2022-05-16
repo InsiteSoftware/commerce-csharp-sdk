@@ -31,10 +31,18 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                     int hash = base.GetHashCode();
 
                     hash = (hash * HashingMultiplier) ^ Type.GetHashCode();
-                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Icon) ? Icon.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Text) ? Text.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Url) ? RequiresAuth.GetHashCode() : 0);
-                    hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, RequiresAuth) ? RequiresAuth.GetHashCode() : 0);
+                    hash =
+                        (hash * HashingMultiplier)
+                        ^ (!ReferenceEquals(null, Icon) ? Icon.GetHashCode() : 0);
+                    hash =
+                        (hash * HashingMultiplier)
+                        ^ (!ReferenceEquals(null, Text) ? Text.GetHashCode() : 0);
+                    hash =
+                        (hash * HashingMultiplier)
+                        ^ (!ReferenceEquals(null, Url) ? RequiresAuth.GetHashCode() : 0);
+                    hash =
+                        (hash * HashingMultiplier)
+                        ^ (!ReferenceEquals(null, RequiresAuth) ? RequiresAuth.GetHashCode() : 0);
                     return hash;
                 }
             }
@@ -95,7 +103,9 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                 int hash = base.GetHashCode();
 
                 hash = (hash * HashingMultiplier) ^ Layout.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Actions) ? Actions.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, Actions) ? Actions.GetHashCode() : 0);
                 return hash;
             }
         }
@@ -131,8 +141,13 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
             {
                 result &= Layout == obj.Layout;
 
-                bool areActinsEqual = (Actions == null && obj.Actions == null) ||
-                    (Actions != null && obj.Actions != null && Enumerable.SequenceEqual(Actions, obj.Actions));
+                bool areActinsEqual =
+                    (Actions == null && obj.Actions == null)
+                    || (
+                        Actions != null
+                        && obj.Actions != null
+                        && Enumerable.SequenceEqual(Actions, obj.Actions)
+                    );
                 result &= areActinsEqual;
             }
 

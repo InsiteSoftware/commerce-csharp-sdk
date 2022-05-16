@@ -8,6 +8,4 @@
 
         public bool RequiresRealTimeInventory { get; set; }
     }
-
 }
-

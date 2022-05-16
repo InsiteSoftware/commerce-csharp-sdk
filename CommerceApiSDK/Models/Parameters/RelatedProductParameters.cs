@@ -9,4 +9,3 @@ namespace CommerceApiSDK.Models.Parameters
         public string Relationship { get; set; }
     }
 }
-

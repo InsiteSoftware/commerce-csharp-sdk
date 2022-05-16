@@ -36,4 +36,3 @@ namespace CommerceApiSDK.Models
         public string ShareOption { get; set; }
     }
 }
-

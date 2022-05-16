@@ -17,10 +17,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<WishListCollectionModel> GetWishLists()
         {
@@ -79,7 +77,9 @@ namespace CommerceApiSDK.Services
         {
             string url = CommerceAPIConstants.WishListUrl;
 
-            StringContent stringContent = await Task.Run(() => SerializeModel(parameters.WishListObj));
+            StringContent stringContent = await Task.Run(
+                () => SerializeModel(parameters.WishListObj)
+            );
             try
             {
                 WishList result = await PostAsyncNoCache<WishList>(url, stringContent);
@@ -97,15 +97,22 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(CreateWishListQueryParameters parameters)
+        public async Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(
+            CreateWishListQueryParameters parameters
+        )
         {
             string url = CommerceAPIConstants.WishListUrl;
 
-            StringContent stringContent = await Task.Run(() => SerializeModel(parameters.WishListObj));
+            StringContent stringContent = await Task.Run(
+                () => SerializeModel(parameters.WishListObj)
+            );
 
             try
             {
-                ServiceResponse<WishList> result = await PostAsyncNoCacheWithErrorMessage<WishList>(url, stringContent);
+                ServiceResponse<WishList> result = await PostAsyncNoCacheWithErrorMessage<WishList>(
+                    url,
+                    stringContent
+                );
                 if (result?.Model != null)
                 {
                     await ClearGetWishListsCacheAsync();
@@ -125,7 +132,10 @@ namespace CommerceApiSDK.Services
             StringContent stringContent = await Task.Run(() => SerializeModel(wishList));
             try
             {
-                WishList result = await PatchAsyncNoCache<WishList>("/api/v1/wishlists/" + wishList.Id, stringContent);
+                WishList result = await PatchAsyncNoCache<WishList>(
+                    "/api/v1/wishlists/" + wishList.Id,
+                    stringContent
+                );
                 if (result != null)
                 {
                     await ClearWishListRelatedCacheAsync(wishList.Id);
@@ -146,7 +156,10 @@ namespace CommerceApiSDK.Services
             StringContent stringContent = await Task.Run(() => SerializeModel(product));
             try
             {
-                WishListLine result = await PostAsyncNoCache<WishListLine>("/api/v1/wishlists/" + wishListId + "/wishlistlines", stringContent);
+                WishListLine result = await PostAsyncNoCache<WishListLine>(
+                    "/api/v1/wishlists/" + wishListId + "/wishlistlines",
+                    stringContent
+                );
                 if (result != null)
                 {
                     await ClearWishListRelatedCacheAsync(wishListId);
@@ -162,12 +175,18 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<bool> AddWishListLinesToWishList(Guid wishListId, WishListAddToCartCollection wishListLines)
+        public async Task<bool> AddWishListLinesToWishList(
+            Guid wishListId,
+            WishListAddToCartCollection wishListLines
+        )
         {
             StringContent stringContent = await Task.Run(() => SerializeModel(wishListLines));
             try
             {
-                object result = await PostAsyncNoCache<object>("/api/v1/wishlists/" + wishListId + "/wishlistlines/batch", stringContent);
+                object result = await PostAsyncNoCache<object>(
+                    "/api/v1/wishlists/" + wishListId + "/wishlistlines/batch",
+                    stringContent
+                );
 
                 await ClearWishListRelatedCacheAsync(wishListId);
                 await ClearGetWishListsCacheAsync();
@@ -185,10 +204,13 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                HttpResponseMessage response = await DeleteAsync($"/api/v1/wishlists/{wishListId}/share/current");
+                HttpResponseMessage response = await DeleteAsync(
+                    $"/api/v1/wishlists/{wishListId}/share/current"
+                );
 
                 // A NotFound response is treated as successful because the user wanted to leave the list anyway.
-                bool result = response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotFound;
+                bool result =
+                    response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.NotFound;
 
                 if (result)
                 {
@@ -210,7 +232,10 @@ namespace CommerceApiSDK.Services
             return $"/api/v1/wishlists/{wishListId}?expand=hiddenproducts,getalllines";
         }
 
-        public async Task<WishListLineCollectionModel> GetWishListLines(Guid wishListId, WishListLineQueryParameters parameters)
+        public async Task<WishListLineCollectionModel> GetWishListLines(
+            Guid wishListId,
+            WishListLineQueryParameters parameters
+        )
         {
             try
             {
@@ -231,7 +256,9 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                HttpResponseMessage response = await DeleteAsync($"/api/v1/wishlists/{wishListId}/wishlistlines/{wishListLineId}");
+                HttpResponseMessage response = await DeleteAsync(
+                    $"/api/v1/wishlists/{wishListId}/wishlistlines/{wishListLineId}"
+                );
                 bool result = response.IsSuccessStatusCode;
 
                 if (result)
@@ -249,18 +276,25 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<bool> DeleteWishListLineCollection(Guid wishListId, IList<WishListLine> wishListLineCollection)
+        public async Task<bool> DeleteWishListLineCollection(
+            Guid wishListId,
+            IList<WishListLine> wishListLineCollection
+        )
         {
             if (wishListLineCollection == null || wishListLineCollection.Count <= 0)
             {
                 return false;
             }
 
-            string queryString = "?" + string.Join("&", wishListLineCollection.Select(o => $"wishListLineIds={o.Id}"));
+            string queryString =
+                "?"
+                + string.Join("&", wishListLineCollection.Select(o => $"wishListLineIds={o.Id}"));
 
             try
             {
-                HttpResponseMessage response = await DeleteAsync($"/api/v1/wishlists/{wishListId}/wishlistlines/batch" + queryString);
+                HttpResponseMessage response = await DeleteAsync(
+                    $"/api/v1/wishlists/{wishListId}/wishlistlines/batch" + queryString
+                );
                 bool result = response.IsSuccessStatusCode;
 
                 if (result)
@@ -278,12 +312,18 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishListLine> UpdateWishListLine(Guid wishListId, WishListLine wishListLine)
+        public async Task<WishListLine> UpdateWishListLine(
+            Guid wishListId,
+            WishListLine wishListLine
+        )
         {
             StringContent stringContent = await Task.Run(() => SerializeModel(wishListLine));
             try
             {
-                WishListLine result = await PatchAsyncNoCache<WishListLine>($"/api/v1/wishlists/{wishListId}/wishlistlines/{wishListLine.Id}", stringContent);
+                WishListLine result = await PatchAsyncNoCache<WishListLine>(
+                    $"/api/v1/wishlists/{wishListId}/wishlistlines/{wishListLine.Id}",
+                    stringContent
+                );
 
                 if (result != null)
                 {

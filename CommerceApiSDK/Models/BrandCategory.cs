@@ -30,7 +30,9 @@ namespace CommerceApiSDK.Models
         [JsonIgnore]
         public bool IsLoading { get; set; }
 
-        public static BrandCategory MapCategoryToBrandCategory(GetBrandSubCategoriesResult brandCategoryResult)
+        public static BrandCategory MapCategoryToBrandCategory(
+            GetBrandSubCategoriesResult brandCategoryResult
+        )
         {
             if (brandCategoryResult == null)
             {
@@ -52,7 +54,9 @@ namespace CommerceApiSDK.Models
 
             if (brandCategoryResult.SubCategories != null)
             {
-                foreach (GetBrandSubCategoriesResult subCategory in brandCategoryResult.SubCategories)
+                foreach (
+                    GetBrandSubCategoriesResult subCategory in brandCategoryResult.SubCategories
+                )
                 {
                     BrandCategory brandSubCategory = MapCategoryToBrandCategory(subCategory);
                     brandSubCategories.Add(brandSubCategory);

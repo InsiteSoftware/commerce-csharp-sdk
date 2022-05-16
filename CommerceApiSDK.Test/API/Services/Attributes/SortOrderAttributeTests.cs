@@ -15,7 +15,9 @@ namespace CommerceApiSDK.Test.Services.Attributes
         [SetUp]
         public void SetUp()
         {
-            sortOrders = Enum.GetValues(typeof(TestEnumSortOrder)).Cast<TestEnumSortOrder>().ToList();
+            sortOrders = Enum.GetValues(typeof(TestEnumSortOrder))
+                .Cast<TestEnumSortOrder>()
+                .ToList();
         }
 
         [Test]
@@ -27,9 +29,11 @@ namespace CommerceApiSDK.Test.Services.Attributes
         [Test]
         public void When2EnumsSame_count_expect_3()
         {
-            List<string> distinctShortOrders = sortOrders.Select(SortOrderAttribute.GetSortOrderGroupTitle).Distinct().ToList();
+            List<string> distinctShortOrders = sortOrders
+                .Select(SortOrderAttribute.GetSortOrderGroupTitle)
+                .Distinct()
+                .ToList();
             Assert.AreEqual(3, distinctShortOrders.Count);
         }
     }
 }
-

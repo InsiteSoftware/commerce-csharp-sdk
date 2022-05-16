@@ -57,4 +57,3 @@ namespace CommerceApiSDK.Models
         public bool TrackInventory { get; set; }
     }
 }
-

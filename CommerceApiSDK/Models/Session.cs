@@ -12,18 +12,19 @@ namespace CommerceApiSDK.Models
         public static string Description(this FulfillmentMethodType value)
         {
             DescriptionAttribute[] attributes = (DescriptionAttribute[])value
-               .GetType()
-               .GetField(value.ToString())
-               .GetCustomAttributes(typeof(DescriptionAttribute), false);
+                .GetType()
+                .GetField(value.ToString())
+                .GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : string.Empty;
         }
 
         public static string DisplayName(this FulfillmentMethodType value)
         {
-            FulfillmentMethodDisplayNameAttribute[] attributes = (FulfillmentMethodDisplayNameAttribute[])value
-               .GetType()
-               .GetField(value.ToString())
-               .GetCustomAttributes(typeof(FulfillmentMethodDisplayNameAttribute), false);
+            FulfillmentMethodDisplayNameAttribute[] attributes =
+                (FulfillmentMethodDisplayNameAttribute[])value
+                    .GetType()
+                    .GetField(value.ToString())
+                    .GetCustomAttributes(typeof(FulfillmentMethodDisplayNameAttribute), false);
             return attributes.Length > 0 ? attributes[0].DisplayName : string.Empty;
         }
     }
@@ -141,8 +142,13 @@ namespace CommerceApiSDK.Models
             {
                 if (!string.IsNullOrEmpty(UserRoles))
                 {
-                    string[] roles = UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    return roles.Any(x => x.Trim().Equals("Requisitioner", StringComparison.OrdinalIgnoreCase));
+                    string[] roles = UserRoles.Split(
+                        new string[] { "," },
+                        StringSplitOptions.RemoveEmptyEntries
+                    );
+                    return roles.Any(
+                        x => x.Trim().Equals("Requisitioner", StringComparison.OrdinalIgnoreCase)
+                    );
                 }
 
                 return false;
@@ -156,8 +162,15 @@ namespace CommerceApiSDK.Models
             {
                 if (!string.IsNullOrEmpty(UserRoles))
                 {
-                    string[] roles = UserRoles.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    return roles.Any(x => x.Trim().Equals("VMI_Admin", StringComparison.OrdinalIgnoreCase) || x.Trim().Equals("VMI_User", StringComparison.OrdinalIgnoreCase));
+                    string[] roles = UserRoles.Split(
+                        new string[] { "," },
+                        StringSplitOptions.RemoveEmptyEntries
+                    );
+                    return roles.Any(
+                        x =>
+                            x.Trim().Equals("VMI_Admin", StringComparison.OrdinalIgnoreCase)
+                            || x.Trim().Equals("VMI_User", StringComparison.OrdinalIgnoreCase)
+                    );
                 }
 
                 return false;
@@ -178,9 +191,18 @@ namespace CommerceApiSDK.Models
         public bool Equals(Persona other)
         {
             return IsDefault.Equals(other.IsDefault)
-                    && (ReferenceEquals(Id, other.Id) || (!string.IsNullOrEmpty(Id) && Id.Equals(other.Id)))
-                    && (ReferenceEquals(Name, other.Name) || (!string.IsNullOrEmpty(Name) && Name.Equals(other.Name)))
-                    && (ReferenceEquals(Description, other.Description) || (!string.IsNullOrEmpty(Description) && Description.Equals(other.Description)));
+                && (
+                    ReferenceEquals(Id, other.Id)
+                    || (!string.IsNullOrEmpty(Id) && Id.Equals(other.Id))
+                )
+                && (
+                    ReferenceEquals(Name, other.Name)
+                    || (!string.IsNullOrEmpty(Name) && Name.Equals(other.Name))
+                )
+                && (
+                    ReferenceEquals(Description, other.Description)
+                    || (!string.IsNullOrEmpty(Description) && Description.Equals(other.Description))
+                );
         }
     }
 }

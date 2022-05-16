@@ -14,10 +14,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         private void FixProduct(Product product)
         {
@@ -32,7 +30,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetProducts(ProductsQueryV2Parameters parameters)
+        public async Task<GetProductCollectionResult> GetProducts(
+            ProductsQueryV2Parameters parameters
+        )
         {
             if (parameters == null)
             {
@@ -44,7 +44,8 @@ namespace CommerceApiSDK.Services
                 string queryString = parameters.ToQueryString();
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
-                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
@@ -65,7 +66,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductResult> GetProduct(Guid productId, ProductQueryV2Parameters parameters = null)
+        public async Task<GetProductResult> GetProduct(
+            Guid productId,
+            ProductQueryV2Parameters parameters = null
+        )
         {
             try
             {
@@ -99,7 +103,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetAlsoPurchased(Guid productId, AlsoPurchasedParameters parameters = null)
+        public async Task<GetProductCollectionResult> GetAlsoPurchased(
+            Guid productId,
+            AlsoPurchasedParameters parameters = null
+        )
         {
             try
             {
@@ -110,9 +117,11 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/alsopurchased{queryString}";
+                string url =
+                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/alsopurchased{queryString}";
 
-                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
@@ -133,7 +142,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetRelatedProduct(Guid productId, RelatedProductParameters parameters = null)
+        public async Task<GetProductCollectionResult> GetRelatedProduct(
+            Guid productId,
+            RelatedProductParameters parameters = null
+        )
         {
             try
             {
@@ -144,9 +156,11 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/relatedproducts{queryString}";
+                string url =
+                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/relatedproducts{queryString}";
 
-                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
@@ -167,7 +181,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetVariantChildren(Guid productId, VariantChildrenParameters parameters = null)
+        public async Task<GetProductCollectionResult> GetVariantChildren(
+            Guid productId,
+            VariantChildrenParameters parameters = null
+        )
         {
             try
             {
@@ -178,9 +195,11 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren{queryString}";
+                string url =
+                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren{queryString}";
 
-                GetProductCollectionResult result = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (result == null)
                 {
@@ -201,7 +220,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductResult> GetVariantChildrenDetail(Guid productId, Guid variantChildId, VariantChildrenDetailParameters parameters = null)
+        public async Task<GetProductResult> GetVariantChildrenDetail(
+            Guid productId,
+            Guid variantChildId,
+            VariantChildrenDetailParameters parameters = null
+        )
         {
             try
             {
@@ -212,7 +235,8 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren/{variantChildId}{queryString}";
+                string url =
+                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren/{variantChildId}{queryString}";
 
                 GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
 

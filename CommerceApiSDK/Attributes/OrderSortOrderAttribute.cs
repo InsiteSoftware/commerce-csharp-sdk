@@ -22,7 +22,8 @@ namespace CommerceApiSDK.Services.Attributes
 
         private static OrderSortOrderAttribute GetSortOrderAttribute(OrderSortOrder orderSortOrder)
         {
-            return orderSortOrder.GetType()
+            return orderSortOrder
+                .GetType()
                 .GetRuntimeField(orderSortOrder.ToString())
                 .GetCustomAttribute<OrderSortOrderAttribute>();
         }

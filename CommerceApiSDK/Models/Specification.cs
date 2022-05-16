@@ -25,4 +25,3 @@ namespace CommerceApiSDK.Models
         public Specification Specifications { get; set; }
     }
 }
-

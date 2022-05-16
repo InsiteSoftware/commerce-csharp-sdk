@@ -12,7 +12,11 @@ namespace CommerceApiSDK.Services
 
         public int GetMaxLengthOfTranslationText()
         {
-            return URIMaxLength - (this.ClientService.Url.AbsoluteUri.Length + CommerceAPIConstants.TranslationUrl.Length);
+            return URIMaxLength
+                - (
+                    this.ClientService.Url.AbsoluteUri.Length
+                    + CommerceAPIConstants.TranslationUrl.Length
+                );
         }
 
         public TranslationService(
@@ -20,12 +24,12 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<TranslationResults> GetTranslations(TranslationQueryParameters parameters = null)
+        public async Task<TranslationResults> GetTranslations(
+            TranslationQueryParameters parameters = null
+        )
         {
             try
             {
@@ -37,7 +41,9 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                TranslationResults translationResult = await GetAsyncNoCache<TranslationResults>(url);
+                TranslationResults translationResult = await GetAsyncNoCache<TranslationResults>(
+                    url
+                );
 
                 return translationResult;
             }

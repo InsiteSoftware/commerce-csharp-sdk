@@ -16,6 +16,4 @@
 
         public string OpenGraphImage { get; set; }
     }
-
 }
-

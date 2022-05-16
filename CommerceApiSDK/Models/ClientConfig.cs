@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace CommerceApiSDK.Models
 {
     public static class ClientConfig
@@ -8,7 +9,12 @@ namespace CommerceApiSDK.Models
         public static string ClientSecret;
         public static bool IsCachingEnabled = true;
 
-        public static void InitClientConfig(string hostURL, string clientId, string clientSecret, bool isCachingEnabled)
+        public static void InitClientConfig(
+            string hostURL,
+            string clientId,
+            string clientSecret,
+            bool isCachingEnabled
+        )
         {
             HostUrl = hostURL;
             ClientId = clientId;

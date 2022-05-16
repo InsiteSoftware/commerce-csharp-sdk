@@ -70,6 +70,4 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the calculated break quantity unit regular prices</summary>
         public IList<BreakPriceDto> UnitRegularBreakPrices { get; set; }
     }
-
 }
-

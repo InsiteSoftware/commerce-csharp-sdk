@@ -8,7 +8,12 @@ namespace CommerceApiSDK.Models.Parameters
     {
         public string StartsWith { get; set; }
         public string Manufacturer { get; set; }
-        public override int? PageSize { get => 500; set => base.PageSize = value; }
+        public override int? PageSize
+        {
+            get => 500;
+            set => base.PageSize = value;
+        }
+
         [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
         public List<string> Expand { get; set; } = null;
     }

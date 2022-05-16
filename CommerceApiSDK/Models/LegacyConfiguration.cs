@@ -52,4 +52,3 @@ namespace CommerceApiSDK.Models
         public decimal Quantity { get; set; }
     }
 }
-

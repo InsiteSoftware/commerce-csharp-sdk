@@ -26,18 +26,25 @@ namespace CommerceApiSDK.DemoApp
             services.AddSingleton<ISecureStorageService, SecureStorageService>();
             services.AddSingleton<INetworkService, NetworkService>();
             services.AddSingleton<ITrackingService, TrackingService>();
-            services.AddCommerceSdk("https://mobiledemo.insitesandbox.com", "isc", "009AC476-B28E-4E33-8BAE-B5F103A142BC", false);
+            services.AddCommerceSdk(
+                "https://mobiledemo.insitesandbox.com",
+                "isc",
+                "009AC476-B28E-4E33-8BAE-B5F103A142BC",
+                false
+            );
 
             services.AddControllers();
 
             // enable session
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            services.AddSession(
+                options =>
+                {
+                    options.IdleTimeout = TimeSpan.FromMinutes(30);
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                }
+            );
 
             services.AddHttpContextAccessor();
 
@@ -63,10 +70,12 @@ namespace CommerceApiSDK.DemoApp
 
             app.UseSession();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapControllers();
+                }
+            );
         }
     }
 }

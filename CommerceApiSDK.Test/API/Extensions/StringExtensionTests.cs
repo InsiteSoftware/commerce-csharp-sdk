@@ -17,8 +17,14 @@ namespace CommerceApiSDK.Test.Extensions
 
         [TestCase("<div>Some string with html</div>", "Some string with html")]
         [TestCase("<div>Embedded <strong>html</strong></div>", "Embedded html")]
-        [TestCase("<a href=\"/RedirectTo/SignInPage\" isc-redirect-to-sign-in return-to-url=\"true\">sign in</a>", "sign in")]
-        public void StripHtml_WithHtml_ShouldRemoveHtmlFromString(string testString, string expected)
+        [TestCase(
+            "<a href=\"/RedirectTo/SignInPage\" isc-redirect-to-sign-in return-to-url=\"true\">sign in</a>",
+            "sign in"
+        )]
+        public void StripHtml_WithHtml_ShouldRemoveHtmlFromString(
+            string testString,
+            string expected
+        )
         {
             string output = testString.StripHtml();
 

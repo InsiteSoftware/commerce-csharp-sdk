@@ -7,4 +7,3 @@
         public Availability Availability { get; set; }
     }
 }
-

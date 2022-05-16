@@ -13,4 +13,3 @@ namespace CommerceApiSDK.Models
         public bool Selected { get; set; }
     }
 }
-

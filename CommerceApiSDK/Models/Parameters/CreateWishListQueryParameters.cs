@@ -5,4 +5,3 @@
         public WishList WishListObj { get; set; } = null;
     }
 }
-

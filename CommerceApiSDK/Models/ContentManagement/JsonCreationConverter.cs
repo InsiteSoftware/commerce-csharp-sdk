@@ -27,7 +27,8 @@ namespace CommerceApiSDK.Models
             JsonReader reader,
             Type objectType,
             object existingValue,
-            JsonSerializer serializer)
+            JsonSerializer serializer
+        )
         {
             // Load JObject from stream
             JObject jObject = JObject.Load(reader);

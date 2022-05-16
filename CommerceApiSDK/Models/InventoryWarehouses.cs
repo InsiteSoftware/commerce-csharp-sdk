@@ -9,4 +9,3 @@ namespace CommerceApiSDK.Models
         public List<InventoryWarehouse> WarehouseDtos { get; set; }
     }
 }
-

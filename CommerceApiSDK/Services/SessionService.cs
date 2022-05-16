@@ -20,10 +20,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         /// <summary>
         /// Deletes the current session stored locally and then sends a delete request to the server
@@ -46,7 +44,10 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
-                ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(CommerceAPIConstants.PostSessionUri, stringContent);
+                ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(
+                    CommerceAPIConstants.PostSessionUri,
+                    stringContent
+                );
 
                 if (result?.Model != null)
                 {
@@ -74,7 +75,10 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
-                Session result = await PatchAsyncNoCache<Session>(CommerceAPIConstants.CurrentSessionUri, stringContent);
+                Session result = await PatchAsyncNoCache<Session>(
+                    CommerceAPIConstants.CurrentSessionUri,
+                    stringContent
+                );
 
                 if (result != null)
                 {
@@ -105,7 +109,10 @@ namespace CommerceApiSDK.Services
                 Session session = new Session() { ResetPassword = true, UserName = userName };
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
 
-                return await PatchAsyncNoCache<Session>(CommerceAPIConstants.CurrentSessionUri, stringContent);
+                return await PatchAsyncNoCache<Session>(
+                    CommerceAPIConstants.CurrentSessionUri,
+                    stringContent
+                );
             }
             catch (Exception exception)
             {
@@ -123,14 +130,25 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Session result = await GetAsyncNoCache<Session>($"{CommerceAPIConstants.CurrentSessionUri}");
+                Session result = await GetAsyncNoCache<Session>(
+                    $"{CommerceAPIConstants.CurrentSessionUri}"
+                );
 
                 if (result != null)
                 {
                     if (currentSession != null)
                     {
-                        if (!currentSession.Persona.Equals(result.Persona)
-                            || !(currentSession.Personas != null && result.Personas != null && Enumerable.SequenceEqual(currentSession.Personas, result.Personas)))
+                        if (
+                            !currentSession.Persona.Equals(result.Persona)
+                            || !(
+                                currentSession.Personas != null
+                                && result.Personas != null
+                                && Enumerable.SequenceEqual(
+                                    currentSession.Personas,
+                                    result.Personas
+                                )
+                            )
+                        )
                         {
                             optiMessenger.Publish(new SessionChangedOptiMessage());
                         }

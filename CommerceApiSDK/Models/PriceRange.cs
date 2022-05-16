@@ -13,4 +13,3 @@ namespace CommerceApiSDK.Models
         public IList<PriceFacet> PriceFacets { get; set; }
     }
 }
-

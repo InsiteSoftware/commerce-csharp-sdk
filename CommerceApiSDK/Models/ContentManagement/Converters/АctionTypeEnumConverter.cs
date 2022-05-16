@@ -8,7 +8,12 @@ namespace CommerceApiSDK.Models.ContentManagement.Converters
 {
     public class АctionTypeEnumConverter : StringEnumConverter
     {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object existingValue,
+            JsonSerializer serializer
+        )
         {
             object result;
             try
@@ -17,7 +22,9 @@ namespace CommerceApiSDK.Models.ContentManagement.Converters
             }
             catch (JsonSerializationException)
             {
-                if (reader?.Value is string enumValue && enumValue.Trim().ToLower() == "quick_order")
+                if (
+                    reader?.Value is string enumValue && enumValue.Trim().ToLower() == "quick_order"
+                )
                 {
                     result = ActionType.QuickOrder;
                 }

@@ -12,18 +12,26 @@ namespace CommerceApiSDK.Services
 {
     public class BillToService : ServiceBase, IBillToService
     {
-        private static string ShipTosUrl(Guid billToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos";
+        private static string ShipTosUrl(Guid billToId) =>
+            $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos";
 
-        private static string BillToIdUrl(Guid billToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}";
+        private static string BillToIdUrl(Guid billToId) =>
+            $"{CommerceAPIConstants.BillToToUrl}/{billToId}";
 
-        private static string ShipToIdUrl(Guid billToId, Guid shipToId) => $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
+        private static string ShipToIdUrl(Guid billToId, Guid shipToId) =>
+            $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
 
-        public BillToService(IClientService ClientService, INetworkService NetworkService, ITrackingService TrackingService, ICacheService CacheService, ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+        public BillToService(
+            IClientService ClientService,
+            INetworkService NetworkService,
+            ITrackingService TrackingService,
+            ICacheService CacheService,
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetBillTosResult> GetBillTosAsync(BillTosQueryParameters parameters = null)
+        public async Task<GetBillTosResult> GetBillTosAsync(
+            BillTosQueryParameters parameters = null
+        )
         {
             try
             {
@@ -68,7 +76,6 @@ namespace CommerceApiSDK.Services
             {
                 string url = BillToIdUrl(billToId);
                 return await GetAsyncNoCache<BillTo>(url);
-
             }
             catch (Exception e)
             {
@@ -94,8 +101,11 @@ namespace CommerceApiSDK.Services
                 return null;
             }
         }
-            
-        public async Task<GetShipTosResult> GetShipTosAsync(Guid billToId, ShipTosQueryParameters parameters = null)
+
+        public async Task<GetShipTosResult> GetShipTosAsync(
+            Guid billToId,
+            ShipTosQueryParameters parameters = null
+        )
         {
             try
             {
@@ -159,8 +169,7 @@ namespace CommerceApiSDK.Services
 
                 return result;
             }
-
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
                 return null;

@@ -42,6 +42,4 @@ namespace CommerceApiSDK.Models
 
         public int SubscriptionTotalCycles { get; set; }
     }
-
 }
-

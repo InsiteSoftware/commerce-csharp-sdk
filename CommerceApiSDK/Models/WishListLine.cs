@@ -50,4 +50,3 @@ namespace CommerceApiSDK.Models
         public bool QuoteRequired { get; set; }
     }
 }
-

@@ -8,7 +8,12 @@ namespace CommerceApiSDK.Models.ContentManagement.Converters
 {
     public class TopSellersCategoriesSpanEnumConverter : StringEnumConverter
     {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object existingValue,
+            JsonSerializer serializer
+        )
         {
             object result;
 

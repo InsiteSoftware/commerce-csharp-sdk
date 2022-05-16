@@ -36,7 +36,8 @@
 
         public const string ResetPasswordUri = "/admin/account/ForgotPassword";
 
-        public const string AdminUserProfileUri = "/api/v1/admin/AdminUserProfiles/Default.Default()";
+        public const string AdminUserProfileUri =
+            "/api/v1/admin/AdminUserProfiles/Default.Default()";
 
         public const string AutocompleteUrl = "/api/v1/autocomplete";
 

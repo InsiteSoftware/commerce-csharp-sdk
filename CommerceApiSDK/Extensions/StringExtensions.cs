@@ -17,10 +17,9 @@ namespace CommerceApiSDK.Extensions
         {
             return typeof(T)
                 .GetTypeInfo()
-                .DeclaredMembers
-                .SingleOrDefault(x => x.Name == value.ToString())
-                ?.GetCustomAttribute<EnumMemberAttribute>(false)
-                ?.Value;
+                .DeclaredMembers.SingleOrDefault(
+                    x => x.Name == value.ToString()
+                )?.GetCustomAttribute<EnumMemberAttribute>(false)?.Value;
         }
     }
 }

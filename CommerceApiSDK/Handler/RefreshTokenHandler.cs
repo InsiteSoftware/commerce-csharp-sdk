@@ -19,15 +19,20 @@ namespace CommerceApiSDK.Handler
 
         public RefreshTokenHandler(
             HttpMessageHandler messageHandler,
-            Func<Task<bool>> renewAuthenticationTokensCallback, ILoggerService loggerService,
-            Action refreshTokenExpiredNotificationCallback) : base(messageHandler)
+            Func<Task<bool>> renewAuthenticationTokensCallback,
+            ILoggerService loggerService,
+            Action refreshTokenExpiredNotificationCallback
+        ) : base(messageHandler)
         {
             this.renewAuthenticationTokensCallback = renewAuthenticationTokensCallback;
             this.refreshTokenExpiredNotificationCallback = refreshTokenExpiredNotificationCallback;
             this.loggerService = loggerService;
         }
 
-        private CancellationTokenSource GetCancellationTokenSource(HttpRequestMessage request, CancellationToken cancellationToken)
+        private CancellationTokenSource GetCancellationTokenSource(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken
+        )
         {
             TimeSpan timeout = request.GetTimeout();
             if (timeout == Timeout.InfiniteTimeSpan)
@@ -37,18 +42,30 @@ namespace CommerceApiSDK.Handler
             }
             else
             {
-                CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(
+                    cancellationToken
+                );
                 cts.CancelAfter(timeout);
                 return cts;
             }
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken
+        )
         {
-            loggerService.LogConsole(LogLevel.INFO, "Sending Async request : {0} {1}", request, cancellationToken);
+            loggerService.LogConsole(
+                LogLevel.INFO,
+                "Sending Async request : {0} {1}",
+                request,
+                cancellationToken
+            );
             HttpResponseMessage result = null;
 
-            using (CancellationTokenSource cts = GetCancellationTokenSource(request, cancellationToken))
+            using (
+                CancellationTokenSource cts = GetCancellationTokenSource(request, cancellationToken)
+            )
             {
                 try
                 {
@@ -66,24 +83,32 @@ namespace CommerceApiSDK.Handler
                 return result;
             }
 
-            if (request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenUri) || request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenLogoutUri))
+            if (
+                request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenUri)
+                || request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenLogoutUri)
+            )
             {
                 return result;
             }
 
-            if (result.StatusCode == HttpStatusCode.Unauthorized || result.StatusCode == HttpStatusCode.Forbidden)
+            if (
+                result.StatusCode == HttpStatusCode.Unauthorized
+                || result.StatusCode == HttpStatusCode.Forbidden
+            )
             {
-                await Task.Run(() =>
-                {
-                    lock (refreshingTokenLock)
+                await Task.Run(
+                    () =>
                     {
-                        bool success = renewAuthenticationTokensCallback().Result;
-                        if (!success)
+                        lock (refreshingTokenLock)
                         {
-                            refreshTokenExpiredNotificationCallback?.Invoke();
+                            bool success = renewAuthenticationTokensCallback().Result;
+                            if (!success)
+                            {
+                                refreshTokenExpiredNotificationCallback?.Invoke();
+                            }
                         }
                     }
-                });
+                );
             }
 
             return result;

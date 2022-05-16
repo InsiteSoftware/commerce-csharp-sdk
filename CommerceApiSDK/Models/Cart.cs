@@ -5,7 +5,8 @@ using CommerceApiSDK.Services.Attributes;
 namespace CommerceApiSDK.Models
 {
     public class Cart : BaseModel
-    { /// <summary>Gets or sets the cart lines URI.</summary>
+    {
+        /// <summary>Gets or sets the cart lines URI.</summary>
         public string CartLinesUri { get; set; }
 
         /// <summary>Gets or sets the identifier.</summary>

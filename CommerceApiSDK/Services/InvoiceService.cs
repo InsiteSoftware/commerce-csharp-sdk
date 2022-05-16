@@ -15,10 +15,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<Invoice> GetInvoice(InvoiceDetailParameter parameters = null)
         {
@@ -56,7 +54,10 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = parameters == null ? CommerceAPIConstants.InvoicesUrl : $"{CommerceAPIConstants.InvoicesUrl}{parameters.ToQueryString()}";
+                string url =
+                    parameters == null
+                        ? CommerceAPIConstants.InvoicesUrl
+                        : $"{CommerceAPIConstants.InvoicesUrl}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetInvoiceResult>(url);
             }
             catch (Exception exception)
