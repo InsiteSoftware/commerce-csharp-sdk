@@ -126,7 +126,7 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets a value indicating whether customer was updated.</summary>
         public bool CustomerWasUpdated { get; set; }
-        
+
         public bool IsGuest { get; set; }
 
         public string FulfillmentMethod { get; set; }
