@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace CommerceApiSDK.Models
 {
     public class InventoryWarehouse : Availability

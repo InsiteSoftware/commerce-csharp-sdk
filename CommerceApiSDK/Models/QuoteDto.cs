@@ -58,6 +58,7 @@ namespace CommerceApiSDK.Models
         public bool ShowUnitCost { get; set; }
         public IList<BreakPrice> PriceBreaks { get; set; }
         public IList<CalculationMethod> CalculationMethods { get; set; }
+
         /// <summary>Gets or sets the validation messages.</summary>
         public List<KeyValuePair<string, string>> ValidationMessages { get; set; }
     }

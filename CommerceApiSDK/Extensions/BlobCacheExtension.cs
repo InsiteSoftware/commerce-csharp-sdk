@@ -8,7 +8,10 @@ namespace CommerceApiSDK.Extensions
 {
     public static class BlobCacheExtension
     {
-        public static async Task InvalidateObjectWithKeysStartingWith<T>(this IBlobCache blobCache, string keyPrefix)
+        public static async Task InvalidateObjectWithKeysStartingWith<T>(
+            this IBlobCache blobCache,
+            string keyPrefix
+        )
         {
             IEnumerable<string> allKeys = await blobCache.GetAllKeys();
             List<string> keysForInvalidating = new List<string>();

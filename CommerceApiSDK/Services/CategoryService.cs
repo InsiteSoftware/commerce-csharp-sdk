@@ -21,10 +21,8 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         /// <summary>
         /// Gets a list of categories
@@ -40,7 +38,9 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(url);
+                CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(
+                    url
+                );
                 if (categoryResult == null)
                 {
                     return null;
@@ -85,9 +85,13 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(url);
+                CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(
+                    url
+                );
                 List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);
-                List<Category> featuredCategories = flattedCategories.Where(c => c.IsFeatured).ToList();
+                List<Category> featuredCategories = flattedCategories
+                    .Where(c => c.IsFeatured)
+                    .ToList();
 
                 return featuredCategories;
             }

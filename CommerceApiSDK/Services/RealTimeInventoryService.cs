@@ -14,12 +14,12 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(RealTimeInventoryParameters parameters)
+        public async Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(
+            RealTimeInventoryParameters parameters
+        )
         {
             try
             {
@@ -34,9 +34,12 @@ namespace CommerceApiSDK.Services
 
                     string url = $"{CommerceAPIConstants.RealTimeInventoryUrl}/{queryString}";
 
-                    StringContent stringContent = await Task.Run(() => SerializeModel(new { parameters.ProductIds }));
+                    StringContent stringContent = await Task.Run(
+                        () => SerializeModel(new { parameters.ProductIds })
+                    );
 
-                    GetRealTimeInventoryResult result = await PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
+                    GetRealTimeInventoryResult result =
+                        await PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
 
                     return result;
                 }

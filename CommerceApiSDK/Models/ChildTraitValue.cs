@@ -13,4 +13,3 @@ namespace CommerceApiSDK.Models
         public string ValueDisplay { get; set; }
     }
 }
-

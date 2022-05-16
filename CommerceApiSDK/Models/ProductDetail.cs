@@ -59,4 +59,3 @@ namespace CommerceApiSDK.Models
         public LegacyConfiguration Configuration { get; set; }
     }
 }
-

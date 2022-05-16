@@ -63,12 +63,32 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                 hash = (hash * HashingMultiplier) ^ (ApplyDarkOverlayToImage ? 1 : 0);
                 hash = (hash * HashingMultiplier) ^ TextJustification.GetHashCode();
 
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, ImagePath) ? ImagePath.GetHashCode() : 0);
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, Link) ? Link.GetHashCode() : 0);
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, PrimaryText) ? PrimaryText.GetHashCode() : 0);
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, SecondaryText) ? SecondaryText.GetHashCode() : 0);
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, PrimaryTextColorHex) ? PrimaryTextColorHex.GetHashCode() : 0);
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, SecondaryTextColorHex) ? SecondaryTextColorHex.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, ImagePath) ? ImagePath.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, Link) ? Link.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, PrimaryText) ? PrimaryText.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, SecondaryText) ? SecondaryText.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (
+                        !ReferenceEquals(null, PrimaryTextColorHex)
+                            ? PrimaryTextColorHex.GetHashCode()
+                            : 0
+                    );
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (
+                        !ReferenceEquals(null, SecondaryTextColorHex)
+                            ? SecondaryTextColorHex.GetHashCode()
+                            : 0
+                    );
 
                 return hash;
             }
@@ -103,7 +123,8 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
 
             if (result)
             {
-                result &= ApplyDarkOverlayToImage == widget.ApplyDarkOverlayToImage
+                result &=
+                    ApplyDarkOverlayToImage == widget.ApplyDarkOverlayToImage
                     && TextJustification == widget.TextJustification
                     && Equals(ImagePath, widget.ImagePath)
                     && Equals(Link, widget.Link)

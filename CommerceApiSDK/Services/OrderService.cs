@@ -18,19 +18,19 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         /// <summary>
         /// Gets all available sort order options.
         /// </summary>
-        public List<OrderSortOrder> AvailableSortOrders => Enum
-                    .GetValues(typeof(OrderSortOrder))
-                    .Cast<OrderSortOrder>()
-                    .Where(o => SortOrderAttribute.GetSortOrderOption(o) != SortOrderOptions.DoNotDisplay)
-                    .ToList();
+        public List<OrderSortOrder> AvailableSortOrders =>
+            Enum.GetValues(typeof(OrderSortOrder))
+                .Cast<OrderSortOrder>()
+                .Where(
+                    o => SortOrderAttribute.GetSortOrderOption(o) != SortOrderOptions.DoNotDisplay
+                )
+                .ToList();
 
         /// <summary>
         /// Gets order list for api with selected order.
@@ -42,15 +42,27 @@ namespace CommerceApiSDK.Services
             switch (sortOrder)
             {
                 case OrderSortOrder.OrderDateAscending:
-                    return new List<OrderSortOrder> { sortOrder, OrderSortOrder.OrderERPNumberAscending, OrderSortOrder.OrderNumberAscending };
+                    return new List<OrderSortOrder>
+                    {
+                        sortOrder,
+                        OrderSortOrder.OrderERPNumberAscending,
+                        OrderSortOrder.OrderNumberAscending
+                    };
                 case OrderSortOrder.OrderDateDescending:
-                    return new List<OrderSortOrder> { sortOrder, OrderSortOrder.OrderERPNumberDescending, OrderSortOrder.OrderNumberDescending };
+                    return new List<OrderSortOrder>
+                    {
+                        sortOrder,
+                        OrderSortOrder.OrderERPNumberDescending,
+                        OrderSortOrder.OrderNumberDescending
+                    };
                 default:
                     return new List<OrderSortOrder> { sortOrder };
             }
         }
 
-        public async Task<GetOrderCollectionResult> GetOrders(OrdersQueryParameters parameters = null)
+        public async Task<GetOrderCollectionResult> GetOrders(
+            OrdersQueryParameters parameters = null
+        )
         {
             try
             {
@@ -74,7 +86,11 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.OrdersUrl + "/" + orderNumber + "?expand=orderlines,shipments";
+                string url =
+                    CommerceAPIConstants.OrdersUrl
+                    + "/"
+                    + orderNumber
+                    + "?expand=orderlines,shipments";
 
                 return await GetAsyncWithCachedResponse<Order>(url);
             }
@@ -91,7 +107,8 @@ namespace CommerceApiSDK.Services
             {
                 string url = CommerceAPIConstants.OrderStatusMappingsUrl;
 
-                GetOrderStatusMappingsResult result = await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
+                GetOrderStatusMappingsResult result =
+                    await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
                 return result?.OrderStatusMappings;
             }
             catch (Exception exception)

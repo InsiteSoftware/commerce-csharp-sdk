@@ -18,4 +18,3 @@ namespace CommerceApiSDK.Models
         public IList<CategoryFacet> SubCategoryDtos { get; set; }
     }
 }
-

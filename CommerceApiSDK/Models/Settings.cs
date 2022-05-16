@@ -152,7 +152,8 @@ namespace CommerceApiSDK.Models
 
         public static string SignInRequiredToAddToCart = "SignInRequiredToAddToCart";
 
-        public static string SignInRequiredToAddToCartOrSeePrices = "SignInRequiredToAddToCartOrSeePrices";
+        public static string SignInRequiredToAddToCartOrSeePrices =
+            "SignInRequiredToAddToCartOrSeePrices";
     }
 
     public class SearchSettings : BaseModel

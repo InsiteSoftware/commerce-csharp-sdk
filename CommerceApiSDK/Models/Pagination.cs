@@ -40,4 +40,3 @@ namespace CommerceApiSDK.Models
         public string PrevPageUri { get; set; }
     }
 }
-

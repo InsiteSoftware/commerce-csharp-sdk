@@ -9,4 +9,3 @@ namespace CommerceApiSDK.Models
         public Pagination Pagination { get; set; }
     }
 }
-

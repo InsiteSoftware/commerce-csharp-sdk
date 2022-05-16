@@ -23,8 +23,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService,
-            ISessionService sessionService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+            ISessionService sessionService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
             this.sessionService = sessionService;
         }
@@ -33,7 +33,10 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Website website = await GetAsyncWithCachedResponse<Website>(CommerceAPIConstants.WebsitesUrl, DefaultRequestTimeout);
+                Website website = await GetAsyncWithCachedResponse<Website>(
+                    CommerceAPIConstants.WebsitesUrl,
+                    DefaultRequestTimeout
+                );
                 return website;
             }
             catch (Exception exception)
@@ -46,14 +49,20 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCache()
         {
-            string key = this.ClientService.Host + CommerceAPIConstants.WebsitesUrl + this.ClientService.SessionStateKey;
+            string key =
+                this.ClientService.Host
+                + CommerceAPIConstants.WebsitesUrl
+                + this.ClientService.SessionStateKey;
             return await this.CacheService.HasOnlineCache(key);
         }
 
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<bool> HasWebsiteCrosssellsCache()
         {
-            string key = this.ClientService.Host + CommerceAPIConstants.WebsitesCrosssellsUrl + this.ClientService.SessionStateKey;
+            string key =
+                this.ClientService.Host
+                + CommerceAPIConstants.WebsitesCrosssellsUrl
+                + this.ClientService.SessionStateKey;
             return await this.CacheService.HasOnlineCache(key);
         }
 
@@ -61,7 +70,9 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(CommerceAPIConstants.WebsitesCrosssellsUrl);
+                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(
+                    CommerceAPIConstants.WebsitesCrosssellsUrl
+                );
             }
             catch (Exception exception)
             {
@@ -77,8 +88,9 @@ namespace CommerceApiSDK.Services
             try
             {
                 // get domain + path
-                bool isFullPath = Uri.TryCreate(path, UriKind.Absolute, out Uri uri)
-                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+                bool isFullPath =
+                    Uri.TryCreate(path, UriKind.Absolute, out Uri uri)
+                    && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
 
                 if (isFullPath)
                 {
@@ -104,13 +116,19 @@ namespace CommerceApiSDK.Services
                 string currencyCode = this.sessionService.CurrentSession?.Currency?.CurrencyCode;
                 string linkChar = result.Contains("?") ? "&" : "?";
 
-                result = string.IsNullOrEmpty(token) || string.IsNullOrEmpty(billTo) || string.IsNullOrEmpty(shipTo)
-                    ? $"{result}{linkChar}SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}"
-                    : $"{result}{linkChar}access_token={token}&CurrentBillToId={billTo}&CurrentShipToId={shipTo}&SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
+                result =
+                    string.IsNullOrEmpty(token)
+                    || string.IsNullOrEmpty(billTo)
+                    || string.IsNullOrEmpty(shipTo)
+                        ? $"{result}{linkChar}SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}"
+                        : $"{result}{linkChar}access_token={token}&CurrentBillToId={billTo}&CurrentShipToId={shipTo}&SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
             }
             catch (Exception e)
             {
-                this.LoggerService.LogConsole(LogLevel.INFO, $"Can not create uri with path {path} exception: {e.Message}");
+                this.LoggerService.LogConsole(
+                    LogLevel.INFO,
+                    $"Can not create uri with path {path} exception: {e.Message}"
+                );
                 return null;
             }
 
@@ -128,7 +146,8 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                GetSiteMessageCollectionResult siteMessagesResult = await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
+                GetSiteMessageCollectionResult siteMessagesResult =
+                    await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
                 return siteMessagesResult;
             }
             catch (Exception exception)
@@ -141,22 +160,37 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
-            GetSiteMessageCollectionResult messageResult = await GetSiteMessages(new List<string>
-            {
-                messageName
-            });
+            GetSiteMessageCollectionResult messageResult = await GetSiteMessages(
+                new List<string> { messageName }
+            );
 
-            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => x.Message != null && (!string.IsNullOrEmpty(x.LanguageCode) && x.LanguageCode.Equals(this.sessionService.CurrentSession?.Language?.LanguageCode, StringComparison.OrdinalIgnoreCase)));
+            SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(
+                x =>
+                    x.Message != null
+                    && (
+                        !string.IsNullOrEmpty(x.LanguageCode)
+                        && x.LanguageCode.Equals(
+                            this.sessionService.CurrentSession?.Language?.LanguageCode,
+                            StringComparison.OrdinalIgnoreCase
+                        )
+                    )
+            );
             if (siteMessageItem != null)
             {
-                return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
+                return string.IsNullOrEmpty(siteMessageItem.Message)
+                  ? defaultMessage
+                  : siteMessageItem.Message.StripHtml();
             }
             else
             {
-                siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(x => string.IsNullOrEmpty(x.LanguageCode) && x.Message != null);
+                siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(
+                    x => string.IsNullOrEmpty(x.LanguageCode) && x.Message != null
+                );
                 if (siteMessageItem != null)
                 {
-                    return string.IsNullOrEmpty(siteMessageItem.Message) ? defaultMessage : siteMessageItem.Message.StripHtml();
+                    return string.IsNullOrEmpty(siteMessageItem.Message)
+                      ? defaultMessage
+                      : siteMessageItem.Message.StripHtml();
                 }
             }
 
@@ -167,7 +201,9 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(CommerceAPIConstants.WebsitesCountries);
+                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(
+                    CommerceAPIConstants.WebsitesCountries
+                );
                 return result?.Countries;
             }
             catch (Exception exception)
@@ -181,7 +217,9 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return GetAsyncWithCachedResponse<LanguageCollectionModel>(CommerceAPIConstants.WebsitesLanguagesUrl);
+                return GetAsyncWithCachedResponse<LanguageCollectionModel>(
+                    CommerceAPIConstants.WebsitesLanguagesUrl
+                );
             }
             catch (Exception exception)
             {

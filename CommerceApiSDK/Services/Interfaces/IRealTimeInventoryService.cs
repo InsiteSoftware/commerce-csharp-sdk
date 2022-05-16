@@ -7,6 +7,8 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IRealTimeInventoryService
     {
-        Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(RealTimeInventoryParameters parameters);
+        Task<GetRealTimeInventoryResult> GetProductRealTimeInventory(
+            RealTimeInventoryParameters parameters
+        );
     }
 }

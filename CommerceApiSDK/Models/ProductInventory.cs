@@ -15,6 +15,4 @@ namespace CommerceApiSDK.Models
 
         public Dictionary<string, string> AdditionalResults { get; set; }
     }
-
 }
-

@@ -13,4 +13,3 @@
         public bool ScoreUsed { get; set; }
     }
 }
-

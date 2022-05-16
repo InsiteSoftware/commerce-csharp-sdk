@@ -24,5 +24,4 @@ namespace CommerceApiSDK.Services.Interfaces
 
         int SelectedFiltersCount { get; set; }
     }
-
 }

@@ -5,8 +5,8 @@ using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models.Parameters
 {
-	public class CartQueryParameters : BaseQueryParameters
-	{
+    public class CartQueryParameters : BaseQueryParameters
+    {
         [QueryParameter(QueryOptions.DoNotQuery)]
         public Guid? CartId { get; set; }
 
@@ -26,4 +26,3 @@ namespace CommerceApiSDK.Models.Parameters
         public List<string> Expand { get; set; } = null;
     }
 }
-

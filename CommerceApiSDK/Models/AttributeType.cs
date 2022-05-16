@@ -31,4 +31,3 @@ namespace CommerceApiSDK.Models
         public IList<AttributeValue> AttributeValues { get; set; }
     }
 }
-

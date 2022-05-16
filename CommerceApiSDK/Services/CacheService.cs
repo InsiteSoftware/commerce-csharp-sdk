@@ -41,9 +41,13 @@ namespace CommerceApiSDK.Services
             this.filesystemProvider = filesystemProvider;
             this.loggerService = loggerService;
 
-            offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName));
+            offlineCache = new Lazy<IBlobCache>(
+                () => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName)
+            );
             onlineCache = new Lazy<IBlobCache>(NewInMemoryBlobCache);
-            localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName));
+            localStorage = new Lazy<IBlobCache>(
+                () => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName)
+            );
         }
 
         public void Shutdown()
@@ -53,14 +57,18 @@ namespace CommerceApiSDK.Services
             {
                 offlineCache.Value.Dispose();
                 offlineCache.Value.Shutdown.Wait();
-                offlineCache = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName));
+                offlineCache = new Lazy<IBlobCache>(
+                    () => NewLocalBlobCache(CommerceAPIConstants.OfflineCacheDatabaseName)
+                );
             }
 
             if (localStorage.IsValueCreated)
             {
                 localStorage.Value.Dispose();
                 localStorage.Value.Shutdown.Wait();
-                localStorage = new Lazy<IBlobCache>(() => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName));
+                localStorage = new Lazy<IBlobCache>(
+                    () => NewLocalBlobCache(CommerceAPIConstants.LocalStorageDatabaseName)
+                );
             }
 
             if (onlineCache.IsValueCreated)
@@ -82,12 +90,24 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.InsertObject(key, value);
-                this.loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
+                this.loggerService.LogConsole(
+                    LogLevel.INFO,
+                    "Persisting succesfully object: {0} for key:{1}",
+                    null,
+                    value,
+                    key
+                );
                 return true;
             }
             catch
             {
-                this.loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
+                this.loggerService.LogConsole(
+                    LogLevel.WARN,
+                    "Error in persisting object for {0} for key{1}: ",
+                    null,
+                    value,
+                    key
+                );
                 return false;
             }
         }
@@ -103,12 +123,24 @@ namespace CommerceApiSDK.Services
                 }
 
                 await LocalStorage.Insert(key, value);
-                this.loggerService.LogConsole(LogLevel.INFO, "Persisting succesfully object: {0} for key:{1}", null, value, key);
+                this.loggerService.LogConsole(
+                    LogLevel.INFO,
+                    "Persisting succesfully object: {0} for key:{1}",
+                    null,
+                    value,
+                    key
+                );
                 return true;
             }
             catch
             {
-                this.loggerService.LogConsole(LogLevel.WARN, "Error in persisting object for {0} for key{1}: ", null, value, key);
+                this.loggerService.LogConsole(
+                    LogLevel.WARN,
+                    "Error in persisting object for {0} for key{1}: ",
+                    null,
+                    value,
+                    key
+                );
                 return false;
             }
         }
@@ -120,7 +152,11 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    this.loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                    this.loggerService.LogConsole(
+                        LogLevel.WARN,
+                        "Offline cache object for {0} not found",
+                        key
+                    );
                     return null;
                 }
 
@@ -129,7 +165,12 @@ namespace CommerceApiSDK.Services
             }
             catch (Exception ex)
             {
-                this.loggerService.LogConsole(LogLevel.WARN, "Error in load persisted data object for key{0}: \nError message {1}", key, ex.Message);
+                this.loggerService.LogConsole(
+                    LogLevel.WARN,
+                    "Error in load persisted data object for key{0}: \nError message {1}",
+                    key,
+                    ex.Message
+                );
                 return null;
             }
         }
@@ -141,17 +182,31 @@ namespace CommerceApiSDK.Services
                 IEnumerable<string> keys = await LocalStorage.GetAllKeys();
                 if (!keys.Any(x => x.Equals(key, StringComparison.OrdinalIgnoreCase)))
                 {
-                    this.loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                    this.loggerService.LogConsole(
+                        LogLevel.WARN,
+                        "Offline cache object for {0} not found",
+                        key
+                    );
                     return null;
                 }
 
                 byte[] offlineObject = await LocalStorage.Get(key);
-                this.loggerService.LogConsole(LogLevel.INFO, "Get Persisted object for {0} :{1}", null, key, offlineObject);
+                this.loggerService.LogConsole(
+                    LogLevel.INFO,
+                    "Get Persisted object for {0} :{1}",
+                    null,
+                    key,
+                    offlineObject
+                );
                 return offlineObject;
             }
             catch (KeyNotFoundException)
             {
-                this.loggerService.LogConsole(LogLevel.WARN, "Offline cache object for {0} not found", key);
+                this.loggerService.LogConsole(
+                    LogLevel.WARN,
+                    "Offline cache object for {0} not found",
+                    key
+                );
                 return null;
             }
         }
@@ -189,8 +244,17 @@ namespace CommerceApiSDK.Services
         {
             //// This snippet is based on https://github.com/akavache/Akavache/blob/501b397d8c071366c3b6783aae3e98695b3d7442/src/Akavache.Sqlite3/Registrations.cs
             string cacheFolder = filesystemProvider.GetDefaultSecretCacheDirectory();
-            filesystemProvider.CreateRecursive(cacheFolder).SubscribeOn(BlobCache.TaskpoolScheduler).Wait();
-            SQLitePersistentBlobCache localBlobCache = new SQLitePersistentBlobCache(Path.Combine(filesystemProvider.GetDefaultLocalMachineCacheDirectory(), databaseName), BlobCache.TaskpoolScheduler);
+            filesystemProvider
+                .CreateRecursive(cacheFolder)
+                .SubscribeOn(BlobCache.TaskpoolScheduler)
+                .Wait();
+            SQLitePersistentBlobCache localBlobCache = new SQLitePersistentBlobCache(
+                Path.Combine(
+                    filesystemProvider.GetDefaultLocalMachineCacheDirectory(),
+                    databaseName
+                ),
+                BlobCache.TaskpoolScheduler
+            );
             return localBlobCache;
         }
 

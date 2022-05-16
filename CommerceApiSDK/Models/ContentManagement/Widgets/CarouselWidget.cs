@@ -52,7 +52,8 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
 
             if (result)
             {
-                result &= TimerSpeed == widget.TimerSpeed
+                result &=
+                    TimerSpeed == widget.TimerSpeed
                     && AnimationSpeed == widget.AnimationSpeed
                     && ChildWidgets.Count.Equals(widget.ChildWidgets.Count);
             }

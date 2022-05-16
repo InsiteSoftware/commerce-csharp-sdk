@@ -44,7 +44,11 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="path">The url path.</param>
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <returns>Response message</returns>
-        Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> GetAsync(
+            string path,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Http get for not Insite domain.
@@ -52,7 +56,11 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="url">The url.</param>
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <returns>Response message</returns>
-        Task<HttpResponseMessage> GetAsyncNoHost(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> GetAsyncNoHost(
+            string url,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Http post.
@@ -61,7 +69,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="content">The body content.</param>
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <returns></returns>
-        Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> PostAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Http delete.
@@ -69,7 +82,11 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="path">The url path.</param>
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <returns></returns>
-        Task<HttpResponseMessage> DeleteAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> DeleteAsync(
+            string path,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Http patch.
@@ -78,7 +95,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <param name="content">The body content.</param>
         /// <returns></returns>
-        Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> PatchAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Http put.
@@ -87,7 +109,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="content">The body content.</param>
         /// <param name="timeout">Optional, request specific timeout interval.</param>
         /// <returns></returns>
-        Task<HttpResponseMessage> PutAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null);
+        Task<HttpResponseMessage> PutAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        );
 
         /// <summary>
         /// Save client session state in app storage.

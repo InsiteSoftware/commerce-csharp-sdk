@@ -16,21 +16,32 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<WishList> CreateWishList(CreateWishListQueryParameters parameters);
 
-        Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(CreateWishListQueryParameters parameters);
+        Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(
+            CreateWishListQueryParameters parameters
+        );
 
         Task<WishList> UpdateWishList(WishList wishList);
 
         Task<WishListLine> AddProductToWishList(Guid wishListId, AddCartLine product);
 
-        Task<bool> AddWishListLinesToWishList(Guid wishListId, WishListAddToCartCollection wishListLines);
+        Task<bool> AddWishListLinesToWishList(
+            Guid wishListId,
+            WishListAddToCartCollection wishListLines
+        );
 
         Task<bool> LeaveWishList(Guid wishListId);
 
-        Task<WishListLineCollectionModel> GetWishListLines(Guid wishListId, WishListLineQueryParameters parameters);
+        Task<WishListLineCollectionModel> GetWishListLines(
+            Guid wishListId,
+            WishListLineQueryParameters parameters
+        );
 
         Task<bool> DeleteWishListLine(Guid wishListId, Guid wishListLineId);
 
-        Task<bool> DeleteWishListLineCollection(Guid wishListId, IList<WishListLine> wishListLineCollection);
+        Task<bool> DeleteWishListLineCollection(
+            Guid wishListId,
+            IList<WishListLine> wishListLineCollection
+        );
 
         Task<WishListLine> UpdateWishListLine(Guid wishListId, WishListLine wishListLine);
 

@@ -13,12 +13,13 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-          : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<PageContentManagement> GetPageContenManagment(string pageName, bool useCache = true)
+        public async Task<PageContentManagement> GetPageContenManagment(
+            string pageName,
+            bool useCache = true
+        )
         {
             if (string.IsNullOrEmpty(pageName))
             {
@@ -30,17 +31,28 @@ namespace CommerceApiSDK.Services
             PageContentManagement result;
             if (useCache)
             {
-                result = await GetAsyncWithCachedResponse<PageContentManagement>(url, DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
+                result = await GetAsyncWithCachedResponse<PageContentManagement>(
+                    url,
+                    DefaultRequestTimeout,
+                    new JsonConverter[] { new WidgetConverter(), new ActionConverter() }
+                );
             }
             else
             {
-                result = await GetAsyncNoCache<PageContentManagement>(url, DefaultRequestTimeout, new JsonConverter[] { new WidgetConverter(), new ActionConverter() });
+                result = await GetAsyncNoCache<PageContentManagement>(
+                    url,
+                    DefaultRequestTimeout,
+                    new JsonConverter[] { new WidgetConverter(), new ActionConverter() }
+                );
             }
 
             return result;
         }
 
-        public async Task<string> GetPageContenManagmentString(string pageName, bool useCache = true)
+        public async Task<string> GetPageContenManagmentString(
+            string pageName,
+            bool useCache = true
+        )
         {
             if (string.IsNullOrEmpty(pageName))
             {

@@ -26,10 +26,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public AccountService(IClientService clientService, INetworkService networkService, ITrackingService trackingService, ICacheService cacheService, ILoggerService loggerService)
-            : base(clientService, networkService, trackingService, cacheService, loggerService)
-        {
-        }
+        public AccountService(
+            IClientService clientService,
+            INetworkService networkService,
+            ITrackingService trackingService,
+            ICacheService cacheService,
+            ILoggerService loggerService
+        ) : base(clientService, networkService, trackingService, cacheService, loggerService) { }
 
         //GET:: /api/v1/accounts
         public async Task<AccountResult> GetAccountsAsync()
@@ -49,7 +52,10 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                Account account = await GetAsyncNoCache<Account>($"{CommerceAPIConstants.AccountUrl}/current", DefaultRequestTimeout);
+                Account account = await GetAsyncNoCache<Account>(
+                    $"{CommerceAPIConstants.AccountUrl}/current",
+                    DefaultRequestTimeout
+                );
 
                 if (account != null)
                 {
@@ -171,7 +177,8 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
+                string url =
+                    $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
                 Account result = await GetAsyncNoCache<Account>(url, DefaultRequestTimeout);
 
                 if (result != null)
@@ -193,7 +200,8 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
+                string url =
+                    $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PostAsyncNoCache<Account>(url, stringContent);
 
@@ -212,11 +220,15 @@ namespace CommerceApiSDK.Services
         }
 
         //PATCH:: /api/v1/accounts/current/paymentprofiles/{accountPaymentProfileId}
-        public async Task<Account> PatchCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId, Account account)
+        public async Task<Account> PatchCurrentAccountPaymentProfileIdAsync(
+            Guid accountPaymentProfileId,
+            Account account
+        )
         {
             try
             {
-                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url =
+                    $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 StringContent stringContent = await Task.Run(() => SerializeModel(account));
                 Account result = await PatchAsyncNoCache<Account>(url, null);
 
@@ -235,11 +247,14 @@ namespace CommerceApiSDK.Services
         }
 
         //GET:: /api/v1/accounts/current/paymentprofiles/{AccountPaymentProfileId}
-        public async Task<Account> GetCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId)
+        public async Task<Account> GetCurrentAccountPaymentProfileIdAsync(
+            Guid accountPaymentProfileId
+        )
         {
             try
             {
-                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url =
+                    $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 Account result = await GetAsyncNoCache<Account>(url, DefaultRequestTimeout);
 
                 if (result != null)
@@ -257,11 +272,14 @@ namespace CommerceApiSDK.Services
         }
 
         //DELETE:: /api/v1/accounts/current/paymentprofiles/{AccountPaymentProfileId}
-        public async Task<bool> DeleteCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId)
+        public async Task<bool> DeleteCurrentAccountPaymentProfileIdAsync(
+            Guid accountPaymentProfileId
+        )
         {
             try
             {
-                string url = $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
+                string url =
+                    $"{CommerceAPIConstants.AccountUrl}{CommerceAPIConstants.CurrentPaymentProfiles}{accountPaymentProfileId}";
                 HttpResponseMessage result = await DeleteAsync(url);
                 return result.IsSuccessStatusCode;
             }
@@ -308,11 +326,16 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null)
+        public async Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(
+            PaymentProfileQueryParameters parameters = null
+        )
         {
             try
             {
-                string url = parameters == null ? CommerceAPIConstants.PaymentProfileUri : $"{CommerceAPIConstants.PaymentProfileUri}{parameters.ToQueryString()}";
+                string url =
+                    parameters == null
+                        ? CommerceAPIConstants.PaymentProfileUri
+                        : $"{CommerceAPIConstants.PaymentProfileUri}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<AccountPaymentProfileCollectionResult>(url);
             }
             catch (Exception exception)
@@ -347,7 +370,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(AccountPaymentProfile accountPaymentProfile)
+        public async Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(
+            AccountPaymentProfile accountPaymentProfile
+        )
         {
             try
             {
@@ -362,15 +387,24 @@ namespace CommerceApiSDK.Services
                 }
 
                 ServiceResponse<AccountPaymentProfile> response;
-                StringContent stringContent = await Task.Run(() => SerializeModel(accountPaymentProfile));
+                StringContent stringContent = await Task.Run(
+                    () => SerializeModel(accountPaymentProfile)
+                );
                 if (accountPaymentProfile.Id.Equals(Guid.Empty.ToString()))
                 {
-                    response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(CommerceAPIConstants.PaymentProfileUri, stringContent);
+                    response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(
+                        CommerceAPIConstants.PaymentProfileUri,
+                        stringContent
+                    );
                 }
                 else
                 {
-                    string editUrl = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfile.Id}";
-                    response = await PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(editUrl, stringContent);
+                    string editUrl =
+                        $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfile.Id}";
+                    response = await PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(
+                        editUrl,
+                        stringContent
+                    );
                 }
 
                 return response;

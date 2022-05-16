@@ -18,4 +18,3 @@ namespace CommerceApiSDK.Models.Parameters
         public string Expand { get; set; }
     }
 }
-

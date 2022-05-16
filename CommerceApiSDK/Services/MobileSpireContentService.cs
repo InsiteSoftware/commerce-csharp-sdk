@@ -11,12 +11,13 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-          : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<string> GetPageContenManagmentString(string pageName, bool useCache = true)
+        public async Task<string> GetPageContenManagmentString(
+            string pageName,
+            bool useCache = true
+        )
         {
             if (string.IsNullOrEmpty(pageName))
             {
@@ -27,7 +28,9 @@ namespace CommerceApiSDK.Services
 
             this.LoggerService.LogConsole(LogLevel.INFO, "Response content: {0}", url);
 
-            return useCache ? await GetAsyncStringResultWithCachedResponse(url) : await GetAsyncStringResultNoCache(url);
+            return useCache
+              ? await GetAsyncStringResultWithCachedResponse(url)
+              : await GetAsyncStringResultNoCache(url);
         }
     }
 }

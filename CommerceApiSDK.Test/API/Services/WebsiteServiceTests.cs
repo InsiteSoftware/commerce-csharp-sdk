@@ -21,7 +21,8 @@ namespace CommerceApiSDK.Test.Services
                 TrackingServiceMock.Object,
                 CacheServiceMock.Object,
                 LoggerServiceMock.Object,
-                SessionServiceMock.Object);
+                SessionServiceMock.Object
+            );
         }
 
         [Test]
@@ -36,9 +37,17 @@ namespace CommerceApiSDK.Test.Services
             string languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
             string currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
 
-            string validUrl = $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
+            string validUrl =
+                $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
 
-            websiteService = new WebsiteService(ClientServiceMock.Object, NetworkServiceMock.Object, TrackingServiceMock.Object, CacheServiceMock.Object, LoggerServiceMock.Object, SessionServiceMock.Object);
+            websiteService = new WebsiteService(
+                ClientServiceMock.Object,
+                NetworkServiceMock.Object,
+                TrackingServiceMock.Object,
+                CacheServiceMock.Object,
+                LoggerServiceMock.Object,
+                SessionServiceMock.Object
+            );
 
             string returnedUrl = websiteService.GetAuthorizedURL(path).Result;
 

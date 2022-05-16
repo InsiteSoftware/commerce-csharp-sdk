@@ -13,16 +13,23 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetDealerCollectionResult> GetDealers(DealerLocationFinderQueryParameters parameters, CancellationToken? cancellationToken = null)
+        public async Task<GetDealerCollectionResult> GetDealers(
+            DealerLocationFinderQueryParameters parameters,
+            CancellationToken? cancellationToken = null
+        )
         {
-            string url = $"{CommerceAPIConstants.DealersUrl}{parameters?.ToQueryString() ?? string.Empty}";
+            string url =
+                $"{CommerceAPIConstants.DealersUrl}{parameters?.ToQueryString() ?? string.Empty}";
 
-            return await GetAsyncWithCachedResponse<GetDealerCollectionResult>(url, null, null, cancellationToken);
+            return await GetAsyncWithCachedResponse<GetDealerCollectionResult>(
+                url,
+                null,
+                null,
+                cancellationToken
+            );
         }
     }
 }

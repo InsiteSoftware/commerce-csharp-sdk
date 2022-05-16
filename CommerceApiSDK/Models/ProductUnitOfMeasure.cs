@@ -21,4 +21,3 @@ namespace CommerceApiSDK.Models
         public Availability Availability { get; set; }
     }
 }
-

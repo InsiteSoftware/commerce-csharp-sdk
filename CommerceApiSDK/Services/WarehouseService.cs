@@ -14,12 +14,12 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetWarehouseCollectionResult> GetWarehouses(WarehousesQueryParameters parameters)
+        public async Task<GetWarehouseCollectionResult> GetWarehouses(
+            WarehousesQueryParameters parameters
+        )
         {
             try
             {
@@ -36,7 +36,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Warehouse> GetWarehouse(Guid warehouseId, WarehouseQueryParameters parameters)
+        public async Task<Warehouse> GetWarehouse(
+            Guid warehouseId,
+            WarehouseQueryParameters parameters
+        )
         {
             try
             {

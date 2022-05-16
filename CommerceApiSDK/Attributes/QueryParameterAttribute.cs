@@ -4,7 +4,11 @@ using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(
+        AttributeTargets.Property | AttributeTargets.Field,
+        Inherited = true,
+        AllowMultiple = false
+    )]
     public sealed class QueryParameterAttribute : Attribute
     {
         public QueryListParameterType? QueryType { get; private set; }
@@ -29,7 +33,8 @@ namespace CommerceApiSDK.Attributes
 
         public static QueryListParameterType? GetQueryListParameterType(PropertyInfo properyInfo)
         {
-            QueryParameterAttribute customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute =
+                properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -41,7 +46,9 @@ namespace CommerceApiSDK.Attributes
 
         public static QueryListParameterType? GetQueryListParameterType(object parameter)
         {
-            QueryParameterAttribute customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = parameter
+                .GetType()
+                .GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -53,7 +60,8 @@ namespace CommerceApiSDK.Attributes
 
         public static QueryOptions? GetQueryOption(PropertyInfo properyInfo)
         {
-            QueryParameterAttribute customAttribute = properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute =
+                properyInfo.GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {
@@ -65,7 +73,9 @@ namespace CommerceApiSDK.Attributes
 
         public static QueryOptions? GetQueryOption(object parameter)
         {
-            QueryParameterAttribute customAttribute = parameter.GetType().GetCustomAttribute<QueryParameterAttribute>(true);
+            QueryParameterAttribute customAttribute = parameter
+                .GetType()
+                .GetCustomAttribute<QueryParameterAttribute>(true);
 
             if (customAttribute != null)
             {

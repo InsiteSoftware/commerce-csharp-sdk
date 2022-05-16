@@ -19,7 +19,10 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo);
 
-        Task<GetShipTosResult> GetShipTosAsync(Guid billToId, ShipTosQueryParameters parameters = null);
+        Task<GetShipTosResult> GetShipTosAsync(
+            Guid billToId,
+            ShipTosQueryParameters parameters = null
+        );
 
         Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo);
 

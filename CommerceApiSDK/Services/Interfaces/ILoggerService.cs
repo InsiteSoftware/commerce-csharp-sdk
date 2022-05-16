@@ -8,6 +8,5 @@ namespace CommerceApiSDK.Services.Interfaces
         void LogDebug(LogLevel level, string message, params object[] formatparameters);
 
         void LogConsole(LogLevel level, string message, params object[] formatparameters);
-
     }
 }

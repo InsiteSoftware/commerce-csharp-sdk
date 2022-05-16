@@ -10,21 +10,13 @@ namespace CommerceApiSDK.Services
 {
     public class AutocompleteService : ServiceBase, IAutocompleteService
     {
-
         public AutocompleteService(
             IClientService ClientService,
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(
-                  ClientService,
-                  NetworkService,
-                  TrackingService,
-                  CacheService,
-                  LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<IList<AutocompleteBrand>> GetAutocompleteBrands(string searchQuery)
         {
@@ -68,11 +60,15 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<AutocompleteResult> GetAutocompleteResults(AutocompleteQueryParameters parameters)
+        public async Task<AutocompleteResult> GetAutocompleteResults(
+            AutocompleteQueryParameters parameters
+        )
         {
             try
             {
-                return await GetAsyncWithCachedResponse<AutocompleteResult>(CommerceAPIConstants.AutocompleteUrl + parameters.ToQueryString());
+                return await GetAsyncWithCachedResponse<AutocompleteResult>(
+                    CommerceAPIConstants.AutocompleteUrl + parameters.ToQueryString()
+                );
             }
             catch (Exception exception)
             {
