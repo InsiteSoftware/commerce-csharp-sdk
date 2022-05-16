@@ -19,7 +19,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = $"{CommerceAPIConstants.CatalogpageUrl}{productPath}";
+                string url = $"{CommerceAPIConstants.CatalogPageUrl}{productPath}";
 
                 CatalogPage productResult = await GetAsyncWithCachedResponse<CatalogPage>(url);
 

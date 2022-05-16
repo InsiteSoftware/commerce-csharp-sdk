@@ -8,7 +8,7 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWishListService
     {
-        Task<WishListCollectionModel> GetWishLists();
+        Task<WishListCollectionModel> GetWishLists(WishListsQueryParameters parameters);
 
         Task<WishList> GetWishList(Guid wishListId, WishListQueryParameters parameters);
 

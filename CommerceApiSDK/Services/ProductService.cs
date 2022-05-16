@@ -137,6 +137,34 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<GetProductCollectionResult> GetProductCrossSells(Guid productId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/crosssells";
+
+                GetProductCollectionResult productsResult =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+
+                if (productsResult == null)
+                {
+                    return null;
+                }
+
+                foreach (Product product in productsResult.Products)
+                {
+                    FixProduct(product);
+                }
+
+                return productsResult;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
         public async Task<ProductPrice> GetProductPrice(
             Guid productId,
             ProductPriceQueryParameters parameters

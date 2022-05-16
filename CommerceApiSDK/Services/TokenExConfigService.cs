@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 TokenExDto tokenexConfig = await GetAsyncNoCache<TokenExDto>(
-                    CommerceAPIConstants.TokenexconfigUrl,
+                    CommerceAPIConstants.TokenExConfigUrl,
                     DefaultRequestTimeout
                 );
 

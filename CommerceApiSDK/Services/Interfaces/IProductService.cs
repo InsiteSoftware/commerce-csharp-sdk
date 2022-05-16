@@ -16,6 +16,8 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<GetProductResult> GetProduct(Guid productId, ProductQueryParameters parameters = null);
 
+        Task<GetProductCollectionResult> GetProductCrossSells(Guid productId);
+
         Task<ProductPrice> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters);
     }
 }

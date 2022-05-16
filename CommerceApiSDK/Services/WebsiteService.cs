@@ -61,7 +61,7 @@ namespace CommerceApiSDK.Services
         {
             string key =
                 this.ClientService.Host
-                + CommerceAPIConstants.WebsitesCrosssellsUrl
+                + CommerceAPIConstants.WebsitesCrossSellsUrl
                 + this.ClientService.SessionStateKey;
             return await this.CacheService.HasOnlineCache(key);
         }
@@ -71,7 +71,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 return await GetAsyncWithCachedResponse<WebsiteCrosssells>(
-                    CommerceAPIConstants.WebsitesCrosssellsUrl
+                    CommerceAPIConstants.WebsitesCrossSellsUrl
                 );
             }
             catch (Exception exception)

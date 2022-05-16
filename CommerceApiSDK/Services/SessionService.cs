@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
         public async Task<HttpResponseMessage> DeleteCurrentSession()
         {
             currentSession = null;
-            return await DeleteAsync(CommerceAPIConstants.CurrentSessionUri);
+            return await DeleteAsync(CommerceAPIConstants.CurrentSessionUrl);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace CommerceApiSDK.Services
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
                 ServiceResponse<Session> result = await PostAsyncNoCacheWithErrorMessage<Session>(
-                    CommerceAPIConstants.PostSessionUri,
+                    CommerceAPIConstants.PostSessionUrl,
                     stringContent
                 );
 
@@ -76,7 +76,7 @@ namespace CommerceApiSDK.Services
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
                 Session result = await PatchAsyncNoCache<Session>(
-                    CommerceAPIConstants.CurrentSessionUri,
+                    CommerceAPIConstants.CurrentSessionUrl,
                     stringContent
                 );
 
@@ -110,7 +110,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
 
                 return await PatchAsyncNoCache<Session>(
-                    CommerceAPIConstants.CurrentSessionUri,
+                    CommerceAPIConstants.CurrentSessionUrl,
                     stringContent
                 );
             }
@@ -131,7 +131,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 Session result = await GetAsyncNoCache<Session>(
-                    $"{CommerceAPIConstants.CurrentSessionUri}"
+                    $"{CommerceAPIConstants.CurrentSessionUrl}"
                 );
 
                 if (result != null)

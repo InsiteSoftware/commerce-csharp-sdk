@@ -67,7 +67,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.CartUri;
+                string url = CommerceAPIConstants.CartCurrentUrl;
 
                 url += parameters.ToQueryString();
                 Cart result = await GetAsyncNoCache<Cart>(url);
@@ -89,7 +89,7 @@ namespace CommerceApiSDK.Services
             {
                 List<string> parameters = new List<string>();
 
-                string url = CommerceAPIConstants.CartLinesUri;
+                string url = CommerceAPIConstants.CartCurrentCartLinesUrl;
                 GetCartLinesResult result = await GetAsyncNoCache<GetCartLinesResult>(url);
 
                 IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
@@ -107,7 +107,25 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.PromotionsUri;
+                string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
+                PromotionCollectionModel result = await GetAsyncNoCache<PromotionCollectionModel>(
+                    url
+                );
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<PromotionCollectionModel> GetCartPromotions(Guid cartId)
+        {
+            try
+            {
+                string url = string.Format(CommerceAPIConstants.CartPromotionsUrl, cartId);
                 PromotionCollectionModel result = await GetAsyncNoCache<PromotionCollectionModel>(
                     url
                 );
@@ -125,7 +143,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.PromotionsUri;
+                string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(promotion));
                 Promotion result = await PostAsyncNoCache<Promotion>(url, stringContent);
                 return result;
@@ -141,7 +159,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.CartUri;
+                string url = CommerceAPIConstants.CartCurrentUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(cart));
                 Cart result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
@@ -159,7 +177,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 HttpResponseMessage clearCartResponse = await DeleteAsync(
-                    CommerceAPIConstants.CartUri
+                    CommerceAPIConstants.CartCurrentUrl
                 );
                 bool result = clearCartResponse != null && clearCartResponse.IsSuccessStatusCode;
 
@@ -202,7 +220,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                string url = CommerceAPIConstants.CartsUri;
+                string url = CommerceAPIConstants.CartsUrl;
 
                 if (parameters != null)
                 {
@@ -233,7 +251,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(parameters.CartId)} is empty");
                 }
 
-                string url = $"{CommerceAPIConstants.CartsUri}/{parameters.CartId}";
+                string url = $"{CommerceAPIConstants.CartsUrl}/{parameters.CartId}";
 
                 if (parameters?.Expand != null)
                 {
@@ -275,7 +293,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{CommerceAPIConstants.CartsUri}/{cartId}";
+                string url = $"{CommerceAPIConstants.CartsUrl}/{cartId}";
                 HttpResponseMessage deleteCartResponse = await DeleteAsync(url);
                 return deleteCartResponse != null && deleteCartResponse.IsSuccessStatusCode;
             }
@@ -299,7 +317,7 @@ namespace CommerceApiSDK.Services
                 CancellationToken cancellationToken = cancellationTokenSource.Token;
 
                 result = await PostAsyncNoCache<CartLine>(
-                    CommerceAPIConstants.CartLineUrl,
+                    CommerceAPIConstants.CartCurrentCartLineUrl,
                     stringContent,
                     null,
                     cancellationToken
@@ -354,7 +372,7 @@ namespace CommerceApiSDK.Services
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
                 return await PatchAsyncNoCache<CartLine>(
-                    $"{CommerceAPIConstants.CartLineUrl}/{cartLine.Id}",
+                    $"{CommerceAPIConstants.CartCurrentCartLineUrl}/{cartLine.Id}",
                     stringContent
                 );
             }
@@ -370,7 +388,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 HttpResponseMessage result = await DeleteAsync(
-                    $"{CommerceAPIConstants.CartLineUrl}/{cartLine.Id}"
+                    $"{CommerceAPIConstants.CartCurrentCartLineUrl}/{cartLine.Id}"
                 );
                 return result.IsSuccessStatusCode;
             }
@@ -399,7 +417,7 @@ namespace CommerceApiSDK.Services
                         )
                 );
                 CartLineList result = await PostAsyncNoCache<CartLineList>(
-                    CommerceAPIConstants.CartLineUrl + "/batch",
+                    CommerceAPIConstants.CartCurrentCartLineUrl + "/batch",
                     stringContent
                 );
                 return result?.CartLines?.ToList();

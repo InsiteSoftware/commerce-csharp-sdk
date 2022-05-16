@@ -26,6 +26,8 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<PromotionCollectionModel> GetCurrentCartPromotions();
 
+        Task<PromotionCollectionModel> GetCartPromotions(Guid cartId);
+
         Task<Promotion> ApplyPromotion(AddPromotion promotion);
 
         Task<Cart> UpdateCart(Cart cart);
