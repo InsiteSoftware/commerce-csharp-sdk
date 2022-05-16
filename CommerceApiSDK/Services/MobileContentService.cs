@@ -26,7 +26,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = string.Format(CommerceAPIConstants.mobileContentUrlFormat, pageName);
+            string url = string.Format(CommerceAPIConstants.MobileContentUrlFormat, pageName);
 
             PageContentManagement result;
             if (useCache)
@@ -59,7 +59,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = string.Format(CommerceAPIConstants.mobileContentUrlFormat, pageName);
+            string url = string.Format(CommerceAPIConstants.MobileContentUrlFormat, pageName);
 
             string result;
 

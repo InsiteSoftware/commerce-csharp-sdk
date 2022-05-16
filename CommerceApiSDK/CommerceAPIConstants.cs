@@ -2,13 +2,13 @@
 {
     public static class CommerceAPIConstants
     {
-        public const string Shortdescriptionunique = "ShortDescriptionunique";
+        public const string ShortDescriptionUnique = nameof(ShortDescriptionUnique);
 
-        public const string ManufacturerItemUnique = "ManufacturerItemunique";
+        public const string ManufacturerItemUnique = nameof(ManufacturerItemUnique);
 
-        public const string Manufactureritem = "ManufacturerItem";
+        public const string ManufacturerItem = nameof(ManufacturerItem);
 
-        public const string CustomerNameUnique = "CustomerNameunique";
+        public const string CustomerNameUnique = nameof(CustomerNameUnique);
 
         public const string OfflineCacheDatabaseName = "blobs.db";
 
@@ -16,11 +16,11 @@
 
         public const int AddingToCartMillisecondsDelay = 5000;
 
-        public const string CustomerName = "CustomerName";
+        public const string CustomerName = nameof(CustomerName);
 
-        public const string KeyWord = "word";
+        public const string KeyWord = nameof(KeyWord);
 
-        public const string ErpNumber = "ERPNumber";
+        public const string ErpNumber = nameof(ErpNumber);
 
         public const string OrdersUrl = "/api/v1/orders";
 
@@ -30,18 +30,23 @@
 
         public const string CurrentPaymentProfiles = "/current/paymentprofiles";
 
-        public const string PaymentProfileUri = "/api/v1/accounts/current/paymentprofiles";
+        public const string PaymentProfileUrl = "/api/v1/accounts/current/paymentprofiles";
 
-        public const string CartUri = "/api/v1/carts/current";
+        public const string ResetPasswordUrl = "/admin/account/ForgotPassword";
 
-        public const string ResetPasswordUri = "/admin/account/ForgotPassword";
-
-        public const string AdminUserProfileUri =
+        public const string AdminUserProfileUrl =
             "/api/v1/admin/AdminUserProfiles/Default.Default()";
 
         public const string AutocompleteUrl = "/api/v1/autocomplete";
 
-        public const string BillToToUrl = "/api/v1/billtos";
+        public const string BillTosUrl = "/api/v1/billtos";
+
+        public const string BillToCurrentUrl = "/api/v1/billtos/current";
+
+        public const string BillToCurrentShipTosUrl = "/api/v1/billtos/current/shiptos";
+
+        public const string BillToCurrentShipToCurrentUrl =
+            "/api/v1/billtos/current/shiptos/current";
 
         public const string BrandAlphabetUrl = "/api/v1/brandalphabet";
 
@@ -53,15 +58,19 @@
 
         public const string BrandProductLinesUrlFormat = "/api/v1/brands/{0}/productlines";
 
-        public const string CartLineUrl = "api/v1/carts/current/cartlines";
+        public const string CartsUrl = "/api/v1/carts";
 
-        public const string CartLinesUri = "/api/v1/carts/current/cartlines";
+        public const string CartCurrentUrl = "/api/v1/carts/current";
 
-        public const string PromotionsUri = "/api/v1/carts/current/promotions";
+        public const string CartCurrentCartLinesUrl = "/api/v1/carts/current/cartlines";
 
-        public const string CartsUri = "/api/v1/carts";
+        public const string CartCurrentCartLineUrl = "api/v1/carts/current/cartlines";
 
-        public const string CatalogpageUrl = "/api/v1/catalogpages?path=";
+        public const string CartCurrentPromotionsUrl = "/api/v1/carts/current/promotions";
+
+        public const string CartPromotionsUrl = "/api/v1/carts/{0}/promotions";
+
+        public const string CatalogPageUrl = "/api/v1/catalogpages?path=";
 
         public const string CategoryUrl = "/api/v1/categories";
 
@@ -79,11 +88,11 @@
 
         public const string JobQuoteUrl = "/api/v1/jobquotes";
 
-        public const string MessageUri = "/api/v1/messages";
+        public const string MessageUrl = "/api/v1/messages";
 
-        public const string mobileContentUrlFormat = "/api/v1/mobilecontent/{0}";
+        public const string MobileContentUrlFormat = "/api/v1/mobilecontent/{0}";
 
-        public const string contentUrl = "/api/v2/content/pageByType?type=Mobile/";
+        public const string ContentUrl = "/api/v2/content/pageByType?type=Mobile/";
 
         public const string ProductsUrl = "/api/v1/products";
 
@@ -91,13 +100,13 @@
 
         public const string RealTimeInventoryUrl = "/api/v1/realtimeinventory";
 
-        public const string QuoteLineUri = "/api/v1/quotes/{0}/quotelines/{1}";
+        public const string QuoteLineUrl = "/api/v1/quotes/{0}/quotelines/{1}";
 
-        public const string QuoteUri = "/api/v1/quotes";
+        public const string QuoteUrl = "/api/v1/quotes";
 
-        public const string PostSessionUri = "/api/v1/sessions";
+        public const string PostSessionUrl = "/api/v1/sessions";
 
-        public const string CurrentSessionUri = "/api/v1/sessions/current";
+        public const string CurrentSessionUrl = "/api/v1/sessions/current";
 
         public const string SettingsUrl = "/api/v1/settings";
 
@@ -113,19 +122,19 @@
 
         public const string MobileAppSettingsUrl = "/api/v1/settings/mobileapp";
 
-        public const string QuoteSettingsUri = "/api/v1/settings/quote";
+        public const string QuoteSettingsUrl = "/api/v1/settings/quote";
 
-        public const string TokenexconfigUrl = "/api/v1/tokenexconfig";
+        public const string TokenExConfigUrl = "/api/v1/tokenexconfig";
 
         public const string TranslationUrl = "/api/v1/translationdictionaries";
 
-        public const string VMILocationsUrl = "/api/v1/vmilocations";
+        public const string VmiLocationsUrl = "/api/v1/vmilocations";
 
         public const string WarehousesUrl = "/api/v1/warehouses";
 
         public const string WebsitesUrl = "/api/v1/websites/current";
 
-        public const string WebsitesCrosssellsUrl = "/api/v1/websites/current/crosssells";
+        public const string WebsitesCrossSellsUrl = "/api/v1/websites/current/crosssells";
 
         public const string WebsitesSiteMessagesUrl = "/api/v1/websites/current/sitemessages";
 
@@ -133,11 +142,11 @@
 
         public const string WebsitesLanguagesUrl = "/api/v1/websites/current/languages";
 
-        public const string TokenLogoutUri = "identity/connect/endsession";
+        public const string TokenLogoutUrl = "identity/connect/endsession";
 
-        public const string TokenValidationUri = "identity/connect/accesstokenvalidation?token=";
+        public const string TokenValidationUrl = "identity/connect/accesstokenvalidation?token=";
 
-        public const string TokenUri = "identity/connect/token";
+        public const string TokenUrl = "identity/connect/token";
 
         public const string WishListUrl = "/api/v1/wishlists/";
     }

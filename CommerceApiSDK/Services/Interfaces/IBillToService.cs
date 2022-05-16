@@ -17,17 +17,31 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<BillTo> GetBillTo(Guid billToId);
 
+        Task<BillTo> GetCurrentBillTo();
+
         Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo);
+
+        Task<BillTo> PatchCurrentBillTo(BillTo billTo);
 
         Task<GetShipTosResult> GetShipTosAsync(
             Guid billToId,
             ShipTosQueryParameters parameters = null
         );
 
+        Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
+            ShipTosQueryParameters parameters = null
+        );
+
         Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo);
+
+        Task<ShipTo> PostCurrentBillToShipToAsync(ShipTo shipTo);
 
         Task<ShipTo> GetShipTo(Guid billToId, Guid shipToId);
 
+        Task<ShipTo> GetCurrentShipTo();
+
         Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo);
+
+        Task<ShipTo> PatchCurrentShipTo(ShipTo shipTo);
     }
 }

@@ -193,7 +193,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<QuoteSetting>(CommerceAPIConstants.QuoteSettingsUri);
+                return await GetAsyncNoCache<QuoteSetting>(CommerceAPIConstants.QuoteSettingsUrl);
             }
             catch (Exception exception)
             {

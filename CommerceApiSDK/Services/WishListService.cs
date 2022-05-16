@@ -20,9 +20,11 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<WishListCollectionModel> GetWishLists()
+        public async Task<WishListCollectionModel> GetWishLists(WishListsQueryParameters parameters)
         {
             string url = CommerceAPIConstants.WishListUrl;
+
+            url += parameters?.ToQueryString();
 
             try
             {

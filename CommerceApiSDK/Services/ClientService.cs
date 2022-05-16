@@ -407,7 +407,7 @@ namespace CommerceApiSDK.Services
             string refreshToken = this.secureStorageService.Load(RefreshTokenStorageKey);
             HttpRequestMessage request = new HttpRequestMessage(
                 HttpMethod.Post,
-                $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}"
+                $"{Protocol}{Host}/{CommerceAPIConstants.TokenUrl}"
             );
             FormUrlEncodedContent content = new FormUrlEncodedContent(
                 new[]
@@ -425,7 +425,7 @@ namespace CommerceApiSDK.Services
             this.loggerService.LogDebug(
                 LogLevel.DEBUG,
                 "RefershToken PostAsync {0} finished with status: {1} ",
-                CommerceAPIConstants.TokenUri,
+                CommerceAPIConstants.TokenUrl,
                 response.StatusCode
             );
 
@@ -605,7 +605,7 @@ namespace CommerceApiSDK.Services
             );
 
             HttpResponseMessage result = await PostAsync(
-                CommerceAPIConstants.TokenUri,
+                CommerceAPIConstants.TokenUrl,
                 requestContent
             );
             if (!result.IsSuccessStatusCode)

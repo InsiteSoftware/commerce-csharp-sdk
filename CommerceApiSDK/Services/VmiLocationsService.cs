@@ -32,7 +32,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{CommerceAPIConstants.VMILocationsUrl}{parameters.ToQueryString()}";
+                string url = $"{CommerceAPIConstants.VmiLocationsUrl}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiLocationResult>(url);
             }
             catch (Exception exception)
@@ -53,7 +53,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}";
+                string url = $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}";
 
                 if (parameters?.Expand != null)
                 {
@@ -90,13 +90,13 @@ namespace CommerceApiSDK.Services
                 if (model.Id.Equals(Guid.Empty))
                 {
                     return await PostAsyncNoCacheWithErrorMessage<VmiLocationModel>(
-                        CommerceAPIConstants.VMILocationsUrl,
+                        CommerceAPIConstants.VmiLocationsUrl,
                         stringContent
                     );
                 }
                 else
                 {
-                    string editUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{model.Id}";
+                    string editUrl = $"{CommerceAPIConstants.VmiLocationsUrl}/{model.Id}";
                     return await PatchAsyncNoCacheWithErrorMessage<VmiLocationModel>(
                         editUrl,
                         stringContent
@@ -119,7 +119,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string deleteUrl = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}";
+                string deleteUrl = $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}";
                 return await DeleteAsyncWithErrorMessage<VmiLocationModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -143,7 +143,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiBinResult>(url);
             }
             catch (Exception exception)
@@ -163,7 +163,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}";
 
                 VmiBinModel result = await GetAsyncNoCache<VmiBinModel>(url);
                 if (result == null)
@@ -192,7 +192,7 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                string url = $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins";
+                string url = $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
@@ -229,7 +229,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string deleteUrl =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins/{vmiBinId}";
                 return await DeleteAsyncWithErrorMessage<VmiBinModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -253,7 +253,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<GetVmiCountResult>(url);
             }
             catch (Exception exception)
@@ -273,7 +273,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
                 VmiCountModel result = await GetAsyncNoCache<VmiCountModel>(url);
                 if (result == null)
                 {
@@ -305,7 +305,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
 
                 if (model.Id.Equals(Guid.Empty))
@@ -347,7 +347,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string deleteUrl =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts/{vmiCountId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/bincounts/{vmiCountId}";
                 return await DeleteAsyncWithErrorMessage<VmiCountModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -373,7 +373,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/notes{parameters.ToQueryString()}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/notes{parameters.ToQueryString()}";
                 GetVmiNoteResult result = await GetAsyncNoCache<GetVmiNoteResult>(url);
 
                 return result;
@@ -395,7 +395,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/notes/{parameters.VmiNoteId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/notes/{parameters.VmiNoteId}";
 
                 VmiNoteModel result = await GetAsyncNoCache<VmiNoteModel>(url);
                 if (result == null)
@@ -428,7 +428,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes";
                 StringContent stringContent = await Task.Run(() => SerializeModel(model));
                 if (model.Id.Equals(Guid.Empty))
                 {
@@ -466,7 +466,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string deleteUrl =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes/{vmiNoteId}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{vmiLocationId}/bins/{vmiBinId}/notes/{vmiNoteId}";
                 return await DeleteAsyncWithErrorMessage<VmiNoteModel>(deleteUrl);
             }
             catch (Exception exception)
@@ -509,7 +509,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {
@@ -561,7 +561,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.VMILocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
+                    $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
                 GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
                 if (response?.VmiBins != null)
                 {

@@ -24,7 +24,7 @@ namespace CommerceApiSDK.Services
                 return null;
             }
 
-            string url = $"{CommerceAPIConstants.contentUrl}{pageName}";
+            string url = $"{CommerceAPIConstants.ContentUrl}{pageName}";
 
             this.LoggerService.LogConsole(LogLevel.INFO, "Response content: {0}", url);
 

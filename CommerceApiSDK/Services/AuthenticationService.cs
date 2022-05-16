@@ -118,25 +118,7 @@ namespace CommerceApiSDK.Services
 
             this.cacheService.ClearAllCaches();
 
-            Session clonedSession;
-            if (this.sessionService.CurrentSession is Session currentSession)
-            {
-                clonedSession = currentSession.Clone() as Session;
-            }
-            else
-            {
-                clonedSession = await this.sessionService.GetCurrentSession();
-            }
-
-            if (clonedSession != null)
-            {
-                clonedSession.UserName = null;
-                clonedSession.BillTo = null;
-                clonedSession.ShipTo = null;
-                clonedSession.Language = null;
-                clonedSession.IsAuthenticated = false;
-                await this.sessionService.PatchSession(clonedSession);
-            }
+            await this.sessionService.DeleteCurrentSession();
 
             this.clientService.Reset();
 

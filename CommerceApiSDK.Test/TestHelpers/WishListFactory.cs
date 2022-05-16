@@ -72,7 +72,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                             CommerceAPIConstants.KeyWord,
                             20,
                             preFix
-                                + CommerceAPIConstants.Shortdescriptionunique
+                                + CommerceAPIConstants.ShortDescriptionUnique
                                 + i.ToString()
                                 + postFix
                         ),
@@ -87,7 +87,7 @@ namespace CommerceApiSDK.Test.TestHelpers
                                 + postFix
                         ),
                         ManufacturerItem = CreateShortDescription(
-                            CommerceAPIConstants.Manufactureritem,
+                            CommerceAPIConstants.ManufacturerItem,
                             1,
                             preFix
                                 + CommerceAPIConstants.ManufacturerItemUnique

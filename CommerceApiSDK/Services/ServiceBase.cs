@@ -163,6 +163,16 @@ namespace CommerceApiSDK.Services
             CancellationToken? cancellationToken = null
         ) where T : class
         {
+            if (!ClientConfig.IsCachingEnabled)
+            {
+                return await this.GetAsyncNoCache<T>(
+                    url,
+                    timeout,
+                    jsonConverters,
+                    cancellationToken
+                );
+            }
+
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
             var result = await this.CacheService.OnlineCache.GetOrFetchObject(
@@ -227,6 +237,11 @@ namespace CommerceApiSDK.Services
             CancellationToken? cancellationToken = null
         )
         {
+            if (!ClientConfig.IsCachingEnabled)
+            {
+                return await this.GetAsyncStringResultNoCache(url, timeout, cancellationToken);
+            }
+
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
             string result = await this.CacheService.OnlineCache.GetOrFetchObject(

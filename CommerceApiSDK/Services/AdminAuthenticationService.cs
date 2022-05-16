@@ -102,7 +102,7 @@ namespace CommerceApiSDK.Services
             if (this.adminClientService.IsExistsAccessToken())
             {
                 await this.adminClientService.GetAsync(
-                    CommerceAPIConstants.AdminUserProfileUri,
+                    CommerceAPIConstants.AdminUserProfileUrl,
                     ServiceBase.DefaultRequestTimeout
                 );
 
@@ -132,7 +132,7 @@ namespace CommerceApiSDK.Services
             );
 
             HttpResponseMessage httpResponseMessage = await this.adminClientService.PostAsync(
-                CommerceAPIConstants.ResetPasswordUri,
+                CommerceAPIConstants.ResetPasswordUrl,
                 stringContent,
                 ServiceBase.DefaultRequestTimeout
             );

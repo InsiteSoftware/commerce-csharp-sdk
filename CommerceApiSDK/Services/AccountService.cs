@@ -334,8 +334,8 @@ namespace CommerceApiSDK.Services
             {
                 string url =
                     parameters == null
-                        ? CommerceAPIConstants.PaymentProfileUri
-                        : $"{CommerceAPIConstants.PaymentProfileUri}{parameters.ToQueryString()}";
+                        ? CommerceAPIConstants.PaymentProfileUrl
+                        : $"{CommerceAPIConstants.PaymentProfileUrl}{parameters.ToQueryString()}";
                 return await GetAsyncNoCache<AccountPaymentProfileCollectionResult>(url);
             }
             catch (Exception exception)
@@ -354,7 +354,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                string url = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.PaymentProfileUrl}/{accountPaymentProfileId}";
                 AccountPaymentProfile result = await GetAsyncNoCache<AccountPaymentProfile>(url);
                 if (result == null)
                 {
@@ -393,14 +393,14 @@ namespace CommerceApiSDK.Services
                 if (accountPaymentProfile.Id.Equals(Guid.Empty.ToString()))
                 {
                     response = await PostAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(
-                        CommerceAPIConstants.PaymentProfileUri,
+                        CommerceAPIConstants.PaymentProfileUrl,
                         stringContent
                     );
                 }
                 else
                 {
                     string editUrl =
-                        $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfile.Id}";
+                        $"{CommerceAPIConstants.PaymentProfileUrl}/{accountPaymentProfile.Id}";
                     response = await PatchAsyncNoCacheWithErrorMessage<AccountPaymentProfile>(
                         editUrl,
                         stringContent
@@ -425,7 +425,7 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentException($"{nameof(accountPaymentProfileId)} is empty");
                 }
 
-                string url = $"{CommerceAPIConstants.PaymentProfileUri}/{accountPaymentProfileId}";
+                string url = $"{CommerceAPIConstants.PaymentProfileUrl}/{accountPaymentProfileId}";
                 HttpResponseMessage deleteResponse = await DeleteAsync(url);
                 return deleteResponse != null && deleteResponse.IsSuccessStatusCode;
             }

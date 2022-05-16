@@ -84,8 +84,8 @@ namespace CommerceApiSDK.Handler
             }
 
             if (
-                request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenUri)
-                || request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenLogoutUri)
+                request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenUrl)
+                || request.RequestUri.AbsolutePath.Contains(CommerceAPIConstants.TokenLogoutUrl)
             )
             {
                 return result;

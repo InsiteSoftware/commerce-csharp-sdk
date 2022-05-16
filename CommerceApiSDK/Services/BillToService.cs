@@ -13,13 +13,13 @@ namespace CommerceApiSDK.Services
     public class BillToService : ServiceBase, IBillToService
     {
         private static string ShipTosUrl(Guid billToId) =>
-            $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos";
+            $"{CommerceAPIConstants.BillTosUrl}/{billToId}/shiptos";
 
         private static string BillToIdUrl(Guid billToId) =>
-            $"{CommerceAPIConstants.BillToToUrl}/{billToId}";
+            $"{CommerceAPIConstants.BillTosUrl}/{billToId}";
 
         private static string ShipToIdUrl(Guid billToId, Guid shipToId) =>
-            $"{CommerceAPIConstants.BillToToUrl}/{billToId}/shiptos/{shipToId}";
+            $"{CommerceAPIConstants.BillTosUrl}/{billToId}/shiptos/{shipToId}";
 
         public BillToService(
             IClientService ClientService,
@@ -42,7 +42,7 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = CommerceAPIConstants.BillToToUrl + queryString;
+                string url = CommerceAPIConstants.BillTosUrl + queryString;
                 return await GetAsyncNoCache<GetBillTosResult>(url);
             }
             catch (Exception exception)
@@ -56,7 +56,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var url = CommerceAPIConstants.BillToToUrl;
+                var url = CommerceAPIConstants.BillTosUrl;
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
                 var result = await this.PostAsyncNoCache<BillTo>(url, stringContent);
@@ -84,6 +84,19 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<BillTo> GetCurrentBillTo()
+        {
+            try
+            {
+                return await GetAsyncNoCache<BillTo>(CommerceAPIConstants.BillToCurrentUrl);
+            }
+            catch (Exception e)
+            {
+                this.TrackingService.TrackException(e);
+                return null;
+            }
+        }
+
         public async Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo)
         {
             try
@@ -92,6 +105,26 @@ namespace CommerceApiSDK.Services
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
 
                 var result = await this.PatchAsyncNoCache<BillTo>(url, stringContent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.TrackingService.TrackException(ex);
+                return null;
+            }
+        }
+
+        public async Task<BillTo> PatchCurrentBillTo(BillTo billTo)
+        {
+            try
+            {
+                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
+
+                var result = await this.PatchAsyncNoCache<BillTo>(
+                    CommerceAPIConstants.BillToCurrentUrl,
+                    stringContent
+                );
 
                 return result;
             }
@@ -126,6 +159,29 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
+            ShipTosQueryParameters parameters = null
+        )
+        {
+            try
+            {
+                string queryString = string.Empty;
+
+                if (parameters != null)
+                {
+                    queryString = parameters.ToQueryString();
+                }
+
+                string url = $"{CommerceAPIConstants.BillToCurrentShipTosUrl}{queryString}";
+                return await GetAsyncNoCache<GetShipTosResult>(url);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
         public async Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo)
         {
             try
@@ -134,6 +190,26 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
 
                 ShipTo result = await PostAsyncNoCache<ShipTo>(url, stringContent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.TrackingService.TrackException(ex);
+                return null;
+            }
+        }
+
+        public async Task<ShipTo> PostCurrentBillToShipToAsync(ShipTo shipTo)
+        {
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
+
+                ShipTo result = await PostAsyncNoCache<ShipTo>(
+                    CommerceAPIConstants.BillToCurrentShipTosUrl,
+                    stringContent
+                );
 
                 return result;
             }
@@ -158,6 +234,21 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<ShipTo> GetCurrentShipTo()
+        {
+            try
+            {
+                return await GetAsyncNoCache<ShipTo>(
+                    CommerceAPIConstants.BillToCurrentShipToCurrentUrl
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
         public async Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo)
         {
             try
@@ -166,6 +257,26 @@ namespace CommerceApiSDK.Services
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
 
                 var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.TrackingService.TrackException(ex);
+                return null;
+            }
+        }
+
+        public async Task<ShipTo> PatchCurrentShipTo(ShipTo shipTo)
+        {
+            try
+            {
+                var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
+
+                var result = await this.PostAsyncNoCache<ShipTo>(
+                    CommerceAPIConstants.BillToCurrentShipToCurrentUrl,
+                    stringContent
+                );
 
                 return result;
             }
