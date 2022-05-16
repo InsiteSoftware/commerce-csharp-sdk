@@ -144,6 +144,11 @@ namespace CommerceApiSDK.Services
         /// GetAsyncWithCachedObject
         protected async Task<T> GetAsyncWithCachedResponse<T>(string url, TimeSpan? timeout = null, JsonConverter[] jsonConverters = null, CancellationToken? cancellationToken = null) where T : class
         {
+            if (!ClientConfig.IsCachingEnabled)
+            {
+                return await this.GetAsyncNoCache<T>(url, timeout, jsonConverters, cancellationToken);
+            }
+            
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
             var result = await this.CacheService.OnlineCache.GetOrFetchObject(key, async () =>
@@ -187,6 +192,11 @@ namespace CommerceApiSDK.Services
         /// GetAsyncStringResultWithCachedResponse
         protected async Task<string> GetAsyncStringResultWithCachedResponse(string url, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
         {
+            if (!ClientConfig.IsCachingEnabled)
+            {
+                return await this.GetAsyncStringResultNoCache(url, timeout, cancellationToken);
+            }
+            
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
             string result = await this.CacheService.OnlineCache.GetOrFetchObject(key, async () =>
