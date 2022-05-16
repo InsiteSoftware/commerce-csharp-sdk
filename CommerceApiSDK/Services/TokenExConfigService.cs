@@ -12,17 +12,18 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-             : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<TokenExDto> GetTokenexconfigAsync()
         {
             try
             {
-                TokenExDto tokenexConfig= await GetAsyncNoCache<TokenExDto>(CommerceAPIConstants.TokenexconfigUrl, DefaultRequestTimeout);
-                
+                TokenExDto tokenexConfig = await GetAsyncNoCache<TokenExDto>(
+                    CommerceAPIConstants.TokenexconfigUrl,
+                    DefaultRequestTimeout
+                );
+
                 return tokenexConfig;
             }
             catch (Exception exception)

@@ -21,4 +21,3 @@ namespace CommerceApiSDK.Models
         public string ImageType { get; set; }
     }
 }
-

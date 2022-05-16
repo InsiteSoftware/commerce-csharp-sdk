@@ -219,7 +219,9 @@ namespace CommerceApiSDK.Models
         {
             get
             {
-                return string.IsNullOrEmpty(this.ErpOrderNumber) ? this.WebOrderNumber : this.ErpOrderNumber;
+                return string.IsNullOrEmpty(this.ErpOrderNumber)
+                  ? this.WebOrderNumber
+                  : this.ErpOrderNumber;
             }
         }
     }

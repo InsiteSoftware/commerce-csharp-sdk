@@ -14,7 +14,12 @@ namespace CommerceApiSDK.Models.ContentManagement.Converters
 
         public override bool CanWrite => false;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object existingValue,
+            JsonSerializer serializer
+        )
         {
             PageType result;
             string enumString = (string)reader.Value;

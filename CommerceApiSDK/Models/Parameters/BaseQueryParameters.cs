@@ -20,7 +20,14 @@ namespace CommerceApiSDK.Models.Parameters
 
         public virtual string ToQueryString()
         {
-            List<PropertyInfo> properties = GetType().GetProperties().Where(p => p.GetValue(this, null) != null && QueryParameterAttribute.GetQueryOption(p) != QueryOptions.DoNotQuery).ToList();
+            List<PropertyInfo> properties = GetType()
+                .GetProperties()
+                .Where(
+                    p =>
+                        p.GetValue(this, null) != null
+                        && QueryParameterAttribute.GetQueryOption(p) != QueryOptions.DoNotQuery
+                )
+                .ToList();
 
             List<string> query = new List<string>();
 
@@ -30,9 +37,13 @@ namespace CommerceApiSDK.Models.Parameters
                 {
                     if (list.Count > 0)
                     {
-                        var queryListParameterType = QueryParameterAttribute.GetQueryListParameterType(p);
+                        var queryListParameterType =
+                            QueryParameterAttribute.GetQueryListParameterType(p);
 
-                        if (queryListParameterType.HasValue && queryListParameterType.Value == QueryListParameterType.CommaSeparated)
+                        if (
+                            queryListParameterType.HasValue
+                            && queryListParameterType.Value == QueryListParameterType.CommaSeparated
+                        )
                         {
                             List<string> listItems = new List<string>();
 

@@ -15,24 +15,21 @@ namespace CommerceApiSDK.Services
         private readonly IAdminClientService adminClientService;
 
         private Guid? subscriptionId;
-        
+
         public AdminAuthenticationService(
             IClientService clientService,
             ISessionService sessionService,
             IMessengerService OptiMessenger,
             IAccountService accountService,
             ICacheService cacheService,
-            IAdminClientService adminClientService)
-            : base(
-                clientService,
-                sessionService,
-                OptiMessenger,
-                accountService,
-                cacheService)
+            IAdminClientService adminClientService
+        ) : base(clientService, sessionService, OptiMessenger, accountService, cacheService)
         {
             this.adminClientService = adminClientService;
 
-            subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+            subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
+                AdminRefreshTokenExpiredHandler
+            );
         }
 
         /// <summary>
@@ -41,9 +38,15 @@ namespace CommerceApiSDK.Services
         /// <param name="userName">User's username</param>
         /// <param name="password">User's password</param>
         /// <returns>Whether or not Login was successful</returns>
-        public override async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
+        public override async Task<(bool, ErrorResponse)> LogInAsync(
+            string userName,
+            string password
+        )
         {
-            ServiceResponse<TokenResult> result = await this.adminClientService.Generate($"admin_{userName}", password);
+            ServiceResponse<TokenResult> result = await this.adminClientService.Generate(
+                $"admin_{userName}",
+                password
+            );
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
@@ -52,7 +55,9 @@ namespace CommerceApiSDK.Services
 
             if (subscriptionId == null)
             {
-                subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(AdminRefreshTokenExpiredHandler);
+                subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
+                    AdminRefreshTokenExpiredHandler
+                );
             }
 
             this.adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
@@ -70,17 +75,21 @@ namespace CommerceApiSDK.Services
         {
             if (subscriptionId.HasValue)
             {
-                this.OptiMessenger.Unsubscribe<AdminRefreshTokenExpiredOptiMessage>(subscriptionId.Value);
+                this.OptiMessenger.Unsubscribe<AdminRefreshTokenExpiredOptiMessage>(
+                    subscriptionId.Value
+                );
                 subscriptionId = null;
             }
 
-            _ = await this.adminClientService.GetAsync("identity/connect/endsession", ServiceBase.DefaultRequestTimeout);
+            _ = await this.adminClientService.GetAsync(
+                "identity/connect/endsession",
+                ServiceBase.DefaultRequestTimeout
+            );
             this.adminClientService.Reset();
 
-            this.OptiMessenger.Publish(new AdminSignedOutOptiMessage()
-            {
-                IsRefreshTokenExpired = isRefreshTokenExpired,
-            });
+            this.OptiMessenger.Publish(
+                new AdminSignedOutOptiMessage() { IsRefreshTokenExpired = isRefreshTokenExpired, }
+            );
             this.adminClientService.RemoveAccessToken();
         }
 
@@ -92,7 +101,10 @@ namespace CommerceApiSDK.Services
         {
             if (this.adminClientService.IsExistsAccessToken())
             {
-                await this.adminClientService.GetAsync(CommerceAPIConstants.AdminUserProfileUri, ServiceBase.DefaultRequestTimeout);
+                await this.adminClientService.GetAsync(
+                    CommerceAPIConstants.AdminUserProfileUri,
+                    ServiceBase.DefaultRequestTimeout
+                );
 
                 return this.adminClientService.IsExistsAccessToken();
             }
@@ -107,13 +119,28 @@ namespace CommerceApiSDK.Services
         /// <returns>Whether or not request was a success</returns>
         public async Task<bool> ResetPassword(string userName)
         {
-            JsonSerializerSettings serializationSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-            Dictionary<string, string> payload = new Dictionary<string, string> { { "userName", userName } };
-            StringContent stringContent = await Task.Run(() => ServiceBase.SerializeModel(payload, serializationSettings));
+            JsonSerializerSettings serializationSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            Dictionary<string, string> payload = new Dictionary<string, string>
+            {
+                { "userName", userName }
+            };
+            StringContent stringContent = await Task.Run(
+                () => ServiceBase.SerializeModel(payload, serializationSettings)
+            );
 
-            HttpResponseMessage httpResponseMessage = await this.adminClientService.PostAsync(CommerceAPIConstants.ResetPasswordUri, stringContent, ServiceBase.DefaultRequestTimeout);
+            HttpResponseMessage httpResponseMessage = await this.adminClientService.PostAsync(
+                CommerceAPIConstants.ResetPasswordUri,
+                stringContent,
+                ServiceBase.DefaultRequestTimeout
+            );
 
-            if (httpResponseMessage.StatusCode == HttpStatusCode.Created || httpResponseMessage.StatusCode == HttpStatusCode.OK)
+            if (
+                httpResponseMessage.StatusCode == HttpStatusCode.Created
+                || httpResponseMessage.StatusCode == HttpStatusCode.OK
+            )
             {
                 return true;
             }

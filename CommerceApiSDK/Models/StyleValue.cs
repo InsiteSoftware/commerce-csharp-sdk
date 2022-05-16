@@ -22,4 +22,3 @@ namespace CommerceApiSDK.Models
         public Guid Id { get; set; }
     }
 }
-

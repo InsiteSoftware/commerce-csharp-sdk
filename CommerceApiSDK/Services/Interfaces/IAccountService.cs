@@ -33,7 +33,10 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<Account> PostCurrentAccountPaymentProfileAsync(Account account);
 
-        Task<Account> PatchCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId, Account account);
+        Task<Account> PatchCurrentAccountPaymentProfileIdAsync(
+            Guid accountPaymentProfileId,
+            Account account
+        );
 
         Task<Account> GetCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
 
@@ -46,11 +49,15 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <summary>
         /// A service which manages the account payment profile.
         /// </summary>
-        Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(PaymentProfileQueryParameters parameters = null);
+        Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(
+            PaymentProfileQueryParameters parameters = null
+        );
 
         Task<AccountPaymentProfile> GetPaymentProfile(Guid accountPaymentProfileId);
 
-        Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(AccountPaymentProfile accountPaymentProfile);
+        Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(
+            AccountPaymentProfile accountPaymentProfile
+        );
 
         Task<bool> DeletePaymentProfile(Guid accountPaymentProfileId);
     }

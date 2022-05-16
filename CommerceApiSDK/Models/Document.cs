@@ -25,4 +25,3 @@ namespace CommerceApiSDK.Models
         public string FileTypeString { get; set; }
     }
 }
-

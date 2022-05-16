@@ -7,9 +7,13 @@ namespace CommerceApiSDK.Services
 {
     public class MessengerService : IMessengerService
     {
-        private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<Guid, BaseSubscription>>
-            Subscriptions =
-                new ConcurrentDictionary<Type, ConcurrentDictionary<Guid, BaseSubscription>>();
+        private static readonly ConcurrentDictionary<
+            Type,
+            ConcurrentDictionary<Guid, BaseSubscription>
+        > Subscriptions = new ConcurrentDictionary<
+            Type,
+            ConcurrentDictionary<Guid, BaseSubscription>
+        >();
 
         public Guid Subscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
         {
@@ -19,7 +23,9 @@ namespace CommerceApiSDK.Services
                 messageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
                 if (!Subscriptions.TryAdd(messageType, messageSubscriptions))
                 {
-                    throw new Exception($"Unable to add actions dictionary for {messageType.Name} type");
+                    throw new Exception(
+                        $"Unable to add actions dictionary for {messageType.Name} type"
+                    );
                 }
             }
 
@@ -27,7 +33,9 @@ namespace CommerceApiSDK.Services
 
             if (!messageSubscriptions.TryAdd(subscription.Id, subscription))
             {
-                throw new Exception($"Unable to add action to action dictionary for {messageType.Name} type");
+                throw new Exception(
+                    $"Unable to add action to action dictionary for {messageType.Name} type"
+                );
             }
 
             return subscription.Id;
@@ -35,9 +43,12 @@ namespace CommerceApiSDK.Services
 
         public void Unsubscribe<TMessage>(Guid subscriptionId) where TMessage : OptiMessage
         {
-            if (Subscriptions.TryGetValue(
-                    typeof(TMessage), out ConcurrentDictionary<Guid, BaseSubscription> messageSubscriptions) &&
-                messageSubscriptions.ContainsKey(subscriptionId))
+            if (
+                Subscriptions.TryGetValue(
+                    typeof(TMessage),
+                    out ConcurrentDictionary<Guid, BaseSubscription> messageSubscriptions
+                ) && messageSubscriptions.ContainsKey(subscriptionId)
+            )
             {
                 messageSubscriptions.TryRemove(subscriptionId, out _);
             }
@@ -82,7 +93,12 @@ namespace CommerceApiSDK.Services
                     return false;
                 }
 
-                Call(() => { action?.Invoke(message); });
+                Call(
+                    () =>
+                    {
+                        action?.Invoke(message);
+                    }
+                );
                 return true;
             }
 
@@ -96,9 +112,7 @@ namespace CommerceApiSDK.Services
         private abstract class TypedSubscription<TMessage> : BaseSubscription
             where TMessage : OptiMessage
         {
-            protected TypedSubscription(IActionRunner actionRunner) : base(actionRunner)
-            {
-            }
+            protected TypedSubscription(IActionRunner actionRunner) : base(actionRunner) { }
 
             public sealed override bool Invoke(object message)
             {
@@ -141,8 +155,7 @@ namespace CommerceApiSDK.Services
             void Run(Action action);
         }
 
-        private class SimpleActionRunner
-            : IActionRunner
+        private class SimpleActionRunner : IActionRunner
         {
             public void Run(Action action)
             {

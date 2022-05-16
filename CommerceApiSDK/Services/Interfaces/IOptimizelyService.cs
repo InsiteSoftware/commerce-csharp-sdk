@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IOptimizelyService

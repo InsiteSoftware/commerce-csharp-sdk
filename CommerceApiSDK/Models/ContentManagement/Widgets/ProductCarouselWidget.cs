@@ -25,6 +25,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
         public TopSellersCategoriesSpan DisplayTopSellersFrom { get; set; }
 
         private string selectedCategoryIdsString;
+
         [JsonProperty("selectedCategoryIds")]
         public string SelectedCategoryIdsString
         {
@@ -32,12 +33,17 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
             set
             {
                 selectedCategoryIdsString = value;
-                SelectedCategoryIds = selectedCategoryIdsString?.Split(',').ToList().Select(s => new Guid(s)).ToList();
+                SelectedCategoryIds = selectedCategoryIdsString?
+                    .Split(',')
+                    .ToList()
+                    .Select(s => new Guid(s))
+                    .ToList();
             }
         }
 
         [JsonIgnore]
         public List<Guid> SelectedCategoryIds { get; set; }
+
         [JsonIgnore]
         public bool ShouldForceLoadData { get; set; }
 

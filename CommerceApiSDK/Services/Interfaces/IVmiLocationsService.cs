@@ -12,7 +12,9 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<GetVmiLocationResult> GetVmiLocations(VmiLocationQueryParameters parameters = null);
         Task<GetVmiBinResult> GetVmiBins(VmiBinQueryParameters parameters = null);
         Task<GetVmiCountResult> GetBinCounts(VmiCountQueryParameters parameters = null);
-        Task<GetVmiNoteResult> GetVmiLocationNotes(BaseVmiLocationQueryParameters parameters = null);
+        Task<GetVmiNoteResult> GetVmiLocationNotes(
+            BaseVmiLocationQueryParameters parameters = null
+        );
 
         Task<VmiLocationModel> GetVmiLocation(VmiLocationDetailParameters parameters = null);
         Task<VmiBinModel> GetVmiBin(VmiBinDetailParameters parameters = null);
@@ -21,15 +23,35 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<VmiLocationModel>> SaveVmiLocation(VmiLocationModel model);
         Task<ServiceResponse<VmiBinModel>> SaveVmiBin(Guid vmiLocationId, VmiBinModel model);
-        Task<ServiceResponse<VmiCountModel>> SaveBinCount(Guid vmiLocationId, Guid vmiBinId, VmiCountModel model);
-        Task<ServiceResponse<VmiNoteModel>> SaveVmiBinNote(Guid vmiLocationId, Guid vmiBinId, VmiNoteModel model);
+        Task<ServiceResponse<VmiCountModel>> SaveBinCount(
+            Guid vmiLocationId,
+            Guid vmiBinId,
+            VmiCountModel model
+        );
+        Task<ServiceResponse<VmiNoteModel>> SaveVmiBinNote(
+            Guid vmiLocationId,
+            Guid vmiBinId,
+            VmiNoteModel model
+        );
 
         Task<ServiceResponse<VmiLocationModel>> DeleteVmiLocation(Guid vmiLocationId);
         Task<ServiceResponse<VmiBinModel>> DeleteVmiBin(Guid vmiLocationId, Guid vmiBinId);
-        Task<ServiceResponse<VmiCountModel>> DeleteBinCount(Guid vmiLocationId, Guid vmiBinId, Guid vmiCountId);
-        Task<ServiceResponse<VmiNoteModel>> DeleteVmiBinNote(Guid vmiLocationId, Guid vmiBinId, Guid vmiNoteId);
+        Task<ServiceResponse<VmiCountModel>> DeleteBinCount(
+            Guid vmiLocationId,
+            Guid vmiBinId,
+            Guid vmiCountId
+        );
+        Task<ServiceResponse<VmiNoteModel>> DeleteVmiBinNote(
+            Guid vmiLocationId,
+            Guid vmiBinId,
+            Guid vmiNoteId
+        );
 
-        Task<GetProductCollectionResult> GetProducts(VmiLocationProductParameters parameters = null);
-        Task<IList<AutocompleteProduct>> GetAutocompleteProducts(VmiLocationProductParameters parameters = null);
+        Task<GetProductCollectionResult> GetProducts(
+            VmiLocationProductParameters parameters = null
+        );
+        Task<IList<AutocompleteProduct>> GetAutocompleteProducts(
+            VmiLocationProductParameters parameters = null
+        );
     }
 }

@@ -26,7 +26,8 @@ namespace CommerceApiSDK.Services
             ISessionService sessionService,
             IMessengerService optiMessenger,
             IAccountService accountService,
-            ICacheService cacheService)
+            ICacheService cacheService
+        )
         {
             this.clientService = clientService;
             this.sessionService = sessionService;
@@ -34,7 +35,9 @@ namespace CommerceApiSDK.Services
             this.accountService = accountService;
             this.cacheService = cacheService;
 
-            subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+            subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
+                RefreshTokenExpiredHandler
+            );
         }
 
         /// <summary>
@@ -43,9 +46,15 @@ namespace CommerceApiSDK.Services
         /// <param name="userName">User's username</param>
         /// <param name="password">User's password</param>
         /// <returns>Whether or not sign in was successful</returns>
-        public virtual async Task<(bool, ErrorResponse)> LogInAsync(string userName, string password)
+        public virtual async Task<(bool, ErrorResponse)> LogInAsync(
+            string userName,
+            string password
+        )
         {
-            ServiceResponse<TokenResult> result = await this.clientService.Generate(userName, password);
+            ServiceResponse<TokenResult> result = await this.clientService.Generate(
+                userName,
+                password
+            );
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
@@ -56,7 +65,9 @@ namespace CommerceApiSDK.Services
             this.clientService.StoreSessionState();
 
             Session session = new Session() { UserName = userName, Password = password };
-            ServiceResponse<Session> sessionCreateResult = await this.sessionService.PostSession(session);
+            ServiceResponse<Session> sessionCreateResult = await this.sessionService.PostSession(
+                session
+            );
             Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
@@ -74,7 +85,9 @@ namespace CommerceApiSDK.Services
 
             if (subscriptionId == null)
             {
-                subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(RefreshTokenExpiredHandler);
+                subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
+                    RefreshTokenExpiredHandler
+                );
             }
 
             return (true, null);
@@ -97,7 +110,9 @@ namespace CommerceApiSDK.Services
         {
             if (subscriptionId.HasValue)
             {
-                this.OptiMessenger.Unsubscribe<RefreshTokenExpiredOptiMessage>(subscriptionId.Value);
+                this.OptiMessenger.Unsubscribe<RefreshTokenExpiredOptiMessage>(
+                    subscriptionId.Value
+                );
                 subscriptionId = null;
             }
 
@@ -127,10 +142,9 @@ namespace CommerceApiSDK.Services
 
             this.clientService.RemoveAccessToken();
 
-            this.OptiMessenger.Publish(new UserSignedOutOptiMessage()
-            {
-                IsRefreshTokenExpired = isRefreshTokenExpired,
-            });
+            this.OptiMessenger.Publish(
+                new UserSignedOutOptiMessage() { IsRefreshTokenExpired = isRefreshTokenExpired, }
+            );
         }
 
         /// <summary>

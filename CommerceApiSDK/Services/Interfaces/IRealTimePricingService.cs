@@ -7,6 +7,8 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IRealTimePricingService
     {
-        Task<GetRealTimePricingResult> GetProductRealTimePrices(RealTimePricingParameters parameters);
+        Task<GetRealTimePricingResult> GetProductRealTimePrices(
+            RealTimePricingParameters parameters
+        );
     }
 }

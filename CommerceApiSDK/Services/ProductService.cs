@@ -14,19 +14,20 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService)
-            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
-        {
-        }
+            ILoggerService LoggerService
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetProductCollectionResult> GetProducts(ProductsQueryParameters parameters)
+        public async Task<GetProductCollectionResult> GetProducts(
+            ProductsQueryParameters parameters
+        )
         {
             try
             {
                 string queryString = parameters.ToQueryString();
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
-                GetProductCollectionResult productsResult = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult productsResult =
+                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 if (productsResult == null)
                 {
@@ -48,14 +49,17 @@ namespace CommerceApiSDK.Services
         }
 
         [Obsolete("Caution: Will be removed in a future release.")]
-        public async Task<GetProductCollectionResult> GetProductsNoCache(ProductsQueryParameters parameters)
+        public async Task<GetProductCollectionResult> GetProductsNoCache(
+            ProductsQueryParameters parameters
+        )
         {
             try
             {
                 string queryString = parameters.ToQueryString();
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
-                GetProductCollectionResult productsResult = await GetAsyncNoCache<GetProductCollectionResult>(url);
+                GetProductCollectionResult productsResult =
+                    await GetAsyncNoCache<GetProductCollectionResult>(url);
 
                 if (productsResult == null)
                 {
@@ -94,7 +98,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductResult> GetProduct(Guid productId, ProductQueryParameters parameters = null)
+        public async Task<GetProductResult> GetProduct(
+            Guid productId,
+            ProductQueryParameters parameters = null
+        )
         {
             try
             {
@@ -107,7 +114,9 @@ namespace CommerceApiSDK.Services
 
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}{queryString}";
 
-                GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult productResult = await GetAsyncWithCachedResponse<GetProductResult>(
+                    url
+                );
 
                 if (productResult == null)
                 {
@@ -128,7 +137,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ProductPrice> GetProductPrice(Guid productId, ProductPriceQueryParameters parameters)
+        public async Task<ProductPrice> GetProductPrice(
+            Guid productId,
+            ProductPriceQueryParameters parameters
+        )
         {
             try
             {

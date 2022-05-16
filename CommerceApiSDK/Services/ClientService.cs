@@ -43,7 +43,18 @@ namespace CommerceApiSDK.Services
         private readonly ILocalStorageService localStorageService;
         private readonly ILoggerService loggerService;
 
-        protected virtual string[] StoredCookiesNames { get; } = { "CurrentPickUpWarehouseId", "CurrentFulfillmentMethod", "CurrentBillToId", "CurrentShipToId", "BillToIdShipToId", "CurrentLanguageId", "SetContextLanguageCode", "SetContextPersonaIds" };
+        protected virtual string[] StoredCookiesNames { get; } =
+
+            {
+                "CurrentPickUpWarehouseId",
+                "CurrentFulfillmentMethod",
+                "CurrentBillToId",
+                "CurrentShipToId",
+                "BillToIdShipToId",
+                "CurrentLanguageId",
+                "SetContextLanguageCode",
+                "SetContextPersonaIds"
+            };
 
         public bool IsSecure { get; set; } = true;
 
@@ -96,7 +107,13 @@ namespace CommerceApiSDK.Services
 
         public string ErrorMessage { get; set; }
 
-        public ClientService(ISecureStorageService secureStorageService, ILocalStorageService localStorageService, IMessengerService optiMessenger, ITrackingService trackingService, ILoggerService loggerService)
+        public ClientService(
+            ISecureStorageService secureStorageService,
+            ILocalStorageService localStorageService,
+            IMessengerService optiMessenger,
+            ITrackingService trackingService,
+            ILoggerService loggerService
+        )
         {
             this.OptiMessenger = optiMessenger;
             this.TrackingService = trackingService;
@@ -123,28 +140,45 @@ namespace CommerceApiSDK.Services
                 // Proxy = CFNetwork.GetDefaultProxy()
             };
 
-            client = new HttpClient(new RefreshTokenHandler(httpClientHandler, RenewAuthenticationTokens, this.loggerService, NotifyRefreshTokenExpired))
+            client = new HttpClient(
+                new RefreshTokenHandler(
+                    httpClientHandler,
+                    RenewAuthenticationTokens,
+                    this.loggerService,
+                    NotifyRefreshTokenExpired
+                )
+            )
             {
                 Timeout = Timeout.InfiniteTimeSpan,
             };
         }
 
-        public virtual async Task<HttpResponseMessage> GetAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> GetAsync(
+            string path,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
             this.loggerService.LogDebug(LogLevel.DEBUG, "Sending GetAsync {0}", path);
             HttpResponseMessage response;
-            
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path)))
-                {
-                    request.SetTimeout(timeout);
-                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+
+            using (
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, MakeUrl(path))
+            )
+            {
+                request.SetTimeout(timeout);
+                response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
                 this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
-                }
+            }
 
             return response;
         }
 
-        public virtual async Task<HttpResponseMessage> GetAsyncNoHost(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> GetAsyncNoHost(
+            string path,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, path))
             {
@@ -152,87 +186,161 @@ namespace CommerceApiSDK.Services
             }
 
             HttpResponseMessage response;
-    
+
             response = await client.GetAsync(path, cancellationToken);
 
-            this.loggerService.LogDebug(LogLevel.DEBUG, "GET async no host {0} finished with status: {1} ", path, response.StatusCode);
+            this.loggerService.LogDebug(
+                LogLevel.DEBUG,
+                "GET async no host {0} finished with status: {1} ",
+                path,
+                response.StatusCode
+            );
             this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
             return response;
         }
 
-        public virtual async Task<HttpResponseMessage> PostAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> PostAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
-            this.loggerService.LogConsole(LogLevel.INFO, "Posting Async content for {0} : {1}", path, content);
+            this.loggerService.LogConsole(
+                LogLevel.INFO,
+                "Posting Async content for {0} : {1}",
+                path,
+                content
+            );
             HttpResponseMessage response;
-            
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path)))
-                {
-                    request.Content = content;
-                    request.SetTimeout(timeout);
-                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                }
 
-            this.loggerService.LogDebug(LogLevel.DEBUG, "PostAsync {0} finished with status: {1} ", path, response.StatusCode);
+            using (
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, MakeUrl(path))
+            )
+            {
+                request.Content = content;
+                request.SetTimeout(timeout);
+                response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+            }
+
+            this.loggerService.LogDebug(
+                LogLevel.DEBUG,
+                "PostAsync {0} finished with status: {1} ",
+                path,
+                response.StatusCode
+            );
 
             return response;
         }
 
-        public virtual async Task<HttpResponseMessage> DeleteAsync(string path, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> DeleteAsync(
+            string path,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
             HttpResponseMessage response;
-           
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, MakeUrl(path)))
-                {   
-                    request.SetTimeout(timeout);
-                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                }
 
-            this.loggerService.LogConsole(LogLevel.INFO, "DeleteAsync Response for {0} : {1}", path, response);
+            using (
+                HttpRequestMessage request = new HttpRequestMessage(
+                    HttpMethod.Delete,
+                    MakeUrl(path)
+                )
+            )
+            {
+                request.SetTimeout(timeout);
+                response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+            }
+
+            this.loggerService.LogConsole(
+                LogLevel.INFO,
+                "DeleteAsync Response for {0} : {1}",
+                path,
+                response
+            );
 
             return response;
         }
 
-        public virtual async Task<HttpResponseMessage> PatchAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> PatchAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
-            this.loggerService.LogConsole(LogLevel.INFO, "Patching Async content for {0} : {1}", path, content);
+            this.loggerService.LogConsole(
+                LogLevel.INFO,
+                "Patching Async content for {0} : {1}",
+                path,
+                content
+            );
             HttpResponseMessage response;
-            
-                using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), MakeUrl(path)))
-                {
-                    request.Content = content;
-                    request.SetTimeout(timeout);
-                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                }
 
-            this.loggerService.LogDebug(LogLevel.DEBUG, "PatchAsync {0} finished with status: {1} ", path, response.StatusCode);
+            using (
+                HttpRequestMessage request = new HttpRequestMessage(
+                    new HttpMethod("PATCH"),
+                    MakeUrl(path)
+                )
+            )
+            {
+                request.Content = content;
+                request.SetTimeout(timeout);
+                response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+            }
+
+            this.loggerService.LogDebug(
+                LogLevel.DEBUG,
+                "PatchAsync {0} finished with status: {1} ",
+                path,
+                response.StatusCode
+            );
 
             return response;
         }
 
-        public virtual async Task<HttpResponseMessage> PutAsync(string path, HttpContent content, TimeSpan? timeout = null, CancellationToken? cancellationToken = null)
+        public virtual async Task<HttpResponseMessage> PutAsync(
+            string path,
+            HttpContent content,
+            TimeSpan? timeout = null,
+            CancellationToken? cancellationToken = null
+        )
         {
             HttpResponseMessage response;
-            
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, MakeUrl(path)))
-                {
-                    request.Content = content;
-                    request.SetTimeout(timeout);
-                    response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
-                }
 
-            this.loggerService.LogDebug(LogLevel.DEBUG, "PutAsync {0} finished with status: {1} ", path, response.StatusCode);
+            using (
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, MakeUrl(path))
+            )
+            {
+                request.Content = content;
+                request.SetTimeout(timeout);
+                response = await SendRequestUpToTwiceIfNeededAsync(request, cancellationToken);
+            }
+
+            this.loggerService.LogDebug(
+                LogLevel.DEBUG,
+                "PutAsync {0} finished with status: {1} ",
+                path,
+                response.StatusCode
+            );
 
             return response;
         }
 
-        private async Task<HttpResponseMessage> SendRequestUpToTwiceIfNeededAsync(HttpRequestMessage requestMessage, CancellationToken? cancellationToken = null)
+        private async Task<HttpResponseMessage> SendRequestUpToTwiceIfNeededAsync(
+            HttpRequestMessage requestMessage,
+            CancellationToken? cancellationToken = null
+        )
         {
             HttpResponseMessage response = cancellationToken.HasValue
-                            ? await client.SendAsync(requestMessage, cancellationToken.Value)
-                            : await client.SendAsync(requestMessage);
+                ? await client.SendAsync(requestMessage, cancellationToken.Value)
+                : await client.SendAsync(requestMessage);
 
-            if (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.Unauthorized)
+            if (
+                response.StatusCode == HttpStatusCode.Forbidden
+                || response.StatusCode == HttpStatusCode.Unauthorized
+            )
             {
                 // If token is null/empty after Forbidden status, we aren't logged in
                 // so no need to retry
@@ -245,14 +353,19 @@ namespace CommerceApiSDK.Services
                 // token refreshed
                 cancellationToken?.ThrowIfCancellationRequested();
 
-                using (HttpRequestMessage newRequestMessage = new HttpRequestMessage(requestMessage.Method, requestMessage.RequestUri))
+                using (
+                    HttpRequestMessage newRequestMessage = new HttpRequestMessage(
+                        requestMessage.Method,
+                        requestMessage.RequestUri
+                    )
+                )
                 {
                     newRequestMessage.SetTimeout(requestMessage.GetTimeout());
                     newRequestMessage.Content = requestMessage.Content;
 
                     response = cancellationToken.HasValue
-                                ? await client.SendAsync(newRequestMessage, cancellationToken.Value)
-                                : await client.SendAsync(newRequestMessage);
+                        ? await client.SendAsync(newRequestMessage, cancellationToken.Value)
+                        : await client.SendAsync(newRequestMessage);
                 }
             }
 
@@ -289,33 +402,44 @@ namespace CommerceApiSDK.Services
 
         public async Task<bool> RenewAuthenticationTokens()
         {
-           
-                client.DefaultRequestHeaders.Authorization = null;
+            client.DefaultRequestHeaders.Authorization = null;
 
-                string refreshToken = this.secureStorageService.Load(RefreshTokenStorageKey);
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}");
-                FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
+            string refreshToken = this.secureStorageService.Load(RefreshTokenStorageKey);
+            HttpRequestMessage request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{Protocol}{Host}/{CommerceAPIConstants.TokenUri}"
+            );
+            FormUrlEncodedContent content = new FormUrlEncodedContent(
+                new[]
                 {
-                        new KeyValuePair<string, string>("grant_type", "refresh_token"),
-                        new KeyValuePair<string, string>("refresh_token", refreshToken),
-                        new KeyValuePair<string, string>("client_id", ClientId),
-                        new KeyValuePair<string, string>("client_secret", ClientSecret),
-                });
-                request.Content = content;
-                request.SetTimeout(request.GetTimeout());
-                HttpResponseMessage response = await client.SendAsync(request);
-
-            this.loggerService.LogDebug(LogLevel.DEBUG, "RefershToken PostAsync {0} finished with status: {1} ", CommerceAPIConstants.TokenUri, response.StatusCode);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    return false;
+                    new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                    new KeyValuePair<string, string>("refresh_token", refreshToken),
+                    new KeyValuePair<string, string>("client_id", ClientId),
+                    new KeyValuePair<string, string>("client_secret", ClientSecret),
                 }
+            );
+            request.Content = content;
+            request.SetTimeout(request.GetTimeout());
+            HttpResponseMessage response = await client.SendAsync(request);
 
-                TokenResult token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(response));
-                StoreAccessToken(token);
-                SetBearerAuthorizationHeader(token.AccessToken);
-                StoreSessionState();
+            this.loggerService.LogDebug(
+                LogLevel.DEBUG,
+                "RefershToken PostAsync {0} finished with status: {1} ",
+                CommerceAPIConstants.TokenUri,
+                response.StatusCode
+            );
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            TokenResult token = await Task.Run(
+                () => ServiceBase.DeserializeModel<TokenResult>(response)
+            );
+            StoreAccessToken(token);
+            SetBearerAuthorizationHeader(token.AccessToken);
+            StoreSessionState();
 
             return true;
         }
@@ -349,7 +473,11 @@ namespace CommerceApiSDK.Services
                 {
                     if (StoredCookiesNames.Contains(cookie.Name))
                     {
-                        if (currentSession != null && cookie.Name.Equals("CurrentShipToId") && currentSession.ShipTo != null)
+                        if (
+                            currentSession != null
+                            && cookie.Name.Equals("CurrentShipToId")
+                            && currentSession.ShipTo != null
+                        )
                         {
                             cookie.Value = currentSession.ShipTo.Id; // fixes weird issue when the ShipTo cookie is not updated when you choose the first ShipTo in the list
                         }
@@ -404,12 +532,18 @@ namespace CommerceApiSDK.Services
 
         public void SetBasicAuthorizationHeader()
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Base64Encode($"{ClientId}:{ClientSecret}"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Basic",
+                Base64Encode($"{ClientId}:{ClientSecret}")
+            );
         }
 
         public void SetBearerAuthorizationHeader(string token)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Bearer",
+                token
+            );
         }
 
         #region Access Token
@@ -424,7 +558,10 @@ namespace CommerceApiSDK.Services
             this.secureStorageService.Save(RefreshTokenStorageKey, tokens.RefreshToken);
 
             TimeSpan timeSpan = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn).TimeOfDay;
-            this.secureStorageService.Save(ExpiresInStorageKey, timeSpan.TotalMilliseconds.ToString());
+            this.secureStorageService.Save(
+                ExpiresInStorageKey,
+                timeSpan.TotalMilliseconds.ToString()
+            );
         }
 
         public void RemoveAccessToken()
@@ -455,27 +592,35 @@ namespace CommerceApiSDK.Services
 
         public async Task<ServiceResponse<TokenResult>> Generate(string userName, string password)
         {
-           
-                SetBasicAuthorizationHeader();
+            SetBasicAuthorizationHeader();
 
-                FormUrlEncodedContent requestContent = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("grant_type", "password"),
-                        new KeyValuePair<string, string>("username", userName),
-                        new KeyValuePair<string, string>("password", password),
-                        new KeyValuePair<string, string>("scope", $"{ApiScopeKey} offline_access"),
-                    });
-
-                HttpResponseMessage result = await PostAsync(CommerceAPIConstants.TokenUri, requestContent);
-                if (!result.IsSuccessStatusCode)
+            FormUrlEncodedContent requestContent = new FormUrlEncodedContent(
+                new[]
                 {
-                    ErrorResponse error = await Task.Run(() => ServiceBase.DeserializeModel<ErrorResponse>(result));
-                    return new ServiceResponse<TokenResult> { Error = error };
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username", userName),
+                    new KeyValuePair<string, string>("password", password),
+                    new KeyValuePair<string, string>("scope", $"{ApiScopeKey} offline_access"),
                 }
+            );
 
-                TokenResult token = await Task.Run(() => ServiceBase.DeserializeModel<TokenResult>(result));
-                StoreAccessToken(token);
-                return new ServiceResponse<TokenResult> { Model = token };
+            HttpResponseMessage result = await PostAsync(
+                CommerceAPIConstants.TokenUri,
+                requestContent
+            );
+            if (!result.IsSuccessStatusCode)
+            {
+                ErrorResponse error = await Task.Run(
+                    () => ServiceBase.DeserializeModel<ErrorResponse>(result)
+                );
+                return new ServiceResponse<TokenResult> { Error = error };
+            }
+
+            TokenResult token = await Task.Run(
+                () => ServiceBase.DeserializeModel<TokenResult>(result)
+            );
+            StoreAccessToken(token);
+            return new ServiceResponse<TokenResult> { Model = token };
         }
         #endregion
     }

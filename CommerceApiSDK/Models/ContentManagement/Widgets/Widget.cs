@@ -34,7 +34,9 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                 int hash = HashingBase;
                 hash = (hash * HashingMultiplier) ^ Id.GetHashCode();
                 hash = (hash * HashingMultiplier) ^ Type.GetHashCode();
-                hash = (hash * HashingMultiplier) ^ (!ReferenceEquals(null, SubType) ? SubType.GetHashCode() : 0);
+                hash =
+                    (hash * HashingMultiplier)
+                    ^ (!ReferenceEquals(null, SubType) ? SubType.GetHashCode() : 0);
                 return hash;
             }
         }
@@ -76,14 +78,18 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                 return true;
             }
 
-            bool result = Id == widget.Id
-                && Type == widget.Type
-                && ReferenceEquals(SubType, widget.SubType);
+            bool result =
+                Id == widget.Id && Type == widget.Type && ReferenceEquals(SubType, widget.SubType);
 
             if (result)
             {
-                bool areChildWidgetsEqual = (ChildWidgets == null && widget.ChildWidgets == null)
-                || (ChildWidgets != null && widget.ChildWidgets != null && Enumerable.SequenceEqual(ChildWidgets, widget.ChildWidgets));
+                bool areChildWidgetsEqual =
+                    (ChildWidgets == null && widget.ChildWidgets == null)
+                    || (
+                        ChildWidgets != null
+                        && widget.ChildWidgets != null
+                        && Enumerable.SequenceEqual(ChildWidgets, widget.ChildWidgets)
+                    );
                 result &= areChildWidgetsEqual;
             }
 

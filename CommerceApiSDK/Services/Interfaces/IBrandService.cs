@@ -16,8 +16,12 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<GetBrandCategoriesResult> GetBrandCategories(BrandCategoriesQueryParameter parameters);
 
-        Task<GetBrandSubCategoriesResult> GetBrandCategorySubCategories(BrandCategoriesQueryParameter parameters);
+        Task<GetBrandSubCategoriesResult> GetBrandCategorySubCategories(
+            BrandCategoriesQueryParameter parameters
+        );
 
-        Task<GetBrandProductLinesResult> GetBrandProductLines(ProductLinesQueryParameters parameters);
+        Task<GetBrandProductLinesResult> GetBrandProductLines(
+            ProductLinesQueryParameters parameters
+        );
     }
 }

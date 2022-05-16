@@ -12,4 +12,3 @@
         public string SortType { get; set; }
     }
 }
-

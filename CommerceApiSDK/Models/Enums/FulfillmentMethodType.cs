@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace CommerceApiSDK.Models.Enums
 {
-    public enum FulfillmentMethodType : int 
+    public enum FulfillmentMethodType : int
     {
         [Description("Ship")]
         [FulfillmentMethodDisplayName("Ship")]

@@ -1,9 +1,11 @@
 ﻿using System.Globalization;
+
 namespace CommerceApiSDK.Services
 {
     public static class OptiHexParser
     {
-        public static System.Drawing.Color ColorFromHexString(string value) => ColorFromHexString(value, assumeArgb: false);
+        public static System.Drawing.Color ColorFromHexString(string value) =>
+            ColorFromHexString(value, assumeArgb: false);
 
         public static System.Drawing.Color ColorFromHexString(string value, bool assumeArgb)
         {
@@ -79,7 +81,12 @@ namespace CommerceApiSDK.Services
             var green = int.Parse(value.Substring(2, 1), NumberStyles.HexNumber);
             var blue = int.Parse(value.Substring(3, 1), NumberStyles.HexNumber);
 
-            return System.Drawing.Color.FromArgb(UpByte(alpha), UpByte(red), UpByte(green), UpByte(blue));
+            return System.Drawing.Color.FromArgb(
+                UpByte(alpha),
+                UpByte(red),
+                UpByte(green),
+                UpByte(blue)
+            );
         }
 
         private static System.Drawing.Color Parse4DigitRBGAColor(string value)
@@ -89,7 +96,12 @@ namespace CommerceApiSDK.Services
             var blue = int.Parse(value.Substring(2, 1), NumberStyles.HexNumber);
             var alpha = int.Parse(value.Substring(3, 1), NumberStyles.HexNumber);
 
-            return System.Drawing.Color.FromArgb(UpByte(alpha), UpByte(red), UpByte(green), UpByte(blue));
+            return System.Drawing.Color.FromArgb(
+                UpByte(alpha),
+                UpByte(red),
+                UpByte(green),
+                UpByte(blue)
+            );
         }
 
         private static System.Drawing.Color Parse8DigitARGBColor(string value)

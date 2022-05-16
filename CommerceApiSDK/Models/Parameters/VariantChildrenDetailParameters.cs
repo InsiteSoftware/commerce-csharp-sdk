@@ -9,4 +9,3 @@ namespace CommerceApiSDK.Models.Parameters
         public Guid? VariantChildId { get; set; }
     }
 }
-

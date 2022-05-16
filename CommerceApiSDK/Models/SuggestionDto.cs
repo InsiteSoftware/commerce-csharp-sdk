@@ -9,4 +9,3 @@
         public string Suggestion { get; set; }
     }
 }
-

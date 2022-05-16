@@ -21,7 +21,5 @@ namespace CommerceApiSDK.Models.Parameters
         public bool IsValid { get; set; }
 
         public string ValidationMessage { get; set; }
-
     }
 }
-

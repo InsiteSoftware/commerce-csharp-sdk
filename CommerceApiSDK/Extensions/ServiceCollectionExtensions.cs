@@ -8,7 +8,13 @@ namespace CommerceApiSDK.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCommerceSdk(this IServiceCollection services, string host, string clientId, string clientSecret, bool isCachingEnabled)
+        public static IServiceCollection AddCommerceSdk(
+            this IServiceCollection services,
+            string host,
+            string clientId,
+            string clientSecret,
+            bool isCachingEnabled
+        )
         {
             BlobCache.ApplicationName = "CommerceApiSDK";
 
@@ -47,7 +53,6 @@ namespace CommerceApiSDK.Extensions
             services.AddSingleton<IWishListService, WishListService>();
             services.AddSingleton<IRealTimePricingService, RealTimePricingService>();
             services.AddSingleton<IRealTimeInventoryService, RealTimeInventoryService>();
-            
 
             //ILocalStorageService needs to be implemented outside of the API SDK
             //INetworkService needs to be implemented outside of the API SDK

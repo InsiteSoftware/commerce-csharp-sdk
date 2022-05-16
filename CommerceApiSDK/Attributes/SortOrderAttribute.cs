@@ -11,12 +11,22 @@ namespace CommerceApiSDK.Services.Attributes
             Init(groupTitle, title, value, null);
         }
 
-        public SortOrderAttribute(string groupTitle, string title, string value, SortOrderOptions sortOrderOption)
+        public SortOrderAttribute(
+            string groupTitle,
+            string title,
+            string value,
+            SortOrderOptions sortOrderOption
+        )
         {
             Init(groupTitle, title, value, sortOrderOption);
         }
 
-        private void Init(string groupTitle, string title, string value, SortOrderOptions? sortOrderOption)
+        private void Init(
+            string groupTitle,
+            string title,
+            string value,
+            SortOrderOptions? sortOrderOption
+        )
         {
             GroupTitle = groupTitle;
             Title = title;
@@ -34,7 +44,10 @@ namespace CommerceApiSDK.Services.Attributes
 
         private static SortOrderAttribute GetSortOrderAttribute<T>(T sortOrder) where T : struct
         {
-            return sortOrder.GetType().GetRuntimeField(sortOrder.ToString()).GetCustomAttribute<SortOrderAttribute>();
+            return sortOrder
+                .GetType()
+                .GetRuntimeField(sortOrder.ToString())
+                .GetCustomAttribute<SortOrderAttribute>();
         }
 
         public static string GetSortOrderGroupTitle<T>(T orderSortOrder) where T : struct

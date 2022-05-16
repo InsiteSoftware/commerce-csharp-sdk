@@ -94,7 +94,10 @@ namespace CommerceApiSDK.Models
                 }
 
                 string[] separator = { "/" };
-                string[] expiration = ExpirationDate.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                string[] expiration = ExpirationDate.Split(
+                    separator,
+                    StringSplitOptions.RemoveEmptyEntries
+                );
                 if (int.TryParse(expiration[0], out int result))
                 {
                     return result;
@@ -120,7 +123,10 @@ namespace CommerceApiSDK.Models
                 }
 
                 string[] separator = { "/" };
-                string[] expiration = ExpirationDate.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                string[] expiration = ExpirationDate.Split(
+                    separator,
+                    StringSplitOptions.RemoveEmptyEntries
+                );
                 if (expiration.Length <= 1)
                 {
                     return 0;

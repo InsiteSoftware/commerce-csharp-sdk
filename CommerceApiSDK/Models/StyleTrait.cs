@@ -23,4 +23,3 @@ namespace CommerceApiSDK.Models
         public IList<StyleValue> TraitValues { get; set; }
     }
 }
-

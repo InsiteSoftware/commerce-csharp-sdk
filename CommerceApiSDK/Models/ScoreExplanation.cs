@@ -11,4 +11,3 @@ namespace CommerceApiSDK.Models
         public IList<FieldScoreDetailed> DetailedFieldScores { get; set; }
     }
 }
-

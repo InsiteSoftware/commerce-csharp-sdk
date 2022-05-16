@@ -7,4 +7,3 @@ namespace CommerceApiSDK.Models.Parameters
         public Guid? ProductId { get; set; }
     }
 }
-

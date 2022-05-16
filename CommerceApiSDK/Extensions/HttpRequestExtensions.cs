@@ -24,10 +24,10 @@ namespace CommerceApiSDK.Services
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if (request.Properties.TryGetValue(
-                    timeoutPropertyKey,
-                    out object value)
-                && value is TimeSpan timeout)
+            if (
+                request.Properties.TryGetValue(timeoutPropertyKey, out object value)
+                && value is TimeSpan timeout
+            )
             {
                 return timeout;
             }
