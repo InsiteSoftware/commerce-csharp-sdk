@@ -46,3 +46,5 @@ jobs:
           release_name: Release ${{ steps.gitversion.outputs.AssemblySemVer }}
           tag_name: ${{ steps.gitversion.outputs.AssemblySemVer }}
           body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
