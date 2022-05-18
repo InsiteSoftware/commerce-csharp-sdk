@@ -1,8 +1,8 @@
 name: CD
 
 on:
-  push:
-    branches: [ main ]
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -48,5 +48,6 @@ jobs:
       - name: Package nuget
         run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }}
 
-      - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/commerce-csharp-sdk/index.json
+      - name: Publish to Nuget.org
+        if: startsWith(github.ref, 'refs/heads/release')
+        run: nuget push ./package/*.nupkg --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_API_KEY}}
