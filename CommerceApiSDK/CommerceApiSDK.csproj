@@ -6,6 +6,8 @@
     <Configurations>Debug;Release</Configurations>
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageId>Optimizely.Commerce.API</PackageId>
+    <Authors>Optimizely</Authors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
