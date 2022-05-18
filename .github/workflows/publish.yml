@@ -48,4 +48,4 @@ jobs:
         run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }}
 
       - name: Publish to Nuget.org
-        run: nuget push ./package/*.nupkg -source 'https://api.nuget.org/v3/index.json' -api-key ${{secrets.NUGET_API_KEY}}
+        run: dotnet nuget push "./package/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json"
