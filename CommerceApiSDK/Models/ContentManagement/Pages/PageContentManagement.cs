@@ -102,7 +102,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Pages
         [JsonConverter(typeof(ProductCarouselTypeEnumConverter))]
         public ProductCarouselType CarouselType { get; set; }
 
-        public List<Guid> SelectedCategoryIds { get; private set; }
+        public List<Guid> SelectedCategoryIds { get; set; }
 
         [JsonConverter(typeof(TopSellersCategoriesSpanEnumConverter))]
         public TopSellersCategoriesSpan DisplayProductsFrom { get; set; }
@@ -190,5 +190,9 @@ namespace CommerceApiSDK.Models.ContentManagement.Pages
     public class Localization
     {
         public dynamic Title { get; set; }
+
+        public dynamic Links { get; set; }
+
+        public dynamic Slides { get; set; }
     }
 }
