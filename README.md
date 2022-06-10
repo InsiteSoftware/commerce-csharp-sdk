@@ -1,33 +1,42 @@
-# Optimizely API SDK
+# Optimizely B2C Commerce API SDK
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
+## About the SDK
+Optimizely B2B Commerce API SDK is a .NET based Nuget package that provides a C# API wrapper for to the B2B Commerce API. This allows developers to interact with the B2C platform API through an object-oriented interface, rather than making direct HTTP calls to the API. In addition to ease of use, the API SDK package abstracts the API so that updates to the underlying API should not break solutions built off of the SDK.
+
+Employing this API SDK enables developers to pull data out of the B2B Commerce system into any C# based application that needs to interact with the B2B Commerce Cloud platform. This enables rapid development of application such as mobile apps built with the Xamarin-based B2B Commerce Mobile App SDK and cross-product integrations, such as B2B-Content Cloud CMS integration.
+
+This package contains all of the endpoints provided by Optimizely Commerce API. A comprehensive list of services can be found in the swagger API documentation [here](https://mobiledev.insitesandbox.com/swagger/ui/index).
+
 ## Installation
+The API SDK is delivered as a Nuget package that can be imported by adding the `<nuget package name>` to your projects.
 
-Add the `<nuget package name>` to your projects.
+Before using the API SDK, you will need to perform a few setup steps:
 
-This package contains all of the endpoints provided by Optimizely Commerce API. A comprehensive list of services can be found in the swagger document [here](https://mobiledev.insitesandbox.com/swagger/ui/index).
-
-Before you begin using this API, there are a few setup steps that need to be taken care of:
 1. Configure the project.
 2. Implement additional services.
-3. Inject the API Service provider into your class. (How to use)
-
+3. Inject the API Service provider into your class.
 
 ## 1. Configure the project
-To begin, the API SDK needs to know the host url, client secret, and client ID. There is also an option to enabled/disable caching that needs to be configured. You can achieve this several different ways. We provide a IServiceCollection extension method that handles registering all of the needed services, as well as configures the project for you. The other option is to override our `ClientService` class's `CreateClient()` method.
+Before it can communicate with the B2B Commerce API, the API SDK needs to know the host url, client secret, and client ID of your B2B instance. You also need to enable/disable caching via the package configuration.
+
+You can configure the package several ways. We provide an `IServiceCollection` extension that registers all of the needed services, as well as configuring the project for you. Another option is to override our `ClientService` class's `CreateClient()` manually with your own custom code.
 
 ##### IServiceCollection extension
-The IServiceCollection extention method registers all the necessary services to your IoC Container, as well as assigns the host, client id and client secret, and can toggle caching on or off. To do this, you'll need to use the provided [ServiceCollectionExtension](https://github.com/InsiteSoftware/commerce-csharp-sdk/blob/develop/CommerceApiSDK/Extensions/ServiceCollectionExtensions.cs)'s extension method `AddComerceSdk(string Host, string ClientID, string ClientSecret, bool IsCachingEnabled)`. 
+The `IServiceCollection` extension method registers all the necessary services to your IoC Container, as well as assigning the host, client id and client secret, and can toggle caching on or off. To configure the SDK this way, call the provided [ServiceCollectionExtension](https://github.com/InsiteSoftware/commerce-csharp-sdk/blob/develop/CommerceApiSDK/Extensions/ServiceCollectionExtensions.cs)'s extension method, `AddComerceSdk(string Host, string ClientID, string ClientSecret, bool IsCachingEnabled)`.
+
 ```sh
 yourServiceCollection.AddCommerceSdk("yourHost.url", "yourClientID", "yourClientSecret",  enableCaching)
 ```
+Substitute the following variables with the appropriate values for your context:
 - `host`: The domain url.
-- `clientID`: Your ID 
+- `clientID`: Your ID
 - `clientSecret`: Your Access Token
-- `isCachingEnabled`: A boolean used to determine if the SDK should load a cached version if service returned an empty response.
+- `isCachingEnabled`: A boolean used to determine if the SDK should load a cached version if the service returns an empty response.
 
-Additionally, you will also need to register the services you implement ([required services](#implement-additional-services)) to your IoC Container.
+You will also need to register the services you implement ([required services](#implement-additional-services)) to your IoC Container:
+
 ```sh
 yourServiceCollection.AddSingleton<ICommerceAPIServiceProvider, YourAPIServiceProviderImp();
 yourServiceCollection.AddSingleton<ILocalStorageService, YourLocalStorageImp>();
@@ -37,7 +46,7 @@ yourServiceCollection.AddSingleton<ITrackingService, YourTrackingServiceImp>();
 ```
 
 ##### Manual Configuration
-If you use something other than the IServiceCollection to help with dependency injection, you can manually register the services to whichever container you're using. Below is a list of the services and their implementation class that need to be registered.
+If you use something other than the `IServiceCollection` to help with dependency injection, you can manually register the services to whichever container you are using. Below is a list of the services and their respective implementation classes that need to be registered.
 
 ```sh
 ICommerceAPIServiceProvider, CommerceAPIServiceProvider>();
@@ -76,8 +85,7 @@ IVmiLocationsService, VmiLocationsService>();
 
 ```
 
-
-To configure the project to your environment, we recommend to overwrite our `ClientService.CreateClient()` method. In this method, you'll need to assign the Host, ClientId, ClientSecret, and set IsCachingEnabled boolean. This is also where you can configure the http client. An example implementation is show below:
+When manually configuring the project to your environment, we recommend you overwrite our `ClientService.CreateClient()` method. In this method, you will need to assign the Host, ClientId, ClientSecret, and set the `IsCachingEnabled` boolean value. This is also where you can configure the HTTP client. An example implementation might look something like the following:
 
 ```sh
     public class CommerceClientService : ClientService
@@ -108,23 +116,24 @@ To configure the project to your environment, we recommend to overwrite our `Cli
             };
         }
     }
+
 ```
 
-A another option if you're not using the IServiceCollection extension method is to call our static `ClientConfig` class's `InitClientConfig(string hostURL, string clientId, string clientSecret, bool isCachingEnabled)` within your start up class, before you register the services to your IoC Container.
+A another option if you're not using the `IServiceCollection` extension method is to call our static `ClientConfig` class's `InitClientConfig(string hostURL, string clientId, string clientSecret, bool isCachingEnabled)` within your start up class, before you register the services to your IoC Container.
 
 ```sh
 ClientConfig.InitClientConfig("hostURL", "clientId", "clientSecret", isCachingEnabled)
 ```
 
 ##### If Caching is enabled
-If you have enabled caching, [Akavache](https://github.com/reactiveui/Akavache) will be required to add to your project. Once added, you'll need to grab an instance of Akavache's `IFilesystemProvider` interface. We recommend using Splat's Locator class to grab this service to register to your IoC Container.
+If you have enabled caching, you will need to add [Akavache](https://github.com/reactiveui/Akavache) to your project. Once added, you will need to grab an instance of Akavache's `IFilesystemProvider` interface. We recommend using Splat's Locator class to grab this service to register to your IoC Container.
 
 If using IServiceCollection:
 `services.AddSingleton(Locator.Current.GetService<IFilesystemProvider>());`
 
 
 # 2. Implement Additional Services
-This project relies on some platform specific services in order to function properly. The interfaces are provided by this API SDK. However, you will need to implement these services yourself.
+Once the package has been configured using either approach, you will need to implement platform specific services in order for the SDK to function properly. The interfaces to do this are provided by the API SDK package. However, you will need to implement these services yourself.
 1. ILocalStorageService
 2. ISecureStorageService
 3. INetworkService
@@ -132,7 +141,7 @@ This project relies on some platform specific services in order to function prop
 5. ICommerceAPIServiceProvider
 
 #### ILocalStorageService
-A service which manages persitant local storage.
+This service manages persistent local storage. The parameters needed to configure the service are as follows:
 
 `string Load(string key)`
 `string Load(string key, string defaultValue);`
@@ -143,7 +152,7 @@ A service which manages persitant local storage.
 `bool Remove(string key);`
 
 #### ISecureStorageService
-A service which can persist sensitive data securely. This is used to store session information such as Refresh & Access tokens.
+This service can persist sensitive data securely. This is used to store session information such as Refresh & Access tokens. The parameters needed to configure the service are as follows:
 
 `string Load(string key);`
 `bool Save(string key, string value);`
@@ -151,13 +160,13 @@ A service which can persist sensitive data securely. This is used to store sessi
 `bool ClearAll();`
 
 #### INetworkService
-A service which determines network availability. This is an optional service, used to determine if a network request should be sent or not. If this method returns false, the SDK will attempt to grab a cached version of the response. Otherwise, if true, the SDK will make the request as normal.
-_Note: If IsOnline() returns_ `false`_, and if you've configured caching off, then the request will always return_ `null`_._
+This service determines network availability. This is an optional service, used to determine if a network request should be sent or not. If this method returns false, the SDK will attempt to grab a cached version of the response. Otherwise, if true, the SDK will make the request as normal.
+_Note: If IsOnline() returns_ `false`_, and if you have configured caching off, then the request will always return_ `null`_._
 
 `bool IsOnline();`
 
 #### ITrackingService
-A service for event tracking. This is where you would add your analytic service implementation. If you don't yet have an analytic service, you should still implement this interface, but the methods can be left blank.
+This service tracks events. This is where you would add your analytics service implementation. If you don't yet have an analytic service, you should still implement this interface, but the methods can be left blank.  The parameters needed to configure the service are as follows:
 
 `ISessionService SessionService { get; }`
 `void Initialize();`
@@ -167,9 +176,10 @@ A service for event tracking. This is where you would add your analytic service 
 `void SetUserID(string userId);`
 
 #### ICommerceAPIServiceProvider
-A service for retrieving the API related services. Although you are able to inject the dependencies you need manually, we've provideded this interface to help condence your class's constructor size. It will be up to you to implement the accessor methods. To do this, you can use IServiceProvider's [GetService(Type)](https://docs.microsoft.com/en-us/dotnet/api/system.iserviceprovider.getservice?view=net-6.0) or if you're using MvvmCross, you can resolve the dependency via: `Mvx.IoCProvider.Resolve<IService>();`
+This service retrieves the API related services. Although you are able to inject the dependencies you need manually, we have provideded this interface to help condense your class's constructor size. It will be up to you to implement the accessor methods. To do this, you can use `IServiceProvider`'s [GetService(Type)](https://docs.microsoft.com/en-us/dotnet/api/system.iserviceprovider.getservice?view=net-6.0) or if you're using MvvmCross, you can resolve the dependency via: `Mvx.IoCProvider.Resolve<IService>();`
+
 # How to use the SDK
-Now that the API SDK has been setup, you're ready to start using it! In order to reduce the number of services you need to inject on your own, we recommend you use the `ICommerceAPIServiceProvider` implementation you created in Step #2. This will be able to provide each service offered by the API SDK. To use it, you'll need to inject this into your class, and then call the appropriate getter method.
+Once you have set up the API SDK, you are ready to start using it to make calls to the B2B Commerce API! In order to reduce the number of services you need to inject on your own, we recommend you use the `ICommerceAPIServiceProvider` implementation you created in Step 2. This will enable each service offered by the API SDK. To use it, you need to inject this into your class, and then call the appropriate getter method.
 ```sh
 public YourClass(ICommerceAPIServiceProvider commerceAPIServiceProvider)
 {
@@ -181,7 +191,7 @@ public YourClass(ICommerceAPIServiceProvider commerceAPIServiceProvider)
 }
 ```
 
-There are some service methods that will require you to provide values for the query parameters. We offer [QueryParameter objects](https://github.com/InsiteSoftware/commerce-csharp-sdk/tree/develop/CommerceApiSDK/Models/Parameters) that can assit you in this area. 
+There are some service methods that will require you to provide values for the query parameters. We offer [QueryParameter objects](https://github.com/InsiteSoftware/commerce-csharp-sdk/tree/develop/CommerceApiSDK/Models/Parameters) that can assist you in this area. 
 ```sh
 var parameters = new BillTosQueryParameters
     {
