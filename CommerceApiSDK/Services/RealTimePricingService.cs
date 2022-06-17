@@ -26,7 +26,7 @@ namespace CommerceApiSDK.Services
                 if (IsOnline)
                 {
                     StringContent stringContent = await Task.Run(
-                        () => SerializeModel(new { parameters })
+                        () => SerializeModel(parameters)
                     );
                     GetRealTimePricingResult result =
                         await PostAsyncNoCache<GetRealTimePricingResult>(
