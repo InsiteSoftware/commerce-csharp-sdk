@@ -35,15 +35,15 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: ./.github/gitversionconfig.yml
-      
-      - name: Restore dependencies
-        run: nuget restore $SOLUTION
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
     
+      - name: Restore dependencies
+        run: nuget restore $SOLUTION
+
       - name: Package nuget
         run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }} --include-symbols
 
