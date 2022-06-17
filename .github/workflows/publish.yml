@@ -42,7 +42,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.x'
+          dotnet-version: '6.0.x'
     
       - name: Package nuget
         run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }} --include-symbols

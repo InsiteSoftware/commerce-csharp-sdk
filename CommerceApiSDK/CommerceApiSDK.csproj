@@ -23,12 +23,12 @@
     <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="akavache.sqlite3" Version="6.10.4" />
-    <PackageReference Include="akavache.core" Version="6.10.4" />
-    <PackageReference Include="akavache" Version="6.10.4" />
+    <PackageReference Include="akavache.sqlite3" Version="8.1.1" />
+    <PackageReference Include="akavache.core" Version="8.1.1" />
+    <PackageReference Include="akavache" Version="8.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
