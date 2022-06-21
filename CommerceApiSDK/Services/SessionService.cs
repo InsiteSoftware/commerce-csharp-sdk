@@ -10,7 +10,7 @@ namespace CommerceApiSDK.Services
 {
     public class SessionService : ServiceBase, ISessionService
     {
-        protected readonly IMessengerService optiMessenger;
+        protected readonly IMessengerService OptiMessenger;
 
         private Session currentSession;
         public Session CurrentSession => currentSession;
@@ -20,8 +20,12 @@ namespace CommerceApiSDK.Services
             INetworkService NetworkService,
             ITrackingService TrackingService,
             ICacheService CacheService,
-            ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+            ILoggerService LoggerService,
+            IMessengerService optiMessenger
+        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+        {
+            this.OptiMessenger = optiMessenger;
+        }
 
         /// <summary>
         /// Deletes the current session stored locally and then sends a delete request to the server
@@ -150,7 +154,7 @@ namespace CommerceApiSDK.Services
                             )
                         )
                         {
-                            optiMessenger.Publish(new SessionChangedOptiMessage());
+                            this.OptiMessenger.Publish(new SessionChangedOptiMessage());
                         }
                     }
 
