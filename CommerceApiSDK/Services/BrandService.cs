@@ -21,7 +21,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<BrandAlphabetResult>(
+                return await GetAsyncWithCachedResponse<BrandAlphabetResult>(
                     CommerceAPIConstants.BrandAlphabetUrl
                 );
             }
@@ -36,7 +36,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                return await GetAsyncNoCache<GetBrandsResult>(
+                return await GetAsyncWithCachedResponse<GetBrandsResult>(
                     CommerceAPIConstants.BrandUrl + parameters.ToQueryString()
                 );
             }
