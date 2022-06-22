@@ -50,6 +50,8 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the name of the user.</summary>
         public string UserName { get; set; }
 
+        public string UserProfileId { get; set; }
+
         /// <summary>Gets or sets the user label.</summary>
         public string UserLabel { get; set; }
 
