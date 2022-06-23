@@ -4,7 +4,7 @@
 
 
 ## About the SDK
-Optimizely B2B Commerce API SDK is a .NET based Nuget package that provides a C# API wrapper for to the B2B Commerce API. This allows developers to interact with the B2C platform API through an object-oriented interface, rather than making direct HTTP calls to the API. In addition to ease of use, the API SDK package abstracts the API so that updates to the underlying API should not break solutions built off of the SDK.
+Optimizely B2B Commerce API SDK is a .NET based Nuget package that provides a C# API wrapper for to the B2B Commerce API. This allows developers to interact with the B2B platform API through an object-oriented interface, rather than making direct HTTP calls to the API. In addition to ease of use, the API SDK package abstracts the API so that updates to the underlying API should not break solutions built off of the SDK.
 
 Employing this API SDK enables developers to pull data out of the B2B Commerce system into any C# based application that needs to interact with the B2B Commerce Cloud platform. This enables rapid development of application such as mobile apps built with the Xamarin-based B2B Commerce Mobile App SDK and cross-product integrations, such as B2B-Content Cloud CMS integration.
 
