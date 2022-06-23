@@ -8,11 +8,11 @@ Before contributing, please read the [code of conduct](https://github.com/episer
 
 * Create a new issue in GitHub. _Note: If you are submitting a fix for a bug you found yourself, you will still need to report it._
 * Assign this issue to yourself.
-* Create branch off develop named XXX-shortname where XXX is the issue number in Github, for example "bugfix/1231-thumbnails-for-media". See "Branching" below for details.
+* Create branch off main named XXX-shortname where XXX is the issue number in Github, for example "bugfix/1231-thumbnails-for-media". See "Branching" below for details.
 * For bug fixes add a unit test to catch the bug before continuing.
 * __Test__, code, __test__, code, __test__!
 * When finished, write a commit message according to the commit message guidelines below.
-* Before creating a pull request, pull the latest changes from develop into your branch and resolve any conflicts.
+* Before creating a pull request, pull the latest changes from main into your branch and resolve any conflicts.
 * Create a pull request with your changes and squash your changes to a single commit (unless multiple commits makes sense for some reason).
 * Submit your pull request and await review.
 
@@ -36,22 +36,18 @@ We use the workflow described in https://www.atlassian.com/git/workflows#!workfl
 ### Main branch
 Should always contain tested, working, releasable code. You can only make changes to main by creating pull requests that must be reviewed and accepted.
 
-### Develop branch
-
-Acts as integration branch for feature and bugfix branches that should go into the next release. You can only get code onto develop by creating pull requests that then need to be reviewed and accepted. PRs should only contain completely implemented work items.
-
 ### Feature branches
 
-Created from develop and should be named feature/`<issue id in github>-<short description>`. For example, to work on "User Story 35: Remove the 'Classic' link stage in the API and only use permanent links" you would create a branch from develop named "feature/35-remove-classic-links". Note that the `<short description>` is all lower-case with hyphens.
+Created from main and should be named feature/`<issue id in github>-<short description>`. For example, to work on "User Story 35: Remove the 'Classic' link stage in the API and only use permanent links" you would create a branch from main named "feature/35-remove-classic-links". Note that the `<short description>` is all lower-case with hyphens.
 
-You can request merger of your branch to the develop branch by creating a pull request.
+You can request merger of your branch to the main branch by creating a pull request.
 
-As a reminder, always pull develop into your feature branch and resolve any merge conflicts within your own branch prior to submitting a pull request for merger into develop.
+As a reminder, always pull main into your feature branch and resolve any merge conflicts within your own branch prior to submitting a pull request for merger into main.
 
 ### Bugfix branches
-Created from develop and should be named bugfix/`<issue id in github>-<short description>`. For example to work on "Bug 111571: MVC rendering of built-in properties" you should create a branch named something like "bugfix/111571-mvc-rendering-properties". Note that the `<short description>` is all lower-case with hyphens.
+Created from main and should be named bugfix/`<issue id in github>-<short description>`. For example to work on "Bug 111571: MVC rendering of built-in properties" you should create a branch named something like "bugfix/111571-mvc-rendering-properties". Note that the `<short description>` is all lower-case with hyphens.
 
-Merge to the develop branch by creating a pull request.
+Merge to the main branch by creating a pull request.
 
 
 ## Commit Message Guidelines ##

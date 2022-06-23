@@ -10,7 +10,7 @@ Employing this API SDK enables developers to pull data out of the B2B Commerce s
 This package contains all of the endpoints provided by Optimizely Commerce API. A comprehensive list of services can be found in the swagger API documentation [here](https://mobiledev.insitesandbox.com/swagger/ui/index).
 
 ## Installation
-The API SDK is delivered as a Nuget package that can be imported by adding the `<nuget package name>` to your projects.
+The API SDK is delivered as a Nuget package that can be imported by adding the `Optimizely.Commerce.API` to your projects. For more information on the package, see the [Nuget package description](https://www.nuget.org/packages/Optimizely.Commerce.API/) 
 
 Before using the API SDK, you will need to perform a few setup steps:
 
@@ -191,7 +191,7 @@ public YourClass(ICommerceAPIServiceProvider commerceAPIServiceProvider)
 }
 ```
 
-There are some service methods that will require you to provide values for the query parameters. We offer [QueryParameter objects](https://github.com/InsiteSoftware/commerce-csharp-sdk/tree/develop/CommerceApiSDK/Models/Parameters) that can assist you in this area. 
+There are some service methods that will require you to provide values for the query parameters. We offer [QueryParameter objects](https://github.com/InsiteSoftware/commerce-csharp-sdk/tree/develop/CommerceApiSDK/Models/Parameters) that can assist you in this area.
 ```sh
 var parameters = new BillTosQueryParameters
     {
