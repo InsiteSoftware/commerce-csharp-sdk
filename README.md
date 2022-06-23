@@ -4,8 +4,6 @@
 [![NuGet](https://img.shields.io/nuget/v/Optimizely.SDK.svg?style=plastic)](https://www.nuget.org/packages/Optimizely.SDK/)
 
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 ## About the SDK
 Optimizely B2B Commerce API SDK is a .NET based Nuget package that provides a C# API wrapper for to the B2B Commerce API. This allows developers to interact with the B2C platform API through an object-oriented interface, rather than making direct HTTP calls to the API. In addition to ease of use, the API SDK package abstracts the API so that updates to the underlying API should not break solutions built off of the SDK.
 
