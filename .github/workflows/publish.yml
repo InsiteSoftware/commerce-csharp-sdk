@@ -45,7 +45,7 @@ jobs:
         run: nuget restore $SOLUTION
 
       - name: Package nuget
-        run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }} --include-symbols
+        run: dotnet pack $SOLUTION --configuration $BUILD_CONFIG -o:package /p:PackageVersion=${{ steps.gitversion.outputs.AssemblySemVer }} --include-symbols -p:SymbolPackageFormat=snupkg
 
       - name: Publish to Nuget.org
         run: dotnet nuget push "./package/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json"
