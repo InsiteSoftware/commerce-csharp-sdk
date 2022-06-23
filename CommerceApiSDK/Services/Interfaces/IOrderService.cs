@@ -4,7 +4,6 @@ using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
-using CommerceApiSDK.Services.Attributes;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
@@ -17,6 +16,12 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<GetOrderCollectionResult> GetOrders(OrdersQueryParameters parameters = null);
 
         Task<Order> GetOrder(string orderNumber);
+
+        Task<Order> PatchOrder(Order order);
+
+        Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn);
+
+        Task<ShareEntity> ShareOrder(ShareOrder order);
 
         Task<List<OrderStatusMapping>> GetOrderStatusMappings();
 
