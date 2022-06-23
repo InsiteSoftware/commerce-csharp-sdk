@@ -55,19 +55,43 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the unit net price display.</summary>
         public string UnitNetPriceDisplay { get; set; }
 
-        /// <summary>Gets or sets the unit of measure.</summary>
-        public string UnitOfMeasure { get; set; }
-
         /// <summary>Gets or sets the Quantity UnitNetPrice</summary>
         public decimal ExtendedUnitNetPrice { get; set; }
 
         /// <summary>Gets or sets the Formatted Quantity UnitNetPrice</summary>
         public string ExtendedUnitNetPriceDisplay { get; set; }
 
-        /// <summary>Gets or sets the calculated break quantity unit list prices</summary>
+        /// <summary>Gets or sets the unit of measure.</summary>
+        public string UnitOfMeasure { get; set; }
+
+        public decimal VatRate { get; set; }
+
+        public decimal VatAmount { get; set; }
+
+        public string VatAmountDisplay { get; set; }
+
         public IList<BreakPriceDto> UnitListBreakPrices { get; set; }
 
-        /// <summary>Gets or sets the calculated break quantity unit regular prices</summary>
         public IList<BreakPriceDto> UnitRegularBreakPrices { get; set; }
+
+        public decimal RegularPrice { get; set; }
+
+        public string RegularPriceDisplay { get; set; }
+
+        public decimal ExtendedRegularPrice { get; set; }
+
+        public string ExtendedRegularPriceDisplay { get; set; }
+
+        public decimal ActualPrice { get; set; }
+
+        public string ActualPriceDisplay { get; set; }
+
+        public decimal ExtendedActualPrice { get; set; }
+
+        public string ExtendedActualPriceDisplay { get; set; }
+
+        public IList<BreakPriceDto> RegularBreakPrices { get; set; }
+
+        public IList<BreakPriceDto> ActualBreakPrices { get; set; }
     }
 }

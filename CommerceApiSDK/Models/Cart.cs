@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CommerceApiSDK.Services.Attributes;
 
 namespace CommerceApiSDK.Models
 {
@@ -126,6 +125,9 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets a value indicating whether this instance is authenticated.</summary>
         public bool IsAuthenticated { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether this instance is a guest order.</summary>
+        public bool IsGuestOrder { get; set; }
+
         /// <summary>Gets or sets a value indicating whether this instance is sales person.</summary>
         public bool IsSalesperson { get; set; }
 
@@ -233,6 +235,20 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the messages.</summary>
         public IList<string> Messages { get; set; }
+
+        public CreditCardBillingAddress CreditCardBillingAddress { get; set; }
+
+        public IList<Product> AlsoPurchasedProducts { get; set; }
+
+        public string TaxFailureReason { get; set; }
+
+        public bool FailedToGetRealTimeInventory { get; set; }
+
+        public bool UnassignCart { get; set; }
+
+        public string CustomerVatNumber { get; set; }
+
+        public string VmiLocationId { get; set; }
     }
 
     public class CarrierDto

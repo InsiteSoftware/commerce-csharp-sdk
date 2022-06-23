@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
@@ -93,6 +94,59 @@ namespace CommerceApiSDK.Services
                     + "?expand=orderlines,shipments";
 
                 return await GetAsyncWithCachedResponse<Order>(url);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Order> PatchOrder(Order order)
+        {
+            if (order == null)
+            {
+                throw new ArgumentException("Order is empty");
+            }
+
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(order));
+                
+                string url = $"{CommerceAPIConstants.OrdersUrl}/{order.Id}";
+                return await PatchAsyncNoCache<Order>(url, stringContent);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn)
+        {
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(rmaReturn));
+
+                string url = $"{CommerceAPIConstants.OrdersUrl}/{orderId}/returns";
+                return await PostAsyncNoCache<Rma>(url, stringContent);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<ShareEntity> ShareOrder(ShareOrder order)
+        {
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(order));
+
+                string url = CommerceAPIConstants.OrdersShareUrl;
+                return await PostAsyncNoCache<ShareEntity>(url, stringContent);
             }
             catch (Exception exception)
             {

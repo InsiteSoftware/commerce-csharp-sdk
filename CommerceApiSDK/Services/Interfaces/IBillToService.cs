@@ -28,6 +28,8 @@ namespace CommerceApiSDK.Services.Interfaces
             ShipTosQueryParameters parameters = null
         );
 
+        Task<GetShipTosResult> GetCurrentShipTos(ShipTosQueryParameters parameters = null);
+
         Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
             ShipTosQueryParameters parameters = null
         );

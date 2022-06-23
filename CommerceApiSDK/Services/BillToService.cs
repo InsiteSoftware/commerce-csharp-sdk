@@ -159,6 +159,29 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<GetShipTosResult> GetCurrentShipTos(
+            ShipTosQueryParameters parameters = null
+        )
+        {
+            try
+            {
+                string queryString = string.Empty;
+
+                if (parameters != null)
+                {
+                    queryString = parameters.ToQueryString();
+                }
+
+                string url = $"{CommerceAPIConstants.BillTosUrl}/current/shiptos" + queryString;
+                return await GetAsyncNoCache<GetShipTosResult>(url);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
         public async Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
             ShipTosQueryParameters parameters = null
         )

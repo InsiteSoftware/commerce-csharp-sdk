@@ -11,7 +11,7 @@ namespace CommerceApiSDK.Models.Parameters
 
         public override int? PageSize { get; set; } = 16;
 
-        public Guid BillToId { get; set; }
+        public Guid? BillToId { get; set; }
 
         public string Filter { get; set; }
 

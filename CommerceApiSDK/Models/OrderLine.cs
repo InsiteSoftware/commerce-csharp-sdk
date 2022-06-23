@@ -98,6 +98,8 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the inventory qty shipped.</summary>
         public decimal InventoryQtyShipped { get; set; }
 
+        public decimal UnitPrice { get; set; }
+
         /// <summary>Gets or sets the unit net price.</summary>
         public decimal UnitNetPrice { get; set; }
 
@@ -107,11 +109,17 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the discount percent.</summary>
         public decimal DiscountPercent { get; set; }
 
+        public decimal DiscountAmount { get; set; }
+
         /// <summary>Gets or sets the unit discount amount.</summary>
         public decimal UnitDiscountAmount { get; set; }
 
+        public decimal PromotionAmountApplied { get; set; }
+
         /// <summary>Gets or sets the total discount amount.</summary>
         public decimal TotalDiscountAmount { get; set; }
+
+        public decimal LineTotal { get; set; }
 
         /// <summary>Gets or sets the total regular price.</summary>
         public decimal TotalRegularPrice { get; set; }
@@ -128,6 +136,10 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the other charges.</summary>
         public decimal OrderLineOtherCharges { get; set; }
 
+        public decimal TaxRate { get; set; }
+
+        public decimal TaxAmount { get; set; }
+
         /// <summary>Gets or sets the return reason.</summary>
         public string ReturnReason { get; set; }
 
@@ -137,17 +149,23 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the return qty received.</summary>
         public decimal RmaQtyReceived { get; set; }
 
+        public string UnitPriceDisplay { get; set; }
+
         /// <summary>Gets or sets the unit net price display.</summary>
         public string UnitNetPriceDisplay { get; set; }
 
         /// <summary>Gets or sets the Formatted Quantity UnitNetPrice</summary>
         public string ExtendedUnitNetPriceDisplay { get; set; }
 
+        public string DiscountAmountDisplay { get; set; }
+
         /// <summary>Gets or sets the unit discount amount display.</summary>
         public string UnitDiscountAmountDisplay { get; set; }
 
         /// <summary>Gets or sets the total discount amount display.</summary>
         public string TotalDiscountAmountDisplay { get; set; }
+
+        public string LineTotalDisplay { get; set; }
 
         /// <summary>Gets or sets the total regular price display.</summary>
         public string TotalRegularPriceDisplay { get; set; }
@@ -179,6 +197,18 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the sale price label.</summary>
         public string SalePriceLabel { get; set; }
 
+        public bool CanAddToWishlist { get; set; }
+
         public Brand Brand { get; set; }
+
+        public decimal NetPriceWithVat { get; set; }
+
+        public string NetPriceWithVatDisplay { get; set; }
+
+        public decimal UnitPriceWithVat { get; set; }
+
+        public string UnitPriceWithVatDisplay { get; set; }
+
+        public string VmiBinNumber { get; set; }
     }
 }
