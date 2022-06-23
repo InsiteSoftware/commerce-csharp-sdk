@@ -1,4 +1,8 @@
 # Optimizely B2C Commerce API SDK
+[11:09 AM] Lee Anderson
+[![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/gradle-extra-configurations-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![NuGet](https://img.shields.io/nuget/v/Optimizely.SDK.svg?style=plastic)](https://www.nuget.org/packages/Optimizely.SDK/)
+
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
@@ -10,7 +14,7 @@ Employing this API SDK enables developers to pull data out of the B2B Commerce s
 This package contains all of the endpoints provided by Optimizely Commerce API. A comprehensive list of services can be found in the swagger API documentation [here](https://mobiledev.insitesandbox.com/swagger/ui/index).
 
 ## Installation
-The API SDK is delivered as a Nuget package that can be imported by adding the `Optimizely.Commerce.API` to your projects. For more information on the package, see the [Nuget package description](https://www.nuget.org/packages/Optimizely.Commerce.API/) 
+The API SDK is delivered as a Nuget package that can be imported by adding the `Optimizely.Commerce.API` to your projects. For more information on the package, see the [Nuget package description](https://www.nuget.org/packages/Optimizely.Commerce.API/)
 
 Before using the API SDK, you will need to perform a few setup steps:
 
