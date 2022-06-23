@@ -1,4 +1,4 @@
-# Optimizely B2C Commerce API SDK
+# Optimizely B2B Commerce API SDK
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/gradle-extra-configurations-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![NuGet](https://img.shields.io/nuget/v/Optimizely.Commerce.API)](https://www.nuget.org/packages/Optimizely.Commerce.API/)
 
