@@ -59,6 +59,9 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the payment method.</summary>
         public PaymentMethodDto PaymentMethod { get; set; }
 
+        /// <summary>Gets or sets the fulfillment method.</summary>
+        public string FulfillmentMethod { get; set; }
+
         /// <summary>Gets or sets the po number.</summary>
         public string PoNumber { get; set; }
 

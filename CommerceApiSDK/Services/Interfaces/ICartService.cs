@@ -40,8 +40,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null);
 
-        Task<Cart> GetCart(CartQueryParameters parameters);
-
         Task<bool> DeleteCart(Guid cartId);
 
         /// <summary>

@@ -257,53 +257,6 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCart(CartQueryParameters parameters)
-        {
-            try
-            {
-                if (parameters == null)
-                {
-                    throw new ArgumentNullException(nameof(parameters));
-                }
-
-                if (parameters.CartId.Equals(Guid.Empty))
-                {
-                    throw new ArgumentException($"{nameof(parameters.CartId)} is empty");
-                }
-
-                string url = $"{CommerceAPIConstants.CartsUrl}/{parameters.CartId}";
-
-                if (parameters?.Expand != null)
-                {
-                    string queryString = parameters.ToQueryString();
-                    url += queryString;
-                }
-
-                Cart result = await GetAsyncNoCache<Cart>(url);
-                if (result == null)
-                {
-                    throw new Exception("The cart requested cannot be found.");
-                }
-
-                if (
-                    parameters?.Expand != null
-                    && parameters.Expand.Exists(
-                        p => p.Equals("cartlines", StringComparison.OrdinalIgnoreCase)
-                    )
-                )
-                {
-                    IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
-                }
-
-                return result;
-            }
-            catch (Exception exception)
-            {
-                this.TrackingService.TrackException(exception);
-                return null;
-            }
-        }
-
         public async Task<bool> DeleteCart(Guid cartId)
         {
             if (cartId.Equals(Guid.Empty))
