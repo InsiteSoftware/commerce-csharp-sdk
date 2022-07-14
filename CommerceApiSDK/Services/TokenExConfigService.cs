@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Services.Interfaces;
 
 namespace CommerceApiSDK.Services
@@ -15,12 +16,20 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<TokenExDto> GetTokenexconfigAsync()
+        public async Task<TokenExDto> GetTokenExConfig(TokenExConfigQueryParameters parameters = null)
         {
             try
             {
+                string url = CommerceAPIConstants.TokenExConfigUrl;
+
+                if (parameters != null)
+                {
+                    string queryString = parameters.ToQueryString();
+                    url += queryString;
+                }
+
                 TokenExDto tokenexConfig = await GetAsyncNoCache<TokenExDto>(
-                    CommerceAPIConstants.TokenExConfigUrl,
+                    url,
                     DefaultRequestTimeout
                 );
 
