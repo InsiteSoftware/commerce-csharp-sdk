@@ -30,15 +30,213 @@ namespace CommerceApiSDK.Services
             this.sessionService = sessionService;
         }
 
-        public async Task<Website> GetWebsite(WebsiteQueryParameters websiteQueryParameters)
+        public async Task<Website> GetWebsite(WebsiteQueryParameters parameters = null)
         {
             try
             {
+                string url = $"{CommerceAPIConstants.WebsitesUrl}";
+                if (parameters != null)
+                {
+                    url += parameters.ToQueryString();
+                }
+
                 Website website = await GetAsyncWithCachedResponse<Website>(
-                    CommerceAPIConstants.WebsitesUrl + websiteQueryParameters.ToQueryString(),
+                    url,
                     DefaultRequestTimeout
                 );
                 return website;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<AddressFieldCollection> GetAddressFields()
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesAddressFieldsUrl}";
+
+                return await GetAsyncWithCachedResponse<AddressFieldCollection>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<CountryCollection> GetCountries(CountriesQueryParameters parameters = null)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesCountriesUrl}";
+                if (parameters != null)
+                {
+                    url += parameters.ToQueryString();
+                }
+
+                return await GetAsyncWithCachedResponse<CountryCollection>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Country> GetCountry(Guid countryId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesCountriesUrl}/{countryId}";
+
+                return await GetAsyncWithCachedResponse<Country>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<WebsiteCrosssells> GetCrosssells()
+        {
+            try
+            {
+                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(
+                    CommerceAPIConstants.WebsitesCrossSellsUrl
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<CurrencyCollection> GetCurrencies()
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesCurrenciesUrl}";
+
+                return await GetAsyncWithCachedResponse<CurrencyCollection>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Currency> GetCurrency(Guid currencyId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesCurrenciesUrl}/{currencyId}";
+
+                return await GetAsyncWithCachedResponse<Currency>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<LanguageCollection> GetLanguages()
+        {
+            try
+            {
+                return await GetAsyncWithCachedResponse<LanguageCollection>(
+                    CommerceAPIConstants.WebsitesLanguagesUrl
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<Language> GetLanguage(Guid languageId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesLanguagesUrl}/{languageId}";
+
+                return await GetAsyncWithCachedResponse<Language>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
+        {
+            string url = CommerceAPIConstants.WebsitesSiteMessagesUrl;
+
+            if (names != null)
+            {
+                url += "?parameter.name=" + string.Join(",", names);
+            }
+
+            try
+            {
+                GetSiteMessageCollectionResult siteMessagesResult =
+                    await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
+                return siteMessagesResult;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<StateCollection> GetStates()
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesStatesUrl}";
+
+                return await GetAsyncWithCachedResponse<StateCollection>(
+                    url
+                );
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
+        public async Task<State> GetState(Guid stateId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.WebsitesStatesUrl}/{stateId}";
+
+                return await GetAsyncWithCachedResponse<State>(
+                    url
+                );
             }
             catch (Exception exception)
             {
@@ -65,21 +263,6 @@ namespace CommerceApiSDK.Services
                 + CommerceAPIConstants.WebsitesCrossSellsUrl
                 + this.ClientService.SessionStateKey;
             return await this.CacheService.HasOnlineCache(key);
-        }
-
-        public async Task<WebsiteCrosssells> GetWebsiteCrosssells()
-        {
-            try
-            {
-                return await GetAsyncWithCachedResponse<WebsiteCrosssells>(
-                    CommerceAPIConstants.WebsitesCrossSellsUrl
-                );
-            }
-            catch (Exception exception)
-            {
-                this.TrackingService.TrackException(exception);
-                return null;
-            }
         }
 
         [Obsolete("Caution: Will be removed in a future release.")]
@@ -136,28 +319,6 @@ namespace CommerceApiSDK.Services
             return result;
         }
 
-        public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
-        {
-            string url = CommerceAPIConstants.WebsitesSiteMessagesUrl;
-
-            if (names != null)
-            {
-                url += "?parameter.name=" + string.Join(",", names);
-            }
-
-            try
-            {
-                GetSiteMessageCollectionResult siteMessagesResult =
-                    await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
-                return siteMessagesResult;
-            }
-            catch (Exception exception)
-            {
-                this.TrackingService.TrackException(exception);
-                return null;
-            }
-        }
-
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
@@ -196,37 +357,6 @@ namespace CommerceApiSDK.Services
             }
 
             return defaultMessage;
-        }
-
-        public async Task<IList<Country>> GetCountries()
-        {
-            try
-            {
-                WebsiteCountries result = await GetAsyncWithCachedResponse<WebsiteCountries>(
-                    CommerceAPIConstants.WebsitesCountries
-                );
-                return result?.Countries;
-            }
-            catch (Exception exception)
-            {
-                this.TrackingService.TrackException(exception);
-                return null;
-            }
-        }
-
-        public Task<LanguageCollectionModel> GetLanguages()
-        {
-            try
-            {
-                return GetAsyncWithCachedResponse<LanguageCollectionModel>(
-                    CommerceAPIConstants.WebsitesLanguagesUrl
-                );
-            }
-            catch (Exception exception)
-            {
-                this.TrackingService.TrackException(exception);
-                return null;
-            }
         }
     }
 }

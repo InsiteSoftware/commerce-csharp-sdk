@@ -136,13 +136,19 @@
 
         public const string WebsitesUrl = "/api/v1/websites/current";
 
+        public const string WebsitesAddressFieldsUrl = "/api/v1/websites/current/addressfields";
+
+        public const string WebsitesCountriesUrl = "/api/v1/websites/current/countries";
+
         public const string WebsitesCrossSellsUrl = "/api/v1/websites/current/crosssells";
+
+        public const string WebsitesCurrenciesUrl = "/api/v1/websites/current/currencies";
+
+        public const string WebsitesLanguagesUrl = "/api/v1/websites/current/languages";
 
         public const string WebsitesSiteMessagesUrl = "/api/v1/websites/current/sitemessages";
 
-        public const string WebsitesCountries = "/api/v1/websites/current/countries?expand=states";
-
-        public const string WebsitesLanguagesUrl = "/api/v1/websites/current/languages";
+        public const string WebsitesStatesUrl = "/api/v1/websites/current/states";
 
         public const string TokenLogoutUrl = "identity/connect/endsession";
 
