@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
@@ -8,13 +9,29 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWebsiteService
     {
-        Task<Website> GetWebsite(WebsiteQueryParameters websiteQueryParameters);
-        Task<bool> HasWebsiteCache();
-        Task<WebsiteCrosssells> GetWebsiteCrosssells();
-        Task<bool> HasWebsiteCrosssellsCache();
+        Task<Website> GetWebsite(WebsiteQueryParameters parameters = null);
+
+        Task<AddressFieldCollection> GetAddressFields();
+
+        Task<CountryCollection> GetCountries(CountriesQueryParameters parameters = null);
+
+        Task<Country> GetCountry(Guid countryId);
+
+        Task<WebsiteCrosssells> GetCrosssells();
+
+        Task<CurrencyCollection> GetCurrencies();
+
+        Task<Currency> GetCurrency(Guid currencyId);
+        
+        Task<LanguageCollection> GetLanguages();
+
+        Task<Language> GetLanguage(Guid languageId);
+
         Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null);
-        Task<string> GetSiteMessage(string messageName, string defaultMessage = null);
-        Task<LanguageCollectionModel> GetLanguages();
+
+        Task<StateCollection> GetStates();
+
+        Task<State> GetState(Guid stateId);
 
         /// <summary>
         /// Get full URL for path with domain, access token and customer ids
@@ -22,6 +39,10 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <returns></returns>
         Task<string> GetAuthorizedURL(string path);
 
-        Task<IList<Country>> GetCountries();
+        Task<bool> HasWebsiteCache();
+
+        Task<bool> HasWebsiteCrosssellsCache();
+
+        Task<string> GetSiteMessage(string messageName, string defaultMessage = null);
     }
 }
