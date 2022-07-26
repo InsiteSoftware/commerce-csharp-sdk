@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CommerceApiSDK.Extensions;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
 
@@ -29,12 +30,12 @@ namespace CommerceApiSDK.Services
             this.sessionService = sessionService;
         }
 
-        public async Task<Website> GetWebsite()
+        public async Task<Website> GetWebsite(WebsiteQueryParameters websiteQueryParameters)
         {
             try
             {
                 Website website = await GetAsyncWithCachedResponse<Website>(
-                    CommerceAPIConstants.WebsitesUrl,
+                    CommerceAPIConstants.WebsitesUrl + websiteQueryParameters.ToQueryString(),
                     DefaultRequestTimeout
                 );
                 return website;

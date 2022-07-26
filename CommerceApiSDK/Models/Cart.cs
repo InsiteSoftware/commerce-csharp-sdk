@@ -291,6 +291,9 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets a value indicating whether this instance is payment profile.</summary>
         public bool IsPaymentProfile { get; set; }
+
+        /// <summary>Gets or sets a value the card type of the paymentMethod.</summary>
+        public string CardType { get; set; }
     }
 
     public class PaymentOptionsDto
