@@ -279,7 +279,7 @@ namespace CommerceApiSDK.Services
                 string url = ShipToIdUrl(billToId, shipToId);
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
 
-                var result = await this.PostAsyncNoCache<ShipTo>(url, stringContent);
+                var result = await this.PatchAsyncNoCache<ShipTo>(url, stringContent);
 
                 return result;
             }
