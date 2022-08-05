@@ -101,20 +101,12 @@ namespace CommerceApiSDK.Services
         {
             if (this.adminClientService.IsExistsAccessToken())
             {
-                var currentSession = await this.sessionService.GetCurrentSession();
-                if (currentSession != null && currentSession.IsAuthenticated)
-                {
-                    await this.adminClientService.GetAsync(
-                        CommerceAPIConstants.AdminUserProfileUrl,
-                        ServiceBase.DefaultRequestTimeout
-                    );
+                await this.adminClientService.GetAsync(
+                    CommerceAPIConstants.AdminUserProfileUrl,
+                    ServiceBase.DefaultRequestTimeout
+                );
 
-                    return true;
-                }
-                else
-                {
-                    this.adminClientService.RemoveAccessToken();
-                }
+                return this.adminClientService.IsExistsAccessToken();
             }
 
             return false;
