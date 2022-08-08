@@ -141,8 +141,6 @@ namespace CommerceApiSDK.Services
                 var currentSession = await this.sessionService.GetCurrentSession();
                 if (currentSession != null && currentSession.IsAuthenticated)
                 {
-                    _ = await this.accountService.GetCurrentAccountAsync();
-
                     return true;
                 }
                 else
@@ -156,7 +154,7 @@ namespace CommerceApiSDK.Services
 
         protected virtual void RefreshTokenExpiredHandler(OptiMessage message)
         {
-            LogoutAsync(true);
+            _ = LogoutAsync(true);
         }
     }
 }
