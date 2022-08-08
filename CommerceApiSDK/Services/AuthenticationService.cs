@@ -15,9 +15,10 @@ namespace CommerceApiSDK.Services
         protected readonly IMessengerService OptiMessenger;
 
         private readonly IClientService clientService;
-        private readonly ISessionService sessionService;
         private readonly IAccountService accountService;
         private readonly ICacheService cacheService;
+
+        protected readonly ISessionService sessionService;
 
         private Guid? subscriptionId;
 
@@ -137,9 +138,15 @@ namespace CommerceApiSDK.Services
         {
             if (this.clientService.IsExistsAccessToken())
             {
-                _ = await this.accountService.GetCurrentAccountAsync();
-
-                return this.clientService.IsExistsAccessToken();
+                var currentSession = await this.sessionService.GetCurrentSession();
+                if (currentSession != null && currentSession.IsAuthenticated)
+                {
+                    return true;
+                }
+                else
+                {
+                    this.clientService.RemoveAccessToken();
+                }
             }
 
             return false;
@@ -147,7 +154,7 @@ namespace CommerceApiSDK.Services
 
         protected virtual void RefreshTokenExpiredHandler(OptiMessage message)
         {
-            LogoutAsync(true);
+            _ = LogoutAsync(true);
         }
     }
 }
