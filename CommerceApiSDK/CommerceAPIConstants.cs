@@ -98,6 +98,8 @@
 
         public const string ProductsUrl = "/api/v1/products";
 
+        public const string ProductsV2Url = "/api/v2/products";
+
         public const string RealTimePricingUrl = "/api/v1/realtimepricing";
 
         public const string RealTimeInventoryUrl = "/api/v1/realtimeinventory";

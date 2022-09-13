@@ -42,7 +42,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string queryString = parameters.ToQueryString();
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
+                string url = $"{CommerceAPIConstants.ProductsV2Url}/{queryString}";
 
                 GetProductCollectionResult result =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
@@ -80,9 +80,12 @@ namespace CommerceApiSDK.Services
                     queryString = parameters.ToQueryString();
                 }
 
-                string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}{queryString}";
+                string url = $"{CommerceAPIConstants.ProductsV2Url}/{productId}{queryString}";
 
-                GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult result = new GetProductResult
+                {
+                    Product = await GetAsyncWithCachedResponse<Product>(url)
+                };
 
                 if (result == null)
                 {
@@ -118,7 +121,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/alsopurchased{queryString}";
+                    $"{CommerceAPIConstants.ProductsV2Url}/{productId}/alsopurchased{queryString}";
 
                 GetProductCollectionResult result =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
@@ -157,7 +160,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/relatedproducts{queryString}";
+                    $"{CommerceAPIConstants.ProductsV2Url}/{productId}/relatedproducts{queryString}";
 
                 GetProductCollectionResult result =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
@@ -196,7 +199,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren{queryString}";
+                    $"{CommerceAPIConstants.ProductsV2Url}/{productId}/variantchildren{queryString}";
 
                 GetProductCollectionResult result =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
@@ -236,7 +239,7 @@ namespace CommerceApiSDK.Services
                 }
 
                 string url =
-                    $"{CommerceAPIConstants.ProductsUrl}/{productId}/variantchildren/{variantChildId}{queryString}";
+                    $"{CommerceAPIConstants.ProductsV2Url}/{productId}/variantchildren/{variantChildId}{queryString}";
 
                 GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
