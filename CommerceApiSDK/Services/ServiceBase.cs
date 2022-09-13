@@ -1,18 +1,17 @@
-﻿using System;
+﻿using Akavache;
+using CommerceApiSDK.Extensions;
+using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Services.Interfaces;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Akavache;
-using CommerceApiSDK.Extensions;
-using CommerceApiSDK.Models;
-using CommerceApiSDK.Models.Enums;
-using CommerceApiSDK.Services.Interfaces;
-using Newtonsoft.Json;
 
 namespace CommerceApiSDK.Services
 {
@@ -204,6 +203,10 @@ namespace CommerceApiSDK.Services
                             );
                             return model;
                         }
+                        else
+                        {
+                            await LogException(httpResponseMessage, url);
+                        }
                     }
                     else if (ClientConfig.IsCachingEnabled)
                     {
@@ -273,6 +276,10 @@ namespace CommerceApiSDK.Services
                                 key
                             );
                             return receivedString;
+                        }
+                        else
+                        {
+                            await LogException(httpResponseMessage, url);
                         }
                     }
                     else if (ClientConfig.IsCachingEnabled)
@@ -367,7 +374,10 @@ namespace CommerceApiSDK.Services
                     return null;
                 }
             }
-
+            else
+            {
+                await LogException(httpResponseMessage, url);
+            }
             return null;
         }
 
@@ -393,6 +403,10 @@ namespace CommerceApiSDK.Services
                     result
                 );
                 return result;
+            }
+            else
+            {
+                await LogException(httpResponseMessage, url);
             }
             this.LoggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
             return null;
@@ -421,6 +435,10 @@ namespace CommerceApiSDK.Services
                 );
                 return result;
             }
+            else
+            {
+                await LogException(httpResponseMessage, url);
+            }
             LoggerService.LogConsole(LogLevel.ERROR, "Response for {0} is null", url);
             return null;
         }
@@ -433,9 +451,15 @@ namespace CommerceApiSDK.Services
             JsonConverter[] jsonConverters = null
         ) where T : class
         {
+            var contentForError = string.Empty;
+            if (content is StringContent)
+            {
+                contentForError = await content.ReadAsStringAsync();
+            }
+
             HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(
                 url,
-                content,
+                string.IsNullOrEmpty(contentForError) ? content : new StringContent(contentForError, Encoding.UTF8, "application/json"),
                 timeout,
                 cancellationToken
             );
@@ -449,6 +473,10 @@ namespace CommerceApiSDK.Services
                     () => DeserializeModel<T>(httpResponseMessage, jsonConverters)
                 );
                 return result;
+            }
+            else
+            {
+                await LogException(httpResponseMessage, url, contentForError);
             }
             this.LoggerService.LogConsole(
                 LogLevel.WARN,
@@ -466,6 +494,11 @@ namespace CommerceApiSDK.Services
             JsonConverter[] jsonConverters = null
         ) where T : class
         {
+            var contentForError = string.Empty;
+            if (content is StringContent)
+            {
+                contentForError = await content.ReadAsStringAsync();
+            }
             HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(
                 url,
                 content,
@@ -529,15 +562,26 @@ namespace CommerceApiSDK.Services
             CancellationToken? cancellationToken = null
         )
         {
+            var contentForError = string.Empty;
+            if (content is StringContent)
+            {
+                contentForError = await content.ReadAsStringAsync();
+            }
             HttpResponseMessage httpResponseMessage = await this.ClientService.PostAsync(
                 url,
-                content,
+                string.IsNullOrEmpty(contentForError) ? content : new StringContent(contentForError, Encoding.UTF8, "application/json"),
                 timeout,
                 cancellationToken
             );
-
-            return httpResponseMessage.StatusCode == HttpStatusCode.Created
+            var success = httpResponseMessage.StatusCode == HttpStatusCode.Created
                 || httpResponseMessage.StatusCode == HttpStatusCode.OK;
+
+            if (!success)
+            {
+                await LogException(httpResponseMessage, url, contentForError);
+            }
+
+            return success;
         }
 
         protected async Task<T> PatchAsyncNoCache<T>(
@@ -548,9 +592,14 @@ namespace CommerceApiSDK.Services
             CancellationToken? cancellationToken = null
         ) where T : class
         {
+            var contentForError = string.Empty;
+            if (content is StringContent)
+            {
+                contentForError = await content.ReadAsStringAsync();
+            }
             HttpResponseMessage httpResponseMessage = await this.ClientService.PatchAsync(
                 url,
-                content,
+                string.IsNullOrEmpty(contentForError) ? content : new StringContent(contentForError, Encoding.UTF8, "application/json"),
                 timeout,
                 cancellationToken
             );
@@ -570,7 +619,10 @@ namespace CommerceApiSDK.Services
 
                 return result;
             }
-
+            else
+            {
+                await LogException(httpResponseMessage, url, contentForError);
+            }
             return null;
         }
 
@@ -642,6 +694,17 @@ namespace CommerceApiSDK.Services
                 typeof(T).Name
             );
             await this.CacheService.OnlineCache.InvalidateAllObjects<T>();
+        }
+
+        private async Task LogException(HttpResponseMessage httpResponseMessage, string url, string content = null)
+        {
+            var exception = $"{GetType().FullName}\n{url}\n";
+            exception += await httpResponseMessage.Content.ReadAsStringAsync() + "\n";
+            if (!string.IsNullOrEmpty(content))
+            {
+                exception += content + "\n";
+            }
+            TrackingService.TrackException(new Exception(exception));
         }
     }
 }
