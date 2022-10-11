@@ -4,6 +4,6 @@ namespace CommerceApiSDK.Models.Parameters
 {
     public class RealTimePricingParameters
     {
-        public List<ProductPriceQueryParameters> ProductPriceParameters { get; set; }
+        public List<ProductPriceQueryParameter> ProductPriceParameters { get; set; }
     }
 }

@@ -167,7 +167,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<ProductPrice> GetProductPrice(
             Guid productId,
-            ProductPriceQueryParameters parameters
+            ProductPriceQueryParameter parameters
         )
         {
             try
