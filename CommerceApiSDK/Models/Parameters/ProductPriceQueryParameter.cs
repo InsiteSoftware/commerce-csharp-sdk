@@ -5,7 +5,7 @@ using CommerceApiSDK.Models.Enums;
 
 namespace CommerceApiSDK.Models.Parameters
 {
-    public class ProductPriceQueryParameter
+    public class ProductPriceQueryParameter : BaseQuery
     {
         public Guid ProductId { get; set; }
 
