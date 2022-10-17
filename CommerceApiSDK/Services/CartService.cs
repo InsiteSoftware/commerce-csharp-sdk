@@ -18,6 +18,8 @@ namespace CommerceApiSDK.Services
     {
         private readonly IMessengerService optiMessenger;
 
+        private OptiSubscriptionToken subscriptionToken;
+
         private List<AddCartLine> addToCartRequests = new List<AddCartLine>();
 
         public event EventHandler OnIsAddingToCartSlowChange;
@@ -42,7 +44,7 @@ namespace CommerceApiSDK.Services
             this.optiMessenger = optiMessenger;
 
             isCartEmpty = true;
-            this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
+            subscriptionToken = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
