@@ -5,8 +5,41 @@ using CommerceApiSDK.Services.Messages;
 
 namespace CommerceApiSDK.Services
 {
+    public sealed class OptiSubscriptionToken
+    : IDisposable
+    {
+        public Guid Id { get; private set; }
+        #pragma warning disable 414 // 414 is that this private field is only set, not used
+        private readonly object[] _dependentObjects;
+        #pragma warning restore 414
+        private readonly Action _disposeMe;
+
+        public OptiSubscriptionToken(Guid id, Action disposeMe, params object[] dependentObjects)
+        {
+            Id = id;
+            _disposeMe = disposeMe;
+            _dependentObjects = dependentObjects;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                _disposeMe();
+            }
+        }
+    }
+
     public class MessengerService : IMessengerService
     {
+        private readonly object _locker = new object();
+
         private static readonly ConcurrentDictionary<
             Type,
             ConcurrentDictionary<Guid, BaseSubscription>
@@ -15,27 +48,50 @@ namespace CommerceApiSDK.Services
             ConcurrentDictionary<Guid, BaseSubscription>
         >();
 
-        public Guid Subscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
+        public OptiSubscriptionToken Subscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
+        {
+            var subscriptionId = OnSubscribe(action);
+            return new OptiSubscriptionToken(
+                    subscriptionId,
+                    () => Unsubscribe<TMessage>(subscriptionId),
+                    action);
+        }
+
+        private Guid OnSubscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
         {
             var messageType = typeof(TMessage);
-            if (!Subscriptions.TryGetValue(messageType, out var messageSubscriptions))
-            {
-                messageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
-                if (!Subscriptions.TryAdd(messageType, messageSubscriptions))
-                {
-                    throw new Exception(
-                        $"Unable to add actions dictionary for {messageType.Name} type"
-                    );
-                }
-            }
 
             var subscription = new WeakSubscription<TMessage>(new SimpleActionRunner(), action);
 
-            if (!messageSubscriptions.TryAdd(subscription.Id, subscription))
+            lock (_locker)
             {
-                throw new Exception(
-                    $"Unable to add action to action dictionary for {messageType.Name} type"
-                );
+                if (!Subscriptions.TryGetValue(messageType, out var messageSubscriptions))
+                {
+                    messageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
+                    if (!Subscriptions.TryAdd(messageType, messageSubscriptions))
+                    {
+                        throw new Exception(
+                            $"Unable to add actions dictionary for {messageType.Name} type"
+                        );
+                    }
+                }
+
+                if (!messageSubscriptions.TryAdd(subscription.Id, subscription))
+                {
+                    throw new Exception(
+                        $"Unable to add action to action dictionary for {messageType.Name} type"
+                    );
+                }
+
+                var updatedMessageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
+                foreach (var sub in messageSubscriptions.Values)
+                {
+                    if (sub.IsAlive)
+                    {
+                        updatedMessageSubscriptions.TryAdd(sub.Id, sub);
+                    }
+                }
+                Subscriptions.TryUpdate(messageType, updatedMessageSubscriptions, messageSubscriptions);
             }
 
             return subscription.Id;
@@ -67,10 +123,16 @@ namespace CommerceApiSDK.Services
                 return;
             }
 
+            var updatedMessageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
             foreach (var subscription in messageSubscriptions.Values)
             {
-                subscription.Invoke(message);
+                if (subscription.IsAlive)
+                {
+                    updatedMessageSubscriptions.TryAdd(subscription.Id, subscription);                    
+                    subscription.Invoke(message);
+                }                
             }
+            Subscriptions.TryUpdate(messageType, updatedMessageSubscriptions, messageSubscriptions);
         }
 
         private class WeakSubscription<TMessage> : TypedSubscription<TMessage>

@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Services
 
         protected readonly ISessionService sessionService;
 
-        private Guid? subscriptionId;
+        private OptiSubscriptionToken subscriptionToken;
 
         public AuthenticationService(
             IClientService clientService,
@@ -36,7 +36,7 @@ namespace CommerceApiSDK.Services
             this.accountService = accountService;
             this.cacheService = cacheService;
 
-            subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
+            subscriptionToken = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
                 RefreshTokenExpiredHandler
             );
         }
@@ -84,9 +84,9 @@ namespace CommerceApiSDK.Services
                 return (false, ErrorResponse.Empty());
             }
 
-            if (subscriptionId == null)
+            if (subscriptionToken == null)
             {
-                subscriptionId = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
+                subscriptionToken = this.OptiMessenger.Subscribe<RefreshTokenExpiredOptiMessage>(
                     RefreshTokenExpiredHandler
                 );
             }
@@ -109,12 +109,13 @@ namespace CommerceApiSDK.Services
         /// <param name="isRefreshTokenExpired">Whether or not logout was due to refresh token being expired</param>
         public virtual async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (subscriptionId.HasValue)
+            if (subscriptionToken!=null)
             {
                 this.OptiMessenger.Unsubscribe<RefreshTokenExpiredOptiMessage>(
-                    subscriptionId.Value
+                    subscriptionToken.Id
                 );
-                subscriptionId = null;
+                subscriptionToken.Dispose();
+                subscriptionToken = null;
             }
 
             this.cacheService.ClearAllCaches();

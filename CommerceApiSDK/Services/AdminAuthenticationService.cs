@@ -14,7 +14,7 @@ namespace CommerceApiSDK.Services
     {
         private readonly IAdminClientService adminClientService;
 
-        private Guid? subscriptionId;
+        private OptiSubscriptionToken subscriptionToken;
 
         public AdminAuthenticationService(
             IClientService clientService,
@@ -27,7 +27,7 @@ namespace CommerceApiSDK.Services
         {
             this.adminClientService = adminClientService;
 
-            subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
+            subscriptionToken = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
                 AdminRefreshTokenExpiredHandler
             );
         }
@@ -53,9 +53,9 @@ namespace CommerceApiSDK.Services
                 return (false, result?.Error ?? ErrorResponse.Empty());
             }
 
-            if (subscriptionId == null)
+            if (subscriptionToken == null)
             {
-                subscriptionId = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
+                subscriptionToken = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
                     AdminRefreshTokenExpiredHandler
                 );
             }
@@ -73,12 +73,13 @@ namespace CommerceApiSDK.Services
         /// <returns></returns>
         public override async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (subscriptionId.HasValue)
+            if (subscriptionToken!=null)
             {
                 this.OptiMessenger.Unsubscribe<AdminRefreshTokenExpiredOptiMessage>(
-                    subscriptionId.Value
+                    subscriptionToken.Id
                 );
-                subscriptionId = null;
+                subscriptionToken.Dispose();
+                subscriptionToken = null;
             }
 
             _ = await this.adminClientService.GetAsync(
