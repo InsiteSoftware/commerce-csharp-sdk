@@ -1,4 +1,7 @@
 using System;
+using CommerceApiSDK.Models.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CommerceApiSDK.Models
 {
@@ -36,6 +39,8 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets a value indicating whether a lowercase letter is required in a password.</summary>
         public bool PasswordRequiresLowercase { get; set; }
 
+        public bool RememberMe { get; set; }
+
         /// <summary>Gets or sets a value indicating whether a digit is required in a password.</summary>
         public bool PasswordRequiresDigit { get; set; }
 
@@ -46,6 +51,8 @@ namespace CommerceApiSDK.Models
         public bool UseEmailAsUserName { get; set; }
 
         public bool EnableWarehousePickup { get; set; }
+
+        public bool LogOutUserAfterPasswordChange { get; set; }
     }
 
     public class CartSettings : BaseModel
@@ -92,12 +99,19 @@ namespace CommerceApiSDK.Models
         public bool EnableRequestPickUpDate { get; set; }
 
         public bool EnableSavedCreditCards { get; set; }
+
+        public bool BypassCvvForSavedCards { get; set; }
     }
 
     public class ProductSettings : BaseModel
     {
         /// <summary>Gets or sets a value indicating whether products with no inventory can be ordered.</summary>
+        [Obsolete("Use AllowBackOrderForDelivery instead.")]
         public bool AllowBackOrder { get; set; } = true;
+
+        public bool AllowBackOrderForDelivery { get; set; }
+
+        public bool AllowBackOrderForPickup { get; set; }
 
         /// <summary>Gets or sets a value indicating whether product inventory status is shown.</summary>
         public bool ShowInventoryAvailability { get; set; } = true;
@@ -135,13 +149,39 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets a value indicating what guests will be able to access before being prompted to sign in.</summary>
         public string StorefrontAccess { get; set; } = StorefrontAccessConstants.NoSignInRequired;
 
+        public bool CanShowPriceFilters { get; set; }
+
+        public bool CanSeeProducts { get; set; }
+
         public bool CanSeePrices { get; set; } = true;
+
+        public bool CanAddToCart { get; set; }
+
+        public string PricingService { get; set; }
+
+        public bool DisplayAttributesInTabs { get; set; }
+
+        public string AttributesTabSortOrder { get; set; }
+
+        public bool DisplayDocumentsInTabs { get; set; }
+
+        public string DocumentsTabSortOrder { get; set; }
 
         /// <summary>Gets or sets a value indicating whether guests can see Inventory on a by warehouse basis. Defaults to false.</summary>
         public bool DisplayInventoryPerWarehouse { get; set; } = false;
 
         /// <summary>Gets or sets a value indicating whether Inventory by Warehouse only displays on the Product Detail page. Defaults to false</summary>
         public bool DisplayInventoryPerWarehouseOnlyOnProductDetail { get; set; } = false;
+
+        public bool DisplayFacetsForStockeditems { get; set; }
+
+        public string ImageProvider { get; set; }
+
+        public string CatalogUrlPath { get; set; }
+
+        public bool EnableVat { get; set; }
+
+        public string VatPriceDisplay { get; set; }
     }
 
     public static class StorefrontAccessConstants
@@ -166,6 +206,12 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the search history limit.</summary>
         public int SearchHistoryLimit { get; set; }
+
+        public bool EnableBoostingByPurchaseHistory { get; set; }
+
+        public bool AllowFilteringForPreviouslyPurchasedProducts { get; set; }
+
+        public string SearchPath { get; set; }
     }
 
     public class CustomerSettings : BaseModel
@@ -205,6 +251,8 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets a value indicating whether ship to state required.</summary>
         public bool ShipToStateRequired { get; set; }
+
+        public bool DisplayAccountsReceivableBalances { get; set; }
 
         /// <summary>If Yes, an address may be entered on the address page that is only used for the current order. Default value: No.</summary>
         public bool AllowOneTimeAddresses { get; set; }
@@ -248,16 +296,21 @@ namespace CommerceApiSDK.Models
         public bool ShowTermsCode { get; set; }
 
         /// <summary>Gets or sets a value indicating whether show the ERP order number.</summary>
+        [Obsolete("Use ShowWebOrderNumber instead.")]
         public bool ShowErpOrderNumber { get; set; }
 
         /// <summary>Gets or sets a value indicating whether show the web order number.</summary>
         public bool ShowWebOrderNumber { get; set; }
+
+        public bool ShowOrderStatus { get; set; }
 
         /// <summary>Gets or sets a value indicating whether show orders.</summary>
         public bool ShowOrders { get; set; }
 
         /// <summary>Gets or sets the look back days.</summary>
         public int LookBackDays { get; set; }
+
+        public bool VmiEnabled { get; set; }
     }
 
     public class QuoteSettings : BaseModel
@@ -281,12 +334,73 @@ namespace CommerceApiSDK.Models
         public bool AllowWishListsByCustomer { get; set; } = false;
 
         public bool AllowListSharing { get; set; } = true;
+
+        public int ProductsPerPage { get; set; }
+
+        public bool EnableWishListReminders { get; set; }
     }
 
     public class WebsiteSettings : BaseModel
     {
         /// <summary>Gets or sets a value indicating whether the mobile app is enabled for this website.</summary>
         public bool MobileAppEnabled { get; set; }
+
+        public bool UseTokenExGateway { get; set; }
+
+        public bool UseECheckTokenExGateway { get; set; }
+
+        public bool TokenExTestMode { get; set; }
+
+        public bool UsePaymetricGateway { get; set; }
+
+        public bool UseAdyenDropIn { get; set; }
+
+        public bool PaymentGatewayRequiresAuthentication { get; set; }
+
+        public int DefaultPageSize { get; set; }
+
+        public bool EnableCookiePrivacyPolicyPopup { get; set; }
+
+        public bool EnableDynamicRecommendations { get; set; }
+
+        public string GoogleMapsApiKey { get; set; }
+
+        public string GoogleTrackingTypeComputed { get; set; }
+
+        public string GoogleTrackingAccountId { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public CmsType? CmsType { get; set; }
+
+        public bool IncludeSiteNameInPageTitle { get; set; }
+
+        public string PageTitleDelimiter { get; set; }
+
+        public bool SiteNameAfterTitle { get; set; }
+
+        public string ReCaptchaSiteKey { get; set; }
+
+        public bool ReCaptchaEnabledForContactUs { get; set; }
+
+        public bool ReCaptchaEnabledForCreateAccount { get; set; }
+
+        public bool ReCaptchaEnabledForForgotPassword { get; set; }
+
+        public bool ReCaptchaEnabledForShareProduct { get; set; }
+
+        public bool AdvancedSpireCmsFeatures { get; set; }
+
+        public bool PreviewLoginEnabled { get; set; }
+
+        public bool MaintenanceModeEnabled { get; set; }
+
+        public bool UseSquareGateway { get; set; }
+
+        public string SquareApplicationId { get; set; }
+
+        public string SquareLocationId { get; set; }
+
+        public bool SquareLive { get; set; }
     }
 
     public class TokenExDto
@@ -360,11 +474,5 @@ namespace CommerceApiSDK.Models
         public WebsiteSettings WebsiteSettings { get; set; }
 
         public PickUpSettings PickUpSettings { get; set; }
-    }
-
-    public class QuoteSetting : BaseModel
-    {
-        public bool JobQuoteEnabled { get; set; }
-        public int QuoteExpireDays { get; set; }
     }
 }

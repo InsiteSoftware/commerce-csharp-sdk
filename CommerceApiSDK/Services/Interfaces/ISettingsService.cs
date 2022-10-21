@@ -22,6 +22,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<MobileAppSettings> GetMobileAppSettingAsync();
 
-        Task<QuoteSetting> GetQuoteSettingAsync();
+        Task<QuoteSettings> GetQuoteSettingAsync();
     }
 }
