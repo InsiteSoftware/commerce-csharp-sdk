@@ -18,8 +18,8 @@
     "CommerceApiSDK.DemoApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:32558",
       "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:32558",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

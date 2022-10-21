@@ -189,11 +189,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteSetting> GetQuoteSettingAsync()
+        public async Task<QuoteSettings> GetQuoteSettingAsync()
         {
             try
             {
-                return await GetAsyncNoCache<QuoteSetting>(CommerceAPIConstants.QuoteSettingsUrl);
+                return await GetAsyncNoCache<QuoteSettings>(CommerceAPIConstants.QuoteSettingsUrl);
             }
             catch (Exception exception)
             {
