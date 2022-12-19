@@ -125,9 +125,7 @@ namespace CommerceApiSDK.Services
         }
 
         public void CreateClient()
-        {
-            Host = ClientConfig.HostUrl;
-
+        {            
             httpClientHandler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
@@ -151,6 +149,8 @@ namespace CommerceApiSDK.Services
             {
                 Timeout = Timeout.InfiniteTimeSpan,
             };
+
+            Host = ClientConfig.HostUrl;
         }
 
         public virtual async Task<HttpResponseMessage> GetAsync(
