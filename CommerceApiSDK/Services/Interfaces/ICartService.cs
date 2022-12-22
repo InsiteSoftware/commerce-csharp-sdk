@@ -22,9 +22,11 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<Cart> GetCart(Guid cartId, CartQueryParameters parameters);
 
-        Task<Cart> GetCartByAddCartModel(AddCartModel addCartModel);
+        Task<Cart> GetAlternateCart(AddCartModel addCartModel);
 
         Task<Cart> GetCurrentCart(CartQueryParameters parameters);
+
+        Task<Cart> GetRegularCart(CartQueryParameters parameters);        
 
         Task<GetCartLinesResult> GetCartLines();
 

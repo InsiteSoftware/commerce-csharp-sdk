@@ -163,6 +163,8 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<string> GetAccessToken();
 
+        Task RemoveAlternateCartCookie();
+
         void StoreAccessToken(TokenResult tokens);
 
         void RemoveAccessToken();
