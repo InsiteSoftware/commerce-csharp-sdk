@@ -85,6 +85,27 @@ namespace CommerceApiSDK.Services
             }
         }
 
+
+        public async Task<Cart> GetCartByAddCartModel(AddCartModel addCartModel)
+        {
+            try
+            {
+                string url = CommerceAPIConstants.CartsUrl;
+
+                StringContent stringContent = await Task.Run(() => SerializeModel(addCartModel));
+                Cart result = await PostAsyncNoCache<Cart>(url, stringContent);
+
+                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return null;
+            }
+        }
+
         public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
         {
             try
