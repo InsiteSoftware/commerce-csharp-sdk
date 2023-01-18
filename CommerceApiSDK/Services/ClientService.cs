@@ -125,18 +125,8 @@ namespace CommerceApiSDK.Services
         }
 
         public void CreateClient()
-        {            
-            httpClientHandler = new HttpClientHandler
-            {
-                AllowAutoRedirect = true,
-                UseCookies = true,
-                CookieContainer = new CookieContainer(),
-                ClientCertificateOptions = ClientCertificateOption.Automatic,
-
-                // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
-                // UseProxy = true,
-                // Proxy = CFNetwork.GetDefaultProxy()
-            };
+        {
+            httpClientHandler = HttpClientHandler;
 
             client = new HttpClient(
                 new RefreshTokenHandler(
@@ -152,6 +142,18 @@ namespace CommerceApiSDK.Services
 
             Host = ClientConfig.HostUrl;
         }
+
+        public virtual HttpClientHandler HttpClientHandler => new HttpClientHandler
+        {
+            AllowAutoRedirect = true,
+            UseCookies = true,
+            CookieContainer = new CookieContainer(),
+            ClientCertificateOptions = ClientCertificateOption.Automatic,
+
+            // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
+            // UseProxy = true,
+            // Proxy = CFNetwork.GetDefaultProxy()
+        };
 
         public virtual async Task<HttpResponseMessage> GetAsync(
             string path,
