@@ -29,7 +29,6 @@ namespace CommerceApiSDK.Models.Parameters
 
         public bool VmiOrdersOnly { get; set; }
 
-        [QueryParameter(QueryOptions.DoNotQuery)]
         public Guid? VmiLocationId { get; set; }
 
         [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
