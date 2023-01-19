@@ -155,6 +155,15 @@ namespace CommerceApiSDK.Services
             // Proxy = CFNetwork.GetDefaultProxy()
         };
 
+        public HttpClient GetHttpClient()
+        {
+            if (client == null)
+            {
+                CreateClient();
+            }
+            return client;
+        }
+
         public virtual async Task<HttpResponseMessage> GetAsync(
             string path,
             TimeSpan? timeout = null,

@@ -159,6 +159,8 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <returns>The absolute path</returns>
         string MakeUrl(string relativePath);
 
+        HttpClient GetHttpClient();
+
         Task<ServiceResponse<TokenResult>> Generate(string userName, string password);
 
         Task<string> GetAccessToken();
