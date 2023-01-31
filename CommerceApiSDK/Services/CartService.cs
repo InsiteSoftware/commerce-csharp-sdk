@@ -120,7 +120,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetAlternateCart(AddCartModel addCartModel)
+        public async Task<Cart> CreateAlternateCart(AddCartModel addCartModel)
         {
             return await GetCart(null, addCartModel, CartType.Alternate);
         }

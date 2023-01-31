@@ -163,6 +163,9 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<string> GetAccessToken();
 
+        /// <summary>
+        /// Removes AlternateCart cookie from CookieCollection that was set by CreateAlternateCart from ICartService
+        /// </summary>
         Task RemoveAlternateCartCookie();
 
         void StoreAccessToken(TokenResult tokens);
