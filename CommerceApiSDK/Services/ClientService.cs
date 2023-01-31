@@ -563,6 +563,20 @@ namespace CommerceApiSDK.Services
             return !string.IsNullOrEmpty(this.secureStorageService.Load(BearerTokenStorageKey));
         }
 
+        public async Task RemoveAlternateCartCookie()
+        {
+            await Task.Run(() => {
+                foreach (Cookie co in Cookies)
+                {
+                    if (co.Name.Contains("AlternateCart"))
+                    {
+                        co.Expires = DateTime.Now.Subtract(TimeSpan.FromDays(1));
+                        break;
+                    }
+                }
+            });
+        }
+
         public void StoreAccessToken(TokenResult tokens)
         {
             this.secureStorageService.Save(BearerTokenStorageKey, tokens.AccessToken);

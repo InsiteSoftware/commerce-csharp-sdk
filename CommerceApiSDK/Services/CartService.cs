@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
@@ -85,14 +86,28 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
+        private async Task<Cart> GetCart(CartQueryParameters parameters, AddCartModel addCartModel, CartType cartType = CartType.Regular)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentUrl;
 
-                url += parameters.ToQueryString();
-                Cart result = await GetAsyncNoCache<Cart>(url);
+                Cart result = null;
+                if (cartType == CartType.Alternate)
+                {
+                    url = CommerceAPIConstants.CartsUrl;
+                    StringContent stringContent = await Task.Run(() => SerializeModel(addCartModel));
+                    result = await PostAsyncNoCache<Cart>(url, stringContent);
+                }
+                else
+                {                    
+                    if (cartType == CartType.Regular)
+                    {
+                        await this.ClientService.RemoveAlternateCartCookie();
+                    }
+                    url += parameters.ToQueryString();
+                    result = await GetAsyncNoCache<Cart>(url);
+                }       
 
                 IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
 
@@ -103,6 +118,21 @@ namespace CommerceApiSDK.Services
                 this.TrackingService.TrackException(exception);
                 return null;
             }
+        }
+
+        public async Task<Cart> CreateAlternateCart(AddCartModel addCartModel)
+        {
+            return await GetCart(null, addCartModel, CartType.Alternate);
+        }
+
+        public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
+        {
+            return await GetCart(parameters, null, CartType.Current);
+        }
+
+        public async Task<Cart> GetRegularCart(CartQueryParameters parameters)
+        {
+            return await GetCart(parameters, null, CartType.Regular);
         }
 
         public async Task<GetCartLinesResult> GetCartLines()

@@ -22,7 +22,17 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<Cart> GetCart(Guid cartId, CartQueryParameters parameters);
 
+        /// <summary>
+        /// This will create an Alternate Cart as opposed to regular cart, by setting AlternateCart cookie in CookieCollection
+        /// Any subsequent call to GetCurrentCart will give AlternateCart
+        /// To get back to regular cart call GetRegularCart
+        /// Or Remove cookie by calling RemoveAlternateCartCookie from IClientService
+        /// </summary>
+        Task<Cart> CreateAlternateCart(AddCartModel addCartModel);
+
         Task<Cart> GetCurrentCart(CartQueryParameters parameters);
+
+        Task<Cart> GetRegularCart(CartQueryParameters parameters);        
 
         Task<GetCartLinesResult> GetCartLines();
 
