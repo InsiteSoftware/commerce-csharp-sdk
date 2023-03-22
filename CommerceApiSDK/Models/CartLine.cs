@@ -17,6 +17,8 @@ namespace CommerceApiSDK.Models
 
         public string Notes { get; set; }
 
+        public Guid? VmiBinId { get; set; }
+
         public IList<SectionOptionDto> SectionOptions { get; set; }
     }
 
