@@ -16,19 +16,19 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<PageContentManagement> GetPageContenManagment(
+        public async Task<ServiceResponse<PageContentManagement>> GetPageContenManagment(
             string pageName,
             bool useCache = true
         )
         {
             if (string.IsNullOrEmpty(pageName))
             {
-                return null;
+                return GetServiceResponse<PageContentManagement>();
             }
 
             string url = string.Format(CommerceAPIConstants.MobileContentUrlFormat, pageName);
 
-            PageContentManagement result;
+            ServiceResponse<PageContentManagement> result;
             if (useCache)
             {
                 result = await GetAsyncWithCachedResponse<PageContentManagement>(

@@ -5,6 +5,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ICatalogpagesService
     {
-        Task<CatalogPage> GetProductCatalogInformation(string productPath);
+        Task<ServiceResponse<CatalogPage>> GetProductCatalogInformation(string productPath);
     }
 }

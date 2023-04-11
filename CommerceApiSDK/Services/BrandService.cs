@@ -17,7 +17,7 @@ namespace CommerceApiSDK.Services
             ILoggerService loggerService
         ) : base(clientService, networkService, trackingService, cacheService, loggerService) { }
 
-        public async Task<BrandAlphabetResult> GetAlphabetAsync()
+        public async Task<ServiceResponse<BrandAlphabetResult>> GetAlphabetAsync()
         {
             try
             {
@@ -28,11 +28,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<BrandAlphabetResult>(exception: exception);
             }
         }
 
-        public async Task<GetBrandsResult> GetBrands(BrandsQueryParameters parameters)
+        public async Task<ServiceResponse<GetBrandsResult>> GetBrands(BrandsQueryParameters parameters)
         {
             try
             {
@@ -43,11 +43,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetBrandsResult>(exception: exception);
             }
         }
 
-        public async Task<Brand> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null)
+        public async Task<ServiceResponse<Brand>> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null)
         {
             try
             {
@@ -64,11 +64,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Brand>(exception: exception);
             }
         }
 
-        public async Task<GetBrandCategoriesResult> GetBrandCategories(
+        public async Task<ServiceResponse<GetBrandCategoriesResult>> GetBrandCategories(
             BrandCategoriesQueryParameter parameters
         )
         {
@@ -82,11 +82,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetBrandCategoriesResult>(exception: exception);
             }
         }
 
-        public async Task<GetBrandSubCategoriesResult> GetBrandCategorySubCategories(
+        public async Task<ServiceResponse<GetBrandSubCategoriesResult>> GetBrandCategorySubCategories(
             BrandCategoriesQueryParameter parameters
         )
         {
@@ -97,18 +97,18 @@ namespace CommerceApiSDK.Services
                     parameters?.BrandId,
                     parameters?.CategoryId
                 );
-                GetBrandSubCategoriesResult result =
+                var result =
                     await GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetBrandSubCategoriesResult>(exception: exception);
             }
         }
 
-        public async Task<GetBrandProductLinesResult> GetBrandProductLines(
+        public async Task<ServiceResponse<GetBrandProductLinesResult>> GetBrandProductLines(
             ProductLinesQueryParameters parameters
         )
         {
@@ -124,7 +124,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetBrandProductLinesResult>(exception: exception);
             }
         }
     }

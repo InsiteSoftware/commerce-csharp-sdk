@@ -6,6 +6,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IDashboardPanelsService
     {
-        Task<DashboardPanelsResult> GetDashboardPanelsAsync();
+        Task<ServiceResponse<DashboardPanelsResult>> GetDashboardPanelsAsync();
     }
 }

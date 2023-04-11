@@ -790,5 +790,36 @@ namespace CommerceApiSDK.Services
             TrackingService.TrackException(ex);
             return ex;
         }
+
+        public ServiceResponse<T> GetServiceResponse<T>(
+            T model = null,
+            HttpStatusCode statusCode = (HttpStatusCode)9999,
+            ErrorResponse error = null,
+            Exception exception = null,
+            bool isCached = false
+        ) where T : class
+        {
+            if (statusCode != (HttpStatusCode)9999)
+            {
+                return new ServiceResponse<T>
+                {
+                    Model = model,
+                    Error = error,
+                    Exception = exception,
+                    StatusCode = statusCode,
+                    IsCached = isCached
+                };
+            }
+            else
+            {
+                return new ServiceResponse<T>
+                {
+                    Model = model,
+                    Error = error,
+                    Exception = exception,
+                    IsCached = isCached
+                };
+            }
+        }
     }
 }

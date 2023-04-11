@@ -132,11 +132,13 @@ namespace CommerceApiSDK.Services
                 () => ServiceBase.SerializeModel(payload, serializationSettings)
             );
 
-            HttpResponseMessage httpResponseMessage = await this.adminClientService.PostAsync(
+            var response = await this.adminClientService.PostAsync(
                 CommerceAPIConstants.ResetPasswordUrl,
                 stringContent,
                 ServiceBase.DefaultRequestTimeout
             );
+
+            HttpResponseMessage httpResponseMessage = response;
 
             if (
                 httpResponseMessage.StatusCode == HttpStatusCode.Created

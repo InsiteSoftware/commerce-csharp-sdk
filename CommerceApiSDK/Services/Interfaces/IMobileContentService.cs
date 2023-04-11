@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services.Interfaces
         ///     Specify if this method might use cached responses.
         /// </param>
         /// <returns>Fetched PageContentManagement object.</returns>
-        Task<PageContentManagement> GetPageContenManagment(string pageName, bool useCache = true);
+        Task<ServiceResponse<PageContentManagement>> GetPageContenManagment(string pageName, bool useCache = true);
 
         /// <summary>
         ///     Load from server page content management data.

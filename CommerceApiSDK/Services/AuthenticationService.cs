@@ -76,7 +76,8 @@ namespace CommerceApiSDK.Services
                 return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
             }
 
-            Session sessionPatchResult = await this.sessionService.PatchSession(createdSession);
+            var response = await this.sessionService.PatchSession(createdSession);
+            Session sessionPatchResult = response?.Model;
 
             if (sessionPatchResult == null)
             {
@@ -139,7 +140,8 @@ namespace CommerceApiSDK.Services
         {
             if (this.clientService.IsExistsAccessToken())
             {
-                var currentSession = await this.sessionService.GetCurrentSession();
+                var response = await this.sessionService.GetCurrentSession();
+                var currentSession = response?.Model;
                 if (currentSession != null && currentSession.IsAuthenticated)
                 {
                     return true;

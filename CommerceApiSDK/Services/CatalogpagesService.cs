@@ -15,25 +15,20 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<CatalogPage> GetProductCatalogInformation(string productPath)
+        public async Task<ServiceResponse<CatalogPage>> GetProductCatalogInformation(string productPath)
         {
             try
             {
                 string url = $"{CommerceAPIConstants.CatalogPageUrl}{productPath}";
 
-                CatalogPage productResult = await GetAsyncWithCachedResponse<CatalogPage>(url);
-
-                if (productResult == null)
-                {
-                    return null;
-                }
+                var productResult = await GetAsyncWithCachedResponse<CatalogPage>(url);
 
                 return productResult;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CatalogPage>(exception: exception);
             }
         }
     }

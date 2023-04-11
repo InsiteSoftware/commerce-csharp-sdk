@@ -204,7 +204,7 @@ namespace CommerceApiSDK.Services
                 LogLevel.DEBUG,
                 "GET async no host {0} finished with status: {1} ",
                 path,
-                response.StatusCode
+                response?.StatusCode
             );
             this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
@@ -333,7 +333,7 @@ namespace CommerceApiSDK.Services
                 LogLevel.DEBUG,
                 "PutAsync {0} finished with status: {1} ",
                 path,
-                response.StatusCode
+                response?.StatusCode
             );
 
             return response;
