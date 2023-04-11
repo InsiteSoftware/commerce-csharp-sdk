@@ -38,7 +38,7 @@ namespace CommerceApiSDK.Services
         /// <param name="userName">User's username</param>
         /// <param name="password">User's password</param>
         /// <returns>Whether or not Login was successful</returns>
-        public override async Task<(bool, ErrorResponse)> LogInAsync(
+        public override async Task<ServiceResponse<bool>> LogInAsync(
             string userName,
             string password
         )
@@ -50,7 +50,12 @@ namespace CommerceApiSDK.Services
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
-                return (false, result?.Error ?? ErrorResponse.Empty());
+                return new ServiceResponse<bool>
+                {
+                    Model = false,
+                    Error = result?.Error ?? ErrorResponse.Empty(),
+                    StatusCode = result.StatusCode
+                };
             }
 
             if (subscriptionToken == null)
@@ -63,7 +68,11 @@ namespace CommerceApiSDK.Services
             this.adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
             this.adminClientService.StoreSessionState();
 
-            return (true, null);
+            return new ServiceResponse<bool>
+            {
+                Model = true,
+                StatusCode = result.StatusCode
+            };
         }
 
         /// <summary>
@@ -98,7 +107,7 @@ namespace CommerceApiSDK.Services
         /// Checks whether or not the application is currently logged in
         /// </summary>
         /// <returns>Boolean value for whether or not user is logged in</returns>
-        public override async Task<bool> IsAuthenticatedAsync()
+        public override async Task<ServiceResponse<bool>> IsAuthenticatedAsync()
         {
             if (this.adminClientService.IsExistsAccessToken())
             {
@@ -107,10 +116,16 @@ namespace CommerceApiSDK.Services
                     ServiceBase.DefaultRequestTimeout
                 );
 
-                return this.adminClientService.IsExistsAccessToken();
+                return new ServiceResponse<bool>
+                {
+                    Model = this.adminClientService.IsExistsAccessToken()
+                };
             }
 
-            return false;
+            return new ServiceResponse<bool>
+            {
+                Model = false
+            };
         }
 
         /// <summary>
@@ -118,7 +133,7 @@ namespace CommerceApiSDK.Services
         /// </summary>
         /// <param name="userName">User's username</param>
         /// <returns>Whether or not request was a success</returns>
-        public async Task<bool> ResetPassword(string userName)
+        public async Task<ServiceResponse<bool>> ResetPassword(string userName)
         {
             JsonSerializerSettings serializationSettings = new JsonSerializerSettings
             {
@@ -145,11 +160,19 @@ namespace CommerceApiSDK.Services
                 || httpResponseMessage.StatusCode == HttpStatusCode.OK
             )
             {
-                return true;
+                return new ServiceResponse<bool>
+                {
+                    Model = true,
+                    StatusCode = httpResponseMessage.StatusCode
+                };
             }
             else
             {
-                return false;
+                return new ServiceResponse<bool>
+                {
+                    Model = false,
+                    StatusCode = httpResponseMessage.StatusCode
+                };
             }
         }
 
