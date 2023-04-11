@@ -67,7 +67,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<bool> SendEmail(InvoiceEmailParameter parameters = null)
+        public async Task<ServiceResponse<bool>> SendEmail(InvoiceEmailParameter parameters = null)
         {
             try
             {
@@ -79,7 +79,10 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return false;
+                return new ServiceResponse<bool>
+                {
+                    Exception = exception
+                };
             }
         }
     }

@@ -224,7 +224,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<StateCollection>(exception: exception)
+                return GetServiceResponse<StateCollection>(exception: exception);
             }
         }
 

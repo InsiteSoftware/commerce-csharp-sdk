@@ -14,7 +14,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<string> GetPageContenManagmentString(
+        public async Task<ServiceResponse<string>> GetPageContenManagmentString(
             string pageName,
             bool useCache = true
         )

@@ -11,6 +11,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<Invoice>> GetInvoice(InvoiceDetailParameter parameters = null);
 
-        Task<bool> SendEmail(InvoiceEmailParameter parameters = null);
+        Task<ServiceResponse<bool>> SendEmail(InvoiceEmailParameter parameters = null);
     }
 }
