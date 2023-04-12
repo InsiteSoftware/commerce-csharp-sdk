@@ -638,14 +638,14 @@ namespace CommerceApiSDK.Services
                 ErrorResponse error = await Task.Run(
                     () => ServiceBase.DeserializeModel<ErrorResponse>(result)
                 );
-                return new ServiceResponse<TokenResult> { Error = error };
+                return new ServiceResponse<TokenResult> { Error = error, StatusCode = result.StatusCode };
             }
 
             TokenResult token = await Task.Run(
                 () => ServiceBase.DeserializeModel<TokenResult>(result)
             );
             StoreAccessToken(token);
-            return new ServiceResponse<TokenResult> { Model = token };
+            return new ServiceResponse<TokenResult> { Model = token, StatusCode = result.StatusCode };
         }
         #endregion
     }

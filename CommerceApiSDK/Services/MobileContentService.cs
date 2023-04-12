@@ -49,19 +49,19 @@ namespace CommerceApiSDK.Services
             return result;
         }
 
-        public async Task<string> GetPageContenManagmentString(
+        public async Task<ServiceResponse<string>> GetPageContenManagmentString(
             string pageName,
             bool useCache = true
         )
         {
             if (string.IsNullOrEmpty(pageName))
             {
-                return null;
+                return GetServiceResponse<string>();
             }
 
             string url = string.Format(CommerceAPIConstants.MobileContentUrlFormat, pageName);
 
-            string result;
+            ServiceResponse<string> result;
 
             if (useCache)
             {

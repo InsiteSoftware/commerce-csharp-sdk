@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns current website"
         )]
-        public async Task<Website> Get(WebsiteQueryParameters parameters = null)
+        public async Task<ServiceResponse<Website>> Get(WebsiteQueryParameters parameters = null)
         {
             return await this.websiteService.GetWebsite(parameters);
         }
@@ -36,7 +37,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns address fields from current website"
         )]
-        public async Task<AddressFieldCollection> GetAddressFields()
+        public async Task<ServiceResponse<AddressFieldCollection>> GetAddressFields()
         {
             return await this.websiteService.GetAddressFields();
         }
@@ -46,7 +47,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Gets all countries from current website"
         )]
-        public async Task<CountryCollection> GetCountries()
+        public async Task<ServiceResponse<CountryCollection>> GetCountries()
         {
             return await this.websiteService.GetCountries();
         }
@@ -57,7 +58,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Gets specified country from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(Country))]
-        public async Task<Country> GetCountry([FromRoute, SwaggerParameter("Country ID", Required = true)] Guid countryId)
+        public async Task<ServiceResponse<Country>> GetCountry([FromRoute, SwaggerParameter("Country ID", Required = true)] Guid countryId)
         {
             return await this.websiteService.GetCountry(countryId);
         }
@@ -68,7 +69,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Gets website cross sells from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(WebsiteCrosssells))]
-        public async Task<WebsiteCrosssells> GetCrosssells()
+        public async Task<ServiceResponse<WebsiteCrosssells>> GetCrosssells()
         {
             return await this.websiteService.GetCrosssells();
         }
@@ -79,7 +80,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Gets available currencies from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(CurrencyCollection))]
-        public async Task<CurrencyCollection> GetCurrencies()
+        public async Task<ServiceResponse<CurrencyCollection>> GetCurrencies()
         {
             return await this.websiteService.GetCurrencies();
         }
@@ -90,7 +91,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Returns specified currency from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(Currency))]
-        public async Task<Currency> GetCurrency([FromRoute, SwaggerParameter("Currency ID", Required = true)] Guid currencyId)
+        public async Task<ServiceResponse<Currency>> GetCurrency([FromRoute, SwaggerParameter("Currency ID", Required = true)] Guid currencyId)
         {
             return await this.websiteService.GetCurrency(currencyId);
         }
@@ -101,7 +102,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Get available languages from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(LanguageCollection))]
-        public async Task<LanguageCollection> GetLanguages()
+        public async Task<ServiceResponse<LanguageCollection>> GetLanguages()
         {
             return await this.websiteService.GetLanguages();
         }
@@ -112,7 +113,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Returns specified language from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(Language))]
-        public async Task<Language> GetLanguage([FromRoute, SwaggerParameter("Language ID", Required = true)] Guid languageId)
+        public async Task<ServiceResponse<Language>> GetLanguage([FromRoute, SwaggerParameter("Language ID", Required = true)] Guid languageId)
         {
             return await this.websiteService.GetLanguage(languageId);
         }
@@ -123,7 +124,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Get specified site messages from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(GetSiteMessageCollectionResult))]
-        public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
+        public async Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(List<string> names = null)
         {
             return await this.websiteService.GetSiteMessages(names);
         }
@@ -134,7 +135,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Gets available states from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(StateCollection))]
-        public async Task<StateCollection> GetStates()
+        public async Task<ServiceResponse<StateCollection>> GetStates()
         {
             return await this.websiteService.GetStates();
         }
@@ -145,7 +146,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
             Summary = "Returns specified state from current website"
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Successful", typeof(State))]
-        public async Task<State> GetState([FromRoute, SwaggerParameter("Currency ID", Required = true)] Guid stateId)
+        public async Task<ServiceResponse<State>> GetState([FromRoute, SwaggerParameter("Currency ID", Required = true)] Guid stateId)
         {
             return await this.websiteService.GetState(stateId);
         }

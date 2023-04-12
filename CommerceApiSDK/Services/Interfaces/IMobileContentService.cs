@@ -30,6 +30,6 @@ namespace CommerceApiSDK.Services.Interfaces
         ///     Specify if this method might use cached responses.
         /// </param>
         /// <returns>Fetched page content management JSON string.</returns>
-        Task<string> GetPageContenManagmentString(string pageName, bool useCache = true);
+        Task<ServiceResponse<string>> GetPageContenManagmentString(string pageName, bool useCache = true);
     }
 }

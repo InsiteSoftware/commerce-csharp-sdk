@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -21,7 +22,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         }
 
         [HttpGet(Name = "Settings")]
-        public async Task<Settings> Get()
+        public async Task<ServiceResponse<Settings>> Get()
         {
             return await this.settingsService.GetSettingsAsync();
         }
@@ -31,7 +32,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns account settings"
         )]
-        public async Task<AccountSettings> GetAccountSettings()
+        public async Task<ServiceResponse<AccountSettings>> GetAccountSettings()
         {
             return await this.settingsService.GetAccountSettingsAsync();
         }
@@ -41,7 +42,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns cart settings"
         )]
-        public async Task<CartSettings> GetCartSettings()
+        public async Task<ServiceResponse<CartSettings>> GetCartSettings()
         {
             return await this.settingsService.GetCartSettingAsync();
         }
@@ -51,7 +52,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns mobile app settings"
         )]
-        public async Task<MobileAppSettings> GetMobileAppSettings()
+        public async Task<ServiceResponse<MobileAppSettings>> GetMobileAppSettings()
         {
             return await this.settingsService.GetMobileAppSettingAsync();
         }
@@ -61,7 +62,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns products settings"
         )]
-        public async Task<ProductSettings> GetProductSettings()
+        public async Task<ServiceResponse<ProductSettings>> GetProductSettings()
         {
             return await this.settingsService.GetProductSettingsAsync();
         }
@@ -71,7 +72,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns quote settings"
         )]
-        public async Task<QuoteSettings> GetQuoteSettings()
+        public async Task<ServiceResponse<QuoteSettings>> GetQuoteSettings()
         {
             return await this.settingsService.GetQuoteSettingAsync();
         }
@@ -81,7 +82,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns website settings"
         )]
-        public async Task<WebsiteSettings> GetWebsiteSettings()
+        public async Task<ServiceResponse<WebsiteSettings>> GetWebsiteSettings()
         {
             return await this.settingsService.GetWebsiteSettingsAsync();
         }
@@ -91,7 +92,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         [SwaggerOperation(
             Summary = "Returns wishlist settings"
         )]
-        public async Task<WishListSettings> GetWishlistSettings()
+        public async Task<ServiceResponse<WishListSettings>> GetWishlistSettings()
         {
             return await this.settingsService.GetWishListSettingAsync();
         }
