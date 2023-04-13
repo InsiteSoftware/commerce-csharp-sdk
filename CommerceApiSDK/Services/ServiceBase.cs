@@ -212,7 +212,10 @@ namespace CommerceApiSDK.Services
                         else
                         {
                             var exception = await LogException(httpResponseMessage, url);
-                            return GetServiceResponse<T>(exception: exception, statusCode: httpResponseMessage.StatusCode);
+                            ErrorResponse errorResponse = await Task.Run(
+                                () => DeserializeModel<ErrorResponse>(httpResponseMessage, jsonConverters)
+                            );
+                            return GetServiceResponse<T>(error: errorResponse, exception: exception, statusCode: httpResponseMessage.StatusCode);
                         }
                     }
                     else if (ClientConfig.IsCachingEnabled)
@@ -383,7 +386,10 @@ namespace CommerceApiSDK.Services
             else
             {
                 var exception = await LogException(httpResponseMessage, url);
-                return GetServiceResponse<T>(exception: exception, statusCode: httpResponseMessage.StatusCode);
+                ErrorResponse errorResponse = await Task.Run(
+                    () => DeserializeModel<ErrorResponse>(httpResponseMessage, jsonConverters)
+                );
+                return GetServiceResponse<T>(error: errorResponse, exception: exception, statusCode: httpResponseMessage.StatusCode);
             }
         }
 
@@ -489,7 +495,10 @@ namespace CommerceApiSDK.Services
                     url
                 );
                 var exception = await LogException(httpResponseMessage, url, contentForError);
-                return GetServiceResponse<T>(exception: exception, statusCode: httpResponseMessage.StatusCode);
+                ErrorResponse errorResponse = await Task.Run(
+                    () => DeserializeModel<ErrorResponse>(httpResponseMessage, jsonConverters)
+                );
+                return GetServiceResponse<T>(error: errorResponse, exception: exception, statusCode: httpResponseMessage.StatusCode);
             }
         }
 
@@ -638,7 +647,10 @@ namespace CommerceApiSDK.Services
             else
             {
                 var exception = await LogException(httpResponseMessage, url, contentForError);
-                return GetServiceResponse<T>(exception: exception, statusCode: httpResponseMessage.StatusCode);
+                ErrorResponse errorResponse = await Task.Run(
+                    () => DeserializeModel<ErrorResponse>(httpResponseMessage, jsonConverters)
+                );
+                return GetServiceResponse<T>(error: errorResponse, exception: exception, statusCode: httpResponseMessage.StatusCode);
             }
         }
 
