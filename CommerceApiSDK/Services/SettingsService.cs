@@ -15,15 +15,15 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<Settings> GetSettingsAsync()
+        public async Task<ServiceResponse<Settings>> GetSettingsAsync()
         {
             try
             {
-                Settings settings = await GetAsyncWithCachedResponse<Settings>(
+                var settings = await GetAsyncWithCachedResponse<Settings>(
                     CommerceAPIConstants.SettingsUrl,
                     DefaultRequestTimeout
                 );
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load settings for {this.ClientService.Host}, but the settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -35,20 +35,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Settings>(exception: exception);
             }
         }
 
-        public async Task<ProductSettings> GetProductSettingsAsync()
+        public async Task<ServiceResponse<ProductSettings>> GetProductSettingsAsync()
         {
             try
             {
-                ProductSettings settings = await GetAsyncWithCachedResponse<ProductSettings>(
+                var settings = await GetAsyncWithCachedResponse<ProductSettings>(
                     CommerceAPIConstants.ProductSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load product settings for {this.ClientService.Host}, but the product settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -60,20 +60,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<ProductSettings>(exception: exception);
             }
         }
 
-        public async Task<AccountSettings> GetAccountSettingsAsync()
+        public async Task<ServiceResponse<AccountSettings>> GetAccountSettingsAsync()
         {
             try
             {
-                AccountSettings settings = await GetAsyncWithCachedResponse<AccountSettings>(
+                var settings = await GetAsyncWithCachedResponse<AccountSettings>(
                     CommerceAPIConstants.AccountSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load account settings for {this.ClientService.Host}, but the account settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -85,20 +85,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<AccountSettings>(exception: exception);
             }
         }
 
-        public async Task<WebsiteSettings> GetWebsiteSettingsAsync()
+        public async Task<ServiceResponse<WebsiteSettings>> GetWebsiteSettingsAsync()
         {
             try
             {
-                WebsiteSettings settings = await GetAsyncWithCachedResponse<WebsiteSettings>(
+                var settings = await GetAsyncWithCachedResponse<WebsiteSettings>(
                     CommerceAPIConstants.WebsiteSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load website settings for {this.ClientService.Host}, but the website settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -110,20 +110,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<WebsiteSettings>(exception: exception);
             }
         }
 
-        public async Task<WishListSettings> GetWishListSettingAsync()
+        public async Task<ServiceResponse<WishListSettings>> GetWishListSettingAsync()
         {
             try
             {
-                WishListSettings settings = await GetAsyncWithCachedResponse<WishListSettings>(
+                var settings = await GetAsyncWithCachedResponse<WishListSettings>(
                     CommerceAPIConstants.WishListSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load wish list settings for {this.ClientService.Host}, but the wish list settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -135,20 +135,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<WishListSettings>(exception: exception);
             }
         }
 
-        public async Task<CartSettings> GetCartSettingAsync()
+        public async Task<ServiceResponse<CartSettings>> GetCartSettingAsync()
         {
             try
             {
-                CartSettings settings = await GetAsyncWithCachedResponse<CartSettings>(
+                var settings = await GetAsyncWithCachedResponse<CartSettings>(
                     CommerceAPIConstants.CartSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load cart settings for {this.ClientService.Host}, but the cart settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -160,20 +160,20 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CartSettings>(exception: exception);
             }
         }
 
-        public async Task<MobileAppSettings> GetMobileAppSettingAsync()
+        public async Task<ServiceResponse<MobileAppSettings>> GetMobileAppSettingAsync()
         {
             try
             {
-                MobileAppSettings settings = await GetAsyncWithCachedResponse<MobileAppSettings>(
+                var settings = await GetAsyncWithCachedResponse<MobileAppSettings>(
                     CommerceAPIConstants.MobileAppSettingsUrl,
                     DefaultRequestTimeout
                 );
 
-                if (settings == null)
+                if (settings.Model == null)
                 {
                     throw new NullReferenceException(
                         $"Attempted to load mobile app settings for {this.ClientService.Host}, but the mobile app settings response is null. This website might either be an older ISC website or not an ISC website."
@@ -185,11 +185,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<MobileAppSettings>(exception: exception);
             }
         }
 
-        public async Task<QuoteSettings> GetQuoteSettingAsync()
+        public async Task<ServiceResponse<QuoteSettings>> GetQuoteSettingAsync()
         {
             try
             {
@@ -198,7 +198,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteSettings>(exception: exception);
             }
         }
     }

@@ -4,6 +4,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IAdminAuthenticationService : IAuthenticationService
     {
-        Task<bool> ResetPassword(string userName);
+        Task<ServiceResponse<bool>> ResetPassword(string userName);
     }
 }

@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<JobQuoteResult> GetJobQuotes()
+        public async Task<ServiceResponse<JobQuoteResult>> GetJobQuotes()
         {
             try
             {
@@ -27,11 +27,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<JobQuoteResult>(exception: exception);
             }
         }
 
-        public async Task<JobQuoteDto> GetJobQuote(string jobQuoteId)
+        public async Task<ServiceResponse<JobQuoteDto>> GetJobQuote(string jobQuoteId)
         {
             if (string.IsNullOrEmpty(jobQuoteId))
             {
@@ -47,11 +47,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<JobQuoteDto>(exception: exception);
             }
         }
 
-        public async Task<JobQuoteDto> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate)
+        public async Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate)
         {
             if (string.IsNullOrEmpty(jobQuoteUpdate?.JobQuoteId))
             {
@@ -68,7 +68,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<JobQuoteDto> (exception: exception);
             }
         }
     }

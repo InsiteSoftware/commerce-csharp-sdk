@@ -8,20 +8,20 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface ISettingsService
     {
-        Task<Settings> GetSettingsAsync();
+        Task<ServiceResponse<Settings>> GetSettingsAsync();
 
-        Task<ProductSettings> GetProductSettingsAsync();
+        Task<ServiceResponse<ProductSettings>> GetProductSettingsAsync();
 
-        Task<AccountSettings> GetAccountSettingsAsync();
+        Task<ServiceResponse<AccountSettings>> GetAccountSettingsAsync();
 
-        Task<WebsiteSettings> GetWebsiteSettingsAsync();
+        Task<ServiceResponse<WebsiteSettings>> GetWebsiteSettingsAsync();
 
-        Task<WishListSettings> GetWishListSettingAsync();
+        Task<ServiceResponse<WishListSettings>> GetWishListSettingAsync();
 
-        Task<CartSettings> GetCartSettingAsync();
+        Task<ServiceResponse<CartSettings>> GetCartSettingAsync();
 
-        Task<MobileAppSettings> GetMobileAppSettingAsync();
+        Task<ServiceResponse<MobileAppSettings>> GetMobileAppSettingAsync();
 
-        Task<QuoteSettings> GetQuoteSettingAsync();
+        Task<ServiceResponse<QuoteSettings>> GetQuoteSettingAsync();
     }
 }

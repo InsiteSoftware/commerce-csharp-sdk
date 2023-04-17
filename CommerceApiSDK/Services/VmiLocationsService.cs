@@ -6,6 +6,7 @@ using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
 using CommerceApiSDK.Services.Interfaces;
+using static Akavache.Sqlite3.Internal.SQLite3;
 
 namespace CommerceApiSDK.Services
 {
@@ -21,7 +22,7 @@ namespace CommerceApiSDK.Services
 
         #region VMI Locations
 
-        public async Task<GetVmiLocationResult> GetVmiLocations(
+        public async Task<ServiceResponse<GetVmiLocationResult>> GetVmiLocations(
             VmiLocationQueryParameters parameters = null
         )
         {
@@ -38,11 +39,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetVmiLocationResult>(exception: exception);
             }
         }
 
-        public async Task<VmiLocationModel> GetVmiLocation(
+        public async Task<ServiceResponse<VmiLocationModel>> GetVmiLocation(
             VmiLocationDetailParameters parameters = null
         )
         {
@@ -61,19 +62,20 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                VmiLocationModel result = await GetAsyncNoCache<VmiLocationModel>(url);
+                var response = await GetAsyncNoCache<VmiLocationModel>(url);
+                VmiLocationModel result = response.Model;
 
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiLocationModel>(exception: exception);
             }
         }
 
@@ -106,7 +108,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiLocationModel>(exception: exception);
             }
         }
 
@@ -125,7 +127,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiLocationModel>(exception: exception);
             }
         }
 
@@ -133,7 +135,7 @@ namespace CommerceApiSDK.Services
 
         #region VMI Bin
 
-        public async Task<GetVmiBinResult> GetVmiBins(VmiBinQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetVmiBinResult>> GetVmiBins(VmiBinQueryParameters parameters = null)
         {
             try
             {
@@ -149,11 +151,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetVmiBinResult>(exception: exception);
             }
         }
 
-        public async Task<VmiBinModel> GetVmiBin(VmiBinDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiBinModel>> GetVmiBin(VmiBinDetailParameters parameters = null)
         {
             try
             {
@@ -165,18 +167,19 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}";
 
-                VmiBinModel result = await GetAsyncNoCache<VmiBinModel>(url);
+                var response = await GetAsyncNoCache<VmiBinModel>(url);
+                VmiBinModel result = response.Model;
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiBinModel>(exception: exception);
             }
         }
 
@@ -210,7 +213,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiBinModel>(exception: exception);
             }
         }
 
@@ -235,7 +238,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiBinModel>(exception: exception);
             }
         }
 
@@ -243,7 +246,7 @@ namespace CommerceApiSDK.Services
 
         #region VMI Count
 
-        public async Task<GetVmiCountResult> GetBinCounts(VmiCountQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetVmiCountResult>> GetBinCounts(VmiCountQueryParameters parameters = null)
         {
             try
             {
@@ -259,11 +262,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetVmiCountResult>(exception: exception);
             }
         }
 
-        public async Task<VmiCountModel> GetBinCount(VmiCountDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiCountModel>> GetBinCount(VmiCountDetailParameters parameters = null)
         {
             try
             {
@@ -274,18 +277,20 @@ namespace CommerceApiSDK.Services
 
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/bincounts/{parameters.VmiCountId}";
-                VmiCountModel result = await GetAsyncNoCache<VmiCountModel>(url);
+
+                var response = await GetAsyncNoCache<VmiCountModel>(url);
+                VmiCountModel result = response.Model;
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiCountModel>(exception: exception);
             }
         }
 
@@ -327,7 +332,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiCountModel>(exception: exception);
             }
         }
 
@@ -353,7 +358,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiCountModel>(exception: exception);
             }
         }
 
@@ -361,7 +366,7 @@ namespace CommerceApiSDK.Services
 
         #region VMI Note
 
-        public async Task<GetVmiNoteResult> GetVmiLocationNotes(
+        public async Task<ServiceResponse<GetVmiNoteResult>> GetVmiLocationNotes(
             BaseVmiLocationQueryParameters parameters = null
         )
         {
@@ -374,18 +379,19 @@ namespace CommerceApiSDK.Services
 
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/notes{parameters.ToQueryString()}";
-                GetVmiNoteResult result = await GetAsyncNoCache<GetVmiNoteResult>(url);
 
-                return result;
+                var response = await GetAsyncNoCache<GetVmiNoteResult>(url);
+
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetVmiNoteResult>(exception: exception);
             }
         }
 
-        public async Task<VmiNoteModel> GetVmiBinNote(VmiNoteDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiNoteModel>> GetVmiBinNote(VmiNoteDetailParameters parameters = null)
         {
             try
             {
@@ -397,18 +403,19 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins/{parameters.VmiBinId}/notes/{parameters.VmiNoteId}";
 
-                VmiNoteModel result = await GetAsyncNoCache<VmiNoteModel>(url);
+                var response = await GetAsyncNoCache<VmiNoteModel>(url);
+                VmiNoteModel result = response?.Model;
                 if (result == null)
                 {
                     throw new Exception("The item requested cannot be found.");
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiNoteModel>(exception: exception);
             }
         }
 
@@ -446,7 +453,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiNoteModel>(exception: exception);
             }
         }
 
@@ -472,7 +479,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<VmiNoteModel>(exception: exception);
             }
         }
 
@@ -492,7 +499,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetProducts(
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetProducts(
             VmiLocationProductParameters parameters = null
         )
         {
@@ -510,41 +517,58 @@ namespace CommerceApiSDK.Services
 
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
-                GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
-                if (response?.VmiBins != null)
+                var response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
+                if (response.Model?.VmiBins != null)
                 {
                     GetProductCollectionResult result = new GetProductCollectionResult()
                     {
-                        Pagination = response.Pagination,
+                        Pagination = response.Model?.Pagination,
                         Products = new List<Product>(),
                     };
 
-                    foreach (VmiBinModel item in response.VmiBins)
+                    /// TODO: Individual product responses should also be
+                    /// wrapped in ServiceResponse
+                    /// skipping it for now
+                    foreach (VmiBinModel item in response.Model?.VmiBins)
                     {
-                        GetProductResult productResult =
+                        var productResult =
                             await GetAsyncWithCachedResponse<GetProductResult>(
                                 $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
                             );
-                        if (productResult?.Product != null)
+
+                        if (productResult.Model?.Product != null)
                         {
-                            FixProduct(productResult.Product);
-                            result.Products.Add(productResult.Product);
+                            FixProduct(productResult.Model?.Product);
+                            result.Products.Add(productResult.Model?.Product);
                         }
                     }
 
-                    return result;
+                    return new ServiceResponse<GetProductCollectionResult>() { 
+                        Model = result,
+                        Error = response.Error,
+                        Exception = response.Exception,
+                        StatusCode = response.StatusCode,
+                        IsCached = response.IsCached
+                    };
                 }
 
-                return null;
+                return new ServiceResponse<GetProductCollectionResult>()
+                {
+                    Model = null,
+                    Error = response.Error,
+                    Exception = response.Exception,
+                    StatusCode = response.StatusCode,
+                    IsCached = response.IsCached
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductCollectionResult>(exception: exception);
             }
         }
 
-        public async Task<IList<AutocompleteProduct>> GetAutocompleteProducts(
+        public async Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(
             VmiLocationProductParameters parameters = null
         )
         {
@@ -562,45 +586,56 @@ namespace CommerceApiSDK.Services
 
                 string url =
                     $"{CommerceAPIConstants.VmiLocationsUrl}/{parameters.VmiLocationId}/bins{parameters.ToQueryString()}";
-                GetVmiBinResult response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
-                if (response?.VmiBins != null)
+                var response = await GetAsyncWithCachedResponse<GetVmiBinResult>(url);
+                if (response.Model?.VmiBins != null)
                 {
                     List<AutocompleteProduct> result = new List<AutocompleteProduct>();
 
-                    foreach (VmiBinModel item in response.VmiBins)
+                    foreach (VmiBinModel item in response.Model?.VmiBins)
                     {
-                        GetProductResult productResult =
+                        var productResult =
                             await GetAsyncWithCachedResponse<GetProductResult>(
                                 $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
                             );
-                        if (productResult?.Product != null)
+                        if (productResult.Model?.Product != null)
                         {
                             AutocompleteProduct product = new AutocompleteProduct()
                             {
-                                Id = productResult.Product.Id.ToString(),
-                                Title = productResult.Product.ProductTitle,
-                                Image = productResult.Product.MediumImagePath,
-                                Name = productResult.Product.Name,
-                                ErpNumber = productResult.Product.ERPNumber,
-                                Url = productResult.Product.Uri,
-                                ManufacturerItemNumber = productResult.Product.ManufacturerItem,
-                                BrandName = productResult.Product.Brand?.Name,
-                                BrandDetailPagePath = productResult.Product.Brand?.DetailPagePath,
+                                Id = productResult.Model?.Product.Id.ToString(),
+                                Title = productResult.Model?.Product.ProductTitle,
+                                Image = productResult.Model?.Product.MediumImagePath,
+                                Name = productResult.Model?.Product.Name,
+                                ErpNumber = productResult.Model?.Product.ERPNumber,
+                                Url = productResult.Model?.Product.Uri,
+                                ManufacturerItemNumber = productResult.Model?.Product.ManufacturerItem,
+                                BrandName = productResult.Model.Product.Brand?.Name,
+                                BrandDetailPagePath = productResult.Model.Product.Brand?.DetailPagePath,
                             };
 
                             result.Add(product);
                         }
                     }
 
-                    return result;
+                    return new ServiceResponse<IList<AutocompleteProduct>>() { 
+                        Model = result,
+                        Error = response.Error,
+                        Exception = response.Exception,
+                        StatusCode = response.StatusCode,
+                        IsCached = response.IsCached
+                    };
                 }
 
-                return null;
+                return GetServiceResponse<IList<AutocompleteProduct>>(
+                    error: response.Error,
+                    exception: response.Exception,
+                    statusCode: response.StatusCode,
+                    isCached: response.IsCached
+                );
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<IList<AutocompleteProduct>>(exception: exception);
             }
         }
     }

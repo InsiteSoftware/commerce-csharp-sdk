@@ -9,29 +9,29 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWebsiteService
     {
-        Task<Website> GetWebsite(WebsiteQueryParameters parameters = null);
+        Task<ServiceResponse<Website>> GetWebsite(WebsiteQueryParameters parameters = null);
 
-        Task<AddressFieldCollection> GetAddressFields();
+        Task<ServiceResponse<AddressFieldCollection>> GetAddressFields();
 
-        Task<CountryCollection> GetCountries(CountriesQueryParameters parameters = null);
+        Task<ServiceResponse<CountryCollection>> GetCountries(CountriesQueryParameters parameters = null);
 
-        Task<Country> GetCountry(Guid countryId);
+        Task<ServiceResponse<Country>> GetCountry(Guid countryId);
 
-        Task<WebsiteCrosssells> GetCrosssells();
+        Task<ServiceResponse<WebsiteCrosssells>> GetCrosssells();
 
-        Task<CurrencyCollection> GetCurrencies();
+        Task<ServiceResponse<CurrencyCollection>> GetCurrencies();
 
-        Task<Currency> GetCurrency(Guid currencyId);
+        Task<ServiceResponse<Currency>> GetCurrency(Guid currencyId);
         
-        Task<LanguageCollection> GetLanguages();
+        Task<ServiceResponse<LanguageCollection>> GetLanguages();
 
-        Task<Language> GetLanguage(Guid languageId);
+        Task<ServiceResponse<Language>> GetLanguage(Guid languageId);
 
-        Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null);
+        Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(List<string> names = null);
 
-        Task<StateCollection> GetStates();
+        Task<ServiceResponse<StateCollection>> GetStates();
 
-        Task<State> GetState(Guid stateId);
+        Task<ServiceResponse<State>> GetState(Guid stateId);
 
         /// <summary>
         /// Get full URL for path with domain, access token and customer ids

@@ -8,21 +8,21 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWishListService
     {
-        Task<WishListCollectionModel> GetWishLists(WishListsQueryParameters parameters);
+        Task<ServiceResponse<WishListCollectionModel>> GetWishLists(WishListsQueryParameters parameters);
 
-        Task<WishList> GetWishList(Guid wishListId, WishListQueryParameters parameters);
+        Task<ServiceResponse<WishList>> GetWishList(Guid wishListId, WishListQueryParameters parameters);
 
         Task<bool> DeleteWishList(Guid wishListId);
 
-        Task<WishList> CreateWishList(CreateWishListQueryParameters parameters);
+        Task<ServiceResponse<WishList>> CreateWishList(CreateWishListQueryParameters parameters);
 
         Task<ServiceResponse<WishList>> CreateWishListWithErrorMessage(
             CreateWishListQueryParameters parameters
         );
 
-        Task<WishList> UpdateWishList(WishList wishList);
+        Task<ServiceResponse<WishList>> UpdateWishList(WishList wishList);
 
-        Task<WishListLine> AddProductToWishList(Guid wishListId, AddCartLine product);
+        Task<ServiceResponse<WishListLine>> AddProductToWishList(Guid wishListId, AddCartLine product);
 
         Task<bool> AddWishListLinesToWishList(
             Guid wishListId,
@@ -31,7 +31,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<bool> LeaveWishList(Guid wishListId);
 
-        Task<WishListLineCollectionModel> GetWishListLines(
+        Task<ServiceResponse<WishListLineCollectionModel>> GetWishListLines(
             Guid wishListId,
             WishListLineQueryParameters parameters
         );
@@ -43,7 +43,7 @@ namespace CommerceApiSDK.Services.Interfaces
             IList<WishListLine> wishListLineCollection
         );
 
-        Task<WishListLine> UpdateWishListLine(Guid wishListId, WishListLine wishListLine);
+        Task<ServiceResponse<WishListLine>> UpdateWishListLine(Guid wishListId, WishListLine wishListLine);
 
         Task ClearWishListRelatedCacheAsync(Guid wishListId);
 

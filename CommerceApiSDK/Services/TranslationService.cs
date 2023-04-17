@@ -27,7 +27,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<TranslationResults> GetTranslations(
+        public async Task<ServiceResponse<TranslationResults>> GetTranslations(
             TranslationQueryParameters parameters = null
         )
         {
@@ -41,16 +41,16 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                TranslationResults translationResult = await GetAsyncNoCache<TranslationResults>(
+                var response = await GetAsyncNoCache<TranslationResults>(
                     url
                 );
 
-                return translationResult;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<TranslationResults>(exception: exception);
             }
         }
     }

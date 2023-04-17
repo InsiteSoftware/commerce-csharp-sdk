@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
             this.sessionService = sessionService;
         }
 
-        public async Task<Website> GetWebsite(WebsiteQueryParameters parameters = null)
+        public async Task<ServiceResponse<Website>> GetWebsite(WebsiteQueryParameters parameters = null)
         {
             try
             {
@@ -40,20 +40,20 @@ namespace CommerceApiSDK.Services
                     url += parameters.ToQueryString();
                 }
 
-                Website website = await GetAsyncWithCachedResponse<Website>(
+                var response = await GetAsyncWithCachedResponse<Website>(
                     url,
                     DefaultRequestTimeout
                 );
-                return website;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Website>(exception: exception);
             }
         }
 
-        public async Task<AddressFieldCollection> GetAddressFields()
+        public async Task<ServiceResponse<AddressFieldCollection>> GetAddressFields()
         {
             try
             {
@@ -66,11 +66,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<AddressFieldCollection>(exception: exception);
             }
         }
 
-        public async Task<CountryCollection> GetCountries(CountriesQueryParameters parameters = null)
+        public async Task<ServiceResponse<CountryCollection>> GetCountries(CountriesQueryParameters parameters = null)
         {
             try
             {
@@ -87,11 +87,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CountryCollection>(exception: exception);
             }
         }
 
-        public async Task<Country> GetCountry(Guid countryId)
+        public async Task<ServiceResponse<Country>> GetCountry(Guid countryId)
         {
             try
             {
@@ -104,11 +104,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Country>(exception: exception);
             }
         }
 
-        public async Task<WebsiteCrosssells> GetCrosssells()
+        public async Task<ServiceResponse<WebsiteCrosssells>> GetCrosssells()
         {
             try
             {
@@ -119,11 +119,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<WebsiteCrosssells>(exception: exception);
             }
         }
 
-        public async Task<CurrencyCollection> GetCurrencies()
+        public async Task<ServiceResponse<CurrencyCollection>> GetCurrencies()
         {
             try
             {
@@ -136,11 +136,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CurrencyCollection>(exception: exception);
             }
         }
 
-        public async Task<Currency> GetCurrency(Guid currencyId)
+        public async Task<ServiceResponse<Currency>> GetCurrency(Guid currencyId)
         {
             try
             {
@@ -153,11 +153,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Currency>(exception: exception);
             }
         }
 
-        public async Task<LanguageCollection> GetLanguages()
+        public async Task<ServiceResponse<LanguageCollection>> GetLanguages()
         {
             try
             {
@@ -168,11 +168,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<LanguageCollection>(exception: exception);
             }
         }
 
-        public async Task<Language> GetLanguage(Guid languageId)
+        public async Task<ServiceResponse<Language>> GetLanguage(Guid languageId)
         {
             try
             {
@@ -185,11 +185,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Language>(exception: exception);
             }
         }
 
-        public async Task<GetSiteMessageCollectionResult> GetSiteMessages(List<string> names = null)
+        public async Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(List<string> names = null)
         {
             string url = CommerceAPIConstants.WebsitesSiteMessagesUrl;
 
@@ -200,18 +200,18 @@ namespace CommerceApiSDK.Services
 
             try
             {
-                GetSiteMessageCollectionResult siteMessagesResult =
+                var siteMessagesResult =
                     await GetAsyncWithCachedResponse<GetSiteMessageCollectionResult>(url);
                 return siteMessagesResult;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetSiteMessageCollectionResult>(exception: exception);
             }
         }
 
-        public async Task<StateCollection> GetStates()
+        public async Task<ServiceResponse<StateCollection>> GetStates()
         {
             try
             {
@@ -224,11 +224,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<StateCollection>(exception: exception);
             }
         }
 
-        public async Task<State> GetState(Guid stateId)
+        public async Task<ServiceResponse<State>> GetState(Guid stateId)
         {
             try
             {
@@ -241,7 +241,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<State>(exception: exception);
             }
         }
 
@@ -322,9 +322,11 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
-            GetSiteMessageCollectionResult messageResult = await GetSiteMessages(
+            var response = await GetSiteMessages(
                 new List<string> { messageName }
             );
+
+            GetSiteMessageCollectionResult messageResult = response.Model;
 
             SiteMessage siteMessageItem = messageResult?.SiteMessages.FirstOrDefault(
                 x =>

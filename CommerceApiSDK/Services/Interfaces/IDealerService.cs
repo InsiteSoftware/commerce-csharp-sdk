@@ -13,7 +13,7 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="parameters">Request parameters.</param>
         /// <param name="cancellationToken">Cancellation Token if needed.</param>
         /// <returns>GetDealerCollectionResult.</returns>
-        Task<GetDealerCollectionResult> GetDealers(
+        Task<ServiceResponse<GetDealerCollectionResult>> GetDealers(
             DealerLocationFinderQueryParameters parameters,
             CancellationToken? cancellationToken = null
         );

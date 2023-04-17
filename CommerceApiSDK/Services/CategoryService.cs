@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
         /// <param name="startCategoryId">Parent category or null for base level categories.</param>
         /// <param name="maxDepth">depth of children to fetch.</param>
         /// <returns>List of categories.</returns>
-        public async Task<List<Category>> GetCategoryList(CategoryQueryParameters parameters)
+        public async Task<ServiceResponse<List<Category>>> GetCategoryList(CategoryQueryParameters parameters)
         {
             try
             {
@@ -38,22 +38,25 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                CategoryResult categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(
+                var categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(
                     url
                 );
-                if (categoryResult == null)
+
+                lastCategoryResult = categoryResult?.Model;
+
+                return new ServiceResponse<List<Category>>()
                 {
-                    return null;
-                }
-
-                lastCategoryResult = categoryResult;
-
-                return categoryResult.Categories?.ToList();
+                    Model = categoryResult.Model?.Categories?.ToList(),
+                    Error = categoryResult.Error,
+                    Exception = categoryResult.Exception,
+                    StatusCode = categoryResult.StatusCode,
+                    IsCached = categoryResult.IsCached
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<List<Category>>(exception: exception);
             }
         }
 
@@ -62,22 +65,22 @@ namespace CommerceApiSDK.Services
         /// </summary>
         /// <param name="categoryId">Category id</param>
         /// <returns>The category.</returns>
-        public async Task<Category> GetCategory(Guid categoryId)
+        public async Task<ServiceResponse<Category>> GetCategory(Guid categoryId)
         {
             try
             {
                 string url = CommerceAPIConstants.CategoryUrl + "/" + categoryId;
-                Category response = await GetAsyncWithCachedResponse<Category>(url);
+                var response = await GetAsyncWithCachedResponse<Category>(url);
                 return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Category>(exception: exception);
             }
         }
 
-        public async Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters)
+        public async Task<ServiceResponse<List<Category>>> GetFeaturedCategories(CategoryQueryParameters parameters)
         {
             try
             {
@@ -85,20 +88,28 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                CategoryResult allCategories = await GetAsyncWithCachedResponse<CategoryResult>(
+                var response = await GetAsyncWithCachedResponse<CategoryResult>(
                     url
                 );
+                CategoryResult allCategories = response.Model;
                 List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);
                 List<Category> featuredCategories = flattedCategories
                     .Where(c => c.IsFeatured)
                     .ToList();
 
-                return featuredCategories;
+                return new ServiceResponse<List<Category>>()
+                {
+                    Model = featuredCategories,
+                    Error = response.Error,
+                    Exception = response.Exception,
+                    StatusCode = response.StatusCode,
+                    IsCached = response.IsCached
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<List<Category>>(exception: exception);
             }
         }
 

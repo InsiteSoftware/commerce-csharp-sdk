@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommerceApiSDK.Models.Parameters;
 using CommerceApiSDK.Models.Results;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         }
 
         [HttpGet(Name = "Products")]
-        public async Task<GetProductCollectionResult> Get()
+        public async Task<ServiceResponse<GetProductCollectionResult>> Get()
         {
             return await this.productService.GetProductsNoCache(new ProductsQueryParameters());
         }

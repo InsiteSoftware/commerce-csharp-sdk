@@ -30,7 +30,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetProductCollectionResult> GetProducts(
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetProducts(
             ProductsQueryV2Parameters parameters
         )
         {
@@ -44,12 +44,13 @@ namespace CommerceApiSDK.Services
                 string queryString = parameters.ToQueryString();
                 string url = $"{CommerceAPIConstants.ProductsV2Url}/{queryString}";
 
-                GetProductCollectionResult result =
+                var response =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = response.Model;
 
                 if (result == null)
                 {
-                    return null;
+                    return response;
                 }
 
                 foreach (Product product in result.Products)
@@ -57,16 +58,16 @@ namespace CommerceApiSDK.Services
                     FixProduct(product);
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductCollectionResult>(exception: exception);
             }
         }
 
-        public async Task<GetProductResult> GetProduct(
+        public async Task<ServiceResponse<GetProductResult>> GetProduct(
             Guid productId,
             ProductQueryV2Parameters parameters = null
         )
@@ -82,14 +83,20 @@ namespace CommerceApiSDK.Services
 
                 string url = $"{CommerceAPIConstants.ProductsV2Url}/{productId}{queryString}";
 
+                var response = await GetAsyncWithCachedResponse<Product>(url);
                 GetProductResult result = new GetProductResult
                 {
-                    Product = await GetAsyncWithCachedResponse<Product>(url)
+                    Product = response.Model
                 };
 
                 if (result == null)
                 {
-                    return null;
+                    return GetServiceResponse<GetProductResult>(
+                        error: response.Error,
+                        exception: response.Exception,
+                        statusCode: response.StatusCode,
+                        isCached: response.IsCached
+                    );
                 }
 
                 if (result.Product != null)
@@ -97,16 +104,22 @@ namespace CommerceApiSDK.Services
                     FixProduct(result.Product);
                 }
 
-                return result;
+                return GetServiceResponse<GetProductResult>(
+                    model: result,
+                    error: response.Error,
+                    exception: response.Exception,
+                    statusCode: response.StatusCode,
+                    isCached: response.IsCached
+                );
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductResult>(exception: exception);
             }
         }
 
-        public async Task<GetProductCollectionResult> GetAlsoPurchased(
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetAlsoPurchased(
             Guid productId,
             AlsoPurchasedParameters parameters = null
         )
@@ -123,12 +136,12 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.ProductsV2Url}/{productId}/alsopurchased{queryString}";
 
-                GetProductCollectionResult result =
-                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                var response = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = response.Model;
 
                 if (result == null)
                 {
-                    return null;
+                    return response;
                 }
 
                 foreach (Product product in result.Products)
@@ -136,16 +149,16 @@ namespace CommerceApiSDK.Services
                     FixProduct(product);
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductCollectionResult> (exception: exception);
             }
         }
 
-        public async Task<GetProductCollectionResult> GetRelatedProduct(
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetRelatedProduct(
             Guid productId,
             RelatedProductParameters parameters = null
         )
@@ -162,12 +175,13 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.ProductsV2Url}/{productId}/relatedproducts{queryString}";
 
-                GetProductCollectionResult result =
+                var response =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = response.Model;
 
                 if (result == null)
                 {
-                    return null;
+                    return response;
                 }
 
                 foreach (Product product in result.Products)
@@ -175,16 +189,16 @@ namespace CommerceApiSDK.Services
                     FixProduct(product);
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductCollectionResult>(exception: exception);
             }
         }
 
-        public async Task<GetProductCollectionResult> GetVariantChildren(
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetVariantChildren(
             Guid productId,
             VariantChildrenParameters parameters = null
         )
@@ -201,12 +215,13 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.ProductsV2Url}/{productId}/variantchildren{queryString}";
 
-                GetProductCollectionResult result =
+                var response =
                     await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                GetProductCollectionResult result = response.Model;
 
                 if (result == null)
                 {
-                    return null;
+                    return response;
                 }
 
                 foreach (Product product in result.Products)
@@ -214,16 +229,16 @@ namespace CommerceApiSDK.Services
                     FixProduct(product);
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductCollectionResult> (exception: exception);
             }
         }
 
-        public async Task<GetProductResult> GetVariantChildrenDetail(
+        public async Task<ServiceResponse<GetProductResult>> GetVariantChildrenDetail(
             Guid productId,
             Guid variantChildId,
             VariantChildrenDetailParameters parameters = null
@@ -241,11 +256,12 @@ namespace CommerceApiSDK.Services
                 string url =
                     $"{CommerceAPIConstants.ProductsV2Url}/{productId}/variantchildren/{variantChildId}{queryString}";
 
-                GetProductResult result = await GetAsyncWithCachedResponse<GetProductResult>(url);
+                var response = await GetAsyncWithCachedResponse<GetProductResult>(url);
+                GetProductResult result = response.Model;
 
                 if (result == null)
                 {
-                    return null;
+                    return response;
                 }
 
                 if (result.Product != null)
@@ -253,12 +269,12 @@ namespace CommerceApiSDK.Services
                     FixProduct(result.Product);
                 }
 
-                return result;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetProductResult> (exception: exception);
             }
         }
     }

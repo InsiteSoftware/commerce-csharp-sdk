@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<QuoteResult> GetQuotes(QuoteQueryParameters parameters)
+        public async Task<ServiceResponse<QuoteResult>> GetQuotes(QuoteQueryParameters parameters)
         {
             try
             {
@@ -30,11 +30,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteResult>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> GetQuote(string quoteId)
+        public async Task<ServiceResponse<QuoteDto>> GetQuote(string quoteId)
         {
             if (string.IsNullOrEmpty(quoteId))
             {
@@ -50,11 +50,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> SaveQuote(QuoteDto quote)
+        public async Task<ServiceResponse<QuoteDto>> SaveQuote(QuoteDto quote)
         {
             if (quote == null)
             {
@@ -80,11 +80,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> RequestQuote(RequesteAQuoteParameters param)
+        public async Task<ServiceResponse<QuoteDto>> RequestQuote(RequesteAQuoteParameters param)
         {
             if (param == null)
             {
@@ -102,11 +102,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> RequestQuote(SalesRepRequesteAQuoteParameters param)
+        public async Task<ServiceResponse<QuoteDto>> RequestQuote(SalesRepRequesteAQuoteParameters param)
         {
             if (param == null)
             {
@@ -124,7 +124,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto> (exception: exception);
             }
         }
 
@@ -148,7 +148,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteMessage> PostQuoteMessage(string quoteId, QuoteMessage message)
+        public async Task<ServiceResponse<QuoteMessage>> PostQuoteMessage(string quoteId, QuoteMessage message)
         {
             if (string.IsNullOrEmpty(quoteId) || message == null)
             {
@@ -165,11 +165,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteMessage>(exception: exception);
             }
         }
 
-        public async Task<QuoteLine> PatchQuoteLine(string quoteId, QuoteLine quoteLine)
+        public async Task<ServiceResponse<QuoteLine>> PatchQuoteLine(string quoteId, QuoteLine quoteLine)
         {
             if (string.IsNullOrEmpty(quoteId) || quoteLine == null)
             {
@@ -186,11 +186,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteLine>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> SubmitQuote(QuoteDto quote)
+        public async Task<ServiceResponse<QuoteDto>> SubmitQuote(QuoteDto quote)
         {
             if (quote == null || quote.Id == null)
             {
@@ -226,7 +226,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception);
             }
         }
 
@@ -249,11 +249,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception);
             }
         }
 
-        public async Task<QuoteDto> QuoteLinePricing(
+        public async Task<ServiceResponse<QuoteDto>> QuoteLinePricing(
             string quoteId,
             QuoteLinePricingQueryParameters param
         )
@@ -272,11 +272,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteDto>(exception: exception) ;
             }
         }
 
-        public async Task<QuoteLine> GetQuoteLine(string quoteId, string quoteLineId)
+        public async Task<ServiceResponse<QuoteLine>> GetQuoteLine(string quoteId, string quoteLineId)
         {
             if (string.IsNullOrEmpty(quoteId) || string.IsNullOrEmpty(quoteLineId))
             {
@@ -291,11 +291,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteLine>(exception: exception);
             }
         }
 
-        public async Task<QuoteLine> UpdateQuoteLine(string quoteId, QuoteLine quoteLine)
+        public async Task<ServiceResponse<QuoteLine>> UpdateQuoteLine(string quoteId, QuoteLine quoteLine)
         {
             if (
                 string.IsNullOrEmpty(quoteId)
@@ -320,7 +320,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<QuoteLine>(exception: exception);
             }
         }
     }

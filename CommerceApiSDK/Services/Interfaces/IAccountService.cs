@@ -13,47 +13,47 @@ namespace CommerceApiSDK.Services.Interfaces
     {
         Account CurrentAccount { get; }
 
-        Task<AccountResult> GetAccountsAsync();
+        Task<ServiceResponse<AccountResult>> GetAccountsAsync();
 
-        Task<Account> GetCurrentAccountAsync();
+        Task<ServiceResponse<Account>> GetCurrentAccountAsync();
 
-        Task<Account> PatchAccountAsync(Account account);
+        Task<ServiceResponse<Account>> PatchAccountAsync(Account account);
 
-        Task<Account> GetAccountIdAsync(Guid accountId);
+        Task<ServiceResponse<Account>> GetAccountIdAsync(Guid accountId);
 
-        Task<Account> PostAccountsAsync(Account account);
+        Task<ServiceResponse<Account>> PostAccountsAsync(Account account);
 
-        Task<Account> PatchAccountIdAsync(Guid accountId);
+        Task<ServiceResponse<Account>> PatchAccountIdAsync(Guid accountId);
 
-        Task<Account> PatchShipToAddressAsync(Guid accountId);
+        Task<ServiceResponse<Account>> PatchShipToAddressAsync(Guid accountId);
 
-        Task<ShipTo> GetShipToAddressAsync(Guid accountId);
+        Task<ServiceResponse<ShipTo>> GetShipToAddressAsync(Guid accountId);
 
-        Task<Account> GetCurrentAccountPaymentProfileAsync();
+        Task<ServiceResponse<Account>> GetCurrentAccountPaymentProfileAsync();
 
-        Task<Account> PostCurrentAccountPaymentProfileAsync(Account account);
+        Task<ServiceResponse<Account>> PostCurrentAccountPaymentProfileAsync(Account account);
 
-        Task<Account> PatchCurrentAccountPaymentProfileIdAsync(
+        Task<ServiceResponse<Account>> PatchCurrentAccountPaymentProfileIdAsync(
             Guid accountPaymentProfileId,
             Account account
         );
 
-        Task<Account> GetCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
+        Task<ServiceResponse<Account>> GetCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
 
         Task<bool> DeleteCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
 
-        Task<Account> PatchAccountsVmiAsync(Guid vmiUserId, Account account);
+        Task<ServiceResponse<Account>> PatchAccountsVmiAsync(Guid vmiUserId, Account account);
 
-        Task<Account> PostAccountsVmiAsync(Account account);
+        Task<ServiceResponse<Account>> PostAccountsVmiAsync(Account account);
 
         /// <summary>
         /// A service which manages the account payment profile.
         /// </summary>
-        Task<AccountPaymentProfileCollectionResult> GetPaymentProfiles(
+        Task<ServiceResponse<AccountPaymentProfileCollectionResult>> GetPaymentProfiles(
             PaymentProfileQueryParameters parameters = null
         );
 
-        Task<AccountPaymentProfile> GetPaymentProfile(Guid accountPaymentProfileId);
+        Task<ServiceResponse<AccountPaymentProfile>> GetPaymentProfile(Guid accountPaymentProfileId);
 
         Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(
             AccountPaymentProfile accountPaymentProfile

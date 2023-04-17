@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<MessageDto> AddMessage(MessageDto message)
+        public async Task<ServiceResponse<MessageDto>> AddMessage(MessageDto message)
         {
             if (message == null)
             {
@@ -33,7 +33,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<MessageDto>(exception: exception);
             }
         }
     }

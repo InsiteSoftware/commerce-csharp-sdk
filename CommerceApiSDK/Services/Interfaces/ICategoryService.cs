@@ -17,12 +17,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="startCategoryId">Parent category or null for base level categories.</param>
         /// <param name="maxDepth">depth of children to fetch.</param>
         /// <returns>List of categories.</returns>
-        Task<List<Category>> GetCategoryList(CategoryQueryParameters parameters);
+        Task<ServiceResponse<List<Category>>> GetCategoryList(CategoryQueryParameters parameters);
 
-        Task<Category> GetCategory(Guid categoryId);
+        Task<ServiceResponse<Category>> GetCategory(Guid categoryId);
 
         Task<bool> HasCategoryCache(Guid categoryId);
 
-        Task<List<Category>> GetFeaturedCategories(CategoryQueryParameters parameters);
+        Task<ServiceResponse<List<Category>>> GetFeaturedCategories(CategoryQueryParameters parameters);
     }
 }

@@ -16,7 +16,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<TokenExDto> GetTokenExConfig(TokenExConfigQueryParameters parameters = null)
+        public async Task<ServiceResponse<TokenExDto>> GetTokenExConfig(TokenExConfigQueryParameters parameters = null)
         {
             try
             {
@@ -28,17 +28,17 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                TokenExDto tokenexConfig = await GetAsyncNoCache<TokenExDto>(
+                var response = await GetAsyncNoCache<TokenExDto>(
                     url,
                     DefaultRequestTimeout
                 );
 
-                return tokenexConfig;
+                return response;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<TokenExDto>(exception: exception);
             }
         }
     }

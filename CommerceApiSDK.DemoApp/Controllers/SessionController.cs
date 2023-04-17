@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CommerceApiSDK.Models;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         }
 
         [HttpGet(Name = "Session")]
-        public async Task<Session> Get()
+        public async Task<ServiceResponse<Session>> Get()
         {
             return await this.sessionService.GetCurrentSession();
         }
