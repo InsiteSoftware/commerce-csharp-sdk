@@ -85,7 +85,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 var result = await PostAsyncNoCache<WishList>(url, stringContent);
-                if (result != null)
+                if (result.Model != null)
                 {
                     await ClearGetWishListsCacheAsync();
                 }
@@ -115,7 +115,7 @@ namespace CommerceApiSDK.Services
                     url,
                     stringContent
                 );
-                if (result?.Model != null)
+                if (result.Model != null)
                 {
                     await ClearGetWishListsCacheAsync();
                 }
