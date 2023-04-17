@@ -148,7 +148,7 @@ namespace CommerceApiSDK.Services
                     $"{CommerceAPIConstants.CurrentSessionUrl}"
                 );
 
-                if (result != null)
+                if (result.Model != null)
                 {
                     if (currentSession != null)
                     {
