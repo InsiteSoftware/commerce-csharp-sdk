@@ -95,7 +95,7 @@ namespace CommerceApiSDK.Services
                 return new ServiceResponse<bool>
                 {
                     Model = false,
-                    Error = ErrorResponse.Empty(),
+                    Error = response?.Error ?? ErrorResponse.Empty(),
                     StatusCode = response.StatusCode
                 };
             }
