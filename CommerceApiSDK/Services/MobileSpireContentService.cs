@@ -21,7 +21,7 @@ namespace CommerceApiSDK.Services
         {
             if (string.IsNullOrEmpty(pageName))
             {
-                return null;
+                return GetServiceResponse<string>(model: null);
             }
 
             string url = $"{CommerceAPIConstants.ContentUrl}{pageName}";
