@@ -294,6 +294,9 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets a value the card type of the paymentMethod.</summary>
         public string CardType { get; set; }
+
+        /// <summary>Gets or sets a value of BillingAddress.</summary>
+        public string BillingAddress { get; set; }
     }
 
     public class PaymentOptionsDto
@@ -351,6 +354,30 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the security code.</summary>
         public string SecurityCode { get; set; }
+
+        /// <summary>Gets or sets the UseBillingAddress.</summary>
+        public bool UseBillingAddress { get; set; }
+
+        /// <summary>Gets or sets the Address1.</summary>
+        public string Address1 { get; set; }
+
+        /// <summary>Gets or sets the City</summary>
+        public string City { get; set; }
+
+        /// <summary>Gets or sets the State</summary>
+        public string State { get; set; }
+
+        /// <summary>Gets or sets the StateAbbreviation</summary>
+        public string StateAbbreviation { get; set; }
+
+        /// <summary>Gets or sets the Country.</summary>
+        public string Country { get; set; }
+
+        /// <summary>Gets or sets the CountryAbbreviation.</summary>
+        public string CountryAbbreviation { get; set; }
+
+        /// <summary>Gets or sets the PostalCode.</summary>
+        public string PostalCode { get; set; }
     }
 
     public class CostCodeDto
