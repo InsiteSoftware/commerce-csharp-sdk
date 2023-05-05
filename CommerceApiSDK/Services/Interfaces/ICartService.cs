@@ -40,13 +40,13 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<PromotionCollectionModel> GetCartPromotions(Guid cartId);
 
-        Task<Promotion> ApplyPromotion(AddPromotion promotion);
+        Task<ServiceResponse<Promotion>> ApplyPromotion(AddPromotion promotion);
 
-        Task<Cart> UpdateCart(Cart cart);
+        Task<ServiceResponse<Cart>> UpdateCart(Cart cart);
 
         Task<bool> ClearCart();
 
-        Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId);
+        Task<ServiceResponse<CartLineCollectionDto>> AddWishListToCart(Guid wishListId);
 
         Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null);
 
@@ -61,11 +61,11 @@ namespace CommerceApiSDK.Services.Interfaces
         event EventHandler OnAddToCartRequestsCountChange;
         int AddToCartRequestsCount { get; }
 
-        Task<CartLine> AddCartLine(AddCartLine cartLine);
+        Task<ServiceResponse<CartLine>> AddCartLine(AddCartLine cartLine);
 
         void CancelAllAddCartLineTasks();
 
-        Task<CartLine> UpdateCartLine(CartLine cartLine);
+        Task<ServiceResponse<CartLine>> UpdateCartLine(CartLine cartLine);
 
         Task<bool> DeleteCartLine(CartLine cartLine);
 

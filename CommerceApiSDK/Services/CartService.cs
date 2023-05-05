@@ -191,13 +191,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Promotion> ApplyPromotion(AddPromotion promotion)
+        public async Task<ServiceResponse<Promotion>> ApplyPromotion(AddPromotion promotion)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(promotion));
-                Promotion result = await PostAsyncNoCache<Promotion>(url, stringContent);
+                ServiceResponse<Promotion> result = await PostAsyncNoCacheWithErrorMessage<Promotion>(url, stringContent);
                 return result;
             }
             catch (Exception exception)
@@ -207,13 +207,13 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> UpdateCart(Cart cart)
+        public async Task<ServiceResponse<Cart>> UpdateCart(Cart cart)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(cart));
-                Cart result = await PatchAsyncNoCache<Cart>(url, stringContent);
+                ServiceResponse<Cart> result = await PatchAsyncNoCacheWithErrorMessage<Cart>(url, stringContent);
 
                 return result;
             }
@@ -252,11 +252,11 @@ namespace CommerceApiSDK.Services
             IsCartEmpty = true;
         }
 
-        public async Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId)
+        public async Task<ServiceResponse<CartLineCollectionDto>> AddWishListToCart(Guid wishListId)
         {
             try
             {
-                return await PostAsyncNoCache<CartLineCollectionDto>(
+                return await PostAsyncNoCacheWithErrorMessage<CartLineCollectionDto>(
                     "api/v1/carts/current/cartlines/wishlist/" + wishListId,
                     null
                 );
@@ -309,9 +309,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartLine> AddCartLine(AddCartLine cartLine)
+        public async Task<ServiceResponse<CartLine>> AddCartLine(AddCartLine cartLine)
         {
-            CartLine result = null;
+            ServiceResponse<CartLine> result = null;
             try
             {
                 addToCartRequests.Add(cartLine);
@@ -321,12 +321,9 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
                 CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-                result = await PostAsyncNoCache<CartLine>(
+                result = await PostAsyncNoCacheWithErrorMessage<CartLine>(
                     CommerceAPIConstants.CartCurrentCartLineUrl,
-                    stringContent,
-                    null,
-                    cancellationToken
-                );
+                    stringContent, null);
             }
             catch (Exception exception) when (!(exception is OperationCanceledException))
             {
@@ -371,12 +368,12 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartLine> UpdateCartLine(CartLine cartLine)
+        public async Task<ServiceResponse<CartLine>> UpdateCartLine(CartLine cartLine)
         {
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(cartLine));
-                return await PatchAsyncNoCache<CartLine>(
+                return await PatchAsyncNoCacheWithErrorMessage<CartLine>(
                     $"{CommerceAPIConstants.CartCurrentCartLineUrl}/{cartLine.Id}",
                     stringContent
                 );
@@ -421,11 +418,11 @@ namespace CommerceApiSDK.Services
                             serializationSettings
                         )
                 );
-                CartLineList result = await PostAsyncNoCache<CartLineList>(
+                ServiceResponse<CartLineList> result = await PostAsyncNoCacheWithErrorMessage<CartLineList>(
                     CommerceAPIConstants.CartCurrentCartLineUrl + "/batch",
                     stringContent
                 );
-                return result?.CartLines?.ToList();
+                return result?.Model?.CartLines?.ToList();
             }
             catch (Exception exception)
             {
