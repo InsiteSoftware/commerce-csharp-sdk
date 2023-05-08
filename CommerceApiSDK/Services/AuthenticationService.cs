@@ -76,12 +76,12 @@ namespace CommerceApiSDK.Services
                 return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
             }
 
-            Session sessionPatchResult = await this.sessionService.PatchSession(createdSession);
+            ServiceResponse<Session> sessionPatchResult = await this.sessionService.PatchSession(createdSession);
 
             if (sessionPatchResult == null)
             {
                 this.clientService.SetBasicAuthorizationHeader();
-                return (false, ErrorResponse.Empty());
+                return (false, sessionPatchResult?.Error ?? ErrorResponse.Empty());
             }
 
             if (subscriptionToken == null)

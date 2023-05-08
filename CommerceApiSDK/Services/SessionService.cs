@@ -74,24 +74,24 @@ namespace CommerceApiSDK.Services
         /// <param name="session">Session to be updated</param>
         /// <returns>Session result from the server</returns>
         /// <exception cref="Exception">Error when request fails</exception>
-        public async Task<Session> PatchSession(Session session)
+        public async Task<ServiceResponse<Session>> PatchSession(Session session)
         {
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(session));
-                Session result = await PatchAsyncNoCache<Session>(
+                ServiceResponse<Session> result = await PatchAsyncNoCacheWithErrorMessage<Session>(
                     CommerceAPIConstants.CurrentSessionUrl,
                     stringContent
                 );
 
-                if (result != null)
+                if (result?.Model != null)
                 {
                     // If result != null then patch worked, but we have to call GetCurrentSession to get the most up
                     // to date version of the session
-                    Session currentSession = await GetCurrentSession();
+                    result.Model = await GetCurrentSession(); ;
                 }
 
-                return currentSession;
+                return result;
             }
             catch (Exception exception)
             {
