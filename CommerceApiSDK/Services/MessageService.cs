@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<MessageDto> AddMessage(MessageDto message)
+        public async Task<ServiceResponse<MessageDto>> AddMessage(MessageDto message)
         {
             if (message == null)
             {
@@ -28,7 +28,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(message));
-                return await PostAsyncNoCache<MessageDto>(MessageUri, stringContent);
+                return await PostAsyncNoCacheWithErrorMessage<MessageDto>(MessageUri, stringContent);
             }
             catch (Exception exception)
             {
