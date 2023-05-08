@@ -5,6 +5,6 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IMessageService
     {
-        Task<MessageDto> AddMessage(MessageDto message);
+        Task<ServiceResponse<MessageDto>> AddMessage(MessageDto message);
     }
 }

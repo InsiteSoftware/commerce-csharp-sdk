@@ -51,7 +51,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<JobQuoteDto> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate)
+        public async Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate)
         {
             if (string.IsNullOrEmpty(jobQuoteUpdate?.JobQuoteId))
             {
@@ -63,7 +63,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(jobQuoteUpdate));
                 string url = $"{CommerceAPIConstants.JobQuoteUrl}/{jobQuoteUpdate.JobQuoteId}";
 
-                return await PatchAsyncNoCache<JobQuoteDto>(url, stringContent);
+                return await PatchAsyncNoCacheWithErrorMessage<JobQuoteDto>(url, stringContent);
             }
             catch (Exception exception)
             {

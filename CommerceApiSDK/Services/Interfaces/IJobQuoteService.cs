@@ -11,6 +11,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<JobQuoteDto> GetJobQuote(string jobQuoteId);
 
-        Task<JobQuoteDto> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate);
+        Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate);
     }
 }
