@@ -401,7 +401,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<List<CartLine>> AddCartLineCollection(
+        public async Task<ServiceResponse<CartLineList>> AddCartLineCollection(
             List<AddCartLine> cartLineCollection
         )
         {
@@ -422,7 +422,7 @@ namespace CommerceApiSDK.Services
                     CommerceAPIConstants.CartCurrentCartLineUrl + "/batch",
                     stringContent
                 );
-                return result?.Model?.CartLines?.ToList();
+                return result;
             }
             catch (Exception exception)
             {

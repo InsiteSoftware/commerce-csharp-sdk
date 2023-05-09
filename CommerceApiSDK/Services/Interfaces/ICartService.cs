@@ -69,6 +69,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<bool> DeleteCartLine(CartLine cartLine);
 
-        Task<List<CartLine>> AddCartLineCollection(List<AddCartLine> cartLineCollection);
+        Task<ServiceResponse<CartLineList>> AddCartLineCollection(List<AddCartLine> cartLineCollection);
     }
 }
