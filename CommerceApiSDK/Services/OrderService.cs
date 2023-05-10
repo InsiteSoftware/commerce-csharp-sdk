@@ -102,7 +102,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Order> PatchOrder(Order order)
+        public async Task<ServiceResponse<Order>> PatchOrder(Order order)
         {
             if (order == null)
             {
@@ -114,7 +114,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(order));
                 
                 string url = $"{CommerceAPIConstants.OrdersUrl}/{order.Id}";
-                return await PatchAsyncNoCache<Order>(url, stringContent);
+                return await PatchAsyncNoCacheWithErrorMessage<Order>(url, stringContent);
             }
             catch (Exception exception)
             {
@@ -123,14 +123,14 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn)
+        public async Task<ServiceResponse<Rma>> PostOrderReturns(string orderId, Rma rmaReturn)
         {
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(rmaReturn));
 
                 string url = $"{CommerceAPIConstants.OrdersUrl}/{orderId}/returns";
-                return await PostAsyncNoCache<Rma>(url, stringContent);
+                return await PostAsyncNoCacheWithErrorMessage<Rma>(url, stringContent);
             }
             catch (Exception exception)
             {
@@ -139,14 +139,14 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ShareEntity> ShareOrder(ShareOrder order)
+        public async Task<ServiceResponse<ShareEntity>> ShareOrder(ShareOrder order)
         {
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(order));
 
                 string url = CommerceAPIConstants.OrdersShareUrl;
-                return await PostAsyncNoCache<ShareEntity>(url, stringContent);
+                return await PostAsyncNoCacheWithErrorMessage<ShareEntity>(url, stringContent);
             }
             catch (Exception exception)
             {
