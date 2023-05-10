@@ -58,8 +58,7 @@ namespace CommerceApiSDK.Services
             {
                 var url = CommerceAPIConstants.BillTosUrl;
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
-                ServiceResponse<BillTo> response;
-                response = await this.PostAsyncNoCacheWithErrorMessage<BillTo>(url, stringContent);
+                ServiceResponse<BillTo> response = await this.PostAsyncNoCacheWithErrorMessage<BillTo>(url, stringContent);
 
                 return response;
             }
@@ -103,8 +102,7 @@ namespace CommerceApiSDK.Services
             {
                 var url = BillToIdUrl(billToId);
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
-                ServiceResponse<BillTo> response;
-                response = await this.PatchAsyncNoCacheWithErrorMessage<BillTo>(url, stringContent);
+                ServiceResponse<BillTo> response = await this.PatchAsyncNoCacheWithErrorMessage<BillTo>(url, stringContent);
                 return response;
             }
             catch (Exception ex)
@@ -119,8 +117,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(billTo));
-                ServiceResponse<BillTo> response;
-                response = await this.PatchAsyncNoCacheWithErrorMessage<BillTo>(CommerceAPIConstants.BillToCurrentUrl, stringContent);
+                ServiceResponse<BillTo> response = await this.PatchAsyncNoCacheWithErrorMessage<BillTo>(CommerceAPIConstants.BillToCurrentUrl, stringContent);
                 return response;
             }
             catch (Exception ex)
@@ -206,8 +203,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = ShipTosUrl(billToId);
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
-                ServiceResponse<ShipTo> response;
-                response = await this.PostAsyncNoCacheWithErrorMessage<ShipTo>(url, stringContent);
+                ServiceResponse<ShipTo> response = await this.PostAsyncNoCacheWithErrorMessage<ShipTo>(url, stringContent);
                 return response;
             }
             catch (Exception ex)
@@ -222,8 +218,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
-                ServiceResponse<ShipTo> response;
-                response = await this.PostAsyncNoCacheWithErrorMessage<ShipTo>(CommerceAPIConstants.BillToCurrentShipTosUrl, stringContent);
+                ServiceResponse<ShipTo> response = await this.PostAsyncNoCacheWithErrorMessage<ShipTo>(CommerceAPIConstants.BillToCurrentShipTosUrl, stringContent);
                 return response;
             }
             catch (Exception ex)
@@ -268,8 +263,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = ShipToIdUrl(billToId, shipToId);
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
-                ServiceResponse<ShipTo> response;
-                response = await this.PatchAsyncNoCacheWithErrorMessage<ShipTo>(url, stringContent);
+                ServiceResponse<ShipTo> response = await this.PatchAsyncNoCacheWithErrorMessage<ShipTo>(url, stringContent);
                 return response;
             }
             catch (Exception ex)
@@ -284,8 +278,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 var stringContent = await Task.Run(() => ServiceBase.SerializeModel(shipTo));
-                ServiceResponse<ShipTo> response;
-                response = await this.PatchAsyncNoCacheWithErrorMessage<ShipTo>(CommerceAPIConstants.BillToCurrentShipToCurrentUrl, stringContent);
+                ServiceResponse<ShipTo> response = await this.PatchAsyncNoCacheWithErrorMessage<ShipTo>(CommerceAPIConstants.BillToCurrentShipToCurrentUrl, stringContent);
                 return response;
             }
             catch (Exception ex)
