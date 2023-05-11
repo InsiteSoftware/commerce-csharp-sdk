@@ -75,7 +75,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishList> CreateWishList(CreateWishListQueryParameters parameters)
+        public async Task<ServiceResponse<WishList>> CreateWishList(CreateWishListQueryParameters parameters)
         {
             string url = CommerceAPIConstants.WishListUrl;
 
@@ -84,7 +84,7 @@ namespace CommerceApiSDK.Services
             );
             try
             {
-                WishList result = await PostAsyncNoCache<WishList>(url, stringContent);
+               ServiceResponse<WishList> result = await PostAsyncNoCacheWithErrorMessage<WishList>(url, stringContent);
                 if (result != null)
                 {
                     await ClearGetWishListsCacheAsync();
@@ -129,12 +129,12 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishList> UpdateWishList(WishList wishList)
+        public async Task<ServiceResponse<WishList>> UpdateWishList(WishList wishList)
         {
             StringContent stringContent = await Task.Run(() => SerializeModel(wishList));
             try
             {
-                WishList result = await PatchAsyncNoCache<WishList>(
+                ServiceResponse<WishList> result = await PatchAsyncNoCacheWithErrorMessage<WishList>(
                     "/api/v1/wishlists/" + wishList.Id,
                     stringContent
                 );
@@ -153,12 +153,12 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishListLine> AddProductToWishList(Guid wishListId, AddCartLine product)
+        public async Task<ServiceResponse<WishListLine>> AddProductToWishList(Guid wishListId, AddCartLine product)
         {
             StringContent stringContent = await Task.Run(() => SerializeModel(product));
             try
             {
-                WishListLine result = await PostAsyncNoCache<WishListLine>(
+                ServiceResponse<WishListLine> result = await PostAsyncNoCacheWithErrorMessage<WishListLine>(
                     "/api/v1/wishlists/" + wishListId + "/wishlistlines",
                     stringContent
                 );
@@ -185,7 +185,7 @@ namespace CommerceApiSDK.Services
             StringContent stringContent = await Task.Run(() => SerializeModel(wishListLines));
             try
             {
-                object result = await PostAsyncNoCache<object>(
+                object result = await PostAsyncNoCacheWithErrorMessage<object>(
                     "/api/v1/wishlists/" + wishListId + "/wishlistlines/batch",
                     stringContent
                 );
@@ -314,7 +314,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<WishListLine> UpdateWishListLine(
+        public async Task<ServiceResponse<WishListLine>> UpdateWishListLine(
             Guid wishListId,
             WishListLine wishListLine
         )
@@ -322,7 +322,7 @@ namespace CommerceApiSDK.Services
             StringContent stringContent = await Task.Run(() => SerializeModel(wishListLine));
             try
             {
-                WishListLine result = await PatchAsyncNoCache<WishListLine>(
+                ServiceResponse<WishListLine> result = await PatchAsyncNoCacheWithErrorMessage<WishListLine>(
                     $"/api/v1/wishlists/{wishListId}/wishlistlines/{wishListLine.Id}",
                     stringContent
                 );

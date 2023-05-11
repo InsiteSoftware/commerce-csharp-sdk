@@ -17,11 +17,11 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<Order> GetOrder(string orderNumber);
 
-        Task<Order> PatchOrder(Order order);
+        Task<ServiceResponse<Order>> PatchOrder(Order order);
 
-        Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn);
+        Task<ServiceResponse<Rma>> PostOrderReturns(string orderId, Rma rmaReturn);
 
-        Task<ShareEntity> ShareOrder(ShareOrder order);
+        Task<ServiceResponse<ShareEntity>> ShareOrder(ShareOrder order);
 
         Task<List<OrderStatusMapping>> GetOrderStatusMappings();
 
