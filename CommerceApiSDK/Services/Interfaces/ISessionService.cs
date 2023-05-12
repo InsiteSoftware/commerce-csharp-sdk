@@ -22,6 +22,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<HttpResponseMessage> DeleteCurrentSession();
 
-        Task<Session> ResetPassword(string userName);
+        Task<ServiceResponse<Session>> ResetPassword(string userName);
     }
 }
