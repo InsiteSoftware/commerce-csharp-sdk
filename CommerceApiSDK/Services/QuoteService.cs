@@ -54,7 +54,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteDto> SaveQuote(QuoteDto quote)
+        public async Task<ServiceResponse<QuoteDto>> SaveQuote(QuoteDto quote)
         {
             if (quote == null)
             {
@@ -66,7 +66,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(quote));
                 if (string.IsNullOrEmpty(quote.QuoteNumber))
                 {
-                    return await PostAsyncNoCache<QuoteDto>(
+                    return await PostAsyncNoCacheWithErrorMessage<QuoteDto>(
                         CommerceAPIConstants.QuoteUrl,
                         stringContent
                     );
@@ -74,7 +74,7 @@ namespace CommerceApiSDK.Services
                 else
                 {
                     string editQuoteUrl = $"{CommerceAPIConstants.QuoteUrl}/{quote.Id}";
-                    return await PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
+                    return await PatchAsyncNoCacheWithErrorMessage<QuoteDto>(editQuoteUrl, stringContent);
                 }
             }
             catch (Exception exception)
@@ -84,7 +84,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteDto> RequestQuote(RequesteAQuoteParameters param)
+        public async Task<ServiceResponse<QuoteDto>> RequestQuote(RequesteAQuoteParameters param)
         {
             if (param == null)
             {
@@ -94,7 +94,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(param));
-                return await PostAsyncNoCache<QuoteDto>(
+                return await PostAsyncNoCacheWithErrorMessage<QuoteDto>(
                     CommerceAPIConstants.QuoteUrl,
                     stringContent
                 );
@@ -106,7 +106,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteDto> RequestQuote(SalesRepRequesteAQuoteParameters param)
+        public async Task<ServiceResponse<QuoteDto>> RequestQuote(SalesRepRequesteAQuoteParameters param)
         {
             if (param == null)
             {
@@ -116,7 +116,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(param));
-                return await PostAsyncNoCache<QuoteDto>(
+                return await PostAsyncNoCacheWithErrorMessage<QuoteDto>(
                     CommerceAPIConstants.QuoteUrl,
                     stringContent
                 );
@@ -148,7 +148,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteMessage> PostQuoteMessage(string quoteId, QuoteMessage message)
+        public async Task<ServiceResponse<QuoteMessage>> PostQuoteMessage(string quoteId, QuoteMessage message)
         {
             if (string.IsNullOrEmpty(quoteId) || message == null)
             {
@@ -160,7 +160,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(message));
 
                 string messageQuote = $"{CommerceAPIConstants.QuoteUrl}/{quoteId}";
-                return await PostAsyncNoCache<QuoteMessage>(messageQuote, stringContent);
+                return await PostAsyncNoCacheWithErrorMessage<QuoteMessage>(messageQuote, stringContent);
             }
             catch (Exception exception)
             {
@@ -169,7 +169,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteLine> PatchQuoteLine(string quoteId, QuoteLine quoteLine)
+        public async Task<ServiceResponse<QuoteLine>> PatchQuoteLine(string quoteId, QuoteLine quoteLine)
         {
             if (string.IsNullOrEmpty(quoteId) || quoteLine == null)
             {
@@ -181,7 +181,7 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(quoteLine));
                 string messageQuote =
                     $"{CommerceAPIConstants.QuoteUrl}/{quoteId}/quotelines/{quoteLine.Id}";
-                return await PatchAsyncNoCache<QuoteLine>(messageQuote, stringContent);
+                return await PatchAsyncNoCacheWithErrorMessage<QuoteLine>(messageQuote, stringContent);
             }
             catch (Exception exception)
             {
@@ -190,7 +190,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteDto> SubmitQuote(QuoteDto quote)
+        public async Task<ServiceResponse<QuoteDto>> SubmitQuote(QuoteDto quote)
         {
             if (quote == null || quote.Id == null)
             {
@@ -211,7 +211,7 @@ namespace CommerceApiSDK.Services
                 );
                 if (string.IsNullOrEmpty(quoteRequestParameter.QuoteId))
                 {
-                    return await PostAsyncNoCache<QuoteDto>(
+                    return await PostAsyncNoCacheWithErrorMessage<QuoteDto>(
                         CommerceAPIConstants.QuoteUrl,
                         stringContent
                     );
@@ -220,7 +220,7 @@ namespace CommerceApiSDK.Services
                 {
                     string editQuoteUrl =
                         $"{CommerceAPIConstants.QuoteUrl}/{quoteRequestParameter.QuoteId}";
-                    return await PatchAsyncNoCache<QuoteDto>(editQuoteUrl, stringContent);
+                    return await PatchAsyncNoCacheWithErrorMessage<QuoteDto>(editQuoteUrl, stringContent);
                 }
             }
             catch (Exception exception)
@@ -253,7 +253,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteDto> QuoteLinePricing(
+        public async Task<ServiceResponse<QuoteDto>> QuoteLinePricing(
             string quoteId,
             QuoteLinePricingQueryParameters param
         )
@@ -267,7 +267,7 @@ namespace CommerceApiSDK.Services
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(param));
                 string editUrl = $"{CommerceAPIConstants.QuoteUrl}/{quoteId}/quotelines/{param.Id}";
-                return await PatchAsyncNoCache<QuoteDto>(editUrl, stringContent);
+                return await PatchAsyncNoCacheWithErrorMessage<QuoteDto>(editUrl, stringContent);
             }
             catch (Exception exception)
             {
@@ -295,7 +295,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<QuoteLine> UpdateQuoteLine(string quoteId, QuoteLine quoteLine)
+        public async Task<ServiceResponse<QuoteLine>> UpdateQuoteLine(string quoteId, QuoteLine quoteLine)
         {
             if (
                 string.IsNullOrEmpty(quoteId)
@@ -315,7 +315,7 @@ namespace CommerceApiSDK.Services
                     quoteId,
                     quoteLine.Id
                 );
-                return await PatchAsyncNoCache<QuoteLine>(url, stringContent);
+                return await PatchAsyncNoCacheWithErrorMessage<QuoteLine>(url, stringContent);
             }
             catch (Exception exception)
             {

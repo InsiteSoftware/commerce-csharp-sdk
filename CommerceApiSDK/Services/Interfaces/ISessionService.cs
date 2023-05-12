@@ -16,12 +16,12 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<Session>> PostSession(Session session);
 
-        Task<Session> PatchSession(Session session);
+        Task<ServiceResponse<Session>> PatchSession(Session session);
 
         Task<Session> GetCurrentSession();
 
         Task<HttpResponseMessage> DeleteCurrentSession();
 
-        Task<Session> ResetPassword(string userName);
+        Task<ServiceResponse<Session>> ResetPassword(string userName);
     }
 }

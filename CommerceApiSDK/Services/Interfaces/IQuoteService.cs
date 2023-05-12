@@ -11,26 +11,26 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<QuoteDto> GetQuote(string quoteId);
 
-        Task<QuoteDto> SaveQuote(QuoteDto quote);
+        Task<ServiceResponse<QuoteDto>> SaveQuote(QuoteDto quote);
 
-        Task<QuoteDto> RequestQuote(RequesteAQuoteParameters param);
+        Task<ServiceResponse<QuoteDto>> RequestQuote(RequesteAQuoteParameters param);
 
-        Task<QuoteDto> RequestQuote(SalesRepRequesteAQuoteParameters param);
+        Task<ServiceResponse<QuoteDto>> RequestQuote(SalesRepRequesteAQuoteParameters param);
 
         Task<bool> DeleteQuote(string quoteId);
 
-        Task<QuoteDto> SubmitQuote(QuoteDto quote);
+        Task<ServiceResponse<QuoteDto>> SubmitQuote(QuoteDto quote);
 
-        Task<QuoteMessage> PostQuoteMessage(string quoteId, QuoteMessage message);
+        Task<ServiceResponse<QuoteMessage>> PostQuoteMessage(string quoteId, QuoteMessage message);
 
         Task<ServiceResponse<QuoteDto>> QuoteAll(QuoteAllQueryParameters param);
 
-        Task<QuoteLine> PatchQuoteLine(string quoteId, QuoteLine quoteLine);
+        Task<ServiceResponse<QuoteLine>> PatchQuoteLine(string quoteId, QuoteLine quoteLine);
 
-        Task<QuoteDto> QuoteLinePricing(string quoteId, QuoteLinePricingQueryParameters param);
+        Task<ServiceResponse<QuoteDto>> QuoteLinePricing(string quoteId, QuoteLinePricingQueryParameters param);
 
         Task<QuoteLine> GetQuoteLine(string quoteId, string quoteLineId);
 
-        Task<QuoteLine> UpdateQuoteLine(string quoteId, QuoteLine quoteLine);
+        Task<ServiceResponse<QuoteLine>> UpdateQuoteLine(string quoteId, QuoteLine quoteLine);
     }
 }
