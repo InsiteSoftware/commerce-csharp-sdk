@@ -529,13 +529,20 @@ namespace CommerceApiSDK.Services
                     /// TODO: Individual product responses should also be
                     /// wrapped in ServiceResponse
                     /// skipping it for now
+                    var listOfTasks = new List<Task<ServiceResponse<GetProductResult>>>();
                     foreach (VmiBinModel item in response.Model?.VmiBins)
                     {
-                        var productResult =
-                            await GetAsyncWithCachedResponse<GetProductResult>(
+                        var task = GetAsyncWithCachedResponse<GetProductResult>(
                                 $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
                             );
+                        listOfTasks.Add(task);
+                    }
 
+                    await Task.WhenAll(listOfTasks);
+
+                    foreach (var itemTask in listOfTasks)
+                    {
+                        var productResult = itemTask.Result;
                         if (productResult.Model?.Product != null)
                         {
                             FixProduct(productResult.Model?.Product);
