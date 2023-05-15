@@ -726,13 +726,15 @@ namespace CommerceApiSDK.Services
 
         private async Task<Exception> LogException(HttpResponseMessage httpResponseMessage, string url, string content = null)
         {
-            var exception = $"{GetType().FullName}\n{url}\n";
-            exception += await httpResponseMessage.Content.ReadAsStringAsync() + "\n";
+            var exceptionBuilder = new StringBuilder();
+            exceptionBuilder.AppendLine(GetType().FullName);
+            exceptionBuilder.AppendLine(url);
+            exceptionBuilder.AppendLine(await httpResponseMessage.Content.ReadAsStringAsync());
             if (!string.IsNullOrEmpty(content))
             {
-                exception += content + "\n";
+                exceptionBuilder.AppendLine(content);
             }
-            var ex = new Exception(exception);
+            var ex = new Exception(exceptionBuilder.ToString());
             TrackingService.TrackException(ex);
             return ex;
         }

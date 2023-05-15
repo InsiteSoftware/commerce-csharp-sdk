@@ -91,9 +91,7 @@ namespace CommerceApiSDK.Services
                 var response = await GetAsyncWithCachedResponse<CategoryResult>(
                     url
                 );
-                CategoryResult allCategories = response.Model;
-                List<Category> flattedCategories = FlattenCategoryTree(allCategories.Categories);
-                List<Category> featuredCategories = flattedCategories
+                List<Category> featuredCategories = FlattenCategoryTree(response.Model?.Categories)
                     .Where(c => c.IsFeatured)
                     .ToList();
 
