@@ -66,33 +66,33 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Cart> GetCart(Guid cartId, CartQueryParameters parameters)
+        public async Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters)
         {
             try
             {
                 string url = $"{CommerceAPIConstants.CartsUrl}/{cartId}";
                 url += parameters.ToQueryString();
 
-                Cart result = await GetAsyncNoCache<Cart>(url);
+                var result = await GetAsyncNoCache<Cart>(url);
 
-                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Cart>(exception: exception);
             }
         }
 
-        private async Task<Cart> GetCart(CartQueryParameters parameters, AddCartModel addCartModel, CartType cartType = CartType.Regular)
+        private async Task<ServiceResponse<Cart>> GetCart(CartQueryParameters parameters, AddCartModel addCartModel, CartType cartType = CartType.Regular)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentUrl;
 
-                Cart result = null;
+                ServiceResponse<Cart> result = null;
                 if (cartType == CartType.Alternate)
                 {
                     url = CommerceAPIConstants.CartsUrl;
@@ -109,58 +109,58 @@ namespace CommerceApiSDK.Services
                     result = await GetAsyncNoCache<Cart>(url);
                 }       
 
-                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Cart>(exception: exception);
             }
         }
 
-        public async Task<Cart> CreateAlternateCart(AddCartModel addCartModel)
+        public async Task<ServiceResponse<Cart>> CreateAlternateCart(AddCartModel addCartModel)
         {
             return await GetCart(null, addCartModel, CartType.Alternate);
         }
 
-        public async Task<Cart> GetCurrentCart(CartQueryParameters parameters)
+        public async Task<ServiceResponse<Cart>> GetCurrentCart(CartQueryParameters parameters)
         {
             return await GetCart(parameters, null, CartType.Current);
         }
 
-        public async Task<Cart> GetRegularCart(CartQueryParameters parameters)
+        public async Task<ServiceResponse<Cart>> GetRegularCart(CartQueryParameters parameters)
         {
             return await GetCart(parameters, null, CartType.Regular);
         }
 
-        public async Task<GetCartLinesResult> GetCartLines()
+        public async Task<ServiceResponse<GetCartLinesResult>> GetCartLines()
         {
             try
             {
                 List<string> parameters = new List<string>();
 
                 string url = CommerceAPIConstants.CartCurrentCartLinesUrl;
-                GetCartLinesResult result = await GetAsyncNoCache<GetCartLinesResult>(url);
+                var result = await GetAsyncNoCache<GetCartLinesResult>(url);
 
-                IsCartEmpty = result?.CartLines == null || result.CartLines.Count <= 0;
+                IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetCartLinesResult>(exception: exception);
             }
         }
 
-        public async Task<PromotionCollectionModel> GetCurrentCartPromotions()
+        public async Task<ServiceResponse<PromotionCollectionModel>> GetCurrentCartPromotions()
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
-                PromotionCollectionModel result = await GetAsyncNoCache<PromotionCollectionModel>(
+                var result = await GetAsyncNoCache<PromotionCollectionModel>(
                     url
                 );
 
@@ -169,16 +169,16 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<PromotionCollectionModel>(exception: exception);
             }
         }
 
-        public async Task<PromotionCollectionModel> GetCartPromotions(Guid cartId)
+        public async Task<ServiceResponse<PromotionCollectionModel>> GetCartPromotions(Guid cartId)
         {
             try
             {
                 string url = string.Format(CommerceAPIConstants.CartPromotionsUrl, cartId);
-                PromotionCollectionModel result = await GetAsyncNoCache<PromotionCollectionModel>(
+                var result = await GetAsyncNoCache<PromotionCollectionModel>(
                     url
                 );
 
@@ -187,40 +187,40 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<PromotionCollectionModel>(exception: exception) ;
             }
         }
 
-        public async Task<Promotion> ApplyPromotion(AddPromotion promotion)
+        public async Task<ServiceResponse<Promotion>> ApplyPromotion(AddPromotion promotion)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(promotion));
-                Promotion result = await PostAsyncNoCache<Promotion>(url, stringContent);
+                var result = await PostAsyncNoCache<Promotion>(url, stringContent);
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Promotion>(exception: exception);
             }
         }
 
-        public async Task<Cart> UpdateCart(Cart cart)
+        public async Task<ServiceResponse<Cart>> UpdateCart(Cart cart)
         {
             try
             {
                 string url = CommerceAPIConstants.CartCurrentUrl;
                 StringContent stringContent = await Task.Run(() => SerializeModel(cart));
-                Cart result = await PatchAsyncNoCache<Cart>(url, stringContent);
+                var result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Cart>(exception: exception);
             }
         }
 
@@ -252,7 +252,7 @@ namespace CommerceApiSDK.Services
             IsCartEmpty = true;
         }
 
-        public async Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId)
+        public async Task<ServiceResponse<CartLineCollectionDto>> AddWishListToCart(Guid wishListId)
         {
             try
             {
@@ -264,11 +264,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CartLineCollectionDto>(exception: exception);
             }
         }
 
-        public async Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null)
+        public async Task<ServiceResponse<CartCollectionModel>> GetCarts(CartsQueryParameters parameters = null)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CartCollectionModel> (exception: exception);
             }
         }
 
@@ -309,9 +309,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartLine> AddCartLine(AddCartLine cartLine)
+        public async Task<ServiceResponse<CartLine>> AddCartLine(AddCartLine cartLine)
         {
-            CartLine result = null;
+            ServiceResponse<CartLine> result = null;
             try
             {
                 addToCartRequests.Add(cartLine);
@@ -371,7 +371,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<CartLine> UpdateCartLine(CartLine cartLine)
+        public async Task<ServiceResponse<CartLine>> UpdateCartLine(CartLine cartLine)
         {
             try
             {
@@ -384,7 +384,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<CartLine>(exception: exception);
             }
         }
 
@@ -404,7 +404,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<List<CartLine>> AddCartLineCollection(
+        public async Task<ServiceResponse<List<CartLine>>> AddCartLineCollection(
             List<AddCartLine> cartLineCollection
         )
         {
@@ -421,16 +421,25 @@ namespace CommerceApiSDK.Services
                             serializationSettings
                         )
                 );
-                CartLineList result = await PostAsyncNoCache<CartLineList>(
+
+                var result = await PostAsyncNoCache<CartLineList>(
                     CommerceAPIConstants.CartCurrentCartLineUrl + "/batch",
                     stringContent
                 );
-                return result?.CartLines?.ToList();
+
+                return new ServiceResponse<List<CartLine>>()
+                {
+                    Model = result.Model?.CartLines?.ToList(),
+                    Error = result.Error,
+                    Exception = result.Exception,
+                    StatusCode = result.StatusCode,
+                    IsCached = result.IsCached
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<List<CartLine>>(exception: exception);
             }
         }
     }

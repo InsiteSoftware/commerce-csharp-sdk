@@ -204,7 +204,7 @@ namespace CommerceApiSDK.Services
                 LogLevel.DEBUG,
                 "GET async no host {0} finished with status: {1} ",
                 path,
-                response.StatusCode
+                response?.StatusCode
             );
             this.loggerService.LogConsole(LogLevel.INFO, "{0} Response {1}", path, response);
 
@@ -333,7 +333,7 @@ namespace CommerceApiSDK.Services
                 LogLevel.DEBUG,
                 "PutAsync {0} finished with status: {1} ",
                 path,
-                response.StatusCode
+                response?.StatusCode
             );
 
             return response;
@@ -638,14 +638,14 @@ namespace CommerceApiSDK.Services
                 ErrorResponse error = await Task.Run(
                     () => ServiceBase.DeserializeModel<ErrorResponse>(result)
                 );
-                return new ServiceResponse<TokenResult> { Error = error };
+                return new ServiceResponse<TokenResult> { Error = error, StatusCode = result.StatusCode };
             }
 
             TokenResult token = await Task.Run(
                 () => ServiceBase.DeserializeModel<TokenResult>(result)
             );
             StoreAccessToken(token);
-            return new ServiceResponse<TokenResult> { Model = token };
+            return new ServiceResponse<TokenResult> { Model = token, StatusCode = result.StatusCode };
         }
         #endregion
     }

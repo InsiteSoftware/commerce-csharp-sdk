@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<IList<AutocompleteBrand>> GetAutocompleteBrands(string searchQuery)
+        public async Task<ServiceResponse<IList<AutocompleteBrand>>> GetAutocompleteBrands(string searchQuery)
         {
             AutocompleteQueryParameters parameters = new AutocompleteQueryParameters()
             {
@@ -29,11 +29,18 @@ namespace CommerceApiSDK.Services
                 ProductEnabled = false,
             };
 
-            AutocompleteResult results = await GetAutocompleteResults(parameters);
-            return results?.Brands;
+            var results = await GetAutocompleteResults(parameters);
+            return new ServiceResponse<IList<AutocompleteBrand>>()
+            {
+                Model = results.Model?.Brands,
+                Error = results.Error,
+                Exception = results.Exception,
+                StatusCode = results.StatusCode,
+                IsCached = results.IsCached
+            };
         }
 
-        public async Task<IList<AutocompleteProduct>> GetAutocompleteProducts(string searchQuery)
+        public async Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(string searchQuery)
         {
             try
             {
@@ -49,18 +56,24 @@ namespace CommerceApiSDK.Services
 
                 url += "?" + string.Join("&", parameters);
 
-                Autocomplete result = await GetAsyncWithCachedResponse<Autocomplete>(url);
+                var result = await GetAsyncWithCachedResponse<Autocomplete>(url);
 
-                return result?.Products;
+                return new ServiceResponse<IList<AutocompleteProduct>>() {
+                    Model = result.Model?.Products,
+                    Exception = result.Exception,
+                    Error = result.Error,
+                    StatusCode = result.StatusCode,
+                    IsCached = result.IsCached,
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<IList<AutocompleteProduct>>(exception: exception);
             }
         }
 
-        public async Task<AutocompleteResult> GetAutocompleteResults(
+        public async Task<ServiceResponse<AutocompleteResult>> GetAutocompleteResults(
             AutocompleteQueryParameters parameters
         )
         {
@@ -73,7 +86,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<AutocompleteResult>(exception: exception);
             }
         }
     }

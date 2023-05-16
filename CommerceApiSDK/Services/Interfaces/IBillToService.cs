@@ -11,39 +11,39 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface IBillToService
     {
-        Task<GetBillTosResult> GetBillTosAsync(BillTosQueryParameters parameters = null);
+        Task<ServiceResponse<GetBillTosResult>> GetBillTosAsync(BillTosQueryParameters parameters = null);
 
-        Task<BillTo> PostBillTosAsync(BillTo billTo);
+        Task<ServiceResponse<BillTo>> PostBillTosAsync(BillTo billTo);
 
-        Task<BillTo> GetBillTo(Guid billToId);
+        Task<ServiceResponse<BillTo>> GetBillTo(Guid billToId);
 
-        Task<BillTo> GetCurrentBillTo();
+        Task<ServiceResponse<BillTo>> GetCurrentBillTo();
 
-        Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo);
+        Task<ServiceResponse<BillTo>> PatchBillTo(Guid billToId, BillTo billTo);
 
-        Task<BillTo> PatchCurrentBillTo(BillTo billTo);
+        Task<ServiceResponse<BillTo>> PatchCurrentBillTo(BillTo billTo);
 
-        Task<GetShipTosResult> GetShipTosAsync(
+        Task<ServiceResponse<GetShipTosResult>> GetShipTosAsync(
             Guid billToId,
             ShipTosQueryParameters parameters = null
         );
 
-        Task<GetShipTosResult> GetCurrentShipTos(ShipTosQueryParameters parameters = null);
+        Task<ServiceResponse<GetShipTosResult>> GetCurrentShipTos(ShipTosQueryParameters parameters = null);
 
-        Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
+        Task<ServiceResponse<GetShipTosResult>> GetCurrentBillToShipTosAsync(
             ShipTosQueryParameters parameters = null
         );
 
-        Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo);
+        Task<ServiceResponse<ShipTo>> PostShipToAsync(Guid billToId, ShipTo shipTo);
 
-        Task<ShipTo> PostCurrentBillToShipToAsync(ShipTo shipTo);
+        Task<ServiceResponse<ShipTo>> PostCurrentBillToShipToAsync(ShipTo shipTo);
 
-        Task<ShipTo> GetShipTo(Guid billToId, Guid shipToId);
+        Task<ServiceResponse<ShipTo>> GetShipTo(Guid billToId, Guid shipToId);
 
-        Task<ShipTo> GetCurrentShipTo();
+        Task<ServiceResponse<ShipTo>> GetCurrentShipTo();
 
-        Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo);
+        Task<ServiceResponse<ShipTo>> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo);
 
-        Task<ShipTo> PatchCurrentShipTo(ShipTo shipTo);
+        Task<ServiceResponse<ShipTo>> PatchCurrentShipTo(ShipTo shipTo);
     }
 }

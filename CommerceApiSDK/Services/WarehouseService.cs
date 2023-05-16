@@ -17,7 +17,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetWarehouseCollectionResult> GetWarehouses(
+        public async Task<ServiceResponse<GetWarehouseCollectionResult>> GetWarehouses(
             WarehousesQueryParameters parameters
         )
         {
@@ -32,11 +32,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetWarehouseCollectionResult>(exception: exception);
             }
         }
 
-        public async Task<Warehouse> GetWarehouse(
+        public async Task<ServiceResponse<Warehouse>> GetWarehouse(
             Guid warehouseId,
             WarehouseQueryParameters parameters
         )
@@ -52,19 +52,14 @@ namespace CommerceApiSDK.Services
 
                 string url = $"{CommerceAPIConstants.WarehousesUrl}/{warehouseId}{queryString}";
 
-                Warehouse warehouseResult = await GetAsyncWithCachedResponse<Warehouse>(url);
-
-                if (warehouseResult == null)
-                {
-                    return null;
-                }
+                var warehouseResult = await GetAsyncWithCachedResponse<Warehouse>(url);
 
                 return warehouseResult;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Warehouse>(exception: exception);
             }
         }
     }

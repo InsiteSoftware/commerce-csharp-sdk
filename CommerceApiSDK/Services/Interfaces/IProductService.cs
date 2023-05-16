@@ -8,16 +8,16 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<GetProductCollectionResult> GetProducts(ProductsQueryParameters parameters);
+        Task<ServiceResponse<GetProductCollectionResult>> GetProducts(ProductsQueryParameters parameters);
 
-        Task<GetProductCollectionResult> GetProductsNoCache(ProductsQueryParameters parameters);
+        Task<ServiceResponse<GetProductCollectionResult>> GetProductsNoCache(ProductsQueryParameters parameters);
 
         Task<bool> HasProductsCache(ProductsQueryParameters parameters);
 
-        Task<GetProductResult> GetProduct(Guid productId, ProductQueryParameters parameters = null);
+        Task<ServiceResponse<GetProductResult>> GetProduct(Guid productId, ProductQueryParameters parameters = null);
 
-        Task<GetProductCollectionResult> GetProductCrossSells(Guid productId);
+        Task<ServiceResponse<GetProductCollectionResult>> GetProductCrossSells(Guid productId);
 
-        Task<ProductPrice> GetProductPrice(Guid productId, ProductPriceQueryParameter parameters);
+        Task<ServiceResponse<ProductPrice>> GetProductPrice(Guid productId, ProductPriceQueryParameter parameters);
     }
 }

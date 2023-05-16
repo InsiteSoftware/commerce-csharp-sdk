@@ -15,7 +15,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<DashboardPanelsResult> GetDashboardPanelsAsync()
+        public async Task<ServiceResponse<DashboardPanelsResult>> GetDashboardPanelsAsync()
         {
             try
             {
@@ -25,7 +25,7 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<DashboardPanelsResult>(exception: ex);
             }
         }
     }
