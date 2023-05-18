@@ -8,19 +8,19 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IBrandService
     {
-        Task<BrandAlphabetResult> GetAlphabetAsync();
+        Task<ServiceResponse<BrandAlphabetResult>> GetAlphabetAsync();
 
-        Task<GetBrandsResult> GetBrands(BrandsQueryParameters parameters);
+        Task<ServiceResponse<GetBrandsResult>> GetBrands(BrandsQueryParameters parameters);
 
-        Task<Brand> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null);
+        Task<ServiceResponse<Brand>> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null);
 
-        Task<GetBrandCategoriesResult> GetBrandCategories(BrandCategoriesQueryParameter parameters);
+        Task<ServiceResponse<GetBrandCategoriesResult>> GetBrandCategories(BrandCategoriesQueryParameter parameters);
 
-        Task<GetBrandSubCategoriesResult> GetBrandCategorySubCategories(
+        Task<ServiceResponse<GetBrandSubCategoriesResult>> GetBrandCategorySubCategories(
             BrandCategoriesQueryParameter parameters
         );
 
-        Task<GetBrandProductLinesResult> GetBrandProductLines(
+        Task<ServiceResponse<GetBrandProductLinesResult>> GetBrandProductLines(
             ProductLinesQueryParameters parameters
         );
     }

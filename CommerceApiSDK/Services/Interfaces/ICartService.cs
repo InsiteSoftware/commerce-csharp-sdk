@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
 
-        Task<Cart> GetCart(Guid cartId, CartQueryParameters parameters);
+        Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters);
 
         /// <summary>
         /// This will create an Alternate Cart as opposed to regular cart, by setting AlternateCart cookie in CookieCollection
@@ -28,27 +28,27 @@ namespace CommerceApiSDK.Services.Interfaces
         /// To get back to regular cart call GetRegularCart
         /// Or Remove cookie by calling RemoveAlternateCartCookie from IClientService
         /// </summary>
-        Task<Cart> CreateAlternateCart(AddCartModel addCartModel);
+        Task<ServiceResponse<Cart>> CreateAlternateCart(AddCartModel addCartModel);
 
-        Task<Cart> GetCurrentCart(CartQueryParameters parameters);
+        Task<ServiceResponse<Cart>> GetCurrentCart(CartQueryParameters parameters);
 
-        Task<Cart> GetRegularCart(CartQueryParameters parameters);        
+        Task<ServiceResponse<Cart>> GetRegularCart(CartQueryParameters parameters);        
 
-        Task<GetCartLinesResult> GetCartLines();
+        Task<ServiceResponse<GetCartLinesResult>> GetCartLines();
 
-        Task<PromotionCollectionModel> GetCurrentCartPromotions();
+        Task<ServiceResponse<PromotionCollectionModel>> GetCurrentCartPromotions();
 
-        Task<PromotionCollectionModel> GetCartPromotions(Guid cartId);
+        Task<ServiceResponse<PromotionCollectionModel>> GetCartPromotions(Guid cartId);
 
-        Task<Promotion> ApplyPromotion(AddPromotion promotion);
+        Task<ServiceResponse<Promotion>> ApplyPromotion(AddPromotion promotion);
 
-        Task<Cart> UpdateCart(Cart cart);
+        Task<ServiceResponse<Cart>> UpdateCart(Cart cart);
 
         Task<bool> ClearCart();
 
-        Task<CartLineCollectionDto> AddWishListToCart(Guid wishListId);
+        Task<ServiceResponse<CartLineCollectionDto>> AddWishListToCart(Guid wishListId);
 
-        Task<CartCollectionModel> GetCarts(CartsQueryParameters parameters = null);
+        Task<ServiceResponse<CartCollectionModel>> GetCarts(CartsQueryParameters parameters = null);
 
         Task<bool> DeleteCart(Guid cartId);
 
@@ -61,14 +61,14 @@ namespace CommerceApiSDK.Services.Interfaces
         event EventHandler OnAddToCartRequestsCountChange;
         int AddToCartRequestsCount { get; }
 
-        Task<CartLine> AddCartLine(AddCartLine cartLine);
+        Task<ServiceResponse<CartLine>> AddCartLine(AddCartLine cartLine);
 
         void CancelAllAddCartLineTasks();
 
-        Task<CartLine> UpdateCartLine(CartLine cartLine);
+        Task<ServiceResponse<CartLine>> UpdateCartLine(CartLine cartLine);
 
         Task<bool> DeleteCartLine(CartLine cartLine);
 
-        Task<List<CartLine>> AddCartLineCollection(List<AddCartLine> cartLineCollection);
+        Task<ServiceResponse<List<CartLine>>> AddCartLineCollection(List<AddCartLine> cartLineCollection);
     }
 }

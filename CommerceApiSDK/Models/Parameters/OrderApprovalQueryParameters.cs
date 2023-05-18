@@ -20,8 +20,5 @@ namespace CommerceApiSDK.Models.Parameters
         public string OrderTotalOperator { get; set; }
 
         public decimal OrderTotal { get; set; }
-
-        [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
-        public List<string> Expand { get; set; } = null;
     }
 }

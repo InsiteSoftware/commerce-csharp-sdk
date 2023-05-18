@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Parameters;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace CommerceApiSDK.DemoApp.Controllers
         }
 
         [HttpGet(Name = "Cart")]
-        public async Task<Cart> Get()
+        public async Task<ServiceResponse<Cart>> Get()
         {
             var parameters = new CartQueryParameters { };
 

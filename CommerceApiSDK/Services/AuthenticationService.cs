@@ -47,7 +47,7 @@ namespace CommerceApiSDK.Services
         /// <param name="userName">User's username</param>
         /// <param name="password">User's password</param>
         /// <returns>Whether or not sign in was successful</returns>
-        public virtual async Task<(bool, ErrorResponse)> LogInAsync(
+        public virtual async Task<ServiceResponse<bool>> LogInAsync(
             string userName,
             string password
         )
@@ -59,29 +59,45 @@ namespace CommerceApiSDK.Services
             TokenResult tokenResult = result?.Model;
             if (tokenResult == null)
             {
-                return (false, result?.Error ?? ErrorResponse.Empty());
+                return new ServiceResponse<bool>
+                {
+                    Model = false,
+                    Error = result?.Error ?? ErrorResponse.Empty(),
+                    StatusCode = result.StatusCode
+                };
             }
 
             this.clientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
             this.clientService.StoreSessionState();
 
             Session session = new Session() { UserName = userName, Password = password };
-            ServiceResponse<Session> sessionCreateResult = await this.sessionService.PostSession(
+            var sessionCreateResult = await this.sessionService.PostSession(
                 session
             );
             Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
                 this.clientService.SetBasicAuthorizationHeader();
-                return (false, sessionCreateResult?.Error ?? ErrorResponse.Empty());
+                return new ServiceResponse<bool>
+                {
+                    Model = false,
+                    Error = sessionCreateResult?.Error ?? ErrorResponse.Empty(),
+                    StatusCode = sessionCreateResult.StatusCode
+                };
             }
 
-            Session sessionPatchResult = await this.sessionService.PatchSession(createdSession);
+            var response = await this.sessionService.PatchSession(createdSession);
+            Session sessionPatchResult = response?.Model;
 
             if (sessionPatchResult == null)
             {
                 this.clientService.SetBasicAuthorizationHeader();
-                return (false, ErrorResponse.Empty());
+                return new ServiceResponse<bool>
+                {
+                    Model = false,
+                    Error = ErrorResponse.Empty(),
+                    StatusCode = response.StatusCode
+                };
             }
 
             if (subscriptionToken == null)
@@ -91,7 +107,11 @@ namespace CommerceApiSDK.Services
                 );
             }
 
-            return (true, null);
+            return new ServiceResponse<bool>
+            {
+                Model = true,
+                StatusCode = response.StatusCode
+            };
         }
 
         /// <summary>
@@ -135,14 +155,22 @@ namespace CommerceApiSDK.Services
         /// Checks whether or not the application is currently logged in
         /// </summary>
         /// <returns>Boolean value for whether or not user is logged in</returns>
-        public virtual async Task<bool> IsAuthenticatedAsync()
+        public virtual async Task<ServiceResponse<bool>> IsAuthenticatedAsync()
         {
             if (this.clientService.IsExistsAccessToken())
             {
-                var currentSession = await this.sessionService.GetCurrentSession();
+                var response = await this.sessionService.GetCurrentSession();
+                var currentSession = response?.Model;
                 if (currentSession != null && currentSession.IsAuthenticated)
                 {
-                    return true;
+                    return new ServiceResponse<bool>
+                    {
+                        Model = true,
+                        Error = response.Error,
+                        Exception = response.Exception,
+                        StatusCode = response.StatusCode,
+                        IsCached = response.IsCached
+                    };
                 }
                 else
                 {
@@ -150,7 +178,10 @@ namespace CommerceApiSDK.Services
                 }
             }
 
-            return false;
+            return new ServiceResponse<bool>
+            {
+                Model = false
+            };
         }
 
         protected virtual void RefreshTokenExpiredHandler(OptiMessage message)

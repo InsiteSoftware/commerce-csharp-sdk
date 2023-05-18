@@ -7,12 +7,12 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface IAuthenticationService
     {
-        Task<(bool, ErrorResponse)> LogInAsync(string userName, string password);
+        Task<ServiceResponse<bool>> LogInAsync(string userName, string password);
 
         void Logout(bool isRefreshTokenExpired = false);
 
         Task LogoutAsync(bool isRefreshTokenExpired = false);
 
-        Task<bool> IsAuthenticatedAsync();
+        Task<ServiceResponse<bool>> IsAuthenticatedAsync();
     }
 }

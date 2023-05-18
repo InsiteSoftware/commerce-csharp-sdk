@@ -13,19 +13,19 @@ namespace CommerceApiSDK.Services.Interfaces
 
         List<OrderSortOrder> GetOrderListForRequest(OrderSortOrder sortOrder);
 
-        Task<GetOrderCollectionResult> GetOrders(OrdersQueryParameters parameters = null);
+        Task<ServiceResponse<GetOrderCollectionResult>> GetOrders(OrdersQueryParameters parameters = null);
 
-        Task<GetOrderApprovalCollectionResult> GetOrderApprovalList(OrderApprovalQueryParameters parameters = null);
+        Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(OrderApprovalQueryParameters parameters = null);
 
-        Task<Order> GetOrder(string orderNumber);
+        Task<ServiceResponse<Order>> GetOrder(string orderNumber);
 
-        Task<Order> PatchOrder(Order order);
+        Task<ServiceResponse<Order>> PatchOrder(Order order);
 
-        Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn);
+        Task<ServiceResponse<Rma>> PostOrderReturns(string orderId, Rma rmaReturn);
 
-        Task<ShareEntity> ShareOrder(ShareOrder order);
+        Task<ServiceResponse<ShareEntity>> ShareOrder(ShareOrder order);
 
-        Task<List<OrderStatusMapping>> GetOrderStatusMappings();
+        Task<ServiceResponse<List<OrderStatusMapping>>> GetOrderStatusMappings();
 
         List<string> SelectedFilterValueIds { get; set; }
 

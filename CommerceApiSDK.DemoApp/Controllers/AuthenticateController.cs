@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CommerceApiSDK.Services;
 using CommerceApiSDK.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,10 @@ namespace CommerceApiSDK.DemoApp.Controllers
         }
 
         [HttpPost(Name = "Authenticate")]
-        public async Task<bool> Post(string username, string password)
+        public async Task<ServiceResponse<bool>> Post(string username, string password)
         {
-            var (success, _) = await this.authenticationService.LogInAsync(username, password);
-
-            return success;
+            var result = await this.authenticationService.LogInAsync(username, password);
+            return result;
         }
     }
 }

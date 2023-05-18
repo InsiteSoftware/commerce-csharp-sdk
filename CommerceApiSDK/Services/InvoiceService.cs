@@ -18,7 +18,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<Invoice> GetInvoice(InvoiceDetailParameter parameters = null)
+        public async Task<ServiceResponse<Invoice>> GetInvoice(InvoiceDetailParameter parameters = null)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                Invoice result = await GetAsyncNoCache<Invoice>(url);
+                var result = await GetAsyncNoCache<Invoice>(url);
                 if (result == null)
                 {
                     throw new Exception("The invoice requested cannot be found.");
@@ -46,11 +46,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Invoice>(exception: exception);
             }
         }
 
-        public async Task<GetInvoiceResult> GetInvoices(InvoiceQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetInvoiceResult>> GetInvoices(InvoiceQueryParameters parameters = null)
         {
             try
             {
@@ -63,11 +63,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetInvoiceResult>(exception: exception);
             }
         }
 
-        public async Task<bool> SendEmail(InvoiceEmailParameter parameters = null)
+        public async Task<ServiceResponse<bool>> SendEmail(InvoiceEmailParameter parameters = null)
         {
             try
             {
@@ -79,7 +79,10 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return false;
+                return new ServiceResponse<bool>
+                {
+                    Exception = exception
+                };
             }
         }
     }

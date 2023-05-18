@@ -29,7 +29,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetBillTosResult> GetBillTosAsync(
+        public async Task<ServiceResponse<GetBillTosResult>> GetBillTosAsync(
             BillTosQueryParameters parameters = null
         )
         {
@@ -48,11 +48,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetBillTosResult>(exception: exception);
             }
         }
 
-        public async Task<BillTo> PostBillTosAsync(BillTo billTo)
+        public async Task<ServiceResponse<BillTo>> PostBillTosAsync(BillTo billTo)
         {
             try
             {
@@ -66,11 +66,11 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<BillTo>(exception: ex);
             }
         }
 
-        public async Task<BillTo> GetBillTo(Guid billToId)
+        public async Task<ServiceResponse<BillTo>> GetBillTo(Guid billToId)
         {
             try
             {
@@ -80,11 +80,11 @@ namespace CommerceApiSDK.Services
             catch (Exception e)
             {
                 this.TrackingService.TrackException(e);
-                return null;
+                return GetServiceResponse<BillTo>(exception: e);
             }
         }
 
-        public async Task<BillTo> GetCurrentBillTo()
+        public async Task<ServiceResponse<BillTo>> GetCurrentBillTo()
         {
             try
             {
@@ -93,11 +93,11 @@ namespace CommerceApiSDK.Services
             catch (Exception e)
             {
                 this.TrackingService.TrackException(e);
-                return null;
+                return GetServiceResponse<BillTo>(exception: e);
             }
         }
 
-        public async Task<BillTo> PatchBillTo(Guid billToId, BillTo billTo)
+        public async Task<ServiceResponse<BillTo>> PatchBillTo(Guid billToId, BillTo billTo)
         {
             try
             {
@@ -111,11 +111,11 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<BillTo>(exception: ex);
             }
         }
 
-        public async Task<BillTo> PatchCurrentBillTo(BillTo billTo)
+        public async Task<ServiceResponse<BillTo>> PatchCurrentBillTo(BillTo billTo)
         {
             try
             {
@@ -131,11 +131,11 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<BillTo>(exception: ex);
             }
         }
 
-        public async Task<GetShipTosResult> GetShipTosAsync(
+        public async Task<ServiceResponse<GetShipTosResult>> GetShipTosAsync(
             Guid billToId,
             ShipTosQueryParameters parameters = null
         )
@@ -155,11 +155,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetShipTosResult>(exception: exception);
             }
         }
 
-        public async Task<GetShipTosResult> GetCurrentShipTos(
+        public async Task<ServiceResponse<GetShipTosResult>> GetCurrentShipTos(
             ShipTosQueryParameters parameters = null
         )
         {
@@ -178,11 +178,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetShipTosResult>(exception: exception);
             }
         }
 
-        public async Task<GetShipTosResult> GetCurrentBillToShipTosAsync(
+        public async Task<ServiceResponse<GetShipTosResult>> GetCurrentBillToShipTosAsync(
             ShipTosQueryParameters parameters = null
         )
         {
@@ -201,35 +201,35 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetShipTosResult>(exception: exception);
             }
         }
 
-        public async Task<ShipTo> PostShipToAsync(Guid billToId, ShipTo shipTo)
+        public async Task<ServiceResponse<ShipTo>> PostShipToAsync(Guid billToId, ShipTo shipTo)
         {
             try
             {
                 string url = ShipTosUrl(billToId);
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
 
-                ShipTo result = await PostAsyncNoCache<ShipTo>(url, stringContent);
+                var result = await PostAsyncNoCache<ShipTo>(url, stringContent);
 
                 return result;
             }
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: ex);
             }
         }
 
-        public async Task<ShipTo> PostCurrentBillToShipToAsync(ShipTo shipTo)
+        public async Task<ServiceResponse<ShipTo>> PostCurrentBillToShipToAsync(ShipTo shipTo)
         {
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(shipTo));
 
-                ShipTo result = await PostAsyncNoCache<ShipTo>(
+                var result = await PostAsyncNoCache<ShipTo>(
                     CommerceAPIConstants.BillToCurrentShipTosUrl,
                     stringContent
                 );
@@ -239,11 +239,11 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: ex);
             }
         }
 
-        public async Task<ShipTo> GetShipTo(Guid billToId, Guid shipToId)
+        public async Task<ServiceResponse<ShipTo>> GetShipTo(Guid billToId, Guid shipToId)
         {
             try
             {
@@ -253,11 +253,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: exception);
             }
         }
 
-        public async Task<ShipTo> GetCurrentShipTo()
+        public async Task<ServiceResponse<ShipTo>> GetCurrentShipTo()
         {
             try
             {
@@ -268,11 +268,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: exception);
             }
         }
 
-        public async Task<ShipTo> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo)
+        public async Task<ServiceResponse<ShipTo>> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo)
         {
             try
             {
@@ -286,11 +286,11 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: ex);
             }
         }
 
-        public async Task<ShipTo> PatchCurrentShipTo(ShipTo shipTo)
+        public async Task<ServiceResponse<ShipTo>> PatchCurrentShipTo(ShipTo shipTo)
         {
             try
             {
@@ -306,7 +306,7 @@ namespace CommerceApiSDK.Services
             catch (Exception ex)
             {
                 this.TrackingService.TrackException(ex);
-                return null;
+                return GetServiceResponse<ShipTo>(exception: ex);
             }
         }
     }

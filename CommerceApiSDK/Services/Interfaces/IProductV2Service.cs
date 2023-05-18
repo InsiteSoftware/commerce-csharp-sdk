@@ -7,29 +7,29 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IProductV2Service
     {
-        Task<GetProductCollectionResult> GetProducts(ProductsQueryV2Parameters parameters);
+        Task<ServiceResponse<GetProductCollectionResult>> GetProducts(ProductsQueryV2Parameters parameters);
 
-        Task<GetProductResult> GetProduct(
+        Task<ServiceResponse<GetProductResult>> GetProduct(
             Guid productId,
             ProductQueryV2Parameters parameters = null
         );
 
-        Task<GetProductCollectionResult> GetAlsoPurchased(
+        Task<ServiceResponse<GetProductCollectionResult>> GetAlsoPurchased(
             Guid productId,
             AlsoPurchasedParameters parameters = null
         );
 
-        Task<GetProductCollectionResult> GetRelatedProduct(
+        Task<ServiceResponse<GetProductCollectionResult>> GetRelatedProduct(
             Guid productId,
             RelatedProductParameters parameters = null
         );
 
-        Task<GetProductCollectionResult> GetVariantChildren(
+        Task<ServiceResponse<GetProductCollectionResult>> GetVariantChildren(
             Guid productId,
             VariantChildrenParameters parameters = null
         );
 
-        Task<GetProductResult> GetVariantChildrenDetail(
+        Task<ServiceResponse<GetProductResult>> GetVariantChildrenDetail(
             Guid productId,
             Guid variantChildId,
             VariantChildrenDetailParameters parameters = null

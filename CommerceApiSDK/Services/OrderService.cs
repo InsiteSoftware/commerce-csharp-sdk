@@ -61,7 +61,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<GetOrderCollectionResult> GetOrders(
+        public async Task<ServiceResponse<GetOrderCollectionResult>> GetOrders(
             OrdersQueryParameters parameters = null
         )
         {
@@ -79,12 +79,12 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetOrderCollectionResult>(exception: exception);
             }
         }
 
 
-        public async Task<GetOrderApprovalCollectionResult> GetOrderApprovalList(
+        public async Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(
          OrderApprovalQueryParameters parameters = null
      )
         {
@@ -106,7 +106,7 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<Order> GetOrder(string orderNumber)
+        public async Task<ServiceResponse<Order>> GetOrder(string orderNumber)
         {
             try
             {
@@ -121,11 +121,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Order>(exception: exception);
             }
         }
 
-        public async Task<Order> PatchOrder(Order order)
+        public async Task<ServiceResponse<Order>> PatchOrder(Order order)
         {
             if (order == null)
             {
@@ -142,11 +142,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Order> (exception: exception);
             }
         }
 
-        public async Task<Rma> PostOrderReturns(string orderId, Rma rmaReturn)
+        public async Task<ServiceResponse<Rma>> PostOrderReturns(string orderId, Rma rmaReturn)
         {
             try
             {
@@ -158,11 +158,11 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<Rma> (exception: exception);
             }
         }
 
-        public async Task<ShareEntity> ShareOrder(ShareOrder order)
+        public async Task<ServiceResponse<ShareEntity>> ShareOrder(ShareOrder order)
         {
             try
             {
@@ -174,24 +174,31 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<ShareEntity> (exception: exception);
             }
         }
 
-        public async Task<List<OrderStatusMapping>> GetOrderStatusMappings()
+        public async Task<ServiceResponse<List<OrderStatusMapping>>> GetOrderStatusMappings()
         {
             try
             {
                 string url = CommerceAPIConstants.OrderStatusMappingsUrl;
 
-                GetOrderStatusMappingsResult result =
+                var response =
                     await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
-                return result?.OrderStatusMappings;
+                return new ServiceResponse<List<OrderStatusMapping>>()
+                {
+                    Model = response.Model?.OrderStatusMappings,
+                    Error = response.Error,
+                    Exception = response.Exception,
+                    StatusCode = response.StatusCode,
+                    IsCached = response.IsCached
+                };
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<List<OrderStatusMapping>>(exception: exception);
             }
         }
 

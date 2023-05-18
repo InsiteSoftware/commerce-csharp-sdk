@@ -7,10 +7,10 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IJobQuoteService
     {
-        Task<JobQuoteResult> GetJobQuotes();
+        Task<ServiceResponse<JobQuoteResult>> GetJobQuotes();
 
-        Task<JobQuoteDto> GetJobQuote(string jobQuoteId);
+        Task<ServiceResponse<JobQuoteDto>> GetJobQuote(string jobQuoteId);
 
-        Task<JobQuoteDto> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate);
+        Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate);
     }
 }

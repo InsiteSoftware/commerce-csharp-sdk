@@ -16,7 +16,7 @@ namespace CommerceApiSDK.Services
             ILoggerService LoggerService
         ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<GetDealerCollectionResult> GetDealers(
+        public async Task<ServiceResponse<GetDealerCollectionResult>> GetDealers(
             DealerLocationFinderQueryParameters parameters,
             CancellationToken? cancellationToken = null
         )
