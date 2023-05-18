@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommerceApiSDK.Models;
 
 namespace CommerceApiSDK.Models
 {
@@ -48,3 +49,5 @@ namespace CommerceApiSDK.Models
         public Guid? PickupShipViaId { get; set; }
     }
 }
+
+
