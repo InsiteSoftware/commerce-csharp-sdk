@@ -357,8 +357,8 @@ namespace CommerceApiSDK.Services
         public async Task ClearWishListRelatedCacheAsync(Guid wishListId)
         {
             string prefix = this.ClientService.Host + $"/api/v1/wishlists/{wishListId}";
-            await ClearOnlineCacheForUrlsStartingWith<WishListLineCollectionModel>(prefix);
-            await ClearOnlineCacheForUrlsStartingWith<WishList>(prefix);
+            await ClearOnlineCacheForUrlsStartingWith<ServiceResponse<WishListLineCollectionModel>>(prefix);
+            await ClearOnlineCacheForUrlsStartingWith<ServiceResponse<WishList>>(prefix);
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task ClearGetWishListsCacheAsync()
         {
-            await ClearOnlineCacheForObjects<WishListCollectionModel>();
+            await ClearOnlineCacheForObjects<ServiceResponse<WishListCollectionModel>>();
         }
     }
 }
