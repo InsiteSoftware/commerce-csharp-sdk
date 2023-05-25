@@ -106,6 +106,23 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<ServiceResponse<Cart>> GetOrderApproval(Guid orderId)
+        {
+            try
+            {
+                string url = $"{CommerceAPIConstants.OrderApprovalsUrl}/{orderId}";
+
+                var result = await GetAsyncNoCache<Cart>(url);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return GetServiceResponse<Cart>(exception: exception);
+            }
+        }
+
         public async Task<ServiceResponse<Order>> GetOrder(string orderNumber)
         {
             try
