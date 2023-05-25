@@ -160,6 +160,6 @@
 
         public const string TokenUrl = "identity/connect/token";
 
-        public const string WishListUrl = "/api/v1/wishlists/";
+        public const string WishListUrl = "/api/v1/wishlists";
     }
 }
