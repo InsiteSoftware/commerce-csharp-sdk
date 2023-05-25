@@ -258,7 +258,7 @@ namespace CommerceApiSDK.Services
             {
                 return await PostAsyncNoCache<CartLineCollectionDto>(
                     "api/v1/carts/current/cartlines/wishlist/" + wishListId,
-                    null
+                    new StringContent(String.Empty)
                 );
             }
             catch (Exception exception)
