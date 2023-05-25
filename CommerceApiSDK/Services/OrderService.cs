@@ -83,6 +83,29 @@ namespace CommerceApiSDK.Services
             }
         }
 
+
+        public async Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(
+         OrderApprovalQueryParameters parameters = null
+        )
+        {
+            try
+            {
+                if (parameters == null)
+                {
+                    throw new ArgumentNullException(nameof(parameters));
+                }
+
+                string url = $"{CommerceAPIConstants.OrderApprovalsUrl}{parameters.ToQueryString()}";
+
+                return await GetAsyncWithCachedResponse<GetOrderApprovalCollectionResult>(url);
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return GetServiceResponse<GetOrderApprovalCollectionResult>(exception: exception);
+            }
+        }
+
         public async Task<ServiceResponse<Order>> GetOrder(string orderNumber)
         {
             try

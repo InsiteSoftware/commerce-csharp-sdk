@@ -24,6 +24,8 @@
 
         public const string OrdersUrl = "/api/v1/orders";
 
+        public const string OrderApprovalsUrl = "/api/v1/orderapprovals";
+
         public const string OrdersShareUrl = "/api/v1/orders/shareorder";
 
         public const string OrderStatusMappingsUrl = "/api/v1/orderstatusmappings";

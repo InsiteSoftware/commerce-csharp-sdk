@@ -25,6 +25,7 @@ namespace CommerceApiSDK.Models.Enums
         SignOut,
         [EnumMember(Value = "Locations")]
         LocationFinder,
+        OrderApproval,
 
         // Developer Options
         ForceCrash,
