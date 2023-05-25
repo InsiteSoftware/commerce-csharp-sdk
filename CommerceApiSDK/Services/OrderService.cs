@@ -86,7 +86,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(
          OrderApprovalQueryParameters parameters = null
-     )
+        )
         {
             try
             {
@@ -102,7 +102,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return null;
+                return GetServiceResponse<GetOrderApprovalCollectionResult>(exception: exception);
             }
         }
 
