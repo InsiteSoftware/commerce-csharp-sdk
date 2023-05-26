@@ -16,7 +16,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<GetOrderCollectionResult>> GetOrders(OrdersQueryParameters parameters = null);
 
-        Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(OrderApprovalQueryParameters parameters = null);
+        Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(OrderApprovalParameters parameters = null);
 
         Task<ServiceResponse<Cart>> GetOrderApproval(Guid orderId);
 

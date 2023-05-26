@@ -85,7 +85,7 @@ namespace CommerceApiSDK.Services
 
 
         public async Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(
-         OrderApprovalQueryParameters parameters = null
+         OrderApprovalParameters parameters = null
         )
         {
             try
@@ -97,7 +97,7 @@ namespace CommerceApiSDK.Services
 
                 string url = $"{CommerceAPIConstants.OrderApprovalsUrl}{parameters.ToQueryString()}";
 
-                return await GetAsyncWithCachedResponse<GetOrderApprovalCollectionResult>(url);
+                return await GetAsyncNoCache<GetOrderApprovalCollectionResult>(url);
             }
             catch (Exception exception)
             {
