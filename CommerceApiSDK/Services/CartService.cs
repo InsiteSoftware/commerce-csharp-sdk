@@ -309,6 +309,27 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<ServiceResponse<Cart>> ApproveCart(Guid cartId)
+        {
+            if (cartId.Equals(Guid.Empty))
+            {
+                throw new ArgumentException($"{nameof(cartId)} is empty");
+            }
+
+            try
+            {
+                string url = $"{CommerceAPIConstants.CartsUrl}/{cartId}";
+                var result = await PatchAsyncNoCache<Cart>(url, null);
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return GetServiceResponse<Cart>(exception: exception);
+            }
+        }
+
         public async Task<ServiceResponse<CartLine>> AddCartLine(AddCartLine cartLine)
         {
             ServiceResponse<CartLine> result = null;

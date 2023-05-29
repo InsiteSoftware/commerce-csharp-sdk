@@ -11,13 +11,13 @@ namespace CommerceApiSDK.Models.Parameters
 
         public string OrderNumber { get; set; }
 
-        public string OrderAmount { get; set; }
+        public string OrderTotal { get; set; }
 
         public DateTime? FromDate { get; set; }
 
         public DateTime? ToDate { get; set; }
 
-        public IList<string> Types { get; set; }
+        public IList<string> OrderTotalOperator { get; set; }
 
         [QueryParameter(QueryOptions.DoNotQuery)]
         public BillTo ShipTo { get; set; }
