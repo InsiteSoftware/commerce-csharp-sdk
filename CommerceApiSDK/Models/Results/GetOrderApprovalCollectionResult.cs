@@ -6,7 +6,7 @@ namespace CommerceApiSDK.Models.Results
     {
         public Pagination Pagination { get; set; }
 
-        public IList<CartCollection> cartCollection { get; set; }
+        public IList<Cart> cartCollection { get; set; }
 
     }
 }
