@@ -170,6 +170,10 @@ namespace CommerceApiSDK.Services.Interfaces
         /// </summary>
         Task RemoveAlternateCartCookie();
 
+        Task RemoveOrderApprovalCookieIfAvailable();
+
+        Task<bool> IsCustomerOrderApproval();
+
         void StoreAccessToken(TokenResult tokens);
 
         void RemoveAccessToken();

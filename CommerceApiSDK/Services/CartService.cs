@@ -309,8 +309,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<Cart>> ApproveCart(Guid cartId)
+        public async Task<ServiceResponse<Cart>> ApproveCart(Cart cart)
         {
+            var cartId = Guid.Parse(cart.Id);
             if (cartId.Equals(Guid.Empty))
             {
                 throw new ArgumentException($"{nameof(cartId)} is empty");
@@ -319,7 +320,8 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url = $"{CommerceAPIConstants.CartsUrl}/{cartId}";
-                var result = await PatchAsyncNoCache<Cart>(url, null);
+                StringContent stringContent = await Task.Run(() => SerializeModel(cart));
+                var result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
                 return result;
             }
