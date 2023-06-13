@@ -577,6 +577,32 @@ namespace CommerceApiSDK.Services
             });
         }
 
+        public async Task RemoveOrderApprovalCookieIfAvailable()
+        {
+            await Task.Run(() => {
+                foreach (Cookie co in Cookies)
+                {
+                    if (co.Name.Contains("CustomerOrderForApproval"))
+                    {
+                        co.Expires = DateTime.Now.Subtract(TimeSpan.FromDays(1));
+                        break;
+                    }
+                }
+            });
+        }
+
+        public async Task<bool> IsCustomerOrderApproval() => await Task.Run(() =>
+        {
+            foreach (Cookie co in Cookies)
+            {
+                if (co.Name.Contains("CustomerOrderForApproval"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        });
+
         public void StoreAccessToken(TokenResult tokens)
         {
             this.secureStorageService.Save(BearerTokenStorageKey, tokens.AccessToken);

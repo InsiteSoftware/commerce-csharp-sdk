@@ -52,7 +52,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<bool> DeleteCart(Guid cartId);
 
-        Task<ServiceResponse<Cart>> ApproveCart(Guid cartId);
+        Task<ServiceResponse<Cart>> ApproveCart(Cart cart);
 
         /// <summary>
         /// CartLineService
