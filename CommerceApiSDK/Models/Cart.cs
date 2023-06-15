@@ -252,6 +252,8 @@ namespace CommerceApiSDK.Models
         public string CustomerVatNumber { get; set; }
 
         public string VmiLocationId { get; set; }
+
+        public DefaultWarehouseDto DefaultWarehouse { get; set; }
     }
 
     public class CarrierDto
@@ -381,6 +383,18 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the sort order.</summary>
         public int SortOrder { get; set; }
+    }
+
+    public class DefaultWarehouseDto
+    {
+        /// <summary>Gets or sets the ship via identifier.</summary>
+        public Guid Id { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        public string Name { get; set; }
+
+        /// <summary>Gets or sets the address1.</summary>
+        public string Address1 { get; set; }
     }
 
     public class CartLineCollectionDto
