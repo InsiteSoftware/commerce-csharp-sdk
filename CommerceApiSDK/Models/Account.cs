@@ -87,6 +87,9 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the AccessToken</summary>
         public string AccessToken { get; set; }
+
+        /// <summary>Gets or sets the VmiRole</summary>
+        public string VmiRole { get; set; }
     }
 
     public class Vmi : BaseModel
