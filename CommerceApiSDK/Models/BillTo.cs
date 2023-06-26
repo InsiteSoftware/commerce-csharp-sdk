@@ -12,9 +12,6 @@ namespace CommerceApiSDK.Models
         /// <summary>A boolean value indicating whether the current customer record is processed as a guest which acts like an anonymous customer</summary>
         public bool IsGuest { get; set; }
 
-        /// <summary>Display label used in the BillTo selection dropdown.  It is a concatenation of the CompanyNumber, CustomerName, City and State</summary>
-        public string Label { get; set; }
-
         /// <summary>Budgets are enforced at either the Customer (across all ShipTos), specific ShipTo or None (no enforcement)</summary>
         public string BudgetEnforcementLevel { get; set; }
 

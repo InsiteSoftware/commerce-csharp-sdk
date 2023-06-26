@@ -27,7 +27,7 @@ namespace CommerceApiSDK.Models.ContentManagement
                 // Populate the object properties
                 serializer.Populate(jObject.CreateReader(), target);
             }
-            catch (JsonException exception)
+            catch (JsonException)
             {
                 //ToDo replace the DefaultLogger in future commits.
                 //DefaultLogger.StaticConsole(LogLevel.ERROR, $"Incorrect JSON format: {exception}");
