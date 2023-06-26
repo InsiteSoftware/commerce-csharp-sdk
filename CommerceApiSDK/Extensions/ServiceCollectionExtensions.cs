@@ -26,7 +26,6 @@ namespace CommerceApiSDK.Extensions
             services.AddScoped<IBillToService, BillToService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IFilesystemProvider, SimpleFilesystemProvider>();
-            services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICatalogpagesService, CatalogpagesService>();
             services.AddScoped<ICategoryService, CategoryService>();

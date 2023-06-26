@@ -26,6 +26,7 @@ namespace CommerceApiSDK.DemoApp
             services.AddSingleton<ISecureStorageService, SecureStorageService>();
             services.AddSingleton<INetworkService, NetworkService>();
             services.AddSingleton<ITrackingService, TrackingService>();
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddCommerceSdk(
                 "https://mobiledemo.insitesandbox.com",
                 "isc",
