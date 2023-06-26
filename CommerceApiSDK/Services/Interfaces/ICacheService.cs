@@ -1,24 +1,19 @@
+using System;
 using System.Threading.Tasks;
-using Akavache;
 
 namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ICacheService
     {
         /// <summary>
-        /// The short in-memory cache for online requests
+        /// number of minutes to cache data while online.
         /// </summary>
-        IBlobCache OnlineCache { get; }
+        int OnlineCacheMinutes { get; }
 
         /// <summary>
-        /// The long on-device persistent cache for offline requests
+        /// number of minutes to cache data while offline.
         /// </summary>
-        IBlobCache OfflineCache { get; }
-
-        /// <summary>
-        /// The on-device database for storing configurations, settings, preferences, etc.
-        /// </summary>
-        IBlobCache LocalStorage { get; }
+        int OfflineCacheMinutes { get; }
 
         /// <summary>
         /// Ensure that everything is closed and written and happy
@@ -66,5 +61,13 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<bool> HasOnlineCache(string key);
 
         void ClearAllCaches();
+
+        Task<T> GetOrFetchObject<T>(string key, Func<Task<T>> fetchFunc, DateTimeOffset? absoluteExpiration = null);
+        Task Invalidate(string key);
+        Task InvalidateObjectWithKeysStartingWith<T>(string keyPrefix);
+        Task InvalidateObject<T>(string key);
+        Task InvalidateAllObjects<T>();
+        Task InsertObject<T>(string key, T value, DateTimeOffset? absoluteExpiration = null);
+        Task<T> GetObject<T>(string key);
     }
 }

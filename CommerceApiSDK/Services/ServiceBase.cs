@@ -1,6 +1,4 @@
-﻿using Akavache;
-using CommerceApiSDK.Extensions;
-using CommerceApiSDK.Models;
+﻿using CommerceApiSDK.Models;
 using CommerceApiSDK.Models.Enums;
 using CommerceApiSDK.Services.Interfaces;
 using Newtonsoft.Json;
@@ -180,7 +178,7 @@ namespace CommerceApiSDK.Services
 
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
-            var result = await this.CacheService.OnlineCache.GetOrFetchObject(
+            var result = await this.CacheService.GetOrFetchObject(
                 key,
                 async () =>
                 {
@@ -200,11 +198,11 @@ namespace CommerceApiSDK.Services
                                 "Insert Cache key:{0}",
                                 key
                             );
-                            await this.CacheService.OfflineCache.InsertObject(
+                            await this.CacheService.InsertObject(
                                 key,
                                 model,
                                 DateTimeOffset.Now.AddMinutes(
-                                    Services.CacheService.OfflineCacheMinutes
+                                    CacheService.OfflineCacheMinutes
                                 )
                             );
                             return GetServiceResponse<T>(model: model, statusCode: httpResponseMessage.StatusCode);
@@ -225,13 +223,13 @@ namespace CommerceApiSDK.Services
                     }
                     return GetServiceResponse<T>();
                 },
-                DateTimeOffset.Now.AddMinutes(Services.CacheService.OnlineCacheMinutes)
+                DateTimeOffset.Now.AddMinutes(CacheService.OnlineCacheMinutes)
             );
 
             if (result?.Model == null)
             {
                 this.LoggerService.LogConsole(LogLevel.WARN, " {0} response is null", null, key);
-                await this.CacheService.OnlineCache.Invalidate(key);
+                await this.CacheService.Invalidate(key);
             }
 
             return result;
@@ -256,7 +254,7 @@ namespace CommerceApiSDK.Services
 
             string key = this.ClientService.Host + url + this.ClientService.SessionStateKey;
 
-            var result = await this.CacheService.OnlineCache.GetOrFetchObject(
+            var result = await this.CacheService.GetOrFetchObject(
                 key,
                 async () =>
                 {
@@ -272,11 +270,11 @@ namespace CommerceApiSDK.Services
                         {
                             string receivedString =
                                 await httpResponseMessage.Content.ReadAsStringAsync();
-                            await this.CacheService.OfflineCache.InsertObject(
+                            await this.CacheService.InsertObject(
                                 key,
                                 receivedString,
                                 DateTimeOffset.Now.AddMinutes(
-                                    Services.CacheService.OfflineCacheMinutes
+                                    CacheService.OfflineCacheMinutes
                                 )
                             );
                             this.LoggerService.LogDebug(
@@ -299,13 +297,13 @@ namespace CommerceApiSDK.Services
                     }
                     return GetServiceResponse<string>();
                 },
-                DateTimeOffset.Now.AddMinutes(Services.CacheService.OnlineCacheMinutes)
+                DateTimeOffset.Now.AddMinutes(CacheService.OnlineCacheMinutes)
             );
 
             if (result?.Model == null)
             {
                 this.LoggerService.LogConsole(LogLevel.WARN, " {0} response is null", null, key);
-                await this.CacheService.OnlineCache.Invalidate(key);
+                await this.CacheService.Invalidate(key);
             }
             return result;
         }
@@ -314,7 +312,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var offlineObject = await this.CacheService.OfflineCache.GetObject<T>(key);
+                var offlineObject = await this.CacheService.GetObject<T>(key);
                 this.LoggerService.LogConsole(
                     LogLevel.INFO,
                     "Get Offline cache object for {0} :{1}",
@@ -700,7 +698,7 @@ namespace CommerceApiSDK.Services
                 typeof(T).Name,
                 urlPrefix
             );
-            await this.CacheService.OnlineCache.InvalidateObjectWithKeysStartingWith<T>(urlPrefix);
+            await this.CacheService.InvalidateObjectWithKeysStartingWith<T>(urlPrefix);
         }
 
         protected async Task ClearOnlineCacheForSpecificUrl<T>(string url)
@@ -711,7 +709,7 @@ namespace CommerceApiSDK.Services
                 typeof(T).Name,
                 url
             );
-            await this.CacheService.OnlineCache.InvalidateObject<T>(url);
+            await this.CacheService.InvalidateObject<T>(url);
         }
 
         protected async Task ClearOnlineCacheForObjects<T>()
@@ -721,7 +719,7 @@ namespace CommerceApiSDK.Services
                 "Remove online cache for objects from type: {0}",
                 typeof(T).Name
             );
-            await this.CacheService.OnlineCache.InvalidateAllObjects<T>();
+            await this.CacheService.InvalidateAllObjects<T>();
         }
 
         private async Task<Exception> LogException(HttpResponseMessage httpResponseMessage, string url, string content = null)
