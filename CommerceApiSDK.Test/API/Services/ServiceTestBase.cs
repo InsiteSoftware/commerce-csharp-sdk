@@ -8,12 +8,12 @@ namespace CommerceApiSDK.Test.Services
     /// </summary>
     public class ServiceTestBase
     {
-        protected Mock<IClientService> ClientServiceMock;
-        protected Mock<INetworkService> NetworkServiceMock;
-        protected Mock<ITrackingService> TrackingServiceMock;
-        protected Mock<ISessionService> SessionServiceMock;
-        protected Mock<ICacheService> CacheServiceMock;
-        protected Mock<ILoggerService> LoggerServiceMock;
+        protected Mock<IClientService> ClientServiceMock = default!;
+        protected Mock<INetworkService> NetworkServiceMock = default!;
+        protected Mock<ITrackingService> TrackingServiceMock = default!;
+        protected Mock<ISessionService> SessionServiceMock = default!;
+        protected Mock<ICacheService> CacheServiceMock = default!;
+        protected Mock<ILoggerService> LoggerServiceMock = default!;
 
         protected virtual void SetUp()
         {

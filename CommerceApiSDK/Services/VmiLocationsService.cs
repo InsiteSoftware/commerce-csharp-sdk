@@ -81,7 +81,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<ServiceResponse<VmiLocationModel>> SaveVmiLocation(VmiLocationModel model)
         {
-            if (model == null || model.Id == null)
+            if (model == null || model.Id.Equals(Guid.Empty))
             {
                 throw new ArgumentException($"{nameof(model)} is empty");
             }
@@ -114,7 +114,7 @@ namespace CommerceApiSDK.Services
 
         public async Task<ServiceResponse<VmiLocationModel>> DeleteVmiLocation(Guid vmiLocationId)
         {
-            if (vmiLocationId == null)
+            if (vmiLocationId.Equals(Guid.Empty))
             {
                 throw new ArgumentException($"{nameof(vmiLocationId)} is empty");
             }
@@ -188,7 +188,7 @@ namespace CommerceApiSDK.Services
             VmiBinModel model
         )
         {
-            if (vmiLocationId.Equals(Guid.Empty) || model == null || model.Id == null)
+            if (vmiLocationId.Equals(Guid.Empty) || model == null || model.Id.Equals(Guid.Empty))
             {
                 throw new ArgumentException($"{nameof(vmiLocationId)} or {nameof(model)} is empty");
             }
@@ -222,7 +222,7 @@ namespace CommerceApiSDK.Services
             Guid vmiBinId
         )
         {
-            if (vmiLocationId == null || vmiBinId == null)
+            if (vmiLocationId.Equals(Guid.Empty) || vmiBinId.Equals(Guid.Empty))
             {
                 throw new ArgumentException(
                     $"{nameof(vmiLocationId)} or {nameof(vmiBinId)} is empty"
@@ -342,7 +342,7 @@ namespace CommerceApiSDK.Services
             Guid vmiCountId
         )
         {
-            if (vmiLocationId == null || vmiBinId == null || vmiCountId == null)
+            if (vmiLocationId.Equals(Guid.Empty) || vmiBinId.Equals(Guid.Empty) || vmiCountId.Equals(Guid.Empty))
             {
                 throw new ArgumentException(
                     $"{nameof(vmiLocationId)} or {nameof(vmiBinId)} or {nameof(vmiCountId)} is empty"
@@ -463,7 +463,7 @@ namespace CommerceApiSDK.Services
             Guid vmiNoteId
         )
         {
-            if (vmiLocationId == null || vmiBinId == null || vmiNoteId == null)
+            if (vmiLocationId.Equals(Guid.Empty) || vmiBinId.Equals(Guid.Empty) || vmiNoteId.Equals(Guid.Empty))
             {
                 throw new ArgumentException(
                     $"{nameof(vmiLocationId)} or {nameof(vmiBinId)} or {nameof(vmiNoteId)} is empty"

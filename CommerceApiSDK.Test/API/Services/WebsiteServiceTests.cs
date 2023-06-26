@@ -8,7 +8,7 @@ namespace CommerceApiSDK.Test.Services
     [TestFixture]
     public class WebsiteServiceTests : ServiceTestBase
     {
-        private WebsiteService websiteService;
+        private WebsiteService websiteService = default!;
 
         [SetUp]
         protected override void SetUp()
@@ -34,10 +34,10 @@ namespace CommerceApiSDK.Test.Services
             ClientServiceMock.Setup(o => o.Url).Returns(new Uri(domain));
             SessionServiceMock.Setup(x => x.CurrentSession).Returns(new Session { });
 
-            string languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
-            string currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
+            var languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
+            var currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
 
-            string validUrl =
+      string validUrl =
                 $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
 
             websiteService = new WebsiteService(

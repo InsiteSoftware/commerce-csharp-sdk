@@ -6,6 +6,6 @@ namespace CommerceApiSDK.Services.Messages
     {
         public AdminSignedOutOptiMessage() { }
 
-        public bool IsRefreshTokenExpired = false;
+        public new bool IsRefreshTokenExpired = false;
     }
 }

@@ -10,7 +10,7 @@ namespace CommerceApiSDK.Test.Services.Attributes
     [TestFixture]
     class SortOrderAttributeTests
     {
-        private List<TestEnumSortOrder> sortOrders;
+        private List<TestEnumSortOrder> sortOrders = default!;
 
         [SetUp]
         public void SetUp()

@@ -42,7 +42,7 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
                         ^ (!ReferenceEquals(null, Url) ? RequiresAuth.GetHashCode() : 0);
                     hash =
                         (hash * HashingMultiplier)
-                        ^ (!ReferenceEquals(null, RequiresAuth) ? RequiresAuth.GetHashCode() : 0);
+                        ^ (RequiresAuth == null ? RequiresAuth.GetHashCode() : 0);
                     return hash;
                 }
             }
