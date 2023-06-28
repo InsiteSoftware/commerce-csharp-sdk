@@ -20,7 +20,6 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <!--<PackageReference Include="" Version=""/>-->
     <Folder Include="Models\ContentManagement\Widgets\" />
     <Folder Include="Models\ContentManagement\Pages\" />
     <Folder Include="Extensions\" />
@@ -28,17 +27,13 @@
     <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.2.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="akavache.sqlite3" Version="8.1.1" />
-    <PackageReference Include="akavache.core" Version="8.1.1" />
-    <PackageReference Include="akavache" Version="8.1.1" />
+    <PackageReference Include="akavache.core" Version="9.1.7" />
+    <PackageReference Include="akavache" Version="9.1.7" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Attributes\OrderSortOrderAttribute.cs" />

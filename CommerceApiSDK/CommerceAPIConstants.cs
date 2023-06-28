@@ -10,10 +10,6 @@
 
         public const string CustomerNameUnique = nameof(CustomerNameUnique);
 
-        public const string OfflineCacheDatabaseName = "blobs.db";
-
-        public const string LocalStorageDatabaseName = "storage.db";
-
         public const int AddingToCartMillisecondsDelay = 5000;
 
         public const string CustomerName = nameof(CustomerName);
