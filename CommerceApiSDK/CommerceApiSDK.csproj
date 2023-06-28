@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <NoWarn>CS0618</NoWarn>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
     <Configurations>Debug;Release</Configurations>
     <RepositoryUrl>https://github.com/InsiteSoftware/commerce-csharp-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -11,7 +11,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
-    <NoWarn>CS0618</NoWarn>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
     <WarningLevel>6</WarningLevel>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -28,8 +28,8 @@
     <Folder Include="Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="akavache.sqlite3" Version="8.1.1" />
     <PackageReference Include="akavache.core" Version="8.1.1" />
