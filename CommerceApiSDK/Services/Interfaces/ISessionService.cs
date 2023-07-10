@@ -18,6 +18,8 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<Session>> PatchSession(Session session);
 
+        Task<ServiceResponse<Session>> PatchCustomerSession(Session session);
+
         Task<ServiceResponse<Session>> GetCurrentSession();
 
         Task<HttpResponseMessage> DeleteCurrentSession();
