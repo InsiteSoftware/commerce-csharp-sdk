@@ -110,6 +110,47 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public async Task<ServiceResponse<Session>> PatchCustomerSession(Session session)
+        {
+            try
+            {
+                StringContent stringContent = await Task.Run(() => SerializeModel(session));
+                var response = await PatchAsyncNoCache<Session>(
+                    CommerceAPIConstants.CurrentSessionUrl,
+                    stringContent
+                );
+
+                if (response.Model != null)
+                {
+                    if (!session.ShipTo.Id.Equals(response.Model.ShipTo.Id))
+                    {
+                        response.Model.ShipTo = session.ShipTo;
+                        this.ClientService.StoreSessionState(response.Model);
+                    }
+                    // If result != null then patch worked, but we have to call GetCurrentSession to get the most up
+                    // to date version of the session
+                    var sessionResponse = await GetCurrentSession();
+                    currentSession = sessionResponse?.Model;
+
+                    return sessionResponse;
+                }
+
+                return new ServiceResponse<Session>()
+                {
+                    Model = currentSession,
+                    Error = response.Error,
+                    Exception = response.Exception,
+                    StatusCode = response.StatusCode,
+                    IsCached = response.IsCached
+                };
+            }
+            catch (Exception exception)
+            {
+                this.TrackingService.TrackException(exception);
+                return GetServiceResponse<Session>(exception: exception);
+            }
+        }
+
         /// <summary>
         /// Sets the current session's state to reflect they are resetting their password
         /// </summary>
