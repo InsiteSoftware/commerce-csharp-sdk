@@ -1,15 +1,18 @@
-﻿using CommerceApiSDK.Models.Enums;
+﻿using CommerceApiSDK.Attributes;
+using CommerceApiSDK.Models.Enums;
+using CommerceApiSDK.Services.Attributes;
 
 namespace CommerceApiSDK.Models.Parameters
 {
     public class WishListLineQueryParameters : BaseQueryParameters
     {
-        public WishListLineSortOrder SortOrder = WishListLineSortOrder.CustomSort;
+        public string Query { get; set; }
 
-        public int DefaultPageSize;
+        public int? DefaultPageSize { get; set; }
 
-        public string ChangedSharedListLinesQuantities;
+        public string ChangedSharedListLinesQuantities { get; set; }
 
-        public string Query = null;
+        [QueryParameter(QueryOptions.DoNotEncode)]
+        public override string Sort { get; set; } = SortOrderAttribute.GetSortOrderValue(WishListLineSortOrder.CustomSort);
     }
 }
