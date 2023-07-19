@@ -31,6 +31,8 @@ namespace CommerceApiSDK.Models.Parameters
 
         public Guid? VmiLocationId { get; set; }
 
+        public Guid? VmiBinId { get; set; }
+
         [QueryParameter(queryType: QueryListParameterType.CommaSeparated)]
         public List<string> Expand { get; set; } = null;
     }
