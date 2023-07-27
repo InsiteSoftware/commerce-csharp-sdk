@@ -20,7 +20,7 @@ namespace CommerceApiSDK.Models.Parameters
         public IList<string> OrderTotalOperator { get; set; }
 
         [QueryParameter(QueryOptions.DoNotQuery)]
-        public BillTo ShipTo { get; set; }
+        public ShipTo ShipTo { get; set; }
     }
 }
 
