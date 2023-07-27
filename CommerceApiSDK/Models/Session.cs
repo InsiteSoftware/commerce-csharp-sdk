@@ -182,6 +182,31 @@ namespace CommerceApiSDK.Models
                 return false;
             }
         }
+
+
+        [JsonIgnore]
+        public bool IsOrderApprovalApplicableUser
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(UserRoles))
+                {
+                    string[] roles = UserRoles.Split(
+                        new string[] { "," },
+                        StringSplitOptions.RemoveEmptyEntries
+                    );
+                    return roles.Any(
+                        x =>
+                            x.Trim().Equals("Administrator", StringComparison.OrdinalIgnoreCase)
+                            || x.Trim().Equals("Buyer1", StringComparison.OrdinalIgnoreCase)
+                            || x.Trim().Equals("Buyer2", StringComparison.OrdinalIgnoreCase)
+                            || x.Trim().Equals("Buyer3", StringComparison.OrdinalIgnoreCase)
+                    );
+                }
+
+                return false;
+            }
+        }
     }
 
     public class Persona : IEquatable<Persona>
