@@ -27,6 +27,9 @@ namespace CommerceApiSDK.Models.Enums
         LocationFinder,
         OrderApproval,
 
+
+        HidePricing,
+
         // Developer Options
         ForceCrash,
         ToggleLogging,
