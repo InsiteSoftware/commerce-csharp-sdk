@@ -41,6 +41,8 @@ namespace CommerceApiSDK.Models.Parameters
         public bool IncludeAlternateInventory { get; set; }
         public bool MakeBrandUrls { get; set; }
         public int? TopSellersMaxResults { get; set; }
+        public bool PreviouslyPurchasedProducts { get; set; }
+        public bool StockedItemsOnly { get; set; }
     }
 
     public class ProductsQueryV2Parameters : BaseProductsQueryParameters
