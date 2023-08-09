@@ -232,5 +232,12 @@ namespace CommerceApiSDK.Services
             get => selectedFiltersCount;
             set => selectedFiltersCount = value;
         }
+
+        private bool showMyOrders;
+        bool IOrderService.ShowMyOrders
+        {
+            get => showMyOrders;
+            set => showMyOrders = value;
+        }
     }
 }

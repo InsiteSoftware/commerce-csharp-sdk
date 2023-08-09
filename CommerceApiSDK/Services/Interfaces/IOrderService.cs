@@ -33,5 +33,7 @@ namespace CommerceApiSDK.Services.Interfaces
         List<string> SelectedFilterValueIds { get; set; }
 
         int SelectedFiltersCount { get; set; }
+
+        bool ShowMyOrders { get; set; }
     }
 }
