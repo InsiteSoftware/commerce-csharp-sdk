@@ -27,6 +27,8 @@ namespace CommerceApiSDK.Models.Parameters
 
         public string ProductErpNumber { get; set; }
 
+        public bool ShowMyOrders { get; set; }
+
         public bool VmiOrdersOnly { get; set; }
 
         public Guid? VmiLocationId { get; set; }
