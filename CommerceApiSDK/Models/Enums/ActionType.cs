@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace CommerceApiSDK.Models.Enums
@@ -26,8 +26,6 @@ namespace CommerceApiSDK.Models.Enums
         [EnumMember(Value = "Locations")]
         LocationFinder,
         OrderApproval,
-
-       
         ShowHidePricing,
 
         // Developer Options
