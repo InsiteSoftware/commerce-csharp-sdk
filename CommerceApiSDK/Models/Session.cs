@@ -133,6 +133,9 @@ namespace CommerceApiSDK.Models
 
         public string FulfillmentMethod { get; set; }
 
+        /// <summary>Gets or sets a value that indicate weather show/hide pricing and inventory menu</summary>
+        public bool DisplayPricingAndInventory { get; set; }
+
         public Warehouse PickUpWarehouse { get; set; }
 
         public object Clone()
