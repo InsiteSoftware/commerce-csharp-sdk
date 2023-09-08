@@ -27,7 +27,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<ServiceResponse<GetBillTosResult>> GetBillTosAsync(
             BillTosQueryParameters parameters = null
@@ -84,11 +85,21 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<BillTo>> GetCurrentBillTo()
+        public async Task<ServiceResponse<BillTo>> GetCurrentBillTo(
+            BillTosQueryParameters parameters = null
+        )
         {
             try
             {
-                return await GetAsyncNoCache<BillTo>(CommerceAPIConstants.BillToCurrentUrl);
+                string queryString = string.Empty;
+
+                if (parameters != null)
+                {
+                    queryString = parameters.ToQueryString();
+                }
+
+                string url = CommerceAPIConstants.BillToCurrentUrl + queryString;
+                return await GetAsyncNoCache<BillTo>(url);
             }
             catch (Exception e)
             {
@@ -272,7 +283,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<ShipTo>> PatchShipTo(Guid billToId, Guid shipToId, ShipTo shipTo)
+        public async Task<ServiceResponse<ShipTo>> PatchShipTo(
+            Guid billToId,
+            Guid shipToId,
+            ShipTo shipTo
+        )
         {
             try
             {
