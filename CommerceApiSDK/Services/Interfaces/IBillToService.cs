@@ -11,13 +11,15 @@ namespace CommerceApiSDK.Services.Interfaces
     /// </summary>
     public interface IBillToService
     {
-        Task<ServiceResponse<GetBillTosResult>> GetBillTosAsync(BillTosQueryParameters parameters = null);
+        Task<ServiceResponse<GetBillTosResult>> GetBillTosAsync(
+            BillTosQueryParameters parameters = null
+        );
 
         Task<ServiceResponse<BillTo>> PostBillTosAsync(BillTo billTo);
 
         Task<ServiceResponse<BillTo>> GetBillTo(Guid billToId);
 
-        Task<ServiceResponse<BillTo>> GetCurrentBillTo();
+        Task<ServiceResponse<BillTo>> GetCurrentBillTo(BillTosQueryParameters parameters = null);
 
         Task<ServiceResponse<BillTo>> PatchBillTo(Guid billToId, BillTo billTo);
 
@@ -28,7 +30,9 @@ namespace CommerceApiSDK.Services.Interfaces
             ShipTosQueryParameters parameters = null
         );
 
-        Task<ServiceResponse<GetShipTosResult>> GetCurrentShipTos(ShipTosQueryParameters parameters = null);
+        Task<ServiceResponse<GetShipTosResult>> GetCurrentShipTos(
+            ShipTosQueryParameters parameters = null
+        );
 
         Task<ServiceResponse<GetShipTosResult>> GetCurrentBillToShipTosAsync(
             ShipTosQueryParameters parameters = null
