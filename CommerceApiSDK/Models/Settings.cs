@@ -365,6 +365,8 @@ namespace CommerceApiSDK.Models
 
         public string GoogleMapsApiKey { get; set; }
 
+        public string ProductImageSearchAPIKey { get; set; }
+
         public string GoogleTrackingTypeComputed { get; set; }
 
         public string GoogleTrackingAccountId { get; set; }
