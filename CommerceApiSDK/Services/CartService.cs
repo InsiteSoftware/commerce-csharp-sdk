@@ -75,17 +75,12 @@ namespace CommerceApiSDK.Services
             get => cartItemCount;
             set
             {
-                if (cartItemCount != value)
-                {
-
                     cartItemCount = value;
                     IsCartCountPropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs("CartItemCount")
                     ); // Raise the event}
                   
-                }
-
             }
         }
 
