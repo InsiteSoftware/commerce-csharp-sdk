@@ -18,7 +18,12 @@ namespace CommerceApiSDK.Services.Interfaces
         /// </summary>
         bool IsCartEmpty { get; set; }
 
+        int CartItemCount { get; set; }
+
         event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
+
+        event PropertyChangedEventHandler IsCartCountPropertyChanged;
+
 
         Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters);
 
