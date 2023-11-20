@@ -51,6 +51,6 @@ namespace CommerceApiSDK.Models
 
         public string Fax { get; set; }
 
-        public string IsVmiLocation { get; set; }
+        public bool IsVmiLocation { get; set; }
     }
 }

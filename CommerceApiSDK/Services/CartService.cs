@@ -45,6 +45,7 @@ namespace CommerceApiSDK.Services
             this.optiMessenger = optiMessenger;
 
             isCartEmpty = true;
+            CartItemCount = 0;
             subscriptionToken = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
         }
 
@@ -66,6 +67,30 @@ namespace CommerceApiSDK.Services
             }
         }
 
+        public event PropertyChangedEventHandler IsCartCountPropertyChanged;
+
+        private int cartItemCount;
+        public int CartItemCount
+        {
+            get => cartItemCount;
+            set
+            {
+                if (cartItemCount != value)
+                {
+
+                    cartItemCount = value;
+                    IsCartCountPropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs("CartItemCount")
+                    ); // Raise the event}
+                  
+                }
+
+            }
+        }
+
+
+
         public async Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters)
         {
             try
@@ -77,6 +102,8 @@ namespace CommerceApiSDK.Services
 
                 IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
+                CartItemCount = (int)result.Model?.TotalCountDisplay;
+               
                 return result;
             }
             catch (Exception exception)
@@ -110,7 +137,8 @@ namespace CommerceApiSDK.Services
                 }       
 
                 IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
-
+                CartItemCount = result.Model.TotalCountDisplay;
+            
                 return result;
             }
             catch (Exception exception)
@@ -146,6 +174,9 @@ namespace CommerceApiSDK.Services
 
                 IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
+                CartItemCount = (int)(result.Model?.CartLines?.Count);
+
+           
                 return result;
             }
             catch (Exception exception)
@@ -215,6 +246,8 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(cart));
                 var result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
+                CartItemCount = (int) result.Model.TotalCountDisplay;
+                
                 return result;
             }
             catch (Exception exception)
@@ -236,6 +269,7 @@ namespace CommerceApiSDK.Services
                 if (result)
                 {
                     IsCartEmpty = true;
+                    CartItemCount = 0;
                 }
 
                 return result;
@@ -250,6 +284,7 @@ namespace CommerceApiSDK.Services
         private void UserSignedOutHandler(OptiMessage message)
         {
             IsCartEmpty = true;
+            CartItemCount = 0;
         }
 
         public async Task<ServiceResponse<CartLineCollectionDto>> AddWishListToCart(Guid wishListId)
