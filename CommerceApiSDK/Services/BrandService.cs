@@ -15,7 +15,8 @@ namespace CommerceApiSDK.Services
             ITrackingService trackingService,
             ICacheService cacheService,
             ILoggerService loggerService
-        ) : base(clientService, networkService, trackingService, cacheService, loggerService) { }
+        )
+            : base(clientService, networkService, trackingService, cacheService, loggerService) { }
 
         public async Task<ServiceResponse<BrandAlphabetResult>> GetAlphabetAsync()
         {
@@ -32,7 +33,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<GetBrandsResult>> GetBrands(BrandsQueryParameters parameters)
+        public async Task<ServiceResponse<GetBrandsResult>> GetBrands(
+            BrandsQueryParameters parameters
+        )
         {
             try
             {
@@ -47,7 +50,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<Brand>> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null)
+        public async Task<ServiceResponse<Brand>> GetBrand(
+            Guid brandId,
+            BrandQueryParameters brandParameters = null
+        )
         {
             try
             {
@@ -86,9 +92,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<GetBrandSubCategoriesResult>> GetBrandCategorySubCategories(
-            BrandCategoriesQueryParameter parameters
-        )
+        public async Task<
+            ServiceResponse<GetBrandSubCategoriesResult>
+        > GetBrandCategorySubCategories(BrandCategoriesQueryParameter parameters)
         {
             try
             {
@@ -97,8 +103,7 @@ namespace CommerceApiSDK.Services
                     parameters?.BrandId,
                     parameters?.CategoryId
                 );
-                var result =
-                    await GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
+                var result = await GetAsyncWithCachedResponse<GetBrandSubCategoriesResult>(url);
                 return result;
             }
             catch (Exception exception)

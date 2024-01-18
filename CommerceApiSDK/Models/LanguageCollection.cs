@@ -7,4 +7,3 @@ namespace CommerceApiSDK.Models
         public IList<Language> Languages { get; set; }
     }
 }
-

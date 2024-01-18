@@ -1,6 +1,4 @@
 ﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public class LocationNoteWidget : Widget
-    {
-    }
+    public class LocationNoteWidget : Widget { }
 }

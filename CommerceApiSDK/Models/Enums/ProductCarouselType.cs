@@ -9,6 +9,7 @@ namespace CommerceApiSDK.Models.Enums
         FeaturedCategory,
         RecentlyViewed,
         TopSellers,
+
         [EnumMember(Value = "crossSells")]
         WebCrossSells,
     }

@@ -18,7 +18,10 @@ namespace CommerceApiSDK.Services.Interfaces
         ///     Specify if this method might use cached responses.
         /// </param>
         /// <returns>Fetched PageContentManagement object.</returns>
-        Task<ServiceResponse<PageContentManagement>> GetPageContenManagment(string pageName, bool useCache = true);
+        Task<ServiceResponse<PageContentManagement>> GetPageContenManagment(
+            string pageName,
+            bool useCache = true
+        );
 
         /// <summary>
         ///     Load from server page content management data.
@@ -30,6 +33,9 @@ namespace CommerceApiSDK.Services.Interfaces
         ///     Specify if this method might use cached responses.
         /// </param>
         /// <returns>Fetched page content management JSON string.</returns>
-        Task<ServiceResponse<string>> GetPageContenManagmentString(string pageName, bool useCache = true);
+        Task<ServiceResponse<string>> GetPageContenManagmentString(
+            string pageName,
+            bool useCache = true
+        );
     }
 }

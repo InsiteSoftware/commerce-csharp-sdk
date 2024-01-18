@@ -18,9 +18,12 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<ServiceResponse<WishListCollectionModel>> GetWishLists(WishListsQueryParameters parameters)
+        public async Task<ServiceResponse<WishListCollectionModel>> GetWishLists(
+            WishListsQueryParameters parameters
+        )
         {
             string url = CommerceAPIConstants.WishListUrl;
 
@@ -37,7 +40,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<WishList>> GetWishList(Guid wishListId, WishListQueryParameters parameters)
+        public async Task<ServiceResponse<WishList>> GetWishList(
+            Guid wishListId,
+            WishListQueryParameters parameters
+        )
         {
             string url = GetWishListUrl(wishListId);
 
@@ -75,7 +81,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<WishList>> CreateWishList(CreateWishListQueryParameters parameters)
+        public async Task<ServiceResponse<WishList>> CreateWishList(
+            CreateWishListQueryParameters parameters
+        )
         {
             string url = CommerceAPIConstants.WishListUrl;
 
@@ -154,7 +162,10 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<WishListLine>> AddProductToWishList(Guid wishListId, AddCartLine product)
+        public async Task<ServiceResponse<WishListLine>> AddProductToWishList(
+            Guid wishListId,
+            AddCartLine product
+        )
         {
             StringContent stringContent = await Task.Run(() => SerializeModel(product));
             try
@@ -357,7 +368,9 @@ namespace CommerceApiSDK.Services
         public async Task ClearWishListRelatedCacheAsync(Guid wishListId)
         {
             string prefix = this.ClientService.Host + $"/api/v1/wishlists/{wishListId}";
-            await ClearOnlineCacheForUrlsStartingWith<ServiceResponse<WishListLineCollectionModel>>(prefix);
+            await ClearOnlineCacheForUrlsStartingWith<ServiceResponse<WishListLineCollectionModel>>(
+                prefix
+            );
             await ClearOnlineCacheForUrlsStartingWith<ServiceResponse<WishList>>(prefix);
         }
 

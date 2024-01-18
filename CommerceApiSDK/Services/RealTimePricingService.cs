@@ -15,7 +15,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<ServiceResponse<GetRealTimePricingResult>> GetProductRealTimePrices(
             RealTimePricingParameters parameters
@@ -25,15 +26,13 @@ namespace CommerceApiSDK.Services
             {
                 if (IsOnline)
                 {
-                    StringContent stringContent = await Task.Run(
-                        () => SerializeModel(parameters)
-                    );
+                    StringContent stringContent = await Task.Run(() => SerializeModel(parameters));
 
                     var response = await PostAsyncNoCache<GetRealTimePricingResult>(
-                            CommerceAPIConstants.RealTimePricingUrl,
-                            stringContent
-                        );
-                        
+                        CommerceAPIConstants.RealTimePricingUrl,
+                        stringContent
+                    );
+
                     return response;
                 }
                 else

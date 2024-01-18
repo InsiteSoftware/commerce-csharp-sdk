@@ -18,7 +18,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         #region VMI Locations
 
@@ -135,7 +136,9 @@ namespace CommerceApiSDK.Services
 
         #region VMI Bin
 
-        public async Task<ServiceResponse<GetVmiBinResult>> GetVmiBins(VmiBinQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetVmiBinResult>> GetVmiBins(
+            VmiBinQueryParameters parameters = null
+        )
         {
             try
             {
@@ -155,7 +158,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<VmiBinModel>> GetVmiBin(VmiBinDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiBinModel>> GetVmiBin(
+            VmiBinDetailParameters parameters = null
+        )
         {
             try
             {
@@ -246,7 +251,9 @@ namespace CommerceApiSDK.Services
 
         #region VMI Count
 
-        public async Task<ServiceResponse<GetVmiCountResult>> GetBinCounts(VmiCountQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetVmiCountResult>> GetBinCounts(
+            VmiCountQueryParameters parameters = null
+        )
         {
             try
             {
@@ -266,7 +273,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<VmiCountModel>> GetBinCount(VmiCountDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiCountModel>> GetBinCount(
+            VmiCountDetailParameters parameters = null
+        )
         {
             try
             {
@@ -342,7 +351,11 @@ namespace CommerceApiSDK.Services
             Guid vmiCountId
         )
         {
-            if (vmiLocationId.Equals(Guid.Empty) || vmiBinId.Equals(Guid.Empty) || vmiCountId.Equals(Guid.Empty))
+            if (
+                vmiLocationId.Equals(Guid.Empty)
+                || vmiBinId.Equals(Guid.Empty)
+                || vmiCountId.Equals(Guid.Empty)
+            )
             {
                 throw new ArgumentException(
                     $"{nameof(vmiLocationId)} or {nameof(vmiBinId)} or {nameof(vmiCountId)} is empty"
@@ -391,7 +404,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<VmiNoteModel>> GetVmiBinNote(VmiNoteDetailParameters parameters = null)
+        public async Task<ServiceResponse<VmiNoteModel>> GetVmiBinNote(
+            VmiNoteDetailParameters parameters = null
+        )
         {
             try
             {
@@ -463,7 +478,11 @@ namespace CommerceApiSDK.Services
             Guid vmiNoteId
         )
         {
-            if (vmiLocationId.Equals(Guid.Empty) || vmiBinId.Equals(Guid.Empty) || vmiNoteId.Equals(Guid.Empty))
+            if (
+                vmiLocationId.Equals(Guid.Empty)
+                || vmiBinId.Equals(Guid.Empty)
+                || vmiNoteId.Equals(Guid.Empty)
+            )
             {
                 throw new ArgumentException(
                     $"{nameof(vmiLocationId)} or {nameof(vmiBinId)} or {nameof(vmiNoteId)} is empty"
@@ -533,8 +552,8 @@ namespace CommerceApiSDK.Services
                     foreach (VmiBinModel item in response.Model?.VmiBins)
                     {
                         var task = GetAsyncWithCachedResponse<GetProductResult>(
-                                $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
-                            );
+                            $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
+                        );
                         listOfTasks.Add(task);
                     }
 
@@ -550,7 +569,8 @@ namespace CommerceApiSDK.Services
                         }
                     }
 
-                    return new ServiceResponse<GetProductCollectionResult>() { 
+                    return new ServiceResponse<GetProductCollectionResult>()
+                    {
                         Model = result,
                         Error = response.Error,
                         Exception = response.Exception,
@@ -600,10 +620,9 @@ namespace CommerceApiSDK.Services
 
                     foreach (VmiBinModel item in response.Model?.VmiBins)
                     {
-                        var productResult =
-                            await GetAsyncWithCachedResponse<GetProductResult>(
-                                $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
-                            );
+                        var productResult = await GetAsyncWithCachedResponse<GetProductResult>(
+                            $"{CommerceAPIConstants.ProductsUrl}/{item.ProductId}"
+                        );
                         if (productResult.Model?.Product != null)
                         {
                             AutocompleteProduct product = new AutocompleteProduct()
@@ -614,16 +633,24 @@ namespace CommerceApiSDK.Services
                                 Name = productResult.Model?.Product.Name,
                                 ErpNumber = productResult.Model?.Product.ERPNumber,
                                 Url = productResult.Model?.Product.Uri,
-                                ManufacturerItemNumber = productResult.Model?.Product.ManufacturerItem,
+                                ManufacturerItemNumber = productResult
+                                    .Model
+                                    ?.Product
+                                    .ManufacturerItem,
                                 BrandName = productResult.Model.Product.Brand?.Name,
-                                BrandDetailPagePath = productResult.Model.Product.Brand?.DetailPagePath,
+                                BrandDetailPagePath = productResult
+                                    .Model
+                                    .Product
+                                    .Brand
+                                    ?.DetailPagePath,
                             };
 
                             result.Add(product);
                         }
                     }
 
-                    return new ServiceResponse<IList<AutocompleteProduct>>() { 
+                    return new ServiceResponse<IList<AutocompleteProduct>>()
+                    {
                         Model = result,
                         Error = response.Error,
                         Exception = response.Exception,

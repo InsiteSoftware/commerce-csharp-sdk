@@ -49,8 +49,6 @@ namespace CommerceApiSDK.Test.TestHelpers
                     IsVisible = true
                 }
             };
-
-
         }
 
         public static List<WishListLine> CreateWishListLinesforSearch(

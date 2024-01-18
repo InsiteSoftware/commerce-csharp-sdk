@@ -5,13 +5,12 @@ using CommerceApiSDK.Services.Messages;
 
 namespace CommerceApiSDK.Services
 {
-    public sealed class OptiSubscriptionToken
-    : IDisposable
+    public sealed class OptiSubscriptionToken : IDisposable
     {
         public Guid Id { get; private set; }
-        #pragma warning disable 414 // 414 is that this private field is only set, not used
+#pragma warning disable 414 // 414 is that this private field is only set, not used
         private readonly object[] _dependentObjects;
-        #pragma warning restore 414
+#pragma warning restore 414
         private readonly Action _disposeMe;
 
         public OptiSubscriptionToken(Guid id, Action disposeMe, params object[] dependentObjects)
@@ -43,21 +42,22 @@ namespace CommerceApiSDK.Services
         private static readonly ConcurrentDictionary<
             Type,
             ConcurrentDictionary<Guid, BaseSubscription>
-        > Subscriptions = new ConcurrentDictionary<
-            Type,
-            ConcurrentDictionary<Guid, BaseSubscription>
-        >();
+        > Subscriptions =
+            new ConcurrentDictionary<Type, ConcurrentDictionary<Guid, BaseSubscription>>();
 
-        public OptiSubscriptionToken Subscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
+        public OptiSubscriptionToken Subscribe<TMessage>(Action<TMessage> action)
+            where TMessage : OptiMessage
         {
             var subscriptionId = OnSubscribe(action);
             return new OptiSubscriptionToken(
-                    subscriptionId,
-                    () => Unsubscribe<TMessage>(subscriptionId),
-                    action);
+                subscriptionId,
+                () => Unsubscribe<TMessage>(subscriptionId),
+                action
+            );
         }
 
-        private Guid OnSubscribe<TMessage>(Action<TMessage> action) where TMessage : OptiMessage
+        private Guid OnSubscribe<TMessage>(Action<TMessage> action)
+            where TMessage : OptiMessage
         {
             var messageType = typeof(TMessage);
 
@@ -83,7 +83,8 @@ namespace CommerceApiSDK.Services
                     );
                 }
 
-                var updatedMessageSubscriptions = new ConcurrentDictionary<Guid, BaseSubscription>();
+                var updatedMessageSubscriptions =
+                    new ConcurrentDictionary<Guid, BaseSubscription>();
                 foreach (var sub in messageSubscriptions.Values)
                 {
                     if (sub.IsAlive)
@@ -91,13 +92,18 @@ namespace CommerceApiSDK.Services
                         updatedMessageSubscriptions.TryAdd(sub.Id, sub);
                     }
                 }
-                Subscriptions.TryUpdate(messageType, updatedMessageSubscriptions, messageSubscriptions);
+                Subscriptions.TryUpdate(
+                    messageType,
+                    updatedMessageSubscriptions,
+                    messageSubscriptions
+                );
             }
 
             return subscription.Id;
         }
 
-        public void Unsubscribe<TMessage>(Guid subscriptionId) where TMessage : OptiMessage
+        public void Unsubscribe<TMessage>(Guid subscriptionId)
+            where TMessage : OptiMessage
         {
             if (
                 Subscriptions.TryGetValue(
@@ -128,9 +134,9 @@ namespace CommerceApiSDK.Services
             {
                 if (subscription.IsAlive)
                 {
-                    updatedMessageSubscriptions.TryAdd(subscription.Id, subscription);                    
+                    updatedMessageSubscriptions.TryAdd(subscription.Id, subscription);
                     subscription.Invoke(message);
-                }                
+                }
             }
             Subscriptions.TryUpdate(messageType, updatedMessageSubscriptions, messageSubscriptions);
         }
@@ -155,12 +161,10 @@ namespace CommerceApiSDK.Services
                     return false;
                 }
 
-                Call(
-                    () =>
-                    {
-                        action?.Invoke(message);
-                    }
-                );
+                Call(() =>
+                {
+                    action?.Invoke(message);
+                });
                 return true;
             }
 
@@ -174,7 +178,8 @@ namespace CommerceApiSDK.Services
         private abstract class TypedSubscription<TMessage> : BaseSubscription
             where TMessage : OptiMessage
         {
-            protected TypedSubscription(IActionRunner actionRunner) : base(actionRunner) { }
+            protected TypedSubscription(IActionRunner actionRunner)
+                : base(actionRunner) { }
 
             public sealed override bool Invoke(object message)
             {

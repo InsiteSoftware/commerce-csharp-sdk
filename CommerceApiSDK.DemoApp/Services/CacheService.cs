@@ -35,7 +35,8 @@ namespace CommerceApiSDK.DemoApp.Services
             }
         }
 
-        public Task<bool> PersistData<T>(string key, T value) where T : class
+        public Task<bool> PersistData<T>(string key, T value)
+            where T : class
         {
             if (this.memoryCache != null)
             {
@@ -59,7 +60,8 @@ namespace CommerceApiSDK.DemoApp.Services
             return Task.FromResult(false);
         }
 
-        public Task<T> LoadPersistedData<T>(string key) where T : class
+        public Task<T> LoadPersistedData<T>(string key)
+            where T : class
         {
             return Task.Run(() =>
             {
@@ -88,14 +90,20 @@ namespace CommerceApiSDK.DemoApp.Services
             return Task.FromResult(true);
         }
 
-        public async Task<T> GetOrFetchObject<T>(string key, Func<Task<T>> fetchFunc, DateTimeOffset? absoluteExpiration = null)
+        public async Task<T> GetOrFetchObject<T>(
+            string key,
+            Func<Task<T>> fetchFunc,
+            DateTimeOffset? absoluteExpiration = null
+        )
         {
-            var cacheEntry = await
-                      this.memoryCache.GetOrCreateAsync<T>(key, async entry =>
-                      {
-                          entry.SlidingExpiration = TimeSpan.FromSeconds(15 * 60);
-                          return await fetchFunc();
-                      });
+            var cacheEntry = await this.memoryCache.GetOrCreateAsync<T>(
+                key,
+                async entry =>
+                {
+                    entry.SlidingExpiration = TimeSpan.FromSeconds(15 * 60);
+                    return await fetchFunc();
+                }
+            );
 
             return cacheEntry;
         }
@@ -137,7 +145,9 @@ namespace CommerceApiSDK.DemoApp.Services
         {
             return Task.Run(() =>
             {
-                return absoluteExpiration.HasValue ? this.memoryCache.Set<T>(key, value, absoluteExpiration.Value) : this.memoryCache.Set<T>(key, value);
+                return absoluteExpiration.HasValue
+                    ? this.memoryCache.Set<T>(key, value, absoluteExpiration.Value)
+                    : this.memoryCache.Set<T>(key, value);
             });
         }
 

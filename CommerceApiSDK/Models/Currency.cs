@@ -15,4 +15,3 @@ namespace CommerceApiSDK.Models
         public bool IsDefault { get; set; }
     }
 }
-

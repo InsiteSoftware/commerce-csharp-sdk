@@ -6,6 +6,8 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ITokenExConfigService
     {
-        Task<ServiceResponse<TokenExDto>> GetTokenExConfig(TokenExConfigQueryParameters parameters = null);
+        Task<ServiceResponse<TokenExDto>> GetTokenExConfig(
+            TokenExConfigQueryParameters parameters = null
+        );
     }
 }

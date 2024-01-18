@@ -14,7 +14,5 @@ namespace CommerceApiSDK.Test
         }
     }
 
-    public class PreserveAttribute : Attribute
-    {
-    }
+    public class PreserveAttribute : Attribute { }
 }

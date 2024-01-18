@@ -13,7 +13,9 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<AddressFieldCollection>> GetAddressFields();
 
-        Task<ServiceResponse<CountryCollection>> GetCountries(CountriesQueryParameters parameters = null);
+        Task<ServiceResponse<CountryCollection>> GetCountries(
+            CountriesQueryParameters parameters = null
+        );
 
         Task<ServiceResponse<Country>> GetCountry(Guid countryId);
 
@@ -22,12 +24,14 @@ namespace CommerceApiSDK.Services.Interfaces
         Task<ServiceResponse<CurrencyCollection>> GetCurrencies();
 
         Task<ServiceResponse<Currency>> GetCurrency(Guid currencyId);
-        
+
         Task<ServiceResponse<LanguageCollection>> GetLanguages();
 
         Task<ServiceResponse<Language>> GetLanguage(Guid languageId);
 
-        Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(List<string> names = null);
+        Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(
+            List<string> names = null
+        );
 
         Task<ServiceResponse<StateCollection>> GetStates();
 

@@ -16,9 +16,12 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<ServiceResponse<IList<AutocompleteBrand>>> GetAutocompleteBrands(string searchQuery)
+        public async Task<ServiceResponse<IList<AutocompleteBrand>>> GetAutocompleteBrands(
+            string searchQuery
+        )
         {
             AutocompleteQueryParameters parameters = new AutocompleteQueryParameters()
             {
@@ -40,7 +43,9 @@ namespace CommerceApiSDK.Services
             };
         }
 
-        public async Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(string searchQuery)
+        public async Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(
+            string searchQuery
+        )
         {
             try
             {
@@ -58,7 +63,8 @@ namespace CommerceApiSDK.Services
 
                 var result = await GetAsyncWithCachedResponse<Autocomplete>(url);
 
-                return new ServiceResponse<IList<AutocompleteProduct>>() {
+                return new ServiceResponse<IList<AutocompleteProduct>>()
+                {
                     Model = result.Model?.Products,
                     Exception = result.Exception,
                     Error = result.Error,

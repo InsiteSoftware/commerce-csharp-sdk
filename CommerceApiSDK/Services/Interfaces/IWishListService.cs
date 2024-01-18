@@ -8,9 +8,14 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IWishListService
     {
-        Task<ServiceResponse<WishListCollectionModel>> GetWishLists(WishListsQueryParameters parameters);
+        Task<ServiceResponse<WishListCollectionModel>> GetWishLists(
+            WishListsQueryParameters parameters
+        );
 
-        Task<ServiceResponse<WishList>> GetWishList(Guid wishListId, WishListQueryParameters parameters);
+        Task<ServiceResponse<WishList>> GetWishList(
+            Guid wishListId,
+            WishListQueryParameters parameters
+        );
 
         Task<bool> DeleteWishList(Guid wishListId);
 
@@ -22,7 +27,10 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<WishList>> UpdateWishList(WishList wishList);
 
-        Task<ServiceResponse<WishListLine>> AddProductToWishList(Guid wishListId, AddCartLine product);
+        Task<ServiceResponse<WishListLine>> AddProductToWishList(
+            Guid wishListId,
+            AddCartLine product
+        );
 
         Task<bool> AddWishListLinesToWishList(
             Guid wishListId,
@@ -43,7 +51,10 @@ namespace CommerceApiSDK.Services.Interfaces
             IList<WishListLine> wishListLineCollection
         );
 
-        Task<ServiceResponse<WishListLine>> UpdateWishListLine(Guid wishListId, WishListLine wishListLine);
+        Task<ServiceResponse<WishListLine>> UpdateWishListLine(
+            Guid wishListId,
+            WishListLine wishListLine
+        );
 
         Task ClearWishListRelatedCacheAsync(Guid wishListId);
 

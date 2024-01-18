@@ -40,13 +40,16 @@ namespace CommerceApiSDK.Services
             ICacheService CacheService,
             ILoggerService LoggerService,
             IMessengerService optiMessenger
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
             this.optiMessenger = optiMessenger;
 
             isCartEmpty = true;
             CartItemCount = 0;
-            subscriptionToken = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(UserSignedOutHandler);
+            subscriptionToken = this.optiMessenger.Subscribe<UserSignedOutOptiMessage>(
+                UserSignedOutHandler
+            );
         }
 
         public event PropertyChangedEventHandler IsCartEmptyPropertyChanged;
@@ -75,18 +78,18 @@ namespace CommerceApiSDK.Services
             get => cartItemCount;
             set
             {
-                    cartItemCount = value;
-                    IsCartCountPropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs("CartItemCount")
-                    ); // Raise the event}
-                  
+                cartItemCount = value;
+                IsCartCountPropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs("CartItemCount")
+                ); // Raise the event}
             }
         }
 
-
-
-        public async Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters)
+        public async Task<ServiceResponse<Cart>> GetCart(
+            Guid cartId,
+            CartQueryParameters parameters
+        )
         {
             try
             {
@@ -98,7 +101,7 @@ namespace CommerceApiSDK.Services
                 IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
 
                 CartItemCount = (int)result.Model?.TotalCountDisplay;
-               
+
                 return result;
             }
             catch (Exception exception)
@@ -108,7 +111,11 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        private async Task<ServiceResponse<Cart>> GetCart(CartQueryParameters parameters, AddCartModel addCartModel, CartType cartType = CartType.Regular)
+        private async Task<ServiceResponse<Cart>> GetCart(
+            CartQueryParameters parameters,
+            AddCartModel addCartModel,
+            CartType cartType = CartType.Regular
+        )
         {
             try
             {
@@ -118,22 +125,24 @@ namespace CommerceApiSDK.Services
                 if (cartType == CartType.Alternate)
                 {
                     url = CommerceAPIConstants.CartsUrl;
-                    StringContent stringContent = await Task.Run(() => SerializeModel(addCartModel));
+                    StringContent stringContent = await Task.Run(
+                        () => SerializeModel(addCartModel)
+                    );
                     result = await PostAsyncNoCache<Cart>(url, stringContent);
                 }
                 else
-                {                    
+                {
                     if (cartType == CartType.Regular)
                     {
                         await this.ClientService.RemoveAlternateCartCookie();
                     }
                     url += parameters.ToQueryString();
                     result = await GetAsyncNoCache<Cart>(url);
-                }       
+                }
 
                 IsCartEmpty = result.Model?.CartLines == null || result.Model?.CartLines.Count <= 0;
                 CartItemCount = result.Model.TotalCountDisplay;
-            
+
                 return result;
             }
             catch (Exception exception)
@@ -171,7 +180,6 @@ namespace CommerceApiSDK.Services
 
                 CartItemCount = (int)(result.Model?.CartLines?.Count);
 
-           
                 return result;
             }
             catch (Exception exception)
@@ -186,9 +194,7 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url = CommerceAPIConstants.CartCurrentPromotionsUrl;
-                var result = await GetAsyncNoCache<PromotionCollectionModel>(
-                    url
-                );
+                var result = await GetAsyncNoCache<PromotionCollectionModel>(url);
 
                 return result;
             }
@@ -204,16 +210,14 @@ namespace CommerceApiSDK.Services
             try
             {
                 string url = string.Format(CommerceAPIConstants.CartPromotionsUrl, cartId);
-                var result = await GetAsyncNoCache<PromotionCollectionModel>(
-                    url
-                );
+                var result = await GetAsyncNoCache<PromotionCollectionModel>(url);
 
                 return result;
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<PromotionCollectionModel>(exception: exception) ;
+                return GetServiceResponse<PromotionCollectionModel>(exception: exception);
             }
         }
 
@@ -241,8 +245,8 @@ namespace CommerceApiSDK.Services
                 StringContent stringContent = await Task.Run(() => SerializeModel(cart));
                 var result = await PatchAsyncNoCache<Cart>(url, stringContent);
 
-                CartItemCount = (int) result.Model.TotalCountDisplay;
-                
+                CartItemCount = (int)result.Model.TotalCountDisplay;
+
                 return result;
             }
             catch (Exception exception)
@@ -298,7 +302,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<CartCollectionModel>> GetCarts(CartsQueryParameters parameters = null)
+        public async Task<ServiceResponse<CartCollectionModel>> GetCarts(
+            CartsQueryParameters parameters = null
+        )
         {
             try
             {
@@ -315,7 +321,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<CartCollectionModel> (exception: exception);
+                return GetServiceResponse<CartCollectionModel>(exception: exception);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CommerceApiSDK.Models.Parameters
 {
-	public class OrderApprovalParameters : BaseQueryParameters
+    public class OrderApprovalParameters : BaseQueryParameters
     {
         public string ShipToId { get; set; }
 
@@ -23,4 +23,3 @@ namespace CommerceApiSDK.Models.Parameters
         public ShipTo ShipTo { get; set; }
     }
 }
-

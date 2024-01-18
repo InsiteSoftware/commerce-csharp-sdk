@@ -8,8 +8,12 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IAutocompleteService
     {
-        Task<ServiceResponse<AutocompleteResult>> GetAutocompleteResults(AutocompleteQueryParameters parameters);
-        Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(string searchQuery);
+        Task<ServiceResponse<AutocompleteResult>> GetAutocompleteResults(
+            AutocompleteQueryParameters parameters
+        );
+        Task<ServiceResponse<IList<AutocompleteProduct>>> GetAutocompleteProducts(
+            string searchQuery
+        );
         Task<ServiceResponse<IList<AutocompleteBrand>>> GetAutocompleteBrands(string searchQuery);
     }
 }

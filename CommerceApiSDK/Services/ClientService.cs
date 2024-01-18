@@ -44,7 +44,6 @@ namespace CommerceApiSDK.Services
         private readonly ILoggerService loggerService;
 
         protected virtual string[] StoredCookiesNames { get; } =
-
             {
                 "CurrentPickUpWarehouseId",
                 "CurrentFulfillmentMethod",
@@ -143,17 +142,18 @@ namespace CommerceApiSDK.Services
             Host = ClientConfig.HostUrl;
         }
 
-        public virtual HttpClientHandler HttpClientHandler => new HttpClientHandler
-        {
-            AllowAutoRedirect = true,
-            UseCookies = true,
-            CookieContainer = new CookieContainer(),
-            ClientCertificateOptions = ClientCertificateOption.Automatic,
+        public virtual HttpClientHandler HttpClientHandler =>
+            new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseCookies = true,
+                CookieContainer = new CookieContainer(),
+                ClientCertificateOptions = ClientCertificateOption.Automatic,
 
-            // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
-            // UseProxy = true,
-            // Proxy = CFNetwork.GetDefaultProxy()
-        };
+                // Uncomment these two rows in order to be able to inspect web traffic with Charles app.
+                // UseProxy = true,
+                // Proxy = CFNetwork.GetDefaultProxy()
+            };
 
         public HttpClient GetHttpClient()
         {
@@ -565,7 +565,8 @@ namespace CommerceApiSDK.Services
 
         public async Task RemoveAlternateCartCookie()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 foreach (Cookie co in Cookies)
                 {
                     if (co.Name.Contains("AlternateCart"))
@@ -579,7 +580,8 @@ namespace CommerceApiSDK.Services
 
         public async Task RemoveOrderApprovalCookieIfAvailable()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 foreach (Cookie co in Cookies)
                 {
                     if (co.Name.Contains("CustomerOrderForApproval"))
@@ -591,17 +593,18 @@ namespace CommerceApiSDK.Services
             });
         }
 
-        public async Task<bool> IsCustomerOrderApproval() => await Task.Run(() =>
-        {
-            foreach (Cookie co in Cookies)
+        public async Task<bool> IsCustomerOrderApproval() =>
+            await Task.Run(() =>
             {
-                if (co.Name.Contains("CustomerOrderForApproval"))
+                foreach (Cookie co in Cookies)
                 {
-                    return true;
+                    if (co.Name.Contains("CustomerOrderForApproval"))
+                    {
+                        return true;
+                    }
                 }
-            }
-            return false;
-        });
+                return false;
+            });
 
         public void StoreAccessToken(TokenResult tokens)
         {
@@ -664,14 +667,22 @@ namespace CommerceApiSDK.Services
                 ErrorResponse error = await Task.Run(
                     () => ServiceBase.DeserializeModel<ErrorResponse>(result)
                 );
-                return new ServiceResponse<TokenResult> { Error = error, StatusCode = result.StatusCode };
+                return new ServiceResponse<TokenResult>
+                {
+                    Error = error,
+                    StatusCode = result.StatusCode
+                };
             }
 
             TokenResult token = await Task.Run(
                 () => ServiceBase.DeserializeModel<TokenResult>(result)
             );
             StoreAccessToken(token);
-            return new ServiceResponse<TokenResult> { Model = token, StatusCode = result.StatusCode };
+            return new ServiceResponse<TokenResult>
+            {
+                Model = token,
+                StatusCode = result.StatusCode
+            };
         }
         #endregion
     }

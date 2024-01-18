@@ -20,7 +20,8 @@ namespace CommerceApiSDK.Extensions
             }
         }
 
-        public static T Deserialize<T>(this byte[] byteArray) where T : class
+        public static T Deserialize<T>(this byte[] byteArray)
+            where T : class
         {
             if (byteArray == null)
             {

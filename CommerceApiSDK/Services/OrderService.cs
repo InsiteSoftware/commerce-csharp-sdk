@@ -20,7 +20,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         /// <summary>
         /// Gets all available sort order options.
@@ -83,9 +84,8 @@ namespace CommerceApiSDK.Services
             }
         }
 
-
         public async Task<ServiceResponse<GetOrderApprovalCollectionResult>> GetOrderApprovalList(
-         OrderApprovalParameters parameters = null
+            OrderApprovalParameters parameters = null
         )
         {
             try
@@ -95,7 +95,8 @@ namespace CommerceApiSDK.Services
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                string url = $"{CommerceAPIConstants.OrderApprovalsUrl}{parameters.ToQueryString()}";
+                string url =
+                    $"{CommerceAPIConstants.OrderApprovalsUrl}{parameters.ToQueryString()}";
 
                 return await GetAsyncNoCache<GetOrderApprovalCollectionResult>(url);
             }
@@ -152,14 +153,14 @@ namespace CommerceApiSDK.Services
             try
             {
                 StringContent stringContent = await Task.Run(() => SerializeModel(order));
-                
+
                 string url = $"{CommerceAPIConstants.OrdersUrl}/{order.Id}";
                 return await PatchAsyncNoCache<Order>(url, stringContent);
             }
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<Order> (exception: exception);
+                return GetServiceResponse<Order>(exception: exception);
             }
         }
 
@@ -175,7 +176,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<Rma> (exception: exception);
+                return GetServiceResponse<Rma>(exception: exception);
             }
         }
 
@@ -191,7 +192,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<ShareEntity> (exception: exception);
+                return GetServiceResponse<ShareEntity>(exception: exception);
             }
         }
 
@@ -201,8 +202,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = CommerceAPIConstants.OrderStatusMappingsUrl;
 
-                var response =
-                    await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
+                var response = await GetAsyncWithCachedResponse<GetOrderStatusMappingsResult>(url);
                 return new ServiceResponse<List<OrderStatusMapping>>()
                 {
                     Model = response.Model?.OrderStatusMappings,

@@ -16,7 +16,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<ServiceResponse<JobQuoteResult>> GetJobQuotes()
         {
@@ -51,7 +52,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(JobQuoteUpdateParameter jobQuoteUpdate)
+        public async Task<ServiceResponse<JobQuoteDto>> UpdateJobQuote(
+            JobQuoteUpdateParameter jobQuoteUpdate
+        )
         {
             if (string.IsNullOrEmpty(jobQuoteUpdate?.JobQuoteId))
             {
@@ -68,7 +71,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<JobQuoteDto> (exception: exception);
+                return GetServiceResponse<JobQuoteDto>(exception: exception);
             }
         }
     }

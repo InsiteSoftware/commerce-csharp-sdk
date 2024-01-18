@@ -14,4 +14,3 @@ namespace CommerceApiSDK.Models.Parameters
         public List<string> Expand { get; set; } = null;
     }
 }
-

@@ -71,9 +71,7 @@ namespace CommerceApiSDK.Services
             this.clientService.StoreSessionState();
 
             Session session = new Session() { UserName = userName, Password = password };
-            var sessionCreateResult = await this.sessionService.PostSession(
-                session
-            );
+            var sessionCreateResult = await this.sessionService.PostSession(session);
             Session createdSession = sessionCreateResult?.Model;
             if (createdSession == null)
             {
@@ -107,11 +105,7 @@ namespace CommerceApiSDK.Services
                 );
             }
 
-            return new ServiceResponse<bool>
-            {
-                Model = true,
-                StatusCode = response.StatusCode
-            };
+            return new ServiceResponse<bool> { Model = true, StatusCode = response.StatusCode };
         }
 
         /// <summary>
@@ -129,7 +123,7 @@ namespace CommerceApiSDK.Services
         /// <param name="isRefreshTokenExpired">Whether or not logout was due to refresh token being expired</param>
         public virtual async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (subscriptionToken!=null)
+            if (subscriptionToken != null)
             {
                 this.OptiMessenger.Unsubscribe<RefreshTokenExpiredOptiMessage>(
                     subscriptionToken.Id
@@ -178,10 +172,7 @@ namespace CommerceApiSDK.Services
                 }
             }
 
-            return new ServiceResponse<bool>
-            {
-                Model = false
-            };
+            return new ServiceResponse<bool> { Model = false };
         }
 
         protected virtual void RefreshTokenExpiredHandler(OptiMessage message)

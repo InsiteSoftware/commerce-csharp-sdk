@@ -7,4 +7,3 @@
         public AddressFieldDisplayCollection ShipToAddressFields { get; set; }
     }
 }
-

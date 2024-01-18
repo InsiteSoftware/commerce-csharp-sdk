@@ -1,6 +1,4 @@
 ﻿namespace CommerceApiSDK.Models.Results
 {
-    public class CartLineResult
-    {
-    }
+    public class CartLineResult { }
 }

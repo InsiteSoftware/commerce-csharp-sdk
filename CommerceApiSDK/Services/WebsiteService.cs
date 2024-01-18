@@ -25,12 +25,15 @@ namespace CommerceApiSDK.Services
             ICacheService CacheService,
             ILoggerService LoggerService,
             ISessionService sessionService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
             this.sessionService = sessionService;
         }
 
-        public async Task<ServiceResponse<Website>> GetWebsite(WebsiteQueryParameters parameters = null)
+        public async Task<ServiceResponse<Website>> GetWebsite(
+            WebsiteQueryParameters parameters = null
+        )
         {
             try
             {
@@ -59,9 +62,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesAddressFieldsUrl}";
 
-                return await GetAsyncWithCachedResponse<AddressFieldCollection>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<AddressFieldCollection>(url);
             }
             catch (Exception exception)
             {
@@ -70,7 +71,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<CountryCollection>> GetCountries(CountriesQueryParameters parameters = null)
+        public async Task<ServiceResponse<CountryCollection>> GetCountries(
+            CountriesQueryParameters parameters = null
+        )
         {
             try
             {
@@ -80,9 +83,7 @@ namespace CommerceApiSDK.Services
                     url += parameters.ToQueryString();
                 }
 
-                return await GetAsyncWithCachedResponse<CountryCollection>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<CountryCollection>(url);
             }
             catch (Exception exception)
             {
@@ -97,9 +98,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesCountriesUrl}/{countryId}";
 
-                return await GetAsyncWithCachedResponse<Country>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<Country>(url);
             }
             catch (Exception exception)
             {
@@ -129,9 +128,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesCurrenciesUrl}";
 
-                return await GetAsyncWithCachedResponse<CurrencyCollection>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<CurrencyCollection>(url);
             }
             catch (Exception exception)
             {
@@ -146,9 +143,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesCurrenciesUrl}/{currencyId}";
 
-                return await GetAsyncWithCachedResponse<Currency>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<Currency>(url);
             }
             catch (Exception exception)
             {
@@ -178,9 +173,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesLanguagesUrl}/{languageId}";
 
-                return await GetAsyncWithCachedResponse<Language>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<Language>(url);
             }
             catch (Exception exception)
             {
@@ -189,7 +182,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(List<string> names = null)
+        public async Task<ServiceResponse<GetSiteMessageCollectionResult>> GetSiteMessages(
+            List<string> names = null
+        )
         {
             string url = CommerceAPIConstants.WebsitesSiteMessagesUrl;
 
@@ -217,9 +212,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesStatesUrl}";
 
-                return await GetAsyncWithCachedResponse<StateCollection>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<StateCollection>(url);
             }
             catch (Exception exception)
             {
@@ -234,9 +227,7 @@ namespace CommerceApiSDK.Services
             {
                 string url = $"{CommerceAPIConstants.WebsitesStatesUrl}/{stateId}";
 
-                return await GetAsyncWithCachedResponse<State>(
-                    url
-                );
+                return await GetAsyncWithCachedResponse<State>(url);
             }
             catch (Exception exception)
             {
@@ -322,9 +313,7 @@ namespace CommerceApiSDK.Services
         [Obsolete("Caution: Will be removed in a future release.")]
         public async Task<string> GetSiteMessage(string messageName, string defaultMessage = null)
         {
-            var response = await GetSiteMessages(
-                new List<string> { messageName }
-            );
+            var response = await GetSiteMessages(new List<string> { messageName });
 
             GetSiteMessageCollectionResult messageResult = response.Model;
 
@@ -342,8 +331,8 @@ namespace CommerceApiSDK.Services
             if (siteMessageItem != null)
             {
                 return string.IsNullOrEmpty(siteMessageItem.Message)
-                  ? defaultMessage
-                  : siteMessageItem.Message.StripHtml();
+                    ? defaultMessage
+                    : siteMessageItem.Message.StripHtml();
             }
             else
             {
@@ -353,8 +342,8 @@ namespace CommerceApiSDK.Services
                 if (siteMessageItem != null)
                 {
                     return string.IsNullOrEmpty(siteMessageItem.Message)
-                      ? defaultMessage
-                      : siteMessageItem.Message.StripHtml();
+                        ? defaultMessage
+                        : siteMessageItem.Message.StripHtml();
                 }
             }
 

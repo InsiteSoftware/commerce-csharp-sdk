@@ -8,6 +8,7 @@ namespace CommerceApiSDK.Models.Enums
         [Description("Ship")]
         [FulfillmentMethodDisplayName("Ship")]
         Ship,
+
         [Description("PickUp")]
         [FulfillmentMethodDisplayName("Pick Up")]
         PickUp,

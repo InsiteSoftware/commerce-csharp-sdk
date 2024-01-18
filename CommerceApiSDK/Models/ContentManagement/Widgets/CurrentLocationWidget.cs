@@ -1,6 +1,4 @@
 ﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public class CurrentLocationWidget : Widget
-    {
-    }
+    public class CurrentLocationWidget : Widget { }
 }

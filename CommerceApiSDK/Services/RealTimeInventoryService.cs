@@ -15,7 +15,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<ServiceResponse<GetRealTimeInventoryResult>> GetProductRealTimeInventory(
             RealTimeInventoryParameters parameters
@@ -38,7 +39,10 @@ namespace CommerceApiSDK.Services
                         () => SerializeModel(new { parameters.ProductIds })
                     );
 
-                    var response = await PostAsyncNoCache<GetRealTimeInventoryResult>(url, stringContent);
+                    var response = await PostAsyncNoCache<GetRealTimeInventoryResult>(
+                        url,
+                        stringContent
+                    );
 
                     return response;
                 }

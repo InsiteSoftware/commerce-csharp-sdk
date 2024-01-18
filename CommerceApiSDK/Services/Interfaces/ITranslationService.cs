@@ -6,7 +6,9 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface ITranslationService
     {
-        Task<ServiceResponse<TranslationResults>> GetTranslations(TranslationQueryParameters parameters = null);
+        Task<ServiceResponse<TranslationResults>> GetTranslations(
+            TranslationQueryParameters parameters = null
+        );
 
         int GetMaxLengthOfTranslationText();
     }

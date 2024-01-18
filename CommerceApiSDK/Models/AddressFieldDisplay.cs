@@ -7,4 +7,3 @@
         public bool IsVisible { get; set; }
     }
 }
-

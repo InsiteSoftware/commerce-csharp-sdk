@@ -15,4 +15,3 @@
         public string PostalCode { get; set; }
     }
 }
-

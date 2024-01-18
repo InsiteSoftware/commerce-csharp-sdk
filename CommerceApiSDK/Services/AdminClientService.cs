@@ -17,7 +17,7 @@ namespace CommerceApiSDK.Services
         protected override string CookiesStorageKey { get; } = "admin_cookies";
 
         protected override string[] StoredCookiesNames { get; } =
-             { "cms_CurrentContentModeSignature" };
+            { "cms_CurrentContentModeSignature" };
 
         public Cookie CMSCurrentContentModeSignartureCookie
         {

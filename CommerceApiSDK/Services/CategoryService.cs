@@ -22,7 +22,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         /// <summary>
         /// Gets a list of categories
@@ -30,7 +31,9 @@ namespace CommerceApiSDK.Services
         /// <param name="startCategoryId">Parent category or null for base level categories.</param>
         /// <param name="maxDepth">depth of children to fetch.</param>
         /// <returns>List of categories.</returns>
-        public async Task<ServiceResponse<List<Category>>> GetCategoryList(CategoryQueryParameters parameters)
+        public async Task<ServiceResponse<List<Category>>> GetCategoryList(
+            CategoryQueryParameters parameters
+        )
         {
             try
             {
@@ -38,9 +41,7 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                var categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(
-                    url
-                );
+                var categoryResult = await GetAsyncWithCachedResponse<CategoryResult>(url);
 
                 lastCategoryResult = categoryResult?.Model;
 
@@ -80,7 +81,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<List<Category>>> GetFeaturedCategories(CategoryQueryParameters parameters)
+        public async Task<ServiceResponse<List<Category>>> GetFeaturedCategories(
+            CategoryQueryParameters parameters
+        )
         {
             try
             {
@@ -88,9 +91,7 @@ namespace CommerceApiSDK.Services
 
                 url += parameters?.ToQueryString();
 
-                var response = await GetAsyncWithCachedResponse<CategoryResult>(
-                    url
-                );
+                var response = await GetAsyncWithCachedResponse<CategoryResult>(url);
                 List<Category> featuredCategories = FlattenCategoryTree(response.Model?.Categories)
                     .Where(c => c.IsFeatured)
                     .ToList();

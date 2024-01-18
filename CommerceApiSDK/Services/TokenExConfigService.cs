@@ -14,9 +14,12 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<ServiceResponse<TokenExDto>> GetTokenExConfig(TokenExConfigQueryParameters parameters = null)
+        public async Task<ServiceResponse<TokenExDto>> GetTokenExConfig(
+            TokenExConfigQueryParameters parameters = null
+        )
         {
             try
             {
@@ -28,10 +31,7 @@ namespace CommerceApiSDK.Services
                     url += queryString;
                 }
 
-                var response = await GetAsyncNoCache<TokenExDto>(
-                    url,
-                    DefaultRequestTimeout
-                );
+                var response = await GetAsyncNoCache<TokenExDto>(url, DefaultRequestTimeout);
 
                 return response;
             }

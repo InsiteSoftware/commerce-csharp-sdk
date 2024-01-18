@@ -13,6 +13,7 @@ namespace CommerceApiSDK.Models.Parameters
         public string ChangedSharedListLinesQuantities { get; set; }
 
         [QueryParameter(QueryOptions.DoNotEncode)]
-        public override string Sort { get; set; } = SortOrderAttribute.GetSortOrderValue(WishListLineSortOrder.CustomSort);
+        public override string Sort { get; set; } =
+            SortOrderAttribute.GetSortOrderValue(WishListLineSortOrder.CustomSort);
     }
 }

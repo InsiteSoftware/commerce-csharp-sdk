@@ -13,13 +13,14 @@ namespace CommerceApiSDK.Extensions
             return Regex.Replace(inputString, @"<[^>]*>", string.Empty);
         }
 
-        public static string GetEnumMemberValue<T>(T value) where T : struct, IConvertible
+        public static string GetEnumMemberValue<T>(T value)
+            where T : struct, IConvertible
         {
             return typeof(T)
                 .GetTypeInfo()
-                .DeclaredMembers.SingleOrDefault(
-                    x => x.Name == value.ToString()
-                )?.GetCustomAttribute<EnumMemberAttribute>(false)?.Value;
+                .DeclaredMembers.SingleOrDefault(x => x.Name == value.ToString())
+                ?.GetCustomAttribute<EnumMemberAttribute>(false)
+                ?.Value;
         }
     }
 }

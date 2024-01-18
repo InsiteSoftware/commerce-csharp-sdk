@@ -7,8 +7,10 @@ namespace CommerceApiSDK.Models.Enums
     {
         [SortOrder("Date Updated", "Date Updated \u2713", "ModifiedOn DESC")]
         ModifiedOnDescending,
+
         [SortOrder("List Name", "List Name \u2193", "Name DESC")]
         NameDescending,
+
         [SortOrder("List Name", "List Name \u2191", "Name ASC")]
         NameAscending,
     }

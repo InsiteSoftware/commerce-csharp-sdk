@@ -49,5 +49,3 @@ namespace CommerceApiSDK.Models
         public Guid? PickupShipViaId { get; set; }
     }
 }
-
-

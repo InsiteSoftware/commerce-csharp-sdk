@@ -76,4 +76,3 @@ namespace CommerceApiSDK.Models.Parameters
         }
     }
 }
-

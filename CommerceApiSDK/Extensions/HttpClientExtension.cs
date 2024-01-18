@@ -18,8 +18,8 @@ namespace CommerceApiSDK.Extensions
             }
 
             return cancellationToken.HasValue
-              ? httpClient.GetAsync(requestUri, cancellationToken.Value)
-              : httpClient.GetAsync(requestUri);
+                ? httpClient.GetAsync(requestUri, cancellationToken.Value)
+                : httpClient.GetAsync(requestUri);
         }
     }
 }

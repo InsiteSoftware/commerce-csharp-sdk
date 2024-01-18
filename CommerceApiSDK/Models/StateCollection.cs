@@ -8,4 +8,3 @@ namespace CommerceApiSDK.Models
         public IList<State> States { get; set; }
     }
 }
-

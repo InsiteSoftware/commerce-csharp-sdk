@@ -23,7 +23,8 @@ namespace CommerceApiSDK.Services
             IAccountService accountService,
             ICacheService cacheService,
             IAdminClientService adminClientService
-        ) : base(clientService, sessionService, OptiMessenger, accountService, cacheService)
+        )
+            : base(clientService, sessionService, OptiMessenger, accountService, cacheService)
         {
             this.adminClientService = adminClientService;
 
@@ -60,19 +61,16 @@ namespace CommerceApiSDK.Services
 
             if (subscriptionToken == null)
             {
-                subscriptionToken = this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
-                    AdminRefreshTokenExpiredHandler
-                );
+                subscriptionToken =
+                    this.OptiMessenger.Subscribe<AdminRefreshTokenExpiredOptiMessage>(
+                        AdminRefreshTokenExpiredHandler
+                    );
             }
 
             this.adminClientService.SetBearerAuthorizationHeader(tokenResult.AccessToken);
             this.adminClientService.StoreSessionState();
 
-            return new ServiceResponse<bool>
-            {
-                Model = true,
-                StatusCode = result.StatusCode
-            };
+            return new ServiceResponse<bool> { Model = true, StatusCode = result.StatusCode };
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace CommerceApiSDK.Services
         /// <returns></returns>
         public override async Task LogoutAsync(bool isRefreshTokenExpired = false)
         {
-            if (subscriptionToken!=null)
+            if (subscriptionToken != null)
             {
                 this.OptiMessenger.Unsubscribe<AdminRefreshTokenExpiredOptiMessage>(
                     subscriptionToken.Id
@@ -122,10 +120,7 @@ namespace CommerceApiSDK.Services
                 };
             }
 
-            return new ServiceResponse<bool>
-            {
-                Model = false
-            };
+            return new ServiceResponse<bool> { Model = false };
         }
 
         /// <summary>

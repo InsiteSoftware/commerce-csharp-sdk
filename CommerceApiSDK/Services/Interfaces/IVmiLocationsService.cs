@@ -9,17 +9,27 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IVmiLocationsService
     {
-        Task<ServiceResponse<GetVmiLocationResult>> GetVmiLocations(VmiLocationQueryParameters parameters = null);
+        Task<ServiceResponse<GetVmiLocationResult>> GetVmiLocations(
+            VmiLocationQueryParameters parameters = null
+        );
         Task<ServiceResponse<GetVmiBinResult>> GetVmiBins(VmiBinQueryParameters parameters = null);
-        Task<ServiceResponse<GetVmiCountResult>> GetBinCounts(VmiCountQueryParameters parameters = null);
+        Task<ServiceResponse<GetVmiCountResult>> GetBinCounts(
+            VmiCountQueryParameters parameters = null
+        );
         Task<ServiceResponse<GetVmiNoteResult>> GetVmiLocationNotes(
             BaseVmiLocationQueryParameters parameters = null
         );
 
-        Task<ServiceResponse<VmiLocationModel>> GetVmiLocation(VmiLocationDetailParameters parameters = null);
+        Task<ServiceResponse<VmiLocationModel>> GetVmiLocation(
+            VmiLocationDetailParameters parameters = null
+        );
         Task<ServiceResponse<VmiBinModel>> GetVmiBin(VmiBinDetailParameters parameters = null);
-        Task<ServiceResponse<VmiCountModel>> GetBinCount(VmiCountDetailParameters parameters = null);
-        Task<ServiceResponse<VmiNoteModel>> GetVmiBinNote(VmiNoteDetailParameters parameters = null);
+        Task<ServiceResponse<VmiCountModel>> GetBinCount(
+            VmiCountDetailParameters parameters = null
+        );
+        Task<ServiceResponse<VmiNoteModel>> GetVmiBinNote(
+            VmiNoteDetailParameters parameters = null
+        );
 
         Task<ServiceResponse<VmiLocationModel>> SaveVmiLocation(VmiLocationModel model);
         Task<ServiceResponse<VmiBinModel>> SaveVmiBin(Guid vmiLocationId, VmiBinModel model);

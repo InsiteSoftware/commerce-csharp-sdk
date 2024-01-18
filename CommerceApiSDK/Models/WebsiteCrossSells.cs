@@ -7,4 +7,3 @@ namespace CommerceApiSDK.Models
         public IList<Product> Products { get; set; }
     }
 }
-

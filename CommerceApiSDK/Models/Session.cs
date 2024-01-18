@@ -11,20 +11,22 @@ namespace CommerceApiSDK.Models
     {
         public static string Description(this FulfillmentMethodType value)
         {
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])value
-                .GetType()
-                .GetField(value.ToString())
-                .GetCustomAttributes(typeof(DescriptionAttribute), false);
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])
+                value
+                    .GetType()
+                    .GetField(value.ToString())
+                    .GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : string.Empty;
         }
 
         public static string DisplayName(this FulfillmentMethodType value)
         {
             FulfillmentMethodDisplayNameAttribute[] attributes =
-                (FulfillmentMethodDisplayNameAttribute[])value
-                    .GetType()
-                    .GetField(value.ToString())
-                    .GetCustomAttributes(typeof(FulfillmentMethodDisplayNameAttribute), false);
+                (FulfillmentMethodDisplayNameAttribute[])
+                    value
+                        .GetType()
+                        .GetField(value.ToString())
+                        .GetCustomAttributes(typeof(FulfillmentMethodDisplayNameAttribute), false);
             return attributes.Length > 0 ? attributes[0].DisplayName : string.Empty;
         }
     }
@@ -185,7 +187,6 @@ namespace CommerceApiSDK.Models
                 return false;
             }
         }
-
 
         [JsonIgnore]
         public bool IsOrderApprovalApplicableUser

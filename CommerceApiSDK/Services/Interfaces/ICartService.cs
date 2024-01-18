@@ -24,7 +24,6 @@ namespace CommerceApiSDK.Services.Interfaces
 
         event PropertyChangedEventHandler IsCartCountPropertyChanged;
 
-
         Task<ServiceResponse<Cart>> GetCart(Guid cartId, CartQueryParameters parameters);
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<Cart>> GetCurrentCart(CartQueryParameters parameters);
 
-        Task<ServiceResponse<Cart>> GetRegularCart(CartQueryParameters parameters);        
+        Task<ServiceResponse<Cart>> GetRegularCart(CartQueryParameters parameters);
 
         Task<ServiceResponse<GetCartLinesResult>> GetCartLines();
 
@@ -76,6 +75,8 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<bool> DeleteCartLine(CartLine cartLine);
 
-        Task<ServiceResponse<List<CartLine>>> AddCartLineCollection(List<AddCartLine> cartLineCollection);
+        Task<ServiceResponse<List<CartLine>>> AddCartLineCollection(
+            List<AddCartLine> cartLineCollection
+        );
     }
 }

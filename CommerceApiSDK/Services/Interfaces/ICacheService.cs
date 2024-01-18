@@ -27,7 +27,8 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <param name="key">Database key for which the value is to correspond.</param>
         /// <param name="value">The object.</param>
         /// <returns>Whether the action was successful or not.</returns>
-        Task<bool> PersistData<T>(string key, T value) where T : class;
+        Task<bool> PersistData<T>(string key, T value)
+            where T : class;
 
         /// <summary>
         /// Store raw bytes into the Local Storage.
@@ -43,7 +44,8 @@ namespace CommerceApiSDK.Services.Interfaces
         /// <typeparam name="T">Type of the object.</typeparam>
         /// <param name="key">Database key for which the object corresponds.</param>
         /// <returns>The object.</returns>
-        Task<T> LoadPersistedData<T>(string key) where T : class;
+        Task<T> LoadPersistedData<T>(string key)
+            where T : class;
 
         /// <summary>
         /// Retrieve raw bytes data from the Local Storage.
@@ -62,7 +64,11 @@ namespace CommerceApiSDK.Services.Interfaces
 
         void ClearAllCaches();
 
-        Task<T> GetOrFetchObject<T>(string key, Func<Task<T>> fetchFunc, DateTimeOffset? absoluteExpiration = null);
+        Task<T> GetOrFetchObject<T>(
+            string key,
+            Func<Task<T>> fetchFunc,
+            DateTimeOffset? absoluteExpiration = null
+        );
         Task Invalidate(string key);
         Task InvalidateObjectWithKeysStartingWith<T>(string keyPrefix);
         Task InvalidateObject<T>(string key);

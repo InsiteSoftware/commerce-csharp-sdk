@@ -15,7 +15,8 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
         public async Task<ServiceResponse<GetProductCollectionResult>> GetProducts(
             ProductsQueryParameters parameters
@@ -26,8 +27,7 @@ namespace CommerceApiSDK.Services
                 string queryString = parameters.ToQueryString();
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{queryString}";
 
-                var response =
-                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                var response = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
                 GetProductCollectionResult productsResult = response.Model;
 
                 if (productsResult == null)
@@ -77,7 +77,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<GetProductCollectionResult>(exception: exception) ;
+                return GetServiceResponse<GetProductCollectionResult>(exception: exception);
             }
         }
 
@@ -115,9 +115,7 @@ namespace CommerceApiSDK.Services
 
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}{queryString}";
 
-                var response = await GetAsyncWithCachedResponse<GetProductResult>(
-                    url
-                );
+                var response = await GetAsyncWithCachedResponse<GetProductResult>(url);
 
                 GetProductResult productResult = response.Model;
 
@@ -140,14 +138,15 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<GetProductCollectionResult>> GetProductCrossSells(Guid productId)
+        public async Task<ServiceResponse<GetProductCollectionResult>> GetProductCrossSells(
+            Guid productId
+        )
         {
             try
             {
                 string url = $"{CommerceAPIConstants.ProductsUrl}/{productId}/crosssells";
 
-                var response = 
-                    await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
+                var response = await GetAsyncWithCachedResponse<GetProductCollectionResult>(url);
 
                 GetProductCollectionResult productsResult = response.Model;
 
@@ -166,7 +165,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<GetProductCollectionResult> (exception: exception);
+                return GetServiceResponse<GetProductCollectionResult>(exception: exception);
             }
         }
 
@@ -192,7 +191,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<ProductPrice> (exception: exception);
+                return GetServiceResponse<ProductPrice>(exception: exception);
             }
         }
 

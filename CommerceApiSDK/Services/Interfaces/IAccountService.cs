@@ -38,7 +38,9 @@ namespace CommerceApiSDK.Services.Interfaces
             Account account
         );
 
-        Task<ServiceResponse<Account>> GetCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
+        Task<ServiceResponse<Account>> GetCurrentAccountPaymentProfileIdAsync(
+            Guid accountPaymentProfileId
+        );
 
         Task<bool> DeleteCurrentAccountPaymentProfileIdAsync(Guid accountPaymentProfileId);
 
@@ -53,7 +55,9 @@ namespace CommerceApiSDK.Services.Interfaces
             PaymentProfileQueryParameters parameters = null
         );
 
-        Task<ServiceResponse<AccountPaymentProfile>> GetPaymentProfile(Guid accountPaymentProfileId);
+        Task<ServiceResponse<AccountPaymentProfile>> GetPaymentProfile(
+            Guid accountPaymentProfileId
+        );
 
         Task<ServiceResponse<AccountPaymentProfile>> SavePaymentProfile(
             AccountPaymentProfile accountPaymentProfile

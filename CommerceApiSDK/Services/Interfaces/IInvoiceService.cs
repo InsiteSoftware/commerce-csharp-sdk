@@ -7,7 +7,9 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IInvoiceService
     {
-        Task<ServiceResponse<GetInvoiceResult>> GetInvoices(InvoiceQueryParameters parameters = null);
+        Task<ServiceResponse<GetInvoiceResult>> GetInvoices(
+            InvoiceQueryParameters parameters = null
+        );
 
         Task<ServiceResponse<Invoice>> GetInvoice(InvoiceDetailParameter parameters = null);
 

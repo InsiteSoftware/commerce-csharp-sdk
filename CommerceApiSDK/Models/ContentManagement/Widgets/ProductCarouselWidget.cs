@@ -33,8 +33,8 @@ namespace CommerceApiSDK.Models.ContentManagement.Widgets
             set
             {
                 selectedCategoryIdsString = value;
-                SelectedCategoryIds = selectedCategoryIdsString?
-                    .Split(',')
+                SelectedCategoryIds = selectedCategoryIdsString
+                    ?.Split(',')
                     .ToList()
                     .Select(s => new Guid(s))
                     .ToList();

@@ -12,6 +12,7 @@ namespace CommerceApiSDK.Models.Enums
 
         // Predefined options
         Categories,
+
         [EnumMember(Value = "Brand")]
         Brands,
         Search,
@@ -23,6 +24,7 @@ namespace CommerceApiSDK.Models.Enums
         ViewAccountOnWebsite,
         Settings,
         SignOut,
+
         [EnumMember(Value = "Locations")]
         LocationFinder,
         OrderApproval,
@@ -35,6 +37,7 @@ namespace CommerceApiSDK.Models.Enums
         Invoices,
         SavedPayments,
         Quotes,
+
         [EnumMember(Value = "VendorManagedInventory")]
         VMI,
 

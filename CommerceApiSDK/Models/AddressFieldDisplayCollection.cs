@@ -35,4 +35,3 @@
         public AddressFieldDisplay State { get; set; }
     }
 }
-

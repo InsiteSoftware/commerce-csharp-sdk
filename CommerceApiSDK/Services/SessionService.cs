@@ -22,7 +22,8 @@ namespace CommerceApiSDK.Services
             ICacheService CacheService,
             ILoggerService LoggerService,
             IMessengerService optiMessenger
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService)
         {
             this.OptiMessenger = optiMessenger;
         }

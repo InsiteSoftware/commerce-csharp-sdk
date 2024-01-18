@@ -42,7 +42,8 @@ namespace CommerceApiSDK.Services.Attributes
 
         public SortOrderOptions? SortOrderOption { get; private set; }
 
-        private static SortOrderAttribute GetSortOrderAttribute<T>(T sortOrder) where T : struct
+        private static SortOrderAttribute GetSortOrderAttribute<T>(T sortOrder)
+            where T : struct
         {
             return sortOrder
                 .GetType()
@@ -50,22 +51,26 @@ namespace CommerceApiSDK.Services.Attributes
                 .GetCustomAttribute<SortOrderAttribute>();
         }
 
-        public static string GetSortOrderGroupTitle<T>(T orderSortOrder) where T : struct
+        public static string GetSortOrderGroupTitle<T>(T orderSortOrder)
+            where T : struct
         {
             return GetSortOrderAttribute(orderSortOrder).GroupTitle;
         }
 
-        public static string GetSortOrderTitle<T>(T orderSortOrder) where T : struct
+        public static string GetSortOrderTitle<T>(T orderSortOrder)
+            where T : struct
         {
             return GetSortOrderAttribute(orderSortOrder).Title;
         }
 
-        public static string GetSortOrderValue<T>(T orderSortOrder) where T : struct
+        public static string GetSortOrderValue<T>(T orderSortOrder)
+            where T : struct
         {
             return GetSortOrderAttribute(orderSortOrder).Value;
         }
 
-        public static SortOrderOptions? GetSortOrderOption<T>(T orderSortOrder) where T : struct
+        public static SortOrderOptions? GetSortOrderOption<T>(T orderSortOrder)
+            where T : struct
         {
             return GetSortOrderAttribute(orderSortOrder).SortOrderOption;
         }

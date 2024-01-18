@@ -22,7 +22,8 @@ namespace CommerceApiSDK.Handler
             Func<Task<bool>> renewAuthenticationTokensCallback,
             ILoggerService loggerService,
             Action refreshTokenExpiredNotificationCallback
-        ) : base(messageHandler)
+        )
+            : base(messageHandler)
         {
             this.renewAuthenticationTokensCallback = renewAuthenticationTokensCallback;
             this.refreshTokenExpiredNotificationCallback = refreshTokenExpiredNotificationCallback;
@@ -96,19 +97,17 @@ namespace CommerceApiSDK.Handler
                 || result.StatusCode == HttpStatusCode.Forbidden
             )
             {
-                await Task.Run(
-                    () =>
+                await Task.Run(() =>
+                {
+                    lock (refreshingTokenLock)
                     {
-                        lock (refreshingTokenLock)
+                        bool success = renewAuthenticationTokensCallback().Result;
+                        if (!success)
                         {
-                            bool success = renewAuthenticationTokensCallback().Result;
-                            if (!success)
-                            {
-                                refreshTokenExpiredNotificationCallback?.Invoke();
-                            }
+                            refreshTokenExpiredNotificationCallback?.Invoke();
                         }
                     }
-                );
+                });
             }
 
             return result;

@@ -12,9 +12,14 @@ namespace CommerceApiSDK.Services.Interfaces
 
         Task<ServiceResponse<GetBrandsResult>> GetBrands(BrandsQueryParameters parameters);
 
-        Task<ServiceResponse<Brand>> GetBrand(Guid brandId, BrandQueryParameters brandParameters = null);
+        Task<ServiceResponse<Brand>> GetBrand(
+            Guid brandId,
+            BrandQueryParameters brandParameters = null
+        );
 
-        Task<ServiceResponse<GetBrandCategoriesResult>> GetBrandCategories(BrandCategoriesQueryParameter parameters);
+        Task<ServiceResponse<GetBrandCategoriesResult>> GetBrandCategories(
+            BrandCategoriesQueryParameter parameters
+        );
 
         Task<ServiceResponse<GetBrandSubCategoriesResult>> GetBrandCategorySubCategories(
             BrandCategoriesQueryParameter parameters

@@ -22,4 +22,3 @@ namespace CommerceApiSDK.Models
         public string RmaReasonCode { get; set; }
     }
 }
-

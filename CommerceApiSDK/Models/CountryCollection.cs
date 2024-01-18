@@ -7,4 +7,3 @@ namespace CommerceApiSDK.Models
         public IList<Country> Countries { get; set; }
     }
 }
-

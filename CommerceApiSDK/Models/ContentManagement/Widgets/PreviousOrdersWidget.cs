@@ -1,6 +1,4 @@
 ﻿namespace CommerceApiSDK.Models.ContentManagement.Widgets
 {
-    public class PreviousOrdersWidget : Widget
-    {
-    }
+    public class PreviousOrdersWidget : Widget { }
 }

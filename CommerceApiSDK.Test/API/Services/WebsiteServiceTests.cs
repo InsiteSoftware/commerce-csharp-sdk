@@ -37,7 +37,7 @@ namespace CommerceApiSDK.Test.Services
             var languageCode = SessionServiceMock.Object.CurrentSession?.Language?.LanguageCode;
             var currencyCode = SessionServiceMock.Object.CurrentSession?.Currency?.CurrencyCode;
 
-      string validUrl =
+            string validUrl =
                 $"https://mobileautomation.insitesandbox.com/Catalog/Power-Tools/Circular-Saws?SetContextLanguageCode={languageCode}&SetContextCurrencyCode={currencyCode}";
 
             websiteService = new WebsiteService(

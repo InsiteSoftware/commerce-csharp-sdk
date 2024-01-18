@@ -7,7 +7,9 @@ namespace CommerceApiSDK.Services.Interfaces
 {
     public interface IProductV2Service
     {
-        Task<ServiceResponse<GetProductCollectionResult>> GetProducts(ProductsQueryV2Parameters parameters);
+        Task<ServiceResponse<GetProductCollectionResult>> GetProducts(
+            ProductsQueryV2Parameters parameters
+        );
 
         Task<ServiceResponse<GetProductResult>> GetProduct(
             Guid productId,

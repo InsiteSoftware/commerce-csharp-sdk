@@ -32,7 +32,8 @@ namespace CommerceApiSDK.Services
             ITrackingService trackingService,
             ICacheService cacheService,
             ILoggerService loggerService
-        ) : base(clientService, networkService, trackingService, cacheService, loggerService) { }
+        )
+            : base(clientService, networkService, trackingService, cacheService, loggerService) { }
 
         //GET:: /api/v1/accounts
         public async Task<ServiceResponse<AccountResult>> GetAccountsAsync()
@@ -196,7 +197,9 @@ namespace CommerceApiSDK.Services
         }
 
         //POST:: /api/v1/accounts/current/paymentprofiles
-        public async Task<ServiceResponse<Account>> PostCurrentAccountPaymentProfileAsync(Account account)
+        public async Task<ServiceResponse<Account>> PostCurrentAccountPaymentProfileAsync(
+            Account account
+        )
         {
             try
             {
@@ -291,7 +294,10 @@ namespace CommerceApiSDK.Services
         }
 
         //PATCH:: /api/v1/accounts/vmi/{vmiUserId}
-        public async Task<ServiceResponse<Account>> PatchAccountsVmiAsync(Guid vmiUserId, Account account)
+        public async Task<ServiceResponse<Account>> PatchAccountsVmiAsync(
+            Guid vmiUserId,
+            Account account
+        )
         {
             try
             {
@@ -326,9 +332,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<AccountPaymentProfileCollectionResult>> GetPaymentProfiles(
-            PaymentProfileQueryParameters parameters = null
-        )
+        public async Task<
+            ServiceResponse<AccountPaymentProfileCollectionResult>
+        > GetPaymentProfiles(PaymentProfileQueryParameters parameters = null)
         {
             try
             {
@@ -341,11 +347,15 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return GetServiceResponse<AccountPaymentProfileCollectionResult>(exception: exception);
+                return GetServiceResponse<AccountPaymentProfileCollectionResult>(
+                    exception: exception
+                );
             }
         }
 
-        public async Task<ServiceResponse<AccountPaymentProfile>> GetPaymentProfile(Guid accountPaymentProfileId)
+        public async Task<ServiceResponse<AccountPaymentProfile>> GetPaymentProfile(
+            Guid accountPaymentProfileId
+        )
         {
             try
             {

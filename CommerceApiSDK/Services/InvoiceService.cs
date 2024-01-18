@@ -16,9 +16,12 @@ namespace CommerceApiSDK.Services
             ITrackingService TrackingService,
             ICacheService CacheService,
             ILoggerService LoggerService
-        ) : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
+        )
+            : base(ClientService, NetworkService, TrackingService, CacheService, LoggerService) { }
 
-        public async Task<ServiceResponse<Invoice>> GetInvoice(InvoiceDetailParameter parameters = null)
+        public async Task<ServiceResponse<Invoice>> GetInvoice(
+            InvoiceDetailParameter parameters = null
+        )
         {
             try
             {
@@ -50,7 +53,9 @@ namespace CommerceApiSDK.Services
             }
         }
 
-        public async Task<ServiceResponse<GetInvoiceResult>> GetInvoices(InvoiceQueryParameters parameters = null)
+        public async Task<ServiceResponse<GetInvoiceResult>> GetInvoices(
+            InvoiceQueryParameters parameters = null
+        )
         {
             try
             {
@@ -79,10 +84,7 @@ namespace CommerceApiSDK.Services
             catch (Exception exception)
             {
                 this.TrackingService.TrackException(exception);
-                return new ServiceResponse<bool>
-                {
-                    Exception = exception
-                };
+                return new ServiceResponse<bool> { Exception = exception };
             }
         }
     }
