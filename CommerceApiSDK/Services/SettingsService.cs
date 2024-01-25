@@ -19,7 +19,7 @@ namespace CommerceApiSDK.Services
         {
             try
             {
-                var settings = await GetAsyncWithCachedResponse<Settings>(
+                var settings = await GetAsyncNoCache<Settings>(
                     CommerceAPIConstants.SettingsUrl,
                     DefaultRequestTimeout
                 );
