@@ -296,6 +296,9 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets a value the card type of the paymentMethod.</summary>
         public string CardType { get; set; }
+
+        /// <summary>Gets or sets a value the billing address of the paymentMethod.</summary>
+        public string BillingAddress { get; set; }
     }
 
     public class PaymentOptionsDto
@@ -353,6 +356,46 @@ namespace CommerceApiSDK.Models
 
         /// <summary>Gets or sets the security code.</summary>
         public string SecurityCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address1
+        /// </summary>
+        public string Address1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city
+        /// </summary>
+        public string City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state
+        /// </summary>
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state abbreviation
+        /// </summary>
+        public string StateAbbreviation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country abbreviation
+        /// </summary>
+        public string CountryAbbreviation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal code
+        /// </summary>
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the use billing address
+        /// </summary>
+        public bool UseBillingAddress { get; set; }
     }
 
     public class CostCodeDto
@@ -396,22 +439,15 @@ namespace CommerceApiSDK.Models
         /// <summary>Gets or sets the address1.</summary>
         public string Address1 { get; set; }
 
-
         public string Address2 { get; set; }
-
 
         public string City { get; set; }
 
-
         public string PostalCode { get; set; }
-
 
         public string State { get; set; }
 
-
         public string Description { get; set; }
-
-        
     }
 
     public class CartLineCollectionDto
